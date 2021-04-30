@@ -1,0 +1,10 @@
+# Week 10: Landscape Resistance {#Week10}
+
+
+## Worked Example{#WE_10}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week10_vignette.Rmd"), echo=FALSE}
+```
+
+
+

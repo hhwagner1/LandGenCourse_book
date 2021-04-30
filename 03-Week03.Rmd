@@ -1,0 +1,28 @@
+# Week 3: Genetic Diversity {#Week3}
+
+
+## Course Video{#video_3a}
+
+#### Preview
+
+#### Open video in new window
+
+#### Download slides
+
+
+
+## Interactive Tutorial{#tutorial_3}
+
+#### Preview
+
+#### List of R commands used
+
+
+
+## Worked Example{#WE_3}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week3_vignette.Rmd"), echo=FALSE}
+```
+
+
+

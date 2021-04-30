@@ -1,0 +1,9 @@
+# (PART\*) Advanced Topics {-}
+# Week 9: Population Structure {#Week9}
+
+
+## Worked Example{#WE_9}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week9_vignette.Rmd"), echo=FALSE}
+```
+
