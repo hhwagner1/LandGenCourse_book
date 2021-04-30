@@ -1,0 +1,17 @@
+bookdown::gitbook:
+  includes:
+      in_header: header.html
+  css: style.css
+  split_by: section
+  number_sections: false
+  config:
+    toc:
+      collapse: section
+      scroll_highlight: yes
+      before: |
+        <li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+    search: yes
+  toc_depth: 4
+

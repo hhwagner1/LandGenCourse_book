@@ -1,0 +1,28 @@
+# Week 4: Metapopulations {#Week4}
+
+
+## Course Video{#video_4a}
+
+#### Preview
+
+#### Open video in new window
+
+#### Download slides
+
+
+
+## Interactive Tutorial{#tutorial_4}
+
+#### Preview
+
+#### List of R commands used
+
+
+
+## Worked Example{#WE_4}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week4_vignette.Rmd"), echo=FALSE}
+```
+
+
+

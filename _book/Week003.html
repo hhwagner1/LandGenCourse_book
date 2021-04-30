@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Further R Resources | LandGenCourse_book.utf8</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.18.3 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Further R Resources | LandGenCourse_book.utf8" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Further R Resources | LandGenCourse_book.utf8" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="advanced-plotting.html"/>
+<link rel="next" href="Week1.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started</b></span></li>
+<li><a href="Week001.html#Week001">The <code>LandGenCourse</code> package</a>
+<ul>
+<li class="chapter" data-level="" data-path="list-of-packages-by-vignette.html"><a href="list-of-packages-by-vignette.html"><i class="fa fa-check"></i>List of Packages by Vignette</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week002.html"><a href="Week002.html"><i class="fa fa-check"></i>Review of R Skills</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html"><i class="fa fa-check"></i>Basic R Programming</a></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i>2. Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#numeric-data-types"><i class="fa fa-check"></i>2.1. Numeric Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-numeric-data"><i class="fa fa-check"></i>a. Numeric data</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-coercion-to-numeric"><i class="fa fa-check"></i>b. Coercion to Numeric</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#characters"><i class="fa fa-check"></i>2.2. Characters</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-character-data"><i class="fa fa-check"></i>a. Character data</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-concatenation-of-characters"><i class="fa fa-check"></i>b. Concatenation of Characters</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#c.-coercion-to-characters"><i class="fa fa-check"></i>c. Coercion to Characters</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#factors"><i class="fa fa-check"></i>2.3. Factors</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-factor-vs.-character"><i class="fa fa-check"></i>a. Factor vs. Character</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-missing-levels-in-factors"><i class="fa fa-check"></i>b. Missing Levels in Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#logical-types"><i class="fa fa-check"></i>2.4. Logical Types</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html"><i class="fa fa-check"></i>3. Data Containers</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#vectors"><i class="fa fa-check"></i>3.1. Vectors</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#matrices"><i class="fa fa-check"></i>3.2. Matrices</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#lists"><i class="fa fa-check"></i>3.3. Lists</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#data-frames"><i class="fa fa-check"></i>3.4. Data Frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#a.-data-frames-as-spreadsheets"><i class="fa fa-check"></i>a. Data Frames as spreadsheets</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#b.-indexing-data-frames"><i class="fa fa-check"></i>b. Indexing Data Frames</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i>4. Programming</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#function-writing"><i class="fa fa-check"></i>4.1. Function Writing</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#variable-scope"><i class="fa fa-check"></i>4.2. Variable Scope</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#decision-making"><i class="fa fa-check"></i>4.3. Decision Making</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#a.-the-if-pattern"><i class="fa fa-check"></i>a. The if Pattern</a></li>
+<li><a href="programming.html#b.-the-if-else-pattern">b. The <code>if-else</code> Pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#flow-control"><i class="fa fa-check"></i>4.4. Flow Control</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#a.-the-for-loop"><i class="fa fa-check"></i>a. The for() Loop</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#b.-short-circuiting-the-loop"><i class="fa fa-check"></i>b. Short Circuiting the Loop</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i>R Graphics</a></li>
+<li class="chapter" data-level="" data-path="overview-1.html"><a href="overview-1.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html"><i class="fa fa-check"></i>2. Univariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#barplots-and-histograms"><i class="fa fa-check"></i>2.1. Barplots and histograms</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#plotting-parameters"><i class="fa fa-check"></i>2.2. Plotting Parameters</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#density-plots"><i class="fa fa-check"></i>2.3. Density Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html"><i class="fa fa-check"></i>3. Bivariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#overlaying-plots-by-grouping"><i class="fa fa-check"></i>3.1. Overlaying Plots by grouping</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#boxplots"><i class="fa fa-check"></i>3.2. Boxplots</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#scatter-plots"><i class="fa fa-check"></i>3.3. Scatter Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html"><i class="fa fa-check"></i>4. Advanced plotting</a>
+<ul>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#multiple-plots"><i class="fa fa-check"></i>4.1. Multiple Plots</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#color-palettes"><i class="fa fa-check"></i>4.2. Color Palettes</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#rcolorbrewer"><i class="fa fa-check"></i>4.3. RColorBrewer</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#saving-imagery"><i class="fa fa-check"></i>4.4. Saving Imagery</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#interactive-graphics"><i class="fa fa-check"></i>4.5. Interactive Graphics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week003.html"><a href="Week003.html"><i class="fa fa-check"></i>Further R Resources</a></li>
+<li class="part"><span><b>Basic Topics</b></span></li>
+<li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html"><i class="fa fa-check"></i>Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#preview"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#open-video-in-new-window"><i class="fa fa-check"></i>Open video in new window</a></li>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#download-slides"><i class="fa fa-check"></i>Download slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html"><i class="fa fa-check"></i>Interactive Tutorial</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#preview-1"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#list-of-r-commands-used"><i class="fa fa-check"></i>List of R commands used</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-goals"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-data-set"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-required-r-libraries"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-preparation"><i class="fa fa-check"></i>a. Preparation</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-excel-file"><i class="fa fa-check"></i>b. Excel file</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-import-with-function-read.csv"><i class="fa fa-check"></i>c. Import with function ‘read.csv’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-create-id-variable"><i class="fa fa-check"></i>d. Create ID variable</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-export-with-function-write.csv"><i class="fa fa-check"></i>e. Export with function ‘write.csv’</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-read-the-helpfile"><i class="fa fa-check"></i>a. Read the helpfile</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-all-arguments-of-function-df2genind"><i class="fa fa-check"></i>b. Set all arguments of function ‘df2genind’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-summarize-genind-object"><i class="fa fa-check"></i>d. Summarize ‘genind’ object</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a>
+<ul>
+<li><a href="WE-1.html#a.-slot-tab">a. Slot <code>@tab</code></a></li>
+<li><a href="WE-1.html#b.-slot-loc.n.all">b. Slot <code>@loc.n.all</code></a></li>
+<li><a href="WE-1.html#c.-slot-loc.fac">c. Slot <code>@loc.fac</code></a></li>
+<li><a href="WE-1.html#d.-slot-all.names">d. Slot <code>@all.names</code></a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-further-slots"><i class="fa fa-check"></i>e. Further slots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-function-read_population"><i class="fa fa-check"></i>a. Function ‘read_population’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-arguments"><i class="fa fa-check"></i>b. Set arguments</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data-1"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-add-frogid"><i class="fa fa-check"></i>d. Add FrogID</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-convert-to-genind-object"><i class="fa fa-check"></i>e. Convert to ‘genind’ object</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i>Week 7: Spatial Linear Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html"><i class="fa fa-check"></i>Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#preview-2"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#open-video-in-new-window-1"><i class="fa fa-check"></i>Open video in new window</a></li>
+<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#download-slides-1"><i class="fa fa-check"></i>Download slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html"><i class="fa fa-check"></i>Interactive Tutorial</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#preview-3"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#list-of-r-commands-used-1"><i class="fa fa-check"></i>List of R commands used</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#overview-of-worked-example-1"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-goals-1"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-data-set-1"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-required-r-libraries-1"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#explore-data-set"><i class="fa fa-check"></i>2. Explore data set</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-import-data"><i class="fa fa-check"></i>a. Import data</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-create-a-map"><i class="fa fa-check"></i>b. Create a map</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-explore-correlations"><i class="fa fa-check"></i>c. Explore correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#test-regression-residuals-for-spatial-autocorrelation"><i class="fa fa-check"></i>3. Test regression residuals for spatial autocorrelation</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-fit-regression-models"><i class="fa fa-check"></i>a. Fit regression models</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-test-for-spatial-autocorrelation-morans-i"><i class="fa fa-check"></i>b. Test for spatial autocorrelation (Moran’s I):</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme"><i class="fa fa-check"></i>4. Fit models with spatially correlated error (GLS) with package ‘nlme’</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-plot-empirical-variogram"><i class="fa fa-check"></i>a. Plot empirical variogram</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-fit-variogram-models"><i class="fa fa-check"></i>b. Fit variogram models</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-select-best-fitting-model"><i class="fa fa-check"></i>c. Select best-fitting model</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#d.-plot-fitted-variogram-model"><i class="fa fa-check"></i>d. Plot fitted variogram model</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#e.-add-random-factor"><i class="fa fa-check"></i>e. Add random factor</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#fit-spatial-simultaneous-autoregressive-error-models-sar"><i class="fa fa-check"></i>5. Fit spatial simultaneous autoregressive error models (SAR)</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-fit-and-compare-alternative-sar-models"><i class="fa fa-check"></i>a. Fit and compare alternative SAR models</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-interpret-best-fitting-sar-model"><i class="fa fa-check"></i>b. Interpret best-fitting SAR model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#spatial-filtering-with-mem-using-package-spmoran"><i class="fa fa-check"></i>6. Spatial filtering with MEM using package ‘spmoran’</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-default-method"><i class="fa fa-check"></i>a. Default method</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-using-a-custom-connectivity-matrix"><i class="fa fa-check"></i>b. Using a custom connectivity matrix</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-plot-spatial-eigenvectors"><i class="fa fa-check"></i>c. Plot spatial eigenvectors</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#d.-random-effect-model"><i class="fa fa-check"></i>d. Random effect model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#fit-spatially-varying-coefficients-model-with-package-spmoran"><i class="fa fa-check"></i>7. Fit spatially varying coefficients model with package ‘spmoran’</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#model-with-patchsize-and-ibr"><i class="fa fa-check"></i>Model with PatchSize and IBR</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Week003" class="section level1">
+<h1>Further R Resources</h1>
+
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="advanced-plotting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Week1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

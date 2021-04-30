@@ -1,0 +1,71 @@
+# (PART\*) Basic Topics {-}
+# Week 1: Importing Genetic Data {#Week1}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+In this first lab of the course, we will explore different ways of importing genetic data into R. Along the way, we will learn about data models in R and how to avoid common errors. 
+
+## View Course Video{#video_1a}
+
+
+<iframe width="800" height="513" src="https://sho.co/embed/19DCV" frameborder="0" allowfullscreen></iframe>
+
+
+### Preview Slides
+
+[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week1_Slides.pdf")
+
+
+```{r echo=FALSE, fig.height=42, fig.width=8, message=FALSE}
+library(cowplot)
+library(ggplot2)
+
+Path=paste0(here::here(), "/downloads/Week1_Slides/Week1_Slides/")
+files <- list.files(Path)
+
+p1 <- ggdraw() + draw_image(paste0(Path, files)[1], scale = 0.9)
+p2 <- ggdraw() + draw_image(paste0(Path, files)[2], scale = 0.9)
+
+Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale = 0.9) +
+                  theme(plot.margin = unit(c(0,0,0,0), "cm"), 
+                        panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
+
+plot_grid(plotlist=Plots, ncol=1)
+```
+
+## Interactive Tutorial 1{#tutorial_1}
+
+### Instructions
+
+#### a) Goal: ...
+
+#### b) How to access tutorials:
+
+#### c) How to complete tutorial:
+
+#### d) How to submit answers (participating institutions only):
+
+
+### List of R commands used
+
+```{r echo=FALSE}
+library(kableExtra)
+Table <- readRDS(paste0(here::here(), "/output/table_list.rds"))[[1]]
+Table %>% kable() %>% 
+  kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
+  kable_styling(fixed_thead = T, full_width=F) 
+```	
+
+
+## Worked Example{#WE_1}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week1_vignette.Rmd"), echo=FALSE}
+```
+
+
+## Bonus: Importing SNP data {#bonus_1a}
+

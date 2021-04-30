@@ -1,0 +1,168 @@
+---
+title: "List of Functions Used in Vignettes"
+output: html_notebook
+---
+
+
+```{r packages}
+library(knitr)
+library(kableExtra)
+library(dplyr)
+library(easypackages)
+```
+
+
+
+```{r files}
+Filenames <- list.files(paste0(here::here(), "/vignettes/"), pattern = "Rmd") 
+```
+
+
+
+Load packages
+```{r load, message=FALSE}
+packages.notUsed <- c("base64enc", "BiocManager", "formatR", "geosphere", "httpuv", "maps", 
+                      "maptools", "mvtnorm", "proto", "RANN", "rasterVis", "rgdal", "rgeos", 
+                      "RgoogleMaps", "rlang", "sampling", "seqinr", "SoDA", "spacetime", 
+                      "spatialreg", "stringi", "testthat", "usdm", "doParallel")
+packages.basic <- c("base", "compiler", "graphics", "grDevices",   "methods", 
+                    "parallel", "stats", "utils")
+packages.CRAN <- c("ade4", "adegenet","car", "cowplot", "data.table", "deldir", 
+                "devtools", "dplyr", "e1071", "EcoGenetics", "effsize", "fields", "foreach", 
+                "gdistance", "GeNetIt", "ggeffects", "ggmap", "ggplot2", "gridExtra", "here", 
+                "hierfstat", "igraph", "knitr", "landscapemetrics", "lattice", "lme4", "mapplots",
+                "MASS", "Matrix", "microbenchmark", "mmod", "MuMIn", "nlme", "pegas", 
+                "PopGenReport", "poppr", "predictmeans", "profvis", "purrr", "pwr", "raster", 
+                "RColorBrewer", "readr","rio", "rmarkdown", "secr","sf", "sp", "spatialEco", 
+                "spdep", "spmoran", "Sunder", "tibble", "tmaptools", "vegan")
+packages.github <- c("gstudio", "popgraph", "QstFstComp", "lfmm")
+packages.biocl <- c("qvalue", "LEA")
+
+easypackages::libraries(c("LandGenCourse", packages.basic, packages.CRAN, 
+                          packages.github, packages.biocl))
+```
+
+```{r Functions, message=FALSE}
+Functions <- list()
+for(i in 1:length(Filenames))
+{
+  inFile = paste0(here::here(), "/vignettes/", Filenames[i])
+  outFile = paste0(here::here(), "/downloads/tmpfile.R")
+  knitr::purl(inFile, documentation = 0, output=outFile)
+  Functions[[i]] <- NCmisc::list.functions.in.file(outFile, alphabetic = TRUE)
+}
+
+b <- substring(sapply(Filenames, function(x) unlist(strsplit(x, split="_"))[1]), first=5)
+b2 <- substr(sapply(Filenames, function(x) unlist(strsplit(x, split="_"))[2]), 1, 1)
+#b[b2!="v"] <- paste0(b[b2!="v"], b2[b2!="v"])
+
+# Add consecutive letters a, b, etc. to bonus materials for the same Week (not yet relevant)
+b3 <- as.numeric(b2 == "b")
+for(i in 2:length(b))
+{
+  if((b3[i] > 0) && (b3[-1] > 0)) b3[i] = b3[i-1] + 1
+}
+b2[b3 > 0] <- letters[b3[b3 > 0]]
+
+b[b2!="v"] <- paste0(b[b2!="v"], b2[b2!="v"])
+
+#names(Functions) <- as.vector((sapply(Filenames, function(x) strsplit(x, "[.]")[[1]][1])))
+names(Functions) <- b
+```
+
+Custom functions
+
+```{r custom}
+custom.functions <- c("potential_offspring", "MLPE", "MLPEnoREML", "myPal", "method1", "method2", "method3", "method4", "myFunction", "myFunction.cmp", "createpops", "getArray", "getSunder")
+```
+
+Check for functions from unloaded packages
+
+```{r strays}
+
+Strays <- as.vector(unlist(sapply(Functions, function(ls) ls$"character(0)")))
+Strays[!is.element(Strays, custom.functions)]
+```
+
+Keep only (unambiguous) named packages
+
+```{r named}
+Functions <- lapply(Functions, function(ls) ls[substr(names(ls), start=1,stop=1) == "p"])
+```
+
+Remove "package:" from names
+
+```{r remove}
+for(i in 1:length(Functions))
+{
+  names(Functions[[i]]) <- sapply(strsplit(names(Functions[[i]]), split=":"), function(x) x[2])
+}
+```
+
+Drop unwanted package names
+
+```{r drop}
+Functions <- lapply(Functions, function(ls) 
+  ls[!is.element(names(ls), c("LandGenCourse", "devtools", packages.basic))])
+```
+
+Table of packages x vignettes
+
+```{r table}
+Packages <- sapply(Functions, function(ls) names(ls))
+Vignettes <- rep(names(Packages), times=sapply(Packages, length))
+
+Packages.table <- table(unlist(Packages), Vignettes)
+
+
+```
+
+Sort table
+```{r sort}
+b4 <- substring(sapply(Filenames, function(x) unlist(strsplit(x, split="_"))[1]), first=5)
+b.order <- order(as.numeric(b4))
+dimnames(Packages.table)$Vignettes[1:2] <- c("B", "G")
+head(Packages.table[,b.order])
+```
+
+
+Format table
+
+```{r format}
+#list.of.files.basic <- list.of.files[c(1:3, 9:17)]
+#list.of.files.advanced <- list.of.files[-c(1:3, 9:17)]
+
+b <- substring(sapply(Filenames, function(x) unlist(strsplit(x, split="_"))[1]), first=5)
+b.order <- order(as.numeric(b))
+b.Basic <- b.order[(as.numeric(b) < 9)[b.order]]
+b.Advanced <- b.order[(as.numeric(b) >= 9)[b.order]]
+
+Full <- as.data.frame.matrix(Packages.table[,b.order])
+Full <- Full[apply(Full,1,sum) > 0,]
+Full[Full==1] <- "X"
+Full[Full==0] <- ""
+  
+Basic <- as.data.frame.matrix(Packages.table[,b.Basic])
+Basic <- Basic[apply(Basic,1,sum) > 0,]
+Basic[Basic==1] <- "X"
+Basic[Basic==0] <- ""
+
+Advanced <- as.data.frame.matrix(Packages.table[,b.Advanced])
+Advanced <- Advanced[apply(Advanced,1,sum) > 0,]
+Advanced[Advanced==1] <- "X"
+Advanced[Advanced==0] <- ""
+```
+
+```{r print, eval=FALSE, include=FALSE}
+Full %>% kable() %>%
+  kable_styling(bootstrap_options = c("bordered", "striped", "hover", "condensed", "responsive")) %>%
+  kable_styling(fixed_thead = T, full_width=F)
+```
+
+```{r export}
+saveRDS(Full, paste0(here::here(), "/output/Full.rds"))
+saveRDS(Basic, paste0(here::here(), "/output/Basic.rds"))
+saveRDS(Advanced[,-c(1:12)], paste0(here::here(), "/output/Advanced.rds"))
+```
+
+

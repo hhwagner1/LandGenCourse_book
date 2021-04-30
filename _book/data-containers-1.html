@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3. Data Containers | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.18.3 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3. Data Containers | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3. Data Containers | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2021-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-types-1.html"/>
+<link rel="next" href="programming-1.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i>How to use this book</a></li>
+</ul></li>
+<li class="part"><span><b>Getting Started</b></span></li>
+<li><a href="Week001.html#Week001">The <code>LandGenCourse</code> package</a>
+<ul>
+<li class="chapter" data-level="" data-path="Week001.html"><a href="Week001.html"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="Week001.html"><a href="Week001.html#list-of-packages-by-vignette"><i class="fa fa-check"></i>List of Packages by Vignette</a></li>
+<li class="chapter" data-level="" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i>Review of R Skills</a>
+<ul>
+<li class="chapter" data-level="" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html#basic-r-programming"><i class="fa fa-check"></i>Basic R Programming</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i>2. Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#numeric-data-types"><i class="fa fa-check"></i>2.1. Numeric Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-numeric-data"><i class="fa fa-check"></i>a. Numeric data</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-coercion-to-numeric"><i class="fa fa-check"></i>b. Coercion to Numeric</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#characters"><i class="fa fa-check"></i>2.2. Characters</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-character-data"><i class="fa fa-check"></i>a. Character data</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-concatenation-of-characters"><i class="fa fa-check"></i>b. Concatenation of Characters</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#c.-coercion-to-characters"><i class="fa fa-check"></i>c. Coercion to Characters</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#factors"><i class="fa fa-check"></i>2.3. Factors</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#a.-factor-vs.-character"><i class="fa fa-check"></i>a. Factor vs. Character</a></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#b.-missing-levels-in-factors"><i class="fa fa-check"></i>b. Missing Levels in Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types.html"><a href="data-types.html#logical-types"><i class="fa fa-check"></i>2.4. Logical Types</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html"><i class="fa fa-check"></i>3. Data Containers</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#vectors"><i class="fa fa-check"></i>3.1. Vectors</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#matrices"><i class="fa fa-check"></i>3.2. Matrices</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#lists"><i class="fa fa-check"></i>3.3. Lists</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#data-frames"><i class="fa fa-check"></i>3.4. Data Frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#a.-data-frames-as-spreadsheets"><i class="fa fa-check"></i>a. Data Frames as spreadsheets</a></li>
+<li class="chapter" data-level="" data-path="data-containers.html"><a href="data-containers.html#b.-indexing-data-frames"><i class="fa fa-check"></i>b. Indexing Data Frames</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i>4. Programming</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#function-writing"><i class="fa fa-check"></i>4.1. Function Writing</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#variable-scope"><i class="fa fa-check"></i>4.2. Variable Scope</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#decision-making"><i class="fa fa-check"></i>4.3. Decision Making</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#a.-the-if-pattern"><i class="fa fa-check"></i>a. The if Pattern</a></li>
+<li><a href="programming.html#b.-the-if-else-pattern">b. The <code>if-else</code> Pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#flow-control"><i class="fa fa-check"></i>4.4. Flow Control</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#a.-the-for-loop"><i class="fa fa-check"></i>a. The for() Loop</a></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#b.-short-circuiting-the-loop"><i class="fa fa-check"></i>b. Short Circuiting the Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming.html"><a href="programming.html#r-graphics"><i class="fa fa-check"></i>R Graphics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="overview-1.html"><a href="overview-1.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html"><i class="fa fa-check"></i>2. Univariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#barplots-and-histograms"><i class="fa fa-check"></i>2.1. Barplots and histograms</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#plotting-parameters"><i class="fa fa-check"></i>2.2. Plotting Parameters</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots.html"><a href="univariate-plots.html#density-plots"><i class="fa fa-check"></i>2.3. Density Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html"><i class="fa fa-check"></i>3. Bivariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#overlaying-plots-by-grouping"><i class="fa fa-check"></i>3.1. Overlaying Plots by grouping</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#boxplots"><i class="fa fa-check"></i>3.2. Boxplots</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots.html"><a href="bivariate-plots.html#scatter-plots"><i class="fa fa-check"></i>3.3. Scatter Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html"><i class="fa fa-check"></i>4. Advanced plotting</a>
+<ul>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#multiple-plots"><i class="fa fa-check"></i>4.1. Multiple Plots</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#color-palettes"><i class="fa fa-check"></i>4.2. Color Palettes</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#rcolorbrewer"><i class="fa fa-check"></i>4.3. RColorBrewer</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#saving-imagery"><i class="fa fa-check"></i>4.4. Saving Imagery</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting.html"><a href="advanced-plotting.html#interactive-graphics"><i class="fa fa-check"></i>4.5. Interactive Graphics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="further-r-resources.html"><a href="further-r-resources.html"><i class="fa fa-check"></i>Further R Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="review-of-r-skills-1.html"><a href="review-of-r-skills-1.html"><i class="fa fa-check"></i>Review of R Skills</a>
+<ul>
+<li class="chapter" data-level="" data-path="review-of-r-skills-1.html"><a href="review-of-r-skills-1.html#basic-r-programming-1"><i class="fa fa-check"></i>Basic R Programming</a></li>
+<li class="chapter" data-level="" data-path="overview-2.html"><a href="overview-2.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html"><i class="fa fa-check"></i>2. Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#numeric-data-types-1"><i class="fa fa-check"></i>2.1. Numeric Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#a.-numeric-data-1"><i class="fa fa-check"></i>a. Numeric data</a></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#b.-coercion-to-numeric-1"><i class="fa fa-check"></i>b. Coercion to Numeric</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#characters-1"><i class="fa fa-check"></i>2.2. Characters</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#a.-character-data-1"><i class="fa fa-check"></i>a. Character data</a></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#b.-concatenation-of-characters-1"><i class="fa fa-check"></i>b. Concatenation of Characters</a></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#c.-coercion-to-characters-1"><i class="fa fa-check"></i>c. Coercion to Characters</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#factors-1"><i class="fa fa-check"></i>2.3. Factors</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#a.-factor-vs.-character-1"><i class="fa fa-check"></i>a. Factor vs. Character</a></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#b.-missing-levels-in-factors-1"><i class="fa fa-check"></i>b. Missing Levels in Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-types-1.html"><a href="data-types-1.html#logical-types-1"><i class="fa fa-check"></i>2.4. Logical Types</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html"><i class="fa fa-check"></i>3. Data Containers</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#vectors-1"><i class="fa fa-check"></i>3.1. Vectors</a></li>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#matrices-1"><i class="fa fa-check"></i>3.2. Matrices</a></li>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#lists-1"><i class="fa fa-check"></i>3.3. Lists</a></li>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#data-frames-1"><i class="fa fa-check"></i>3.4. Data Frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#a.-data-frames-as-spreadsheets-1"><i class="fa fa-check"></i>a. Data Frames as spreadsheets</a></li>
+<li class="chapter" data-level="" data-path="data-containers-1.html"><a href="data-containers-1.html#b.-indexing-data-frames-1"><i class="fa fa-check"></i>b. Indexing Data Frames</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html"><i class="fa fa-check"></i>4. Programming</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#function-writing-1"><i class="fa fa-check"></i>4.1. Function Writing</a></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#variable-scope-1"><i class="fa fa-check"></i>4.2. Variable Scope</a></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#decision-making-1"><i class="fa fa-check"></i>4.3. Decision Making</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#a.-the-if-pattern-1"><i class="fa fa-check"></i>a. The if Pattern</a></li>
+<li><a href="programming-1.html#b.-the-if-else-pattern-1">b. The <code>if-else</code> Pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#flow-control-1"><i class="fa fa-check"></i>4.4. Flow Control</a>
+<ul>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#a.-the-for-loop-1"><i class="fa fa-check"></i>a. The for() Loop</a></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#b.-short-circuiting-the-loop-1"><i class="fa fa-check"></i>b. Short Circuiting the Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="programming-1.html"><a href="programming-1.html#r-graphics-1"><i class="fa fa-check"></i>R Graphics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="overview-3.html"><a href="overview-3.html"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots-1.html"><a href="univariate-plots-1.html"><i class="fa fa-check"></i>2. Univariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="univariate-plots-1.html"><a href="univariate-plots-1.html#barplots-and-histograms-1"><i class="fa fa-check"></i>2.1. Barplots and histograms</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots-1.html"><a href="univariate-plots-1.html#plotting-parameters-1"><i class="fa fa-check"></i>2.2. Plotting Parameters</a></li>
+<li class="chapter" data-level="" data-path="univariate-plots-1.html"><a href="univariate-plots-1.html#density-plots-1"><i class="fa fa-check"></i>2.3. Density Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bivariate-plots-1.html"><a href="bivariate-plots-1.html"><i class="fa fa-check"></i>3. Bivariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="bivariate-plots-1.html"><a href="bivariate-plots-1.html#overlaying-plots-by-grouping-1"><i class="fa fa-check"></i>3.1. Overlaying Plots by grouping</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots-1.html"><a href="bivariate-plots-1.html#boxplots-1"><i class="fa fa-check"></i>3.2. Boxplots</a></li>
+<li class="chapter" data-level="" data-path="bivariate-plots-1.html"><a href="bivariate-plots-1.html#scatter-plots-1"><i class="fa fa-check"></i>3.3. Scatter Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html"><i class="fa fa-check"></i>4. Advanced plotting</a>
+<ul>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html#multiple-plots-1"><i class="fa fa-check"></i>4.1. Multiple Plots</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html#color-palettes-1"><i class="fa fa-check"></i>4.2. Color Palettes</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html#rcolorbrewer-1"><i class="fa fa-check"></i>4.3. RColorBrewer</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html#saving-imagery-1"><i class="fa fa-check"></i>4.4. Saving Imagery</a></li>
+<li class="chapter" data-level="" data-path="advanced-plotting-1.html"><a href="advanced-plotting-1.html#interactive-graphics-1"><i class="fa fa-check"></i>4.5. Interactive Graphics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="further-r-resources-1.html"><a href="further-r-resources-1.html"><i class="fa fa-check"></i>Further R Resources</a></li>
+<li class="part"><span><b>Basic Topics</b></span></li>
+<li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html"><i class="fa fa-check"></i>Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#preview"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#open-video-in-new-window"><i class="fa fa-check"></i>Open video in new window</a></li>
+<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#download-slides"><i class="fa fa-check"></i>Download slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html"><i class="fa fa-check"></i>Interactive Tutorial</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#preview-1"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#list-of-r-commands-used"><i class="fa fa-check"></i>List of R commands used</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-goals"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-data-set"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-required-r-libraries"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-preparation"><i class="fa fa-check"></i>a. Preparation</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-excel-file"><i class="fa fa-check"></i>b. Excel file</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-import-with-function-read.csv"><i class="fa fa-check"></i>c. Import with function ‘read.csv’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-create-id-variable"><i class="fa fa-check"></i>d. Create ID variable</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-export-with-function-write.csv"><i class="fa fa-check"></i>e. Export with function ‘write.csv’</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-read-the-helpfile"><i class="fa fa-check"></i>a. Read the helpfile</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-all-arguments-of-function-df2genind"><i class="fa fa-check"></i>b. Set all arguments of function ‘df2genind’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-summarize-genind-object"><i class="fa fa-check"></i>d. Summarize ‘genind’ object</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a>
+<ul>
+<li><a href="WE-1.html#a.-slot-tab">a. Slot <code>@tab</code></a></li>
+<li><a href="WE-1.html#b.-slot-loc.n.all">b. Slot <code>@loc.n.all</code></a></li>
+<li><a href="WE-1.html#c.-slot-loc.fac">c. Slot <code>@loc.fac</code></a></li>
+<li><a href="WE-1.html#d.-slot-all.names">d. Slot <code>@all.names</code></a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-further-slots"><i class="fa fa-check"></i>e. Further slots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-function-read_population"><i class="fa fa-check"></i>a. Function ‘read_population’</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-arguments"><i class="fa fa-check"></i>b. Set arguments</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data-1"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-add-frogid"><i class="fa fa-check"></i>d. Add FrogID</a></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-convert-to-genind-object"><i class="fa fa-check"></i>e. Convert to ‘genind’ object</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-containers-1" class="section level2">
+<h2>3. Data Containers</h2>
+<p>We almost never work with a single datum<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, rather we keep lots of data. Moreover, the kinds of data are often heterogeneous, including categorical (Populations, Regions), continuous (coordinates, rainfall, elevation), imagry (hyperspectral, LiDAR), and perhaps even genetic. R has a very rich set of containers into which we can stuff our data as we work with it. Here these container types are examined and the restrictions and benefits associated with each type are explained.</p>
+<div id="vectors-1" class="section level3">
+<h3>3.1. Vectors</h3>
+<p>We have already seen several examples of several vectors in action (see the introduction to Numeric data types for example). A vector of objects is simply a collection of them, often created using the <code>c()</code> function (<em>c</em> for combine). Vectorized data is restricted to having homogeneous data types—you cannot mix character and numeric types in the same vector. If you try to mix types, R will either coerce your data into a reasonable type</p>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<pre><code>## [1] &quot;I&quot;      &quot;am&quot;     &quot;not&quot;    &quot;a&quot;      &quot;looser&quot;</code></pre>
+<p>or coearce them into one type that is amenable to all the types of data that you have given it. In this example, a Logical, Character, Constant, and Function are combined resulting in a vector output of type Character.</p>
+<pre><code>##  [1] &quot;TRUE&quot;             &quot;1&quot;                &quot;3.14159265358979&quot; &quot;canThrow&quot;        
+##  [5] &quot;data&quot;             &quot;prof&quot;             &quot;region&quot;           &quot;stable&quot;          
+##  [9] &quot;subregion&quot;        &quot;terms&quot;            &quot;x&quot;                &quot;y&quot;               
+## [13] &quot;z&quot;</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Accessing elements within a vector are done using the square bracket <code>[]</code> notation. All indices (for vectors and matrices) start at 1 (not zero as is the case for some languages). Getting and setting the components within a vector are accomplished using numeric indices with the assignment operators just like we do for variables containing a single value.</p>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre><code>## [1] 2 2 1</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>A common type of vector is that of a sequences. We use sequences all the time, to iterate through a list, to counting generations, etc. There are a few ways to generate sequences, depending upon the step sequence. For a sequence of whole numbers, the easiest is through the use of the colon operator.</p>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+<p>This provides a nice shorthand for getting the values X:Y from X to Y, inclusive. It is also possible to go backwards using this operator, counting down from X to Y as in:</p>
+<pre><code>## [1] 5 4 3 2</code></pre>
+<p>The only constraint here is that we are limited to a step size of 1.0. It is possible to use non-integers as the bounds, it will just count up by 1.0 each time.</p>
+<pre><code>## [1] 3.2 4.2 5.2 6.2 7.2 8.2</code></pre>
+<p>If you are interested in making a sequence with a step other than 1.0, you can use the <code>seq()</code> function. If you do not provide a step value, it defaults to 1.0.</p>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+<p>But if you do, it will use that instead.</p>
+<pre><code>##  [1]  1  3  5  7  9 11 13 15 17 19</code></pre>
+<p>It is also possible to create a vector of objects as repetitions using the <code>rep()</code> (for repeat) function.</p>
+<pre><code>## [1] &quot;Beetlejuice&quot; &quot;Beetlejuice&quot; &quot;Beetlejuice&quot;</code></pre>
+<p>If you pass a vector of items to <code>rep()</code>, it can repeat these as either a vector being repeated (the default value)</p>
+<pre><code>## [1] &quot;No&quot;    &quot;Free&quot;  &quot;Lunch&quot; &quot;No&quot;    &quot;Free&quot;  &quot;Lunch&quot; &quot;No&quot;    &quot;Free&quot;  &quot;Lunch&quot;</code></pre>
+<p>or as each item in the vector repeated.</p>
+<pre><code>## [1] &quot;No&quot;    &quot;No&quot;    &quot;No&quot;    &quot;Free&quot;  &quot;Free&quot;  &quot;Free&quot;  &quot;Lunch&quot; &quot;Lunch&quot; &quot;Lunch&quot;</code></pre>
+</div>
+<div id="matrices-1" class="section level3">
+<h3>3.2. Matrices</h3>
+<p>A matrix is a 2- or higher dimensional container, most commonly used to store numeric data types. There are some libraries that use matrices in more than two dimensions (rows and columns and sheets), though you will not run across them too often. Here I restrict myself to only 2-dimensional matrices.</p>
+<p>You can define a matrix by giving it a set of values and an indication of the number of rows and columns you want. The easiest matrix to try is one with empty values:</p>
+<pre><code>##      [,1] [,2]
+## [1,]   NA   NA
+## [2,]   NA   NA</code></pre>
+<p>Perhaps more useful is one that is pre-populated with values.</p>
+<pre><code>##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4</code></pre>
+<p>Notice that here, there were four entries and I only specified the number of rows required. By default the ‘filling-in’ of the matrix will proceed down column (<em>by-column</em>). In this example, we have the first column with the first two entries and the last two entries down the second column. If you want it to fill by row, you can pass the optional argument</p>
+<pre><code>##      [,1] [,2]
+## [1,]    1    2
+## [2,]    3    4</code></pre>
+<p>and it will fill <em>by-row</em>.</p>
+<p>When filling matrices, the default size and the size of the data being added to the matrix are critical. For example, I can create a matrix as:</p>
+<pre><code>##      [,1] [,2]
+## [1,]    1    2
+## [2,]    3    4
+## [3,]    5    6</code></pre>
+<p>or</p>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    3    5
+## [2,]    2    4    6</code></pre>
+<p>and both produce a similar matrix, only transposed.</p>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] TRUE TRUE TRUE
+## [2,] TRUE TRUE TRUE</code></pre>
+<p>In the example above, the number of rows (or columns) was a clean multiple of the number of entries. However, if it is not, R will fill in values.</p>
+<pre><code>## Warning in matrix(c(1, 2, 3, 4, 5, 6), ncol = 4, byrow = TRUE): data length [6]
+## is not a sub-multiple or multiple of the number of columns [4]</code></pre>
+<p>Notice how you get a warning from the interpreter. But that does not stop it from filling in the remaining slots by starting over in the sequence of numbers you passed to it.</p>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    4
+## [2,]    5    6    1    2</code></pre>
+<p>The dimensionality of a matrix (and <code>data.frame</code> as we will see shortly) is returned by the <code>dim()</code> function. This will provide the number of rows and columns as a vector.</p>
+<pre><code>## [1] 2 4</code></pre>
+<p>Accessing elements to retrieve or set their values within a matrix is done using the square brackets just like for a vector but you need to give <code>[row,col]</code> indices. Again, these are 1-based so that</p>
+<pre><code>## [1] 3</code></pre>
+<p>is the entry in the 1st row and 3rd column.</p>
+<p>You can also use ‘slices’ through a matrix to get the rows</p>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<p>or columns</p>
+<pre><code>## [1] 3 1</code></pre>
+<p>of data. Here you just omit the index for the entity you want to span. Notice that when you grab a slice, even if it is a column, is given as a vector.</p>
+<pre><code>## [1] 2</code></pre>
+<p>You can grab a sub-matrix using slices if you give a range (or sequence) of indices.</p>
+<pre><code>##      [,1] [,2]
+## [1,]    2    3
+## [2,]    6    1</code></pre>
+<p>If you ask for values from a matrix that exceed its dimensions, R will give you an error.</p>
+<pre><code>## Error in X[1, 8] : subscript out of bounds
+## Calls: &lt;Anonymous&gt; ... handle -&gt; withCallingHandlers -&gt; withVisible -&gt; eval -&gt; eval
+## Execution halted</code></pre>
+<p>There are a few cool extensions of the <code>rep()</code> function that can be used to create matrices as well. They are optional values that can be passed to the function.</p>
+<ul>
+<li><code>times=x</code>: This is the default option that was occupied by the ‘3’ in the example above and represents the number of times that first argument will be repeated.<br />
+</li>
+<li><code>each=x</code> This will take each element in the first argument are repeat them <code>each</code> times.<br />
+</li>
+<li><code>length.out=x</code>: This make the result equal in length to <code>x</code>.</li>
+</ul>
+<p>In combination, these can be quite helpful. Here is an example using numeric sequences in which it is necessary to find the index of all entries in a 3x2 matrix. To make the indices, I bind two columns together using <code>cbind()</code>. There is a matching row binding function, denoted as <code>rbind()</code> (perhaps not so surprisingly). What is returned is a matrix</p>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    1    5
+## [2,]    1    2    5
+## [3,]    1    3    5
+## [4,]    2    1    5
+## [5,]    2    2    5
+## [6,]    2    3    5</code></pre>
+</div>
+<div id="lists-1" class="section level3">
+<h3>3.3. Lists</h3>
+<p>A list is a type of vector but is indexed by ‘keys’ rather than by numeric indices. Moreover, lists can contain heterogeneous types of data (e.g., values of different <code>class</code>), which is not possible in a vector type. For example, consider the list</p>
+<pre><code>##          Length Class  Mode     
+## x        20     -none- numeric  
+## dog       5     -none- character
+## hasStyle  5     -none- logical</code></pre>
+<p>which is defined with a numeric, a character, and a logical component. Each of these entries can be different in length as well as type. Once defined, the entries may be observed as:</p>
+<pre><code>## $x
+##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40
+## 
+## $dog
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot;
+## 
+## $hasStyle
+## [1] FALSE FALSE FALSE FALSE FALSE</code></pre>
+<p>Once created, you can add variables to the list using the $-operator followed by the name of the key for the new entry.</p>
+<p>or use double brackets and the name of the variable as a character string.</p>
+<p>The keys currently in the list are given by the <code>names()</code> function</p>
+<pre><code>## [1] &quot;x&quot;                   &quot;dog&quot;                 &quot;hasStyle&quot;           
+## [4] &quot;my_favoriate_number&quot; &quot;lotto numbers&quot;</code></pre>
+<p>Getting and setting values within a list are done the same way using either the <code>$</code>-operator</p>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40</code></pre>
+<pre><code>##  [1]  2 42  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40</code></pre>
+<p>or the double brackets</p>
+<pre><code>##  [1]  2 42  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40</code></pre>
+<p>or using a numeric index, but that numeric index is looks to the results of <code>names()</code> to figure out which key to use.</p>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot;</code></pre>
+<p>The use of the double brackets in essence provides a direct link to the variable in the list whose name is second in the <code>names()</code> function (<em>dog</em> in this case). If you want to access elements within that variable, then you add a second set of brackets on after the double ones.</p>
+<pre><code>## [1] 6</code></pre>
+<p>This deviates from the matrix approach as well as from how we access entries in a <code>data.frame</code> (described next). It is not a single square bracket with two indices, that gives you an error:</p>
+<pre><code>## Error in theList[1, 3] : incorrect number of dimensions
+## Calls: &lt;Anonymous&gt; ... handle -&gt; withCallingHandlers -&gt; withVisible -&gt; eval -&gt; eval
+## Execution halted</code></pre>
+<p>List are rather robust objects that allow you to store a wide variety of data types (including nested lists). Once you get the indexing scheme down, it they will provide nice solutions for many of your computational needs.</p>
+</div>
+<div id="data-frames-1" class="section level3">
+<h3>3.4. Data Frames</h3>
+<div id="a.-data-frames-as-spreadsheets-1" class="section level4">
+<h4>a. Data Frames as spreadsheets</h4>
+<p>The <code>data.frame</code> is the default data container in R. It is analogous to both a spreadsheet, at least in the way that I have used spreadsheets in the past, as well as a database. If you consider a single spreadsheet containing measurements and observations from your research, you may have many columns of data, each of which may be a different kind of data. There may be <code>factors</code> representing designations such as species, regions, populations, sex, flower color, etc. Other columns may contain numeric data types for items such as latitude, longitude, dbh, and nectar sugar content. You may also have specialized columns such as dates collected, genetic loci, and any other information you may be collecting.</p>
+<p>On a spreadsheet, each column has a unified data type, either quantified with a value or as a missing value, <code>NA</code>, in each row. Rows typically represent the sampling unit, perhaps individual or site, along which all of these various items have been measured or determined. A <code>data.frame</code> is similar to this, at least conceptually. You define a <code>data.frame</code> by designating the columns of data to be used. You do not need to define all of them, more can be added later. The values passed can be sequences, collections of values, or computed parameters. For example:</p>
+<pre><code>##   ID Names Score
+## 1  1   Bob    89
+## 2  2 Alice    93
+## 3  3 Vicki    87
+## 4  4  John    93
+## 5  5 Sarah    96</code></pre>
+<p>You can see that each column is a unified type of data and each row is equivalent to a record. Additional data columns may be added to an existing data.frame as:</p>
+<p>Since we may have many (thousands?) of rows of observations, a <code>summary()</code> of the data.frame can provide a more compact description.</p>
+<pre><code>##        ID      Names       Score      Passed_Class   
+##  Min.   :1   Alice:1   Min.   :87.0   Mode :logical  
+##  1st Qu.:2   Bob  :1   1st Qu.:89.0   FALSE:1        
+##  Median :3   John :1   Median :93.0   TRUE :4        
+##  Mean   :3   Sarah:1   Mean   :91.6                  
+##  3rd Qu.:4   Vicki:1   3rd Qu.:93.0                  
+##  Max.   :5             Max.   :96.0</code></pre>
+<p>We can add columns of data to the data.frame after the fact using the <code>$</code>-operator to indicate the column name. Depending upon the data type, the summary will provide an overview of what is there.</p>
+</div>
+<div id="b.-indexing-data-frames-1" class="section level4">
+<h4>b. Indexing Data Frames</h4>
+<p>You can access individual items within a <code>data.frame</code> by numeric index such as:</p>
+<pre><code>## [1] 89</code></pre>
+<p>You can slide indices along rows (which return a new <code>data.frame</code> for you)</p>
+<pre><code>##   ID Names Score Passed_Class
+## 1  1   Bob    89         TRUE</code></pre>
+<p>or along columns (which give you a vector of data)</p>
+<pre><code>## [1] 89 93 87 93 96</code></pre>
+<p>or use the <code>$</code>-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.</p>
+<pre><code>## [1] Vicki
+## Levels: Alice Bob John Sarah Vicki</code></pre>
+<p>Indices are ordered just like for matrices, rows first then columns. You can also pass a set of indices such as:</p>
+<pre><code>##   ID Names Score Passed_Class
+## 1  1   Bob    89         TRUE
+## 2  2 Alice    93         TRUE
+## 3  3 Vicki    87         TRUE</code></pre>
+<p>It is also possible to use logical operators as indices. Here I select only those names in the data.frame whose score was &gt;90 and they passed popgen.</p>
+<pre><code>## [1] Alice Sarah
+## Levels: Alice Bob John Sarah Vicki</code></pre>
+<p>This is why <code>data.frame</code> objects are very database like. They can contain lots of data and you can extract from them subsets that you need to work on. This is a VERY important feature, one that is vital for reproducible research. Keep you data in one and only one place.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>The word <em>data</em> is plural, datum is singular<a href="data-containers-1.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-types-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="programming-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

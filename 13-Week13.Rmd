@@ -1,0 +1,10 @@
+# Week 13: Gravity Models {#Week13}
+
+
+## Worked Example{#WE_13}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week13_vignette.Rmd"), echo=FALSE}
+```
+
+
+

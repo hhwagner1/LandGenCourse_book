@@ -1,0 +1,28 @@
+# Week 8: Simulation Experiments {#Week8}
+
+
+## Course Video{#video_8a}
+
+#### Preview
+
+#### Open video in new window
+
+#### Download slides
+
+
+
+## Interactive Tutorial{#tutorial_8}
+
+#### Preview
+
+#### List of R commands used
+
+
+
+## Worked Example{#WE_8}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week8_vignette.Rmd"), echo=FALSE}
+```
+
+
+## Bonus: Efficient R {#bonus_8a}

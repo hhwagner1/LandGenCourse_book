@@ -1,0 +1,28 @@
+# Week 5: Spatial Statistics {#Week5}
+
+
+## Course Video{#video_5a}
+
+#### Preview
+
+#### Open video in new window
+
+#### Download slides
+
+
+
+## Interactive Tutorial{#tutorial_5}
+
+#### Preview
+
+#### List of R commands used
+
+
+
+## Worked Example{#WE_5}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week5_vignette.Rmd"), echo=FALSE}
+```
+
+
+
