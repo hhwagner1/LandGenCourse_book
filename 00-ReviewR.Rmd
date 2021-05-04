@@ -1,3 +1,9 @@
+--- 
+bookdown::gitbook:
+  includes:
+      in_header: header.html
+---
+
 # Review of R Skills 
 
 ```{r setup, include=FALSE}
@@ -9,12 +15,12 @@ knitr::opts_chunk$set(
 
 ## Basic R Programming
 
-```{r child=paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd"), echo=FALSE}
+```{r child=paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd"), echo=TRUE}
 ```
 
 ## R Graphics
 
-```{r child=paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd"), echo=FALSE}
+```{r child=paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd"), echo=TRUE}
 ```
 
 # Further R Resources 

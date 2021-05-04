@@ -21,7 +21,7 @@
 
 ## Worked Example{#WE_4}
 
-```{r child=paste0(here::here(), "/vignettes/", "Week4_vignette.Rmd"), echo=FALSE}
+```{r child=paste0(here::here(), "/vignettes/", "Week4_vignette.Rmd"), echo=TRUE}
 ```
 
 

@@ -4,8 +4,10 @@ language:
     chapter_name: ""
 delete_merged_file: true
 new_session: yes
-rmd_files: ["index.Rmd", "00-ReviewR.Rmd", "01-Week01.Rmd" , "02-Week02.Rmd" , "03-Week03.Rmd",
-            "04-Week04.Rmd", "05-Week05.Rmd", "06-Week06.Rmd" , "07-Week07.Rmd" , "08-Week08.Rmd",
-            "09-Week09.Rmd", "10-Week10.Rmd" , "11-Week11.Rmd" , "12-Week12.Rmd",
-            "13-Week13.Rmd", "14-Week14.Rmd"]
+rmd_files: ["index.Rmd", "00-ReviewR.Rmd", "01-Week01.Rmd", "02-Week02.Rmd" , "03-Week03.Rmd",
+"04-Week04.Rmd", "05-Week05.Rmd", "06-Week06.Rmd" , "07-Week07.Rmd" , "08-Week08.Rmd",
+"09-Week09.Rmd", "10-Week10.Rmd" , "11-Week11.Rmd" , "12-Week12.Rmd",
+"13-Week13.Rmd", "14-Week14.Rmd"]
+
+
 

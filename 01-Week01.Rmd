@@ -1,48 +1,11 @@
---- 
-bookdown::gitbook:
-  includes:
-      in_header: header.html
----
-
 # (PART\*) Basic Topics {-}
 # Week 1: Importing Genetic Data {#Week1}
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, collapse=TRUE)
 ```
 
-```{r htmlTemp3, echo=FALSE, eval=TRUE}
-codejs <- readr::read_lines("js/codefolding.js")
-collapsejs <- readr::read_lines("js/collapse.js")
-transitionjs <- readr::read_lines("js/transition.js")
-
-htmlhead <- 
-  paste('
-<script>',
-        paste(transitionjs, collapse = "\n"),
-        '</script>
-<script>',
-        paste(collapsejs, collapse = "\n"),
-        '</script>
-<script>',
-        paste(codejs, collapse = "\n"),
-        '</script>
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-</style>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
-});
-</script>
-', sep = "\n")
-
-readr::write_lines(htmlhead, path = "header.html")
-```
 
 In this first lab of the course, we will explore different ways of importing genetic data into R. Along the way, we will learn about data models in R and how to avoid common errors. 
 
@@ -100,7 +63,7 @@ Table %>% kable() %>%
 
 ## Worked Example{#WE_1}
 
-```{r child=paste0(here::here(), "/vignettes/", "Week1_vignette.Rmd"), echo=FALSE}
+```{r child=paste0(here::here(), "/vignettes/", "Week1_vignette.Rmd"), echo=TRUE}
 ```
 
 

@@ -95,7 +95,7 @@ gsub_ext(ext="Rmd", " @type", " `@type`",  dir = paste0(here::here(), "/vignette
 
 Create list of functions and packages: source file "ListOfPackages.Rmd" 
 
-```{r message=FALSE}
+```{r message=FALSE, include=FALSE}
 library(knitr)
 source(purl(paste0(here::here(), "/ListOfPackages.Rmd"), output = tempfile()))
 ```
@@ -104,7 +104,7 @@ source(purl(paste0(here::here(), "/ListOfPackages.Rmd"), output = tempfile()))
 Import tables of R commands of tutorials from Word file
 
 
-```{r}
+```{r message=FALSE}
 library(officer)
 library(dplyr)
 

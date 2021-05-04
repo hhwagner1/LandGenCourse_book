@@ -3,7 +3,7 @@
 
 ## Worked Example{#WE_13}
 
-```{r child=paste0(here::here(), "/vignettes/", "Week13_vignette.Rmd"), echo=FALSE}
+```{r child=paste0(here::here(), "/vignettes/", "Week13_vignette.Rmd"), echo=TRUE}
 ```
 
 

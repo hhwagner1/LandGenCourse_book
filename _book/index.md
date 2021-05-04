@@ -1,9 +1,13 @@
 --- 
 title: "Landscape Genetic Data Analysis with R"
 author: "Editor: Helene Wagner (University of Toronto)"
-date: "2021-04-30"
-bookdown::gitbook:
-  includes:
+date: "2021-05-04"
+output:
+  bookdown::html_document2:
+    includes:
+      in_header: header.html
+  bookdown::gitbook:
+    includes:
       in_header: header.html
 site: bookdown::bookdown_site
 documentclass: book
@@ -12,6 +16,8 @@ biblio-style: apalike
 link-citations: yes
 github-repo: hhwagner1/LandGenCourse_book
 description: "This is a web-interface to the teaching materials for the lab course 'Landscape Genetic Data Analysis with R' associated with the distributed graduate course 'DGS Landscape Genetics'. The output format is bookdown::gitbook."
+
+
 ---
 # (PART\*) Getting Started {-}
 # Introduction
@@ -79,7 +85,7 @@ devtools::install_github("hhwagner1/LandGenCourse")
 ```
 
 ```
-## Skipping install of 'LandGenCourse' from a github remote, the SHA1 (7940614f) has not changed since last install.
+## Skipping install of 'LandGenCourse' from a github remote, the SHA1 (158fb26a) has not changed since last install.
 ##   Use `force = TRUE` to force installation
 ```
 
@@ -1331,6 +1337,7 @@ This video walks through the process of installing devtools, the course package,
   </tr>
 </tbody>
 </table>
+
 
 
 
