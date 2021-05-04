@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Worked Example | Landscape Genetic Data Analysis with R</title>
-  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Worked Example | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Worked Example | Landscape Genetic Data Analysis with R" />
   
-  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
   
 
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="tutorial-4.html"/>
 <link rel="next" href="r-exercise-week-4.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -793,25 +794,27 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -820,9 +823,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -873,62 +876,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="part"><span><b>Getting Started</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a><ul>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this Book</a><ul>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#book-structure"><i class="fa fa-check"></i>1. Book Structure</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this Book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#book-structure"><i class="fa fa-check"></i>1. Book Structure</a>
+<ul>
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-getting-started"><i class="fa fa-check"></i>a) Getting Started</a></li>
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-basic-topics"><i class="fa fa-check"></i>b) Basic Topics</a></li>
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#c-advanced-topics"><i class="fa fa-check"></i>c) Advanced Topics</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#find-what-is-relevant-for-you"><i class="fa fa-check"></i>2. Find what is relevant for you</a><ul>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-beginner-level-users"><i class="fa fa-check"></i>a) Beginner-level users</a></li>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-intermediate-level-users"><i class="fa fa-check"></i>b) Intermediate-level users</a></li>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#c-advanced-level-users"><i class="fa fa-check"></i>c) Advanced-level users</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#find-what-is-relevant-for-you"><i class="fa fa-check"></i>2. Find what is relevant for you</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-how-to-use-the-labs-weeks-1---8"><i class="fa fa-check"></i>a) How to use the labs (Weeks 1 - 8)</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-check-contents"><i class="fa fa-check"></i>b) Check contents</a></li>
 </ul></li>
-<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package <code>LandGenCourse</code></a><ul>
+<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package <code>LandGenCourse</code></a>
+<ul>
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-how-to-install-or-update"><i class="fa fa-check"></i>a) How to install (or update)</a></li>
 <li><a href="how-to-use-this-book.html#b-how-to-use-the-r-package-landgencourse">b) How to use the R package <code>LandGenCourse</code></a></li>
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#c-video-instructions-for-beginners"><i class="fa fa-check"></i>c) Video instructions for beginners</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="overview-of-topics.html"><a href="overview-of-topics.html"><i class="fa fa-check"></i>Overview of Topics</a></li>
 <li class="chapter" data-level="" data-path="list-of-packages-by-vignette.html"><a href="list-of-packages-by-vignette.html"><i class="fa fa-check"></i>List of Packages by Vignette</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i>Review of R Skills</a><ul>
-<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html"><i class="fa fa-check"></i>Basic R Programming</a><ul>
+<li class="chapter" data-level="" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i>Review of R Skills</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html"><i class="fa fa-check"></i>Basic R Programming</a>
+<ul>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#overview"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#data-types"><i class="fa fa-check"></i>2. Data Types</a><ul>
+<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#data-types"><i class="fa fa-check"></i>2. Data Types</a>
+<ul>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#numeric-data-types"><i class="fa fa-check"></i>2.1. Numeric Data Types</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#characters"><i class="fa fa-check"></i>2.2. Characters</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#factors"><i class="fa fa-check"></i>2.3. Factors</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#logical-types"><i class="fa fa-check"></i>2.4. Logical Types</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#data-containers"><i class="fa fa-check"></i>3. Data Containers</a><ul>
+<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#data-containers"><i class="fa fa-check"></i>3. Data Containers</a>
+<ul>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#vectors"><i class="fa fa-check"></i>3.1. Vectors</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#matrices"><i class="fa fa-check"></i>3.2. Matrices</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#lists"><i class="fa fa-check"></i>3.3. Lists</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#data-frames"><i class="fa fa-check"></i>3.4. Data Frames</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#programming"><i class="fa fa-check"></i>4. Programming</a><ul>
+<li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#programming"><i class="fa fa-check"></i>4. Programming</a>
+<ul>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#function-writing"><i class="fa fa-check"></i>4.1. Function Writing</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#variable-scope"><i class="fa fa-check"></i>4.2. Variable Scope</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#decision-making"><i class="fa fa-check"></i>4.3. Decision Making</a></li>
 <li class="chapter" data-level="" data-path="basic-r-programming.html"><a href="basic-r-programming.html#flow-control"><i class="fa fa-check"></i>4.4. Flow Control</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i>R Graphics</a><ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i>R Graphics</a>
+<ul>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#overview-1"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#univariate-plots"><i class="fa fa-check"></i>2. Univariate plots</a><ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#univariate-plots"><i class="fa fa-check"></i>2. Univariate plots</a>
+<ul>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#barplots-and-histograms"><i class="fa fa-check"></i>2.1. Barplots and histograms</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#plotting-parameters"><i class="fa fa-check"></i>2.2. Plotting Parameters</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#density-plots"><i class="fa fa-check"></i>2.3. Density Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#bivariate-plots"><i class="fa fa-check"></i>3. Bivariate plots</a><ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#bivariate-plots"><i class="fa fa-check"></i>3. Bivariate plots</a>
+<ul>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#overlaying-plots-by-grouping"><i class="fa fa-check"></i>3.1. Overlaying Plots by grouping</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#boxplots"><i class="fa fa-check"></i>3.2. Boxplots</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#scatter-plots"><i class="fa fa-check"></i>3.3. Scatter Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#advanced-plotting"><i class="fa fa-check"></i>4. Advanced plotting</a><ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#advanced-plotting"><i class="fa fa-check"></i>4. Advanced plotting</a>
+<ul>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#multiple-plots"><i class="fa fa-check"></i>4.1. Multiple Plots</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#color-palettes"><i class="fa fa-check"></i>4.2. Color Palettes</a></li>
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#rcolorbrewer"><i class="fa fa-check"></i>4.3. RColorBrewer</a></li>
@@ -939,46 +954,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="further-r-resources.html"><a href="further-r-resources.html"><i class="fa fa-check"></i>Further R Resources</a></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a><ul>
-<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html"><i class="fa fa-check"></i>View Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-1a.html"><a href="video-1a.html#preview-slides"><i class="fa fa-check"></i>Preview Slides</a></li>
+<li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1.html"><a href="video-1.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-1.html"><a href="video-1.html#preview-slides"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html"><i class="fa fa-check"></i>Interactive Tutorial 1</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#instructions"><i class="fa fa-check"></i>Instructions</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#a-goal"><i class="fa fa-check"></i>a) Goal: …</a></li>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#b-how-to-access-tutorials"><i class="fa fa-check"></i>b) How to access tutorials:</a></li>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#c-how-to-complete-tutorial"><i class="fa fa-check"></i>c) How to complete tutorial:</a></li>
-<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#d-how-to-submit-answers-participating-institutions-only"><i class="fa fa-check"></i>d) How to submit answers (participating institutions only):</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html"><i class="fa fa-check"></i>Interactive Tutorial 1</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#list-of-r-commands-used"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#instructions"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#a-how-to-access-tutorials"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#b-how-to-complete-tutorial"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-1.html"><a href="tutorial-1.html#c-how-to-submit-answers-participating-institutions-only"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-goals"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-data-set"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-required-r-libraries"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a><ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-preparation"><i class="fa fa-check"></i>a. Preparation</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-excel-file"><i class="fa fa-check"></i>b. Excel file</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-import-with-function-read.csv"><i class="fa fa-check"></i>c. Import with function ‘read.csv’</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-create-id-variable"><i class="fa fa-check"></i>d. Create ID variable</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-export-with-function-write.csv"><i class="fa fa-check"></i>e. Export with function ‘write.csv’</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a><ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-read-the-helpfile"><i class="fa fa-check"></i>a. Read the helpfile</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-all-arguments-of-function-df2genind"><i class="fa fa-check"></i>b. Set all arguments of function ‘df2genind’</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data"><i class="fa fa-check"></i>c. Check imported data</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#d.-summarize-genind-object"><i class="fa fa-check"></i>d. Summarize ‘genind’ object</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a><ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a>
+<ul>
 <li><a href="WE-1.html#a.-slot-tab">a. Slot <code>@tab</code></a></li>
 <li><a href="WE-1.html#b.-slot-loc.n.all">b. Slot <code>@loc.n.all</code></a></li>
 <li><a href="WE-1.html#c.-slot-loc.fac">c. Slot <code>@loc.fac</code></a></li>
 <li><a href="WE-1.html#d.-slot-all.names">d. Slot <code>@all.names</code></a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#e.-further-slots"><i class="fa fa-check"></i>e. Further slots</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a><ul>
+<li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#a.-function-read_population"><i class="fa fa-check"></i>a. Function ‘read_population’</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#b.-set-arguments"><i class="fa fa-check"></i>b. Set arguments</a></li>
 <li class="chapter" data-level="" data-path="WE-1.html"><a href="WE-1.html#c.-check-imported-data-1"><i class="fa fa-check"></i>c. Check imported data</a></li>
@@ -989,40 +1013,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a><ul>
-<li class="chapter" data-level="" data-path="video-2a.html"><a href="video-2a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-2a.html"><a href="video-2a.html#preview"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-2a.html"><a href="video-2a.html#open-video-in-new-window"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-2a.html"><a href="video-2a.html#download-slides"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-2.html"><a href="video-2.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-2.html"><a href="video-2.html#preview-slides-1"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#preview-1"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html"><i class="fa fa-check"></i>Interactive Tutorial 2</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#list-of-r-commands-used-1"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#instructions-1"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#a-how-to-access-tutorials-1"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#b-how-to-complete-tutorial-1"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-2.html"><a href="tutorial-2.html#c-how-to-submit-answers-participating-institutions-only-1"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#overview-of-worked-example-1"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#overview-of-worked-example-1"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#a.-goals-1"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#b.-data-set-1"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#c.-required-r-libraries-1"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#import-site-data-from-.csv-file"><i class="fa fa-check"></i>2. Import site data from .csv file</a><ul>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#import-site-data-from-.csv-file"><i class="fa fa-check"></i>2. Import site data from .csv file</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#a.-import-data-into-spatialpointsdataframe"><i class="fa fa-check"></i>a. Import data into SpatialPointsDataFrame</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#b.-add-spatial-reference-data"><i class="fa fa-check"></i>b. Add spatial reference data</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#c.-change-projection"><i class="fa fa-check"></i>c. Change projection</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#d.-access-data-in-spatialpointsdataframe"><i class="fa fa-check"></i>d. Access data in ‘SpatialPointsDataFrame’</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#display-raster-data-and-overlay-sampling-locations-extract-data"><i class="fa fa-check"></i>3. Display raster data and overlay sampling locations, extract data</a><ul>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#display-raster-data-and-overlay-sampling-locations-extract-data"><i class="fa fa-check"></i>3. Display raster data and overlay sampling locations, extract data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#a.-display-raster-data"><i class="fa fa-check"></i>a. Display raster data</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#b.-change-color-ramp-add-sampling-locations"><i class="fa fa-check"></i>b. Change color ramp, add sampling locations</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#c.-extract-raster-values-at-sampling-locations"><i class="fa fa-check"></i>c. Extract raster values at sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a><ul>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#a.-calculate-patch--class--and-landscape-level-landscape-metrics"><i class="fa fa-check"></i>a. Calculate patch-, class- and landscape level landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#b.-calculate-patch-level-landscape-metrics-for-evergreen-forest"><i class="fa fa-check"></i>b. Calculate patch-level landscape metrics for ‘Evergreen Forest’</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#c.-extract-forest-patch-size-at-samplig-locations"><i class="fa fa-check"></i>c. Extract forest patch size at samplig locations</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#d.-plot-a-bubble-map-of-forest-patch-size-at-sampling-locations"><i class="fa fa-check"></i>d. Plot a bubble map of forest patch size at sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a><ul>
+<li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#b.-extract-landscape-metric-of-choice-for-a-single-cover-type-as-vector"><i class="fa fa-check"></i>b. Extract landscape metric of choice for a single cover type (as vector)</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#c.-extract-landscape-metric-of-choice-for-all-cover-types-as-data-frame."><i class="fa fa-check"></i>c. Extract landscape metric of choice for all cover types (as data frame).</a></li>
 <li class="chapter" data-level="" data-path="WE-2.html"><a href="WE-2.html#d.-extract-all-landscape-metrics-for-a-single-cover-type-as-data-frame"><i class="fa fa-check"></i>d. Extract all landscape metrics for a single cover type (as data frame)</a></li>
@@ -1032,23 +1068,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus-2a.html"><a href="bonus-2a.html"><i class="fa fa-check"></i>Bonus: Using package sf</a></li>
 <li class="chapter" data-level="" data-path="bonus-2b.html"><a href="bonus-2b.html"><i class="fa fa-check"></i>Bonus: Visualize LULC map</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i>Week 3: Genetic Diversity</a><ul>
-<li class="chapter" data-level="" data-path="video-3a.html"><a href="video-3a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-3a.html"><a href="video-3a.html#preview-2"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-3a.html"><a href="video-3a.html#open-video-in-new-window-1"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-3a.html"><a href="video-3a.html#download-slides-1"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i>Week 3: Genetic Diversity</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-3.html"><a href="video-3.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-3.html"><a href="video-3.html#video-part-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video-3.html"><a href="video-3.html#video-part-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video-3.html"><a href="video-3.html#preview-slides-2"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#preview-3"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html"><i class="fa fa-check"></i>Interactive Tutorial 3</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#list-of-r-commands-used-2"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#instructions-2"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#a-how-to-access-tutorials-2"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#b-how-to-complete-tutorial-2"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-3.html"><a href="tutorial-3.html#c-how-to-submit-answers-participating-institutions-only-2"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#overview-of-worked-example-2"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#overview-of-worked-example-2"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#a.-goals-2"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#b.-data-set-2"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#c.-required-r-libraries-2"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#basic-checking-of-markers-and-populations"><i class="fa fa-check"></i>2. Basic checking of markers and populations</a><ul>
+<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#basic-checking-of-markers-and-populations"><i class="fa fa-check"></i>2. Basic checking of markers and populations</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#a.-re-create-genind-object"><i class="fa fa-check"></i>a. Re-create genind object</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#b.-check-that-markers-are-polymorphic"><i class="fa fa-check"></i>b. Check that markers are polymorphic</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#c.-check-for-deviations-from-hardy-weinberg-equilibrium-hwe"><i class="fa fa-check"></i>c. Check for deviations from Hardy-Weinberg equilibrium (HWE)</a></li>
@@ -1056,7 +1103,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#e.-check-for-null-alleles"><i class="fa fa-check"></i>e. Check for null alleles</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#f.-overall-interpretation"><i class="fa fa-check"></i>f. Overall interpretation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#assess-genetic-diversity"><i class="fa fa-check"></i>3. Assess genetic diversity</a><ul>
+<li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#assess-genetic-diversity"><i class="fa fa-check"></i>3. Assess genetic diversity</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#a.-rarefied-allelic-richness"><i class="fa fa-check"></i>a. Rarefied allelic richness</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#b.-observed-and-expected-heterozygosity"><i class="fa fa-check"></i>b. Observed and expected heterozygosity</a></li>
 <li class="chapter" data-level="" data-path="WE-3.html"><a href="WE-3.html#c.-create-table-with-sitel-level-genetic-diversity-measures"><i class="fa fa-check"></i>c. Create table with sitel-level genetic diversity measures</a></li>
@@ -1065,41 +1113,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i>R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i>Week 4: Metapopulations</a><ul>
-<li class="chapter" data-level="" data-path="video-4a.html"><a href="video-4a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-4a.html"><a href="video-4a.html#preview-4"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-4a.html"><a href="video-4a.html#open-video-in-new-window-2"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-4a.html"><a href="video-4a.html#download-slides-2"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i>Week 4: Metapopulations</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-4.html"><a href="video-4.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-4.html"><a href="video-4.html#video-part-1-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video-4.html"><a href="video-4.html#video-part-2-1"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video-4.html"><a href="video-4.html#preview-slides-3"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#preview-5"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html"><i class="fa fa-check"></i>Interactive Tutorial 4</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#list-of-r-commands-used-3"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#instructions-3"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#a-how-to-access-tutorials-3"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#b-how-to-complete-tutorial-3"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-4.html"><a href="tutorial-4.html#c-how-to-submit-answers-participating-institutions-only-3"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#overview-of-worked-example-3"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#overview-of-worked-example-3"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#a.-goals-3"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#b.-data-set-3"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#reference"><i class="fa fa-check"></i>Reference:</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#c.-required-r-libraries-3"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#d.-import-data"><i class="fa fa-check"></i>d. Import data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#spatial-distribution-of-genetic-structure"><i class="fa fa-check"></i>2. Spatial distribution of genetic structure</a><ul>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#spatial-distribution-of-genetic-structure"><i class="fa fa-check"></i>2. Spatial distribution of genetic structure</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#a.-creating-a-genind-object-with-the-hierarchical-data-set"><i class="fa fa-check"></i>a. Creating a ‘genind’ object with the hierarchical data set</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#b.-hierarchical-amova"><i class="fa fa-check"></i>b. Hierarchical AMOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#what-determines-genetic-differentiation-among-sites"><i class="fa fa-check"></i>3. What determines genetic differentiation among sites?</a><ul>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#what-determines-genetic-differentiation-among-sites"><i class="fa fa-check"></i>3. What determines genetic differentiation among sites?</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#a.-correlation-matrix"><i class="fa fa-check"></i>a. Correlation matrix</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#b.-scatterplots"><i class="fa fa-check"></i>b. Scatterplots</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#c.-regression-model"><i class="fa fa-check"></i>c. Regression model</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#d.-which-populations-dont-fit-the-general-pattern"><i class="fa fa-check"></i>d. Which populations don’t fit the general pattern?</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#e.-regression-model-without-outliers"><i class="fa fa-check"></i>e. Regression model without outliers</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#what-determines-genetic-diversity"><i class="fa fa-check"></i>4. What determines genetic diversity?</a><ul>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#what-determines-genetic-diversity"><i class="fa fa-check"></i>4. What determines genetic diversity?</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#a.-correlation-matrix-1"><i class="fa fa-check"></i>a. Correlation matrix</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#b.-regression-models"><i class="fa fa-check"></i>b. Regression models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
-<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a><ul>
+<li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#a.-effect-of-patch-extinction-event-temporal-data-set"><i class="fa fa-check"></i>a. Effect of patch extinction event (temporal data set)</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#b.-power-analysis"><i class="fa fa-check"></i>b. Power analysis</a></li>
 <li class="chapter" data-level="" data-path="WE-4.html"><a href="WE-4.html#c.-sample-size-calculation"><i class="fa fa-check"></i>c. Sample size calculation</a></li>
@@ -1107,44 +1169,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i>Week 5: Spatial Statistics</a><ul>
-<li class="chapter" data-level="" data-path="video-5a.html"><a href="video-5a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-5a.html"><a href="video-5a.html#preview-6"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-5a.html"><a href="video-5a.html#open-video-in-new-window-3"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-5a.html"><a href="video-5a.html#download-slides-3"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i>Week 5: Spatial Statistics</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-5.html"><a href="video-5.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-5.html"><a href="video-5.html#preview-slides-4"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#preview-7"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html"><i class="fa fa-check"></i>Interactive Tutorial 5</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#list-of-r-commands-used-4"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#instructions-4"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#a-how-to-access-tutorials-4"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#b-how-to-complete-tutorial-4"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-5.html"><a href="tutorial-5.html#c-how-to-submit-answers-participating-institutions-only-4"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#overview-of-worked-example-4"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#overview-of-worked-example-4"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-goals-4"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-data-set-4"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#c.-required-r-packages"><i class="fa fa-check"></i>c. Required R packages</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#data-import-and-manipulation"><i class="fa fa-check"></i>2. Data import and manipulation</a><ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#data-import-and-manipulation"><i class="fa fa-check"></i>2. Data import and manipulation</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-create-an-ecogen-object"><i class="fa fa-check"></i>a. Create an ecogen object</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-aggregate-to-ecopop"><i class="fa fa-check"></i>b. Aggregate to ecopop</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-add-site-level-data"><i class="fa fa-check"></i>b. Add site-level data</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#c.-export-to-adegenet-and-gstudio"><i class="fa fa-check"></i>c. Export to adegenet and gstudio</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#calculate-genetic-distances"><i class="fa fa-check"></i>3. Calculate genetic distances</a><ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#calculate-genetic-distances"><i class="fa fa-check"></i>3. Calculate genetic distances</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-genetic-distances-calculated-from-genind-object"><i class="fa fa-check"></i>a. Genetic distances calculated from genind object</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-more-distance-matrices-with-gstudio"><i class="fa fa-check"></i>b. More distance matrices with ‘gstudio’</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#c.-assemble-distance-matrices"><i class="fa fa-check"></i>c. Assemble distance matrices</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#d.-export-genetic-distance-matrices"><i class="fa fa-check"></i>d. Export genetic distance matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#perform-a-mantel-test-to-test-for-ibd"><i class="fa fa-check"></i>4. Perform a Mantel test to test for IBD</a><ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#perform-a-mantel-test-to-test-for-ibd"><i class="fa fa-check"></i>4. Perform a Mantel test to test for IBD</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-visually-check-linearity"><i class="fa fa-check"></i>a. Visually check linearity</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-perform-mantel-test"><i class="fa fa-check"></i>b. Perform Mantel test</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a><ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-create-a-first-mantel-correlogram"><i class="fa fa-check"></i>a. Create a first Mantel correlogram</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-vary-distance-class-definition"><i class="fa fa-check"></i>b. Vary distance class definition</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#c.-alternative-measures-of-genetic-distances"><i class="fa fa-check"></i>c. Alternative measures of genetic distances</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a><ul>
+<li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#a.-defining-spatial-neighbors"><i class="fa fa-check"></i>a. Defining spatial neighbors</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#b.-defining-spatial-weights"><i class="fa fa-check"></i>b. Defining spatial weights</a></li>
 <li class="chapter" data-level="" data-path="WE-5.html"><a href="WE-5.html#c.-calculating-and-testing-morans-i"><i class="fa fa-check"></i>c. Calculating and testing Moran’s I</a></li>
@@ -1152,23 +1227,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i>Week 6: Quantitative Genetics</a><ul>
-<li class="chapter" data-level="" data-path="video-6a.html"><a href="video-6a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-6a.html"><a href="video-6a.html#preview-8"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-6a.html"><a href="video-6a.html#open-video-in-new-window-4"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-6a.html"><a href="video-6a.html#download-slides-4"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i>Week 6: Quantitative Genetics</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-6.html"><a href="video-6.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-6.html"><a href="video-6.html#video-part-1-2"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video-6.html"><a href="video-6.html#video-part-2-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video-6.html"><a href="video-6.html#preview-slides-5"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#preview-9"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html"><i class="fa fa-check"></i>Interactive Tutorial 6</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#list-of-r-commands-used-5"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#instructions-5"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#a-how-to-access-tutorials-5"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#b-how-to-complete-tutorial-5"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-6.html"><a href="tutorial-6.html#c-how-to-submit-answers-participating-institutions-only-5"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#overview-of-worked-example-5"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#overview-of-worked-example-5"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#a.-goals-5"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#b.-data-set-5"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#c.-required-r-packages-1"><i class="fa fa-check"></i>c. Required R packages</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a><ul>
+<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#a.-import-phenytypic-data"><i class="fa fa-check"></i>a. Import phenytypic data</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#b.-fit-linear-mixed-effects-models-lmm-to-trait-data-observed-on-families"><i class="fa fa-check"></i>b. Fit linear mixed effects models (LMM) to trait data observed on families</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#c.-compare-model-fit"><i class="fa fa-check"></i>c. Compare model fit</a></li>
@@ -1176,38 +1262,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#e.-estimate-variance-components"><i class="fa fa-check"></i>e. Estimate variance components</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#f.-significance-testing"><i class="fa fa-check"></i>f. Significance testing</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#estimate-trait-heritability"><i class="fa fa-check"></i>3. Estimate trait heritability</a><ul>
+<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#estimate-trait-heritability"><i class="fa fa-check"></i>3. Estimate trait heritability</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#a.-estimate-heritability"><i class="fa fa-check"></i>a. Estimate heritability</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#b.-estimate-trait-differentiation"><i class="fa fa-check"></i>b. Estimate trait differentiation</a></li>
 </ul></li>
-<li><a href="WE-6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a><ul>
+<li><a href="WE-6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#a.-import-ecogen-object"><i class="fa fa-check"></i>a. Import ‘ecogen’ object</a></li>
 <li><a href="WE-6.html#b.-compare-q_st-to-f_st">b. Compare <span class="math inline">\(Q_{ST}\)</span> to <span class="math inline">\(F_{ST}\)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#assess-correlation-between-trait-and-environment"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a><ul>
+<li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#assess-correlation-between-trait-and-environment"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#a.-describe-and-extract-effects"><i class="fa fa-check"></i>a. Describe and extract effects</a></li>
 <li class="chapter" data-level="" data-path="WE-6.html"><a href="WE-6.html#b.-correlation-of-population-effect-with-environment"><i class="fa fa-check"></i>b. Correlation of population effect with environment</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i>Week 7: Spatial Linear Models</a><ul>
-<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#preview-10"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#open-video-in-new-window-5"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-7a.html"><a href="video-7a.html#download-slides-5"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i>Week 7: Spatial Linear Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-7.html"><a href="video-7.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-7.html"><a href="video-7.html#video-part-1-3"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video-7.html"><a href="video-7.html#video-part-2-3"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video-7.html"><a href="video-7.html#preview-slides-6"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#preview-11"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html"><i class="fa fa-check"></i>Interactive Tutorial 7</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#list-of-r-commands-used-6"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#instructions-6"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#a-how-to-access-tutorials-6"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#b-how-to-complete-tutorial-6"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-7.html"><a href="tutorial-7.html#c-how-to-submit-answers-participating-institutions-only-6"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#overview-of-worked-example-6"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#overview-of-worked-example-6"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-goals-6"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-data-set-6"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-required-r-packages-2"><i class="fa fa-check"></i>c. Required R packages</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment-1"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a><ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment-1"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-import-phenytypic-data-1"><i class="fa fa-check"></i>a. Import phenytypic data</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-fit-linear-mixed-effects-models-lmm-to-trait-data-observed-on-families-1"><i class="fa fa-check"></i>b. Fit linear mixed effects models (LMM) to trait data observed on families</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#c.-compare-model-fit-1"><i class="fa fa-check"></i>c. Compare model fit</a></li>
@@ -1215,52 +1315,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#e.-estimate-variance-components-1"><i class="fa fa-check"></i>e. Estimate variance components</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#f.-significance-testing-1"><i class="fa fa-check"></i>f. Significance testing</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#estimate-trait-heritability-1"><i class="fa fa-check"></i>3. Estimate trait heritability</a><ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#estimate-trait-heritability-1"><i class="fa fa-check"></i>3. Estimate trait heritability</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-estimate-heritability-1"><i class="fa fa-check"></i>a. Estimate heritability</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-estimate-trait-differentiation-1"><i class="fa fa-check"></i>b. Estimate trait differentiation</a></li>
 </ul></li>
-<li><a href="WE-7.html#compare-q_st-to-f_st-measured-from-snp-data-1">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a><ul>
+<li><a href="WE-7.html#compare-q_st-to-f_st-measured-from-snp-data-1">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-import-ecogen-object-1"><i class="fa fa-check"></i>a. Import ‘ecogen’ object</a></li>
 <li><a href="WE-7.html#b.-compare-q_st-to-f_st-1">b. Compare <span class="math inline">\(Q_{ST}\)</span> to <span class="math inline">\(F_{ST}\)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#assess-correlation-between-trait-and-environment-1"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a><ul>
+<li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#assess-correlation-between-trait-and-environment-1"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#a.-describe-and-extract-effects-1"><i class="fa fa-check"></i>a. Describe and extract effects</a></li>
 <li class="chapter" data-level="" data-path="WE-7.html"><a href="WE-7.html#b.-correlation-of-population-effect-with-environment-1"><i class="fa fa-check"></i>b. Correlation of population effect with environment</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6-1.html"><a href="r-exercise-week-6-1.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i>Week 8: Simulation Experiments</a><ul>
-<li class="chapter" data-level="" data-path="video-8a.html"><a href="video-8a.html"><i class="fa fa-check"></i>Course Video</a><ul>
-<li class="chapter" data-level="" data-path="video-8a.html"><a href="video-8a.html#preview-12"><i class="fa fa-check"></i>Preview</a></li>
-<li class="chapter" data-level="" data-path="video-8a.html"><a href="video-8a.html#open-video-in-new-window-6"><i class="fa fa-check"></i>Open video in new window</a></li>
-<li class="chapter" data-level="" data-path="video-8a.html"><a href="video-8a.html#download-slides-6"><i class="fa fa-check"></i>Download slides</a></li>
+<li class="chapter" data-level="" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i>Week 8: Simulation Experiments</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-8.html"><a href="video-8.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video-8.html"><a href="video-8.html#video-part-1-4"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video-8.html"><a href="video-8.html#video-part-2-4"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video-8.html"><a href="video-8.html#preview-slides-7"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html"><i class="fa fa-check"></i>Interactive Tutorial</a><ul>
-<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#preview-13"><i class="fa fa-check"></i>Preview</a></li>
+<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html"><i class="fa fa-check"></i>Interactive Tutorial 8</a>
+<ul>
 <li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#list-of-r-commands-used-7"><i class="fa fa-check"></i>List of R commands used</a></li>
+<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#instructions-7"><i class="fa fa-check"></i>Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#a-how-to-access-tutorials-7"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#b-how-to-complete-tutorial-7"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial-8.html"><a href="tutorial-8.html#c-how-to-submit-answers-participating-institutions-only-7"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#overview-of-worked-example-7"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#overview-of-worked-example-7"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#a.-goals-7"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#b.-data-set-7"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#c.-required-r-libraries-4"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#initialize-a-landscape"><i class="fa fa-check"></i>2. Initialize a landscape</a><ul>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#initialize-a-landscape"><i class="fa fa-check"></i>2. Initialize a landscape</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#a.-create-a-random-landscape"><i class="fa fa-check"></i>a. Create a random landscape</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#b.-add-populations-to-the-landscape-using-minimal-distance"><i class="fa fa-check"></i>b. Add populations to the landscape (using minimal distance)</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#c.-initialise-a-metapopulation"><i class="fa fa-check"></i>c. Initialise a metapopulation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#define-simulation-parameters"><i class="fa fa-check"></i>3. Define simulation parameters</a><ul>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#define-simulation-parameters"><i class="fa fa-check"></i>3. Define simulation parameters</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#a.-define-your-metapopulation"><i class="fa fa-check"></i>a. Define your metapopulation</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#b.-initialise-your-population-on-the-landscape"><i class="fa fa-check"></i>b. Initialise your population on the landscape</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a><ul>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#a.-run-your-simulation-over-multiple-time-steps-years"><i class="fa fa-check"></i>a. Run your simulation over multiple time steps (years)</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#b.-analyse-your-simulated-population-with-a-partial-mantel-test"><i class="fa fa-check"></i>b. Analyse your simulated population with a partial Mantel test</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#c.-optional-analyze-your-simulated-populations-using-sunder"><i class="fa fa-check"></i>c. Optional: Analyze your simulated populations using ‘Sunder’</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a><ul>
+<li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#a.-specify-and-record-the-parameter-combinations"><i class="fa fa-check"></i>a. Specify and record the parameter combinations</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#b.-run-the-simulator-over-every-parameter-combination."><i class="fa fa-check"></i>b. Run the simulator over every parameter combination.</a></li>
 <li class="chapter" data-level="" data-path="WE-8.html"><a href="WE-8.html#c.-save-your-complete-simulation-run-input-and-output"><i class="fa fa-check"></i>c. Save your complete simulation run (input and output)</a></li>
@@ -1271,20 +1388,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus-8a.html"><a href="bonus-8a.html"><i class="fa fa-check"></i>Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i>Week 9: Population Structure</a><ul>
-<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#overview-of-worked-example-8"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+<li class="chapter" data-level="" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i>Week 9: Population Structure</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#overview-of-worked-example-8"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#a.-goals-8"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#b.-data-sets"><i class="fa fa-check"></i>b. Data sets</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#c.-required-r-libraries-5"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#simulated-data-2-island-model"><i class="fa fa-check"></i>2. Simulated data: 2-island model</a><ul>
+<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#simulated-data-2-island-model"><i class="fa fa-check"></i>2. Simulated data: 2-island model</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#a.-import-data"><i class="fa fa-check"></i>a. Import data</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#b.-perform-principal-components-analysis-pca"><i class="fa fa-check"></i>b. Perform Principal Components Analysis (PCA)</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#c.-create-synthetic-spatial-coordinates-xy-and-map-them"><i class="fa fa-check"></i>c. Create synthetic spatial coordinates (X,Y) and map them</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#simulated-data-2-island-model-with-admixture"><i class="fa fa-check"></i>3. Simulated data: 2-island model with admixture</a></li>
-<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a><ul>
+<li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#a.-import-the-data"><i class="fa fa-check"></i>a. Import the data:</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#b.-examine-population-structure-with-pca"><i class="fa fa-check"></i>b. Examine population structure with PCA</a></li>
 <li class="chapter" data-level="" data-path="WE-9.html"><a href="WE-9.html#c.-clustering-with-snmf-similar-to-structure"><i class="fa fa-check"></i>c. Clustering with SNMF (similar to ‘STRUCTURE’)</a></li>
@@ -1293,60 +1415,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i>Week 10: Landscape Resistance</a><ul>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+<li class="chapter" data-level="" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i>Week 10: Landscape Resistance</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-goals-9"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-data-set-8"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#c.-required-r-libraries-6"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#d.-import-rasters-gsp-err-cti-and-ffp."><i class="fa fa-check"></i>d. Import rasters (gsp, err, cti, and ffp).</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#e.-import-site-data-with-sampling-locations"><i class="fa fa-check"></i>e. Import site data with sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a><ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-plot-all-rasters"><i class="fa fa-check"></i>a. Plot all rasters</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-plot-spatial-points-over-ffp-raster"><i class="fa fa-check"></i>b. Plot spatial points over ffp raster</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a><ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-resistance-vs.-conductance-values"><i class="fa fa-check"></i>a. Resistance vs. conductance values</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-as-needed-get-all-rasters-at-the-same-scale"><i class="fa fa-check"></i>b. As needed: Get all rasters at the same scale</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#c.-calculate-conductance-values"><i class="fa fa-check"></i>c. Calculate conductance values</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#d.-create-a-single-landscape-conductance-raster"><i class="fa fa-check"></i>d. Create a single landscape conductance raster</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a><ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-create-a-transition-layer"><i class="fa fa-check"></i>a. Create a transition layer</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-visually-inspect-the-raster"><i class="fa fa-check"></i>b. Visually inspect the raster</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#c.-correct-for-geometric-distortion"><i class="fa fa-check"></i>c. Correct for geometric distortion</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#d.-plot-shortest-paths-in-space"><i class="fa fa-check"></i>d. Plot shortest paths in space</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a><ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-least-cost-distance"><i class="fa fa-check"></i>a. Least cost distance</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-cost-distance-matrix-based-on-random-paths-similar-to-circuitscape"><i class="fa fa-check"></i>b. Cost-distance matrix based on random paths (similar to Circuitscape)</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#c.-compare-cost-distances"><i class="fa fa-check"></i>c. Compare cost distances</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a><ul>
+<li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#a.-create-loop"><i class="fa fa-check"></i>a. Create loop</a></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#b.-plot-the-results"><i class="fa fa-check"></i>b. Plot the results</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="WE-10.html"><a href="WE-10.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i>Week 11: Detecting Adaptation</a><ul>
-<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+<li class="chapter" data-level="" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i>Week 11: Detecting Adaptation</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#a.-goals-10"><i class="fa fa-check"></i>a. Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#b.-data-set-9"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#c.-required-r-libraries-7"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a><ul>
+<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#a.-import-the-genetic-data"><i class="fa fa-check"></i>a. Import the genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#b.-import-the-environmental-data"><i class="fa fa-check"></i>b. Import the environmental data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a><ul>
+<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#a.-determine-k"><i class="fa fa-check"></i>a. Determine K</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#b.-run-lfmm"><i class="fa fa-check"></i>b. Run LFMM</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#c.-identify-lfmm-candidates-using-false-discovery-rate"><i class="fa fa-check"></i>c. Identify LFMM candidates using False Discovery Rate</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a><ul>
+<li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#a.-run-rda"><i class="fa fa-check"></i>a. Run RDA</a></li>
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#b.-identify-rda-candidates"><i class="fa fa-check"></i>b. Identify RDA candidates</a></li>
 </ul></li>
@@ -1355,15 +1491,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE-11.html"><a href="WE-11.html#references-1"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i>Week 12: Model Selection</a><ul>
-<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+<li class="chapter" data-level="" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i>Week 12: Model Selection</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#a.-goals-and-background"><i class="fa fa-check"></i>a. Goals and Background</a></li>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#b.-data-set-10"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#c.-required-packages"><i class="fa fa-check"></i>c. Required packages</a></li>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#d.-import-data-1"><i class="fa fa-check"></i>d. Import data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a><ul>
+<li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#a.-alternative-hypotheses"><i class="fa fa-check"></i>a. Alternative hypotheses</a></li>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#b.-prepare-for-model-fitting"><i class="fa fa-check"></i>b. Prepare for model fitting</a></li>
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#c.-fit-all-five-models"><i class="fa fa-check"></i>c. Fit all five models</a></li>
@@ -1375,43 +1515,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE-12.html"><a href="WE-12.html#references-2"><i class="fa fa-check"></i>4. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i>Week 13: Gravity Models</a><ul>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a><ul>
+<li class="chapter" data-level="" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i>Week 13: Gravity Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-background"><i class="fa fa-check"></i>a. Background</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-data-set-11"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-required-r-libraries-8"><i class="fa fa-check"></i>c. Required R libraries</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#set-working-and-data-directories---needs-to-be-removed"><i class="fa fa-check"></i>Set working and data directories - NEEDS TO BE REMOVED</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#calculating-graph-metrics"><i class="fa fa-check"></i>2. Calculating graph metrics</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#calculating-graph-metrics"><i class="fa fa-check"></i>2. Calculating graph metrics</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-read-in-make-a-spatial-object-and-plot-wetlands-wetlands.csv."><i class="fa fa-check"></i>a. Read in, make a spatial object and plot wetlands (Wetlands.csv).</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-create-a-graph-from-the-wetlands"><i class="fa fa-check"></i>b. Create a graph from the wetlands</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-create-adjacency-matrix"><i class="fa fa-check"></i>c. Create adjacency matrix</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#d.-calculate-graph-metrics"><i class="fa fa-check"></i>d. Calculate graph metrics</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#e.-add-graph-metrics-to-data.frame"><i class="fa fa-check"></i>e. Add graph metrics to data.frame</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#combine-frog-data-with-graph-metrics"><i class="fa fa-check"></i>3. Combine frog data with graph metrics</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#combine-frog-data-with-graph-metrics"><i class="fa fa-check"></i>3. Combine frog data with graph metrics</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-add-graph-node-data-to-frog-site-data"><i class="fa fa-check"></i>a. Add graph node data to frog site data</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-check-data-types"><i class="fa fa-check"></i>b. Check data types</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#merge-graph-with-genetic-distance-data"><i class="fa fa-check"></i>4. Merge graph with genetic distance data</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#merge-graph-with-genetic-distance-data"><i class="fa fa-check"></i>4. Merge graph with genetic distance data</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-build-graph-from-occupied-sites"><i class="fa fa-check"></i>a. Build graph from occupied sites</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-merge-graph-with-genetic-distance"><i class="fa fa-check"></i>b. Merge graph with genetic distance</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-write-out-results-ascii-csv-and-lines-shapefile."><i class="fa fa-check"></i>c. Write out results (ASCII csv and lines shapefile).</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#preparing-raster-based-covariates"><i class="fa fa-check"></i>5. Preparing raster-based covariates</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#preparing-raster-based-covariates"><i class="fa fa-check"></i>5. Preparing raster-based covariates</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-import-raster-data-as-stack"><i class="fa fa-check"></i>a. Import raster data as stack</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-calculate-wetland-area-within-buffer"><i class="fa fa-check"></i>b. Calculate wetland area within buffer</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-create-raster-of-wetland-proportion"><i class="fa fa-check"></i>c. Create raster of wetland proportion</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#extract-raster-stats-for-nodes-and-edges"><i class="fa fa-check"></i>6. Extract raster stats for nodes and edges</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#extract-raster-stats-for-nodes-and-edges"><i class="fa fa-check"></i>6. Extract raster stats for nodes and edges</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-extract-at-site-variables-from-rasters"><i class="fa fa-check"></i>a. Extract at-site variables from rasters</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-add-covariates-to-graph-edges."><i class="fa fa-check"></i>b. Add covariates to graph edges.</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-calculating-stats-along-edges"><i class="fa fa-check"></i>c. Calculating stats along edges</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#d.-calculating-stats-for-categorical-variables"><i class="fa fa-check"></i>d. Calculating stats for categorical variables</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#e.-add-node-data-to-graph"><i class="fa fa-check"></i>e. Add node data to graph</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#gravity-models"><i class="fa fa-check"></i>7. Gravity Models</a><ul>
+<li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#gravity-models"><i class="fa fa-check"></i>7. Gravity Models</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#a.-merge-distance-and-site-data"><i class="fa fa-check"></i>a. Merge distance and site data</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#b.-define-a-set-of-models"><i class="fa fa-check"></i>b. Define a set of models</a></li>
 <li class="chapter" data-level="" data-path="WE-13.html"><a href="WE-13.html#c.-check-for-correlations"><i class="fa fa-check"></i>c. Check for correlations</a></li>
@@ -1423,29 +1572,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i>Week 14: Contemporary Gene Flow</a><ul>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html"><i class="fa fa-check"></i>Worked Example</a><ul>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#overview-2"><i class="fa fa-check"></i>1. Overview</a><ul>
+<li class="chapter" data-level="" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i>Week 14: Contemporary Gene Flow</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#overview-2"><i class="fa fa-check"></i>1. Overview</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#a.-background-and-goals"><i class="fa fa-check"></i>a. Background and Goals</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#b.-data-set-12"><i class="fa fa-check"></i>b. Data set</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#c.-required-packages-1"><i class="fa fa-check"></i>c. Required packages</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a><ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#a.-import-genotype-data"><i class="fa fa-check"></i>a. Import genotype data</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#b.-plot-map-of-sampling-locations"><i class="fa fa-check"></i>b. Plot map of sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a><ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#a.-subtract-maternal-contribution-to-offspring-genotype"><i class="fa fa-check"></i>a. Subtract maternal contribution to offspring genotype</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#b.-twogener-analysis-amova-of-pollen-pool-data"><i class="fa fa-check"></i>b. ‘TwoGener’ analysis (AMOVA of pollen pool data)</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#c.-including-space-isolation-by-distance"><i class="fa fa-check"></i>c. Including space: Isolation by distance</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a><ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#a.-exclusion-probabilities"><i class="fa fa-check"></i>a. Exclusion probabilities</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#b.-paternity-analysis"><i class="fa fa-check"></i>b. Paternity analysis</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#c.-visualize-reconstructed-pollen-flow-events-in-space"><i class="fa fa-check"></i>c. Visualize reconstructed pollen flow events in space</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#d.-visualize-dispersal-kernel"><i class="fa fa-check"></i>d. Visualize dispersal kernel</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a><ul>
+<li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a>
+<ul>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#a.-explain-pollen-flow-within-populations"><i class="fa fa-check"></i>a. Explain pollen flow within populations</a></li>
 <li class="chapter" data-level="" data-path="WE-14.html"><a href="WE-14.html#b.-explain-pollen-flow-at-the-population-level"><i class="fa fa-check"></i>b. Explain pollen flow at the population level</a></li>
 </ul></li>
@@ -1492,8 +1648,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Lamy et al. (2012) sampled the freshwater snail <em>Drepanotrema depressissimum</em> in a fragmented landscape of tropical ponds on the island of Guadeloupe in the French West Indies. They used a spatially and temporally stratified sampling design with a total of 25 sites, where 12 sites formed four well-separated clusters of three neighbouring sites each, to study spatial variability, and 12 sites spread across the island were sampled in multiple years to study temporal variability. For each site and year, 22 - 34 individuals were genotyped at ten microsatellite loci. The species is diploid, hermaphroditic, and outcrossed.</p>
 <p>A key characteristic of this system is the presence of a dry and a rainy season. In the dry season, many ponds can dry out, possibly causing extinction of the local snail populations. During the rainy season, ponds refill and can even overflow, thereby becoming connected through the hydrological network. During this rainy season, dispersal between ponds may occur.</p>
 <ul>
-<li><p><strong>dd.ecogen</strong>: The dataset ‘dd.ecogen’ with genetic data for 1270 snails from 42 populations is included in package ‘LandGenCourse’. To load it, type: data(dd.ecogen).</p></li>
-<li><p><strong>dd.site</strong>: Population-level data from Tables 2 - 5 of Lamy et al. (2012) are available in dataset ‘dd.site’ (with 25 variables) in package ‘LandGenCourse’. To load it, type: data(dd.site).</p></li>
+<li><p><strong>dd.ecogen</strong>: The dataset ‘dd.ecogen’ with genetic data for 1270 snails from 42 populations is included in package ‘LandGenCourse.’ To load it, type: data(dd.ecogen).</p></li>
+<li><p><strong>dd.site</strong>: Population-level data from Tables 2 - 5 of Lamy et al. (2012) are available in dataset ‘dd.site’ (with 25 variables) in package ‘LandGenCourse.’ To load it, type: data(dd.site).</p></li>
 </ul>
 </div>
 <div id="reference" class="section level4">
@@ -1503,20 +1659,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-3" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb471-1" title="1"><span class="cf">if</span>(<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) </a>
-<a class="sourceLine" id="cb471-2" title="2">  remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" title="1"><span class="kw">library</span>(LandGenCourse)</a>
-<a class="sourceLine" id="cb472-2" title="2"><span class="kw">library</span>(EcoGenetics)</a>
-<a class="sourceLine" id="cb472-3" title="3"><span class="kw">library</span>(methods)</a>
-<a class="sourceLine" id="cb472-4" title="4"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb472-5" title="5"><span class="co">#require(tibble)</span></a>
-<a class="sourceLine" id="cb472-6" title="6"><span class="co">#require(poppr)</span></a>
-<a class="sourceLine" id="cb472-7" title="7"><span class="co">#require(ade4)</span></a>
-<a class="sourceLine" id="cb472-8" title="8"><span class="co">#require(pwr)</span></a>
-<a class="sourceLine" id="cb472-9" title="9"><span class="co">#require(effsize)</span></a>
-<a class="sourceLine" id="cb472-10" title="10"><span class="co">#require(sp)</span></a>
-<a class="sourceLine" id="cb472-11" title="11"><span class="co">#require(ggmap)</span></a>
-<a class="sourceLine" id="cb472-12" title="12"><span class="co">#require(car)  </span></a></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="WE-4.html#cb494-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb494-2"><a href="WE-4.html#cb494-2" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="WE-4.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb495-2"><a href="WE-4.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EcoGenetics)</span>
+<span id="cb495-3"><a href="WE-4.html#cb495-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methods)</span>
+<span id="cb495-4"><a href="WE-4.html#cb495-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb495-5"><a href="WE-4.html#cb495-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(tibble)</span></span>
+<span id="cb495-6"><a href="WE-4.html#cb495-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(poppr)</span></span>
+<span id="cb495-7"><a href="WE-4.html#cb495-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(ade4)</span></span>
+<span id="cb495-8"><a href="WE-4.html#cb495-8" aria-hidden="true" tabindex="-1"></a><span class="co">#require(pwr)</span></span>
+<span id="cb495-9"><a href="WE-4.html#cb495-9" aria-hidden="true" tabindex="-1"></a><span class="co">#require(effsize)</span></span>
+<span id="cb495-10"><a href="WE-4.html#cb495-10" aria-hidden="true" tabindex="-1"></a><span class="co">#require(sp)</span></span>
+<span id="cb495-11"><a href="WE-4.html#cb495-11" aria-hidden="true" tabindex="-1"></a><span class="co">#require(ggmap)</span></span>
+<span id="cb495-12"><a href="WE-4.html#cb495-12" aria-hidden="true" tabindex="-1"></a><span class="co">#require(car)  </span></span></code></pre></div>
 </div>
 <div id="d.-import-data" class="section level4">
 <h4>d. Import data</h4>
@@ -1528,8 +1684,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>A</strong>: Table of allele frequencies (columns = alleles, rows = individuals)</li>
 <li><strong>S</strong>: Structure variables (SiteID, SITE, YEAR, Cluster)</li>
 </ul>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb473-1" title="1"><span class="kw">data</span>(dd.ecogen, <span class="dt">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</a>
-<a class="sourceLine" id="cb473-2" title="2">dd.ecogen</a></code></pre></div>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="WE-4.html#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.ecogen, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb496-2"><a href="WE-4.html#cb496-2" aria-hidden="true" tabindex="-1"></a>dd.ecogen</span></code></pre></div>
 <pre><code>## 
 ##                    || ECOGEN CLASS OBJECT ||
 ## ----------------------------------------------------------------------------
@@ -1546,11 +1702,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  | slot C:     | --&gt; 0 x 0          variables
 ##  | slot OUT:   | --&gt; 0              results
 ## ----------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb475-1" title="1">?dd.ecogen   </a></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="WE-4.html#cb498-1" aria-hidden="true" tabindex="-1"></a>?dd.ecogen   </span></code></pre></div>
 <pre><code>## starting httpd help server ... done</code></pre>
 <p>We also import site-level data from Tables 2 - 5 in Lamy et al. (2012). Use ‘?dd.site’ to check helpfile with data set desription of the variables.</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb477-1" title="1"><span class="kw">data</span>(dd.site, <span class="dt">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</a>
-<a class="sourceLine" id="cb477-2" title="2">tibble<span class="op">::</span><span class="kw">as_tibble</span>(dd.site)</a></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="WE-4.html#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.site, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb500-2"><a href="WE-4.html#cb500-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(dd.site)</span></code></pre></div>
 <pre><code>## # A tibble: 42 x 24
 ##    SiteID   SITE   YEAR Spatial MultiYear APE   Cluster     n    RA    He      f
 ##    &lt;chr&gt;    &lt;fct&gt; &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;     &lt;lgl&gt; &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -1567,12 +1723,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # ... with 32 more rows, and 13 more variables: s &lt;dbl&gt;, Type &lt;fct&gt;,
 ## #   FST.GESTE &lt;dbl&gt;, Size &lt;dbl&gt;, V &lt;dbl&gt;, C &lt;dbl&gt;, Stab &lt;dbl&gt;, D &lt;int&gt;,
 ## #   APA &lt;int&gt;, NLT &lt;dbl&gt;, Fst.temp &lt;dbl&gt;, Longitude &lt;dbl&gt;, Latitude &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb479-1" title="1">?dd.site</a></code></pre></div>
-<p><strong>Questions</strong>: with the help file for ‘dd.site’, check the meaning of the following explanatory variables:</p>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="WE-4.html#cb502-1" aria-hidden="true" tabindex="-1"></a>?dd.site</span></code></pre></div>
+<p><strong>Questions</strong>: with the help file for ‘dd.site,’ check the meaning of the following explanatory variables:</p>
 <ul>
-<li>What does ‘APE’ refer to, and how is it different from ‘APA’?</li>
-<li>What does ‘NLT’ represent, and is it calculated independently from ‘Size’?</li>
-<li>What does ‘Type’ mean, and what about ‘V’ and ‘D’?</li>
+<li>What does ‘APE’ refer to, and how is it different from ‘APA?’</li>
+<li>What does ‘NLT’ represent, and is it calculated independently from ‘Size?’</li>
+<li>What does ‘Type’ mean, and what about ‘V’ and ‘D?’</li>
 <li>To understand how connectivity ‘C’ and stability ‘Stab’ were calculated, you’ll need to consult Lamy et al. (2012).</li>
 </ul>
 <p><strong>Your hypothesis</strong>: which explanatory variables would you expect to affect:</p>
@@ -1594,9 +1750,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>How similar are populations from nearby habitat patches compared to populations across the island? To answer this question, we perform a hiearchical AMOVA (analysis of molecular variance) with individuals from 12 populations that form 4 clusters with 3 populations each.</p>
 <div id="a.-creating-a-genind-object-with-the-hierarchical-data-set" class="section level4">
 <h4>a. Creating a ‘genind’ object with the hierarchical data set</h4>
-<p>First, we need to extract the samples that belong to the hierarchical data set. There are four clusters: “North”, “East”, “Center” and “South”. We are looking for the observations where the variable “Cluster” has one of these four values, all other observations will have a missing value for “Cluster”. We can use ‘!is.na’ to extract all rows with non-missing values. Then we convert to a ‘genind’ object.</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" title="1">dd.ecogen.Cluster &lt;-<span class="st"> </span>dd.ecogen[<span class="op">!</span><span class="kw">is.na</span>(dd.ecogen[[<span class="st">&quot;S&quot;</span>]]<span class="op">$</span>Cluster),]</a>
-<a class="sourceLine" id="cb480-2" title="2">dd.genind.Cluster &lt;-<span class="st"> </span>EcoGenetics<span class="op">::</span><span class="kw">ecogen2genind</span>(dd.ecogen.Cluster)</a></code></pre></div>
+<p>First, we need to extract the samples that belong to the hierarchical data set. There are four clusters: “North,” “East,” “Center” and “South.” We are looking for the observations where the variable “Cluster” has one of these four values, all other observations will have a missing value for “Cluster.” We can use ‘!is.na’ to extract all rows with non-missing values. Then we convert to a ‘genind’ object.</p>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="WE-4.html#cb503-1" aria-hidden="true" tabindex="-1"></a>dd.ecogen.Cluster <span class="ot">&lt;-</span> dd.ecogen[<span class="sc">!</span><span class="fu">is.na</span>(dd.ecogen[[<span class="st">&quot;S&quot;</span>]]<span class="sc">$</span>Cluster),]</span>
+<span id="cb503-2"><a href="WE-4.html#cb503-2" aria-hidden="true" tabindex="-1"></a>dd.genind.Cluster <span class="ot">&lt;-</span> EcoGenetics<span class="sc">::</span><span class="fu">ecogen2genind</span>(dd.ecogen.Cluster)</span></code></pre></div>
 <pre><code>## Loading required package: adegenet</code></pre>
 <pre><code>## Loading required package: ade4</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;spdep&#39;:
@@ -1611,21 +1767,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="b.-hierarchical-amova" class="section level4">
 <h4>b. Hierarchical AMOVA</h4>
-<p>There are several implementations of AMOVA in R, e.g. in pacakges ‘ade4’, ‘pegas’ and ‘vegan’. The ‘ade4’ implementation is closest to the original implementation in Arlequin. Package ‘poppr’ has a wrapper function ‘poppr.amova’ that makes it easy to perform AMOVA with the ‘ade4’ or with the ‘pegas’ implementation (see ‘?poppr.amova’ for a discussion of their pros and cons). Here we’ll use ‘ade4’.</p>
+<p>There are several implementations of AMOVA in R, e.g. in pacakges ‘ade4,’ ‘pegas’ and ‘vegan.’ The ‘ade4’ implementation is closest to the original implementation in Arlequin. Package ‘poppr’ has a wrapper function ‘poppr.amova’ that makes it easy to perform AMOVA with the ‘ade4’ or with the ‘pegas’ implementation (see ‘?poppr.amova’ for a discussion of their pros and cons). Here we’ll use ‘ade4.’</p>
 <ul>
 <li>The first argument is the ‘genind’ object.</li>
 <li>The argument ‘hier’ defines the hierarchy, with the top level first (i.e., here SITE is nested within Cluster). The variables are expected to be found in the <code>@strata</code> slot of the ‘genind’ object.</li>
 <li>The argument ‘within=FALSE’ specifies that within-individual variance (i.e., observed heterozygosity) should not be tested. Setting this to ‘TRUE’ can lead to problems with missing values.</li>
 </ul>
 <p>First we run the AMOVA and estimate the percent of molecular variance at each hierarchical level.</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb485-1" title="1">amova.result &lt;-<span class="st"> </span>poppr<span class="op">::</span><span class="kw">poppr.amova</span>(dd.genind.Cluster, <span class="dt">hier =</span> <span class="op">~</span><span class="st"> </span>Cluster<span class="op">/</span>SITE, </a>
-<a class="sourceLine" id="cb485-2" title="2">                                   <span class="dt">within=</span><span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;ade4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="WE-4.html#cb508-1" aria-hidden="true" tabindex="-1"></a>amova.result <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">poppr.amova</span>(dd.genind.Cluster, <span class="at">hier =</span> <span class="sc">~</span> Cluster<span class="sc">/</span>SITE, </span>
+<span id="cb508-2"><a href="WE-4.html#cb508-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">within=</span><span class="cn">FALSE</span>, <span class="at">method =</span> <span class="st">&quot;ade4&quot;</span>)</span></code></pre></div>
 <pre><code>## Registered S3 method overwritten by &#39;pegas&#39;:
 ##   method      from
 ##   print.amova ade4</code></pre>
 <pre><code>## 
 ##  No missing values detected.</code></pre>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb488-1" title="1">amova.result</a></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="WE-4.html#cb511-1" aria-hidden="true" tabindex="-1"></a>amova.result</span></code></pre></div>
 <pre><code>## $call
 ## ade4::amova(samples = xtab, distances = xdist, structures = xstruct)
 ## 
@@ -1649,8 +1805,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Phi-samples-Cluster 0.102635446
 ## Phi-Cluster-total   0.005582719</code></pre>
 <p>Then we test whether each variance component is statistically significant (i.e., significantly larger than zero).</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" title="1">amova.test &lt;-<span class="st"> </span>ade4<span class="op">::</span><span class="kw">randtest</span>(amova.result, <span class="dt">nrepet =</span> <span class="dv">999</span>)</a>
-<a class="sourceLine" id="cb490-2" title="2">amova.test</a></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="WE-4.html#cb513-1" aria-hidden="true" tabindex="-1"></a>amova.test <span class="ot">&lt;-</span> ade4<span class="sc">::</span><span class="fu">randtest</span>(amova.result, <span class="at">nrepet =</span> <span class="dv">999</span>)</span>
+<span id="cb513-2"><a href="WE-4.html#cb513-2" aria-hidden="true" tabindex="-1"></a>amova.test</span></code></pre></div>
 <pre><code>## class: krandtest lightkrandtest 
 ## Monte-Carlo tests
 ## Call: randtest.amova(xtest = amova.result, nrepet = 999)
@@ -1660,9 +1816,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Adjustment method for multiple comparisons:   none 
 ## Permutation number:   999 
 ##                         Test        Obs    Std.Obs   Alter Pvalue
-## 1  Variations within samples 4.42799478 -81.692300    less  0.001
-## 2 Variations between samples 0.50644882  55.582494 greater  0.001
-## 3 Variations between Cluster 0.02770227   1.713937 greater  0.044</code></pre>
+## 1  Variations within samples 4.42799478 -82.410165    less  0.001
+## 2 Variations between samples 0.50644882  57.880909 greater  0.001
+## 3 Variations between Cluster 0.02770227   1.676374 greater  0.058</code></pre>
 <p><strong>Questions</strong>:</p>
 <ul>
 <li>At what level is there stronger differentiation, within or among clusters?</li>
@@ -1675,16 +1831,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>3. What determines genetic differentiation among sites?</h3>
 <p>What factors explain site-specific Fst? Let’s consider the key micro-evolutionary processes:</p>
 <ul>
-<li><strong>Genetic drift</strong>: the smaller the population, the higher the rate of drift, hence we expect higher differention for small populations. Predictor: long-term population size ‘NLT’.</li>
-<li><strong>Gene flow</strong>: gene flow homogenizes allele frequencies, hence we expect less differentiation for well connected patches. Predictors: connectivity ‘C’, density of favorable habitat ‘D’ (within 2 km radius).</li>
+<li><strong>Genetic drift</strong>: the smaller the population, the higher the rate of drift, hence we expect higher differention for small populations. Predictor: long-term population size ‘NLT.’</li>
+<li><strong>Gene flow</strong>: gene flow homogenizes allele frequencies, hence we expect less differentiation for well connected patches. Predictors: connectivity ‘C,’ density of favorable habitat ‘D’ (within 2 km radius).</li>
 </ul>
 <p>First, we create a new SpatialPointsDataFrame with the subset of data for the spatial analysis (25 ponds, one year each).</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb492-1" title="1">dd.spatial &lt;-<span class="st"> </span>dd.site[dd.site<span class="op">@</span>data<span class="op">$</span>Spatial<span class="op">==</span><span class="ot">TRUE</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="WE-4.html#cb515-1" aria-hidden="true" tabindex="-1"></a>dd.spatial <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>Spatial<span class="sc">==</span><span class="cn">TRUE</span>, ]</span></code></pre></div>
 <div id="a.-correlation-matrix" class="section level4">
 <h4>a. Correlation matrix</h4>
 <p>Let’s start with a correlation matrix.</p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb493-1" title="1"><span class="kw">cor</span>(dd.spatial<span class="op">@</span>data[ , <span class="kw">c</span>(<span class="st">&quot;FST.GESTE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)], </a>
-<a class="sourceLine" id="cb493-2" title="2">    <span class="dt">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="WE-4.html#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[ , <span class="fu">c</span>(<span class="st">&quot;FST.GESTE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)], </span>
+<span id="cb516-2"><a href="WE-4.html#cb516-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
 <pre><code>##             FST.GESTE         NLT           C           D
 ## FST.GESTE  1.00000000 -0.48565247 -0.43104600  0.02768978
 ## NLT       -0.48565247  1.00000000 -0.08369541  0.10242973
@@ -1707,27 +1863,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We add a regression line (<code>geom_smooth</code>), make it linear (<code>method = lm</code>) and add a shaded area for plus/minus 1 SE of the mean for a given value of x (<code>se = TRUE</code>).</li>
 <li>We add backfilled labels (<code>geom_label</code>), define their size (<code>size</code>), and move them up a little along the y-axis (<code>nudge_y</code>)</li>
 </ul>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" title="1">NLT.plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd.spatial<span class="op">@</span>data, <span class="kw">aes</span>(<span class="dt">x=</span>NLT, <span class="dt">y=</span>FST.GESTE, <span class="dt">label=</span>SITE)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb495-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb495-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb495-4" title="4"><span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">nudge_x=</span><span class="dv">0</span>, <span class="dt">nudge_y=</span><span class="fl">0.01</span>, <span class="dt">check_overlap=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb495-5" title="5"></a>
-<a class="sourceLine" id="cb495-6" title="6">C.plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd.spatial<span class="op">@</span>data, <span class="kw">aes</span>(<span class="dt">x=</span>C, <span class="dt">y=</span>FST.GESTE, <span class="dt">label=</span>SITE)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb495-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb495-8" title="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb495-9" title="9"><span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">size=</span><span class="fl">2.5</span>, <span class="dt">nudge_x=</span><span class="dv">0</span>, <span class="dt">nudge_y=</span><span class="fl">0.01</span>, <span class="dt">check_overlap=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb495-10" title="10"></a>
-<a class="sourceLine" id="cb495-11" title="11">cowplot<span class="op">::</span><span class="kw">plot_grid</span>(NLT.plot, C.plot)</a></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="WE-4.html#cb518-1" aria-hidden="true" tabindex="-1"></a>NLT.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd.spatial<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span>NLT, <span class="at">y=</span>FST.GESTE, <span class="at">label=</span>SITE)) <span class="sc">+</span> </span>
+<span id="cb518-2"><a href="WE-4.html#cb518-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb518-3"><a href="WE-4.html#cb518-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb518-4"><a href="WE-4.html#cb518-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">nudge_x=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.01</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>)</span>
+<span id="cb518-5"><a href="WE-4.html#cb518-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb518-6"><a href="WE-4.html#cb518-6" aria-hidden="true" tabindex="-1"></a>C.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd.spatial<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span>C, <span class="at">y=</span>FST.GESTE, <span class="at">label=</span>SITE)) <span class="sc">+</span> </span>
+<span id="cb518-7"><a href="WE-4.html#cb518-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb518-8"><a href="WE-4.html#cb518-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb518-9"><a href="WE-4.html#cb518-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="fl">2.5</span>, <span class="at">nudge_x=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.01</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>)</span>
+<span id="cb518-10"><a href="WE-4.html#cb518-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb518-11"><a href="WE-4.html#cb518-11" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(NLT.plot, C.plot)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
 ## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-11-1.png" width="768" /></p>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
 </div>
 <div id="c.-regression-model" class="section level4">
 <h4>c. Regression model</h4>
 <p>The two predictors ‘NLT’ and ‘C’ are not strongly correlated. We’ll fit a regression model with both predictors. Here we use function ‘scale’ to standardize each variable, so that we can interpret the regression slope coefficients as partial correlation coefficients (beta coefficients).</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" title="1">mod.diff &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(FST.GESTE) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(NLT) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C), </a>
-<a class="sourceLine" id="cb497-2" title="2">               <span class="dt">data=</span>dd.spatial)</a>
-<a class="sourceLine" id="cb497-3" title="3"><span class="kw">summary</span>(mod.diff)</a></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="WE-4.html#cb520-1" aria-hidden="true" tabindex="-1"></a>mod.diff <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb520-2"><a href="WE-4.html#cb520-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial)</span>
+<span id="cb520-3"><a href="WE-4.html#cb520-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(FST.GESTE) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -1748,47 +1904,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.4599, Adjusted R-squared:  0.4108 
 ## F-statistic: 9.367 on 2 and 22 DF,  p-value: 0.00114</code></pre>
 <p>Is the model valid? Let’s check the residual plots:</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb499-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb499-2" title="2"><span class="kw">plot</span>(mod.diff, <span class="dt">labels.id =</span> dd.spatial<span class="op">@</span>data<span class="op">$</span>SITE)</a></code></pre></div>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb500-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="WE-4.html#cb522-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb522-2"><a href="WE-4.html#cb522-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="WE-4.html#cb523-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>If we had more than two predictors, it would be a good idea to calculate variance inflation factors. The package ‘car’ has a function ‘vif’ that takes as argument a fitted model. Here, both predictors have VIF = 1.007, which indicates no collinearity.</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb501-1" title="1">car<span class="op">::</span><span class="kw">vif</span>(mod.diff)</a></code></pre></div>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="WE-4.html#cb524-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(mod.diff)</span></code></pre></div>
 <pre><code>## scale(NLT)   scale(C) 
 ##   1.007054   1.007054</code></pre>
 </div>
 <div id="d.-which-populations-dont-fit-the-general-pattern" class="section level4">
 <h4>d. Which populations don’t fit the general pattern?</h4>
-<p>Let’s plot the residuals in space. The function ‘bubble’ from the package ‘sp’ evaluates the projection information of the SpatialPointsDataFrame ‘dd.spatial’.</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb503-1" title="1">dd.spatial<span class="op">@</span>data<span class="op">$</span>Residuals &lt;-<span class="st"> </span>mod.diff<span class="op">$</span>residuals</a>
-<a class="sourceLine" id="cb503-2" title="2">sp<span class="op">::</span><span class="kw">bubble</span>(dd.spatial, <span class="dt">zcol =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p>Let’s plot the residuals in space. The function ‘bubble’ from the package ‘sp’ evaluates the projection information of the SpatialPointsDataFrame ‘dd.spatial.’</p>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="WE-4.html#cb526-1" aria-hidden="true" tabindex="-1"></a>dd.spatial<span class="sc">@</span>data<span class="sc">$</span>Residuals <span class="ot">&lt;-</span> mod.diff<span class="sc">$</span>residuals</span>
+<span id="cb526-2"><a href="WE-4.html#cb526-2" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">bubble</span>(dd.spatial, <span class="at">zcol =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in wkt(obj): CRS object has no comment
 
 ## Warning in wkt(obj): CRS object has no comment</code></pre>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>Or on a map from the internet, using ‘qmplot’ from the ‘ggmap’ package. It expects lat-lon coordinates that are stored in a data frame, not a SpatialPointsDataFrame. If we convert ‘dd.spatial’ with the function ‘as.data.frame’, R will return a data frame with the site variables and with the coordinates appended as additional columns. The code below does the following (see Week 4 video, part 2):</p>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Or on a map from the internet, using ‘qmplot’ from the ‘ggmap’ package. It expects lat-lon coordinates that are stored in a data frame, not a SpatialPointsDataFrame. If we convert ‘dd.spatial’ with the function ‘as.data.frame,’ R will return a data frame with the site variables and with the coordinates appended as additional columns. The code below does the following (see Week 4 video, part 2):</p>
 <ul>
 <li>Creates an index <code>a</code> that lists identifies the two potential outliers by their SITE names (logical),</li>
 <li>Creates a vectors <code>a2</code> that contains the row numbers of the potential outliers,</li>
 <li>Grabs a grayscale map from the internet, plots all ponds with size and color according to their residuals, and stores the resulting map in the object <code>myMap</code>.</li>
 <li>Plots the map and adds labels for the two potential outliers.The argument <code>size</code> affects font size and <code>label.padding</code> determines the size of the textbox for the label.</li>
 </ul>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb505-1" title="1">a &lt;-<span class="st"> </span><span class="kw">is.element</span>(dd.spatial<span class="op">@</span>data<span class="op">$</span>SITE, <span class="kw">c</span>(<span class="st">&quot;DESB&quot;</span>, <span class="st">&quot;PTC&quot;</span>))</a>
-<a class="sourceLine" id="cb505-2" title="2">a2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dd.spatial<span class="op">@</span>data))[a]</a>
-<a class="sourceLine" id="cb505-3" title="3">myMap &lt;-<span class="st"> </span>ggmap<span class="op">::</span><span class="kw">qmplot</span>(Longitude, Latitude,  <span class="dt">data =</span> <span class="kw">as.data.frame</span>(dd.spatial),</a>
-<a class="sourceLine" id="cb505-4" title="4">              <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>, <span class="dt">maptype =</span> <span class="st">&quot;toner-lite&quot;</span>, <span class="dt">force=</span><span class="ot">TRUE</span>,  </a>
-<a class="sourceLine" id="cb505-5" title="5">              <span class="dt">col =</span> <span class="kw">sign</span>(Residuals), <span class="dt">size =</span> <span class="kw">abs</span>(Residuals))</a>
-<a class="sourceLine" id="cb505-6" title="6">myMap <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_label</span>(<span class="dt">data =</span> <span class="kw">as.data.frame</span>(dd.spatial[a2,]),</a>
-<a class="sourceLine" id="cb505-7" title="7">                   <span class="dt">mapping =</span> ggplot2<span class="op">::</span><span class="kw">aes</span>(Longitude, Latitude, <span class="dt">label =</span> SITE),</a>
-<a class="sourceLine" id="cb505-8" title="8">                   <span class="dt">size =</span> <span class="dv">4</span>, <span class="dt">label.padding =</span> <span class="kw">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;lines&quot;</span>), </a>
-<a class="sourceLine" id="cb505-9" title="9">                   <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">vjust =</span> <span class="dv">0</span>, <span class="dt">nudge_x =</span> <span class="dv">0</span>, <span class="dt">nudge_y =</span> <span class="fl">-0.015</span>)</a></code></pre></div>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="WE-4.html#cb528-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">is.element</span>(dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE, <span class="fu">c</span>(<span class="st">&quot;DESB&quot;</span>, <span class="st">&quot;PTC&quot;</span>))</span>
+<span id="cb528-2"><a href="WE-4.html#cb528-2" aria-hidden="true" tabindex="-1"></a>a2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dd.spatial<span class="sc">@</span>data))[a]</span>
+<span id="cb528-3"><a href="WE-4.html#cb528-3" aria-hidden="true" tabindex="-1"></a>myMap <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">qmplot</span>(Longitude, Latitude,  <span class="at">data =</span> <span class="fu">as.data.frame</span>(dd.spatial),</span>
+<span id="cb528-4"><a href="WE-4.html#cb528-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">source =</span> <span class="st">&quot;stamen&quot;</span>, <span class="at">maptype =</span> <span class="st">&quot;toner-lite&quot;</span>, <span class="at">force=</span><span class="cn">TRUE</span>,  </span>
+<span id="cb528-5"><a href="WE-4.html#cb528-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="fu">sign</span>(Residuals), <span class="at">size =</span> <span class="fu">abs</span>(Residuals))</span>
+<span id="cb528-6"><a href="WE-4.html#cb528-6" aria-hidden="true" tabindex="-1"></a>myMap <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">as.data.frame</span>(dd.spatial[a2,]),</span>
+<span id="cb528-7"><a href="WE-4.html#cb528-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(Longitude, Latitude, <span class="at">label =</span> SITE),</span>
+<span id="cb528-8"><a href="WE-4.html#cb528-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label.padding =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;lines&quot;</span>), </span>
+<span id="cb528-9"><a href="WE-4.html#cb528-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">nudge_x =</span> <span class="dv">0</span>, <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.015</span>)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Exports the last plot as a ‘png’ (Portable Network Graphics) file, specifying canvas size and resolution. To run the code, uncomment by removing ‘#’ at the beginning of each line.</p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb506-1" title="1"><span class="co">#require(here)</span></a>
-<a class="sourceLine" id="cb506-2" title="2"><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></a>
-<a class="sourceLine" id="cb506-3" title="3"><span class="co">#ggplot2::ggsave(paste0(here(),&quot;/output/ResidualMap.png&quot;), </span></a>
-<a class="sourceLine" id="cb506-4" title="4"><span class="co">#               width = 7, height = 5.5, units = &quot;in&quot;,  dpi = 300)</span></a></code></pre></div>
-<p>What might explain the large residuals for the two sites ‘PTC’ and ‘DESB’?</p>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="WE-4.html#cb529-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb529-2"><a href="WE-4.html#cb529-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb529-3"><a href="WE-4.html#cb529-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot2::ggsave(paste0(here(),&quot;/output/ResidualMap.png&quot;), </span></span>
+<span id="cb529-4"><a href="WE-4.html#cb529-4" aria-hidden="true" tabindex="-1"></a><span class="co">#               width = 7, height = 5.5, units = &quot;in&quot;,  dpi = 300)</span></span></code></pre></div>
+<p>What might explain the large residuals for the two sites ‘PTC’ and ‘DESB?’</p>
 <ul>
 <li>Site ‘PTC’ lies on the tip of a peninsula and thus is very isolated geographically.</li>
 <li>Site ‘DESB’ is a very instable site that can frequently dry out during the dry season, as it is shallow and lies in the comparatively dry northern part of the island. In addition, although ‘DESB’ is surrounded by many ponds, these ponds never get connected to ‘DESB’ hydrologically during the rainy season. Therefore, immigration can only occur via cattle or birds, which are much less important drivers of gene flow than immigration by hydrological connectivity during the rainy season.</li>
@@ -1797,9 +1953,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="e.-regression-model-without-outliers" class="section level4">
 <h4>e. Regression model without outliers</h4>
 <p>We can use the same index ‘a’ to exclude the potential outliers from the regression model:</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" title="1">mod.diff.minus2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(FST.GESTE) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(NLT) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C), </a>
-<a class="sourceLine" id="cb507-2" title="2">               <span class="dt">data=</span>dd.spatial[<span class="op">-</span>a2,])</a>
-<a class="sourceLine" id="cb507-3" title="3"><span class="kw">summary</span>(mod.diff.minus2)</a></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="WE-4.html#cb530-1" aria-hidden="true" tabindex="-1"></a>mod.diff.minus2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb530-2"><a href="WE-4.html#cb530-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial[<span class="sc">-</span>a2,])</span>
+<span id="cb530-3"><a href="WE-4.html#cb530-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff.minus2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(FST.GESTE) ~ scale(NLT) + scale(C), data = dd.spatial[-a2, 
@@ -1825,10 +1981,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Did it change the nature of the results?</li>
 <li>Does this affect the biologial interpretation?</li>
 </ul>
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb509-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb509-2" title="2"><span class="kw">plot</span>(mod.diff.minus2, <span class="dt">labels.id =</span> dd.spatial<span class="op">@</span>data<span class="op">$</span>SITE[<span class="op">-</span>a2])</a></code></pre></div>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-19-1.png" width="768" /></p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="WE-4.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb532-2"><a href="WE-4.html#cb532-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff.minus2, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE[<span class="sc">-</span>a2])</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="WE-4.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 </div>
 </div>
 <div id="what-determines-genetic-diversity" class="section level3">
@@ -1840,8 +1996,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="a.-correlation-matrix-1" class="section level4">
 <h4>a. Correlation matrix</h4>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb511-1" title="1"><span class="kw">cor</span>(dd.spatial<span class="op">@</span>data[, <span class="kw">c</span>(<span class="st">&quot;RA&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Size&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)],</a>
-<a class="sourceLine" id="cb511-2" title="2">    <span class="dt">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="WE-4.html#cb534-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;RA&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Size&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)],</span>
+<span id="cb534-2"><a href="WE-4.html#cb534-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
 <pre><code>##               RA          He       Size         NLT           C           D
 ## RA    1.00000000  0.95151016  0.3482453  0.51343861  0.46576979 -0.09856668
 ## He    0.95151016  1.00000000  0.3057086  0.49851503  0.45206733 -0.09593604
@@ -1852,8 +2008,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Questions</strong>:</p>
 <ul>
 <li>How strongly are the two diversity measures ‘RA’ and ‘He’ correlated?</li>
-<li>Are ‘NLT’ and ‘C’ strongly correlated with the diversity measures ‘RA’ and ‘He’?</li>
-<li>Is the correlation with ‘Size’ similarly strong as the correlation with ‘NLT’?</li>
+<li>Are ‘NLT’ and ‘C’ strongly correlated with the diversity measures ‘RA’ and ‘He?’</li>
+<li>Is the correlation with ‘Size’ similarly strong as the correlation with ‘NLT?’</li>
 <li>How strongly are ‘Size’ and ‘NLT’ correlated with each other?</li>
 <li>Does ‘D’ show a stronger correlation with diversity than with differentiation?</li>
 </ul>
@@ -1861,8 +2017,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-regression-models" class="section level4">
 <h4>b. Regression models</h4>
 <p>For allelic richness:</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" title="1">mod.RA &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(RA) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(NLT) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C), <span class="dt">data =</span> dd.spatial)</a>
-<a class="sourceLine" id="cb513-2" title="2"><span class="kw">summary</span>(mod.RA)</a></code></pre></div>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="WE-4.html#cb536-1" aria-hidden="true" tabindex="-1"></a>mod.RA <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(RA) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
+<span id="cb536-2"><a href="WE-4.html#cb536-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.RA)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(RA) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -1882,13 +2038,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Residual standard error: 0.7204 on 22 degrees of freedom
 ## Multiple R-squared:  0.5243, Adjusted R-squared:  0.481 
 ## F-statistic: 12.12 on 2 and 22 DF,  p-value: 0.0002825</code></pre>
-<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb515-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb515-2" title="2"><span class="kw">plot</span>(mod.RA, <span class="dt">labels.id =</span> dd.spatial<span class="op">@</span>data<span class="op">$</span>SITE)</a></code></pre></div>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-22-1.png" width="768" /></p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb516-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="WE-4.html#cb538-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb538-2"><a href="WE-4.html#cb538-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.RA, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-24-1.png" width="768" /></p>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="WE-4.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>For gene diversity (expected heterozygosity):</p>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" title="1">mod.He &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(He) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(NLT) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C), <span class="dt">data =</span> dd.spatial)</a>
-<a class="sourceLine" id="cb517-2" title="2"><span class="kw">summary</span>(mod.He)</a></code></pre></div>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="WE-4.html#cb540-1" aria-hidden="true" tabindex="-1"></a>mod.He <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(He) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
+<span id="cb540-2"><a href="WE-4.html#cb540-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.He)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(He) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -1908,17 +2064,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Residual standard error: 0.7429 on 22 degrees of freedom
 ## Multiple R-squared:  0.4941, Adjusted R-squared:  0.4481 
 ## F-statistic: 10.74 on 2 and 22 DF,  p-value: 0.0005559</code></pre>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb519-2" title="2"><span class="kw">plot</span>(mod.He, <span class="dt">labels.id =</span> dd.spatial<span class="op">@</span>data<span class="op">$</span>SITE)</a></code></pre></div>
-<p><img src="04-Week04_files/figure-html/unnamed-chunk-24-1.png" width="768" /></p>
-<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb520-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="WE-4.html#cb542-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb542-2"><a href="WE-4.html#cb542-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.He, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="WE-4.html#cb543-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 </div>
 </div>
 <div id="are-genetic-differentiation-and-diversity-related" class="section level3">
 <h3>5. Are genetic differentiation and diversity related?</h3>
 <p>Would you expect a relationship between genetic diversity and genetic differentiation of individual patches?</p>
 <p>Lets examine the correlation between gene diversity (He) and site-specific Fst:</p>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb521-1" title="1"><span class="kw">cor</span>(dd.site<span class="op">$</span>He, dd.site<span class="op">$</span>FST.GESTE, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="WE-4.html#cb544-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.site<span class="sc">$</span>He, dd.site<span class="sc">$</span>FST.GESTE, <span class="at">use =</span> <span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] -0.9567184</code></pre>
 <p>There are a number of possible reasons for such a correlation. Can you put forward some hypotheses to explain this relationship? See Lamy et al. (2012) for their interpretation.</p>
 </div>
@@ -1927,17 +2083,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Several patches fell dry between observation years, which is assumed to signify extinction of the local population. Does genetic evidence support this interpretation, i.e., is there genetic evidence of bottlenecks or founder effects in <em>D. depressissimum</em>?</p>
 <div id="a.-effect-of-patch-extinction-event-temporal-data-set" class="section level4">
 <h4>a. Effect of patch extinction event (temporal data set)</h4>
-<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb523-1" title="1">dd.temporal &lt;-<span class="st"> </span>dd.site[dd.site<span class="op">@</span>data<span class="op">$</span>MultiYear<span class="op">==</span><span class="ot">TRUE</span>,]</a>
-<a class="sourceLine" id="cb523-2" title="2"><span class="kw">cor</span>(dd.temporal<span class="op">@</span>data[, <span class="kw">c</span>(<span class="st">&quot;Fst.temp&quot;</span>, <span class="st">&quot;APE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>)], </a>
-<a class="sourceLine" id="cb523-3" title="3">    <span class="dt">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="WE-4.html#cb546-1" aria-hidden="true" tabindex="-1"></a>dd.temporal <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>MultiYear<span class="sc">==</span><span class="cn">TRUE</span>,]</span>
+<span id="cb546-2"><a href="WE-4.html#cb546-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.temporal<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;Fst.temp&quot;</span>, <span class="st">&quot;APE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>)], </span>
+<span id="cb546-3"><a href="WE-4.html#cb546-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
 <pre><code>##            Fst.temp         APE         NLT          C
 ## Fst.temp  1.0000000  0.29379662 -0.10494809 -0.3356817
 ## APE       0.2937966  1.00000000 -0.07420821 -0.4927664
 ## NLT      -0.1049481 -0.07420821  1.00000000  0.3103541
 ## C        -0.3356817 -0.49276638  0.31035409  1.0000000</code></pre>
 <p>We can compare a number of competing models using the Akaike Information Criterion (AIC). Models with lower AIC are better (see Week 12).</p>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb525-1" title="1">mod.Fst.temp &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(Fst.temp) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(APE), <span class="dt">data=</span>dd.temporal)</a>
-<a class="sourceLine" id="cb525-2" title="2"><span class="kw">summary</span>(mod.Fst.temp)</a></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="WE-4.html#cb548-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE), <span class="at">data=</span>dd.temporal)</span>
+<span id="cb548-2"><a href="WE-4.html#cb548-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.Fst.temp)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(Fst.temp) ~ scale(APE), data = dd.temporal)
@@ -1955,21 +2111,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   (17 observations deleted due to missingness)
 ## Multiple R-squared:  0.08632,    Adjusted R-squared:  -0.005052 
 ## F-statistic: 0.9447 on 1 and 10 DF,  p-value: 0.354</code></pre>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" title="1">mod.Fst.temp.C &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(Fst.temp) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(APE) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C), </a>
-<a class="sourceLine" id="cb527-2" title="2">                     <span class="dt">data=</span>dd.temporal)</a>
-<a class="sourceLine" id="cb527-3" title="3">mod.Fst.temp.NLT &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(Fst.temp) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(APE) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(NLT), </a>
-<a class="sourceLine" id="cb527-4" title="4">                       <span class="dt">data=</span>dd.temporal)</a>
-<a class="sourceLine" id="cb527-5" title="5">mod.Fst.temp.both &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">scale</span>(Fst.temp) <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(APE) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(NLT) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(C),  </a>
-<a class="sourceLine" id="cb527-6" title="6">            <span class="dt">data=</span>dd.temporal)</a>
-<a class="sourceLine" id="cb527-7" title="7"><span class="kw">AIC</span>(mod.Fst.temp, mod.Fst.temp.C, mod.Fst.temp.NLT, mod.Fst.temp.both)</a></code></pre></div>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="WE-4.html#cb550-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.C <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb550-2"><a href="WE-4.html#cb550-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>dd.temporal)</span>
+<span id="cb550-3"><a href="WE-4.html#cb550-3" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.NLT <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT), </span>
+<span id="cb550-4"><a href="WE-4.html#cb550-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data=</span>dd.temporal)</span>
+<span id="cb550-5"><a href="WE-4.html#cb550-5" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.both <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C),  </span>
+<span id="cb550-6"><a href="WE-4.html#cb550-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>dd.temporal)</span>
+<span id="cb550-7"><a href="WE-4.html#cb550-7" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod.Fst.temp, mod.Fst.temp.C, mod.Fst.temp.NLT, mod.Fst.temp.both)</span></code></pre></div>
 <pre><code>##                   df      AIC
 ## mod.Fst.temp       3 37.92714
 ## mod.Fst.temp.C     4 39.27770
 ## mod.Fst.temp.NLT   4 39.83549
 ## mod.Fst.temp.both  5 41.27462</code></pre>
-<p>The best model includes neither ‘C’ nor ‘NLT’. Note that ‘APE’ is a binary variable, so in essence we’re performing a t-test here.</p>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" title="1">res.Fst.temp &lt;-<span class="st"> </span><span class="kw">t.test</span>(Fst.temp <span class="op">~</span><span class="st"> </span>APE, <span class="dt">data=</span>dd.temporal, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a>
-<a class="sourceLine" id="cb529-2" title="2">res.Fst.temp</a></code></pre></div>
+<p>The best model includes neither ‘C’ nor ‘NLT.’ Note that ‘APE’ is a binary variable, so in essence we’re performing a t-test here.</p>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="WE-4.html#cb552-1" aria-hidden="true" tabindex="-1"></a>res.Fst.temp <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Fst.temp <span class="sc">~</span> APE, <span class="at">data=</span>dd.temporal, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span>
+<span id="cb552-2"><a href="WE-4.html#cb552-2" aria-hidden="true" tabindex="-1"></a>res.Fst.temp</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -1991,7 +2147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>large effect: d &gt; 0.8</li>
 </ul>
 <p>We can let R calculate effect size for us:</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb531-1" title="1">effsize<span class="op">::</span><span class="kw">cohen.d</span>(Fst.temp <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(APE), <span class="dt">data=</span>dd.temporal)</a></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="WE-4.html#cb554-1" aria-hidden="true" tabindex="-1"></a>effsize<span class="sc">::</span><span class="fu">cohen.d</span>(Fst.temp <span class="sc">~</span> <span class="fu">factor</span>(APE), <span class="at">data=</span>dd.temporal)</span></code></pre></div>
 <pre><code>## 
 ## Cohen&#39;s d
 ## 
@@ -2001,13 +2157,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## -1.8992165  0.7609722</code></pre>
 <p>So, we actually found a ‘medium’ effect (more than 0.5 standard deviations difference between group means). Maybe sample size was too small to have sufficient power?</p>
 <p>Let’s check sample size:</p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" title="1"><span class="kw">table</span>(dd.temporal<span class="op">$</span>APE[<span class="op">!</span><span class="kw">is.na</span>(dd.temporal<span class="op">$</span>Fst.temp)])</a></code></pre></div>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="WE-4.html#cb556-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dd.temporal<span class="sc">$</span>APE[<span class="sc">!</span><span class="fu">is.na</span>(dd.temporal<span class="sc">$</span>Fst.temp)])</span></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ##     7     5</code></pre>
 <p>Ah, that explains a lot. There were only 5 sites with apparent extinction, and 7 without.</p>
 <p>Given that sample size, what was the statistical power of our test to detect at least a large effect (d = - 0.8), i.e., be able to reject the null hypothesis if such an effect is present in the population from which we sampled?</p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb535-1" title="1">pwr<span class="op">::</span><span class="kw">pwr.t2n.test</span>(<span class="dt">n1=</span><span class="dv">7</span>, <span class="dt">n2=</span><span class="dv">5</span>, <span class="dt">d=</span><span class="op">-</span><span class="fl">0.8</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="WE-4.html#cb558-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t2n.test</span>(<span class="at">n1=</span><span class="dv">7</span>, <span class="at">n2=</span><span class="dv">5</span>, <span class="at">d=</span><span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##      t test power calculation 
 ## 
@@ -2022,7 +2178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-sample-size-calculation" class="section level4">
 <h4>c. Sample size calculation</h4>
 <p>How large a sample would we have needed in each group to achieve a power of 0.8 to detect a large effect? And for a medium effect?</p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb537-1" title="1">pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">power =</span> <span class="fl">0.8</span>, <span class="dt">d =</span> <span class="fl">-0.8</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="WE-4.html#cb560-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
@@ -2033,7 +2189,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##     alternative = less
 ## 
 ## NOTE: n is number in *each* group</code></pre>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb539-1" title="1">pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">power =</span> <span class="fl">0.8</span>, <span class="dt">d =</span> <span class="fl">-0.5</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="WE-4.html#cb562-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 

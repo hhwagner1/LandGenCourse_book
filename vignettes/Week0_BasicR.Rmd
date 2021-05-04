@@ -74,21 +74,21 @@ The quantitative measurements we make are often numeric, in that they can be rep
 
 Assigning a value to a variable is easy
 
-```{r collapse=TRUE}
+```{r}
 x <- 3
 x
 ```
 
 By default, R automatically outputs whole numbers numbers within decimal values appropriately.
 
-```{r collapse=TRUE}
+```{r}
 y <- 22/7
 y
 ```
 
 If there is a mix of whole numbers and numbers with decimals together in a container such as
 
-```{r collapse=TRUE}
+```{r}
 c(x,y)
 ```
 

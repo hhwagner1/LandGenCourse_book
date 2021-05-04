@@ -1,21 +1,89 @@
 # Week 7: Spatial Linear Models {#Week7}
 
 
-## Course Video{#video_7a}
+## View Course Video {#video_7}
 
-#### Preview
+### Video, Part 1
 
-#### Open video in new window
+<iframe width="800" height="513" src="https://sho.co/1A1KH" frameborder="0" allowfullscreen></iframe>
 
-#### Download slides
+### Video, Part 2
+
+<iframe width="800" height="513" src="https://sho.co/1A1KF" frameborder="0" allowfullscreen></iframe>
+
+### Preview Slides
+
+[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week7_Slides.pdf")
 
 
+```{r echo=FALSE, fig.height=60, fig.width=8, message=FALSE}
+library(cowplot)
+library(ggplot2)
 
-## Interactive Tutorial{#tutorial_7}
+Path=paste0(here::here(), "/downloads/Week7_Slides/")
+files <- list.files(Path)
 
-#### Preview
+p1 <- ggdraw() + draw_image(paste0(Path, files)[1], scale = 0.9)
+p2 <- ggdraw() + draw_image(paste0(Path, files)[2], scale = 0.9)
 
-#### List of R commands used
+Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale = 0.9) +
+                  theme(plot.margin = unit(c(0,0,0,0), "cm"), 
+                        panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
+
+plot_grid(plotlist=Plots, ncol=1)
+```
+
+## Interactive Tutorial 7{#tutorial_7}
+
+### List of R commands used
+
+```{r echo=FALSE}
+library(kableExtra)
+Table <- readRDS(paste0(here::here(), "/output/table_list.rds"))[[7]]
+Table %>% kable() %>% 
+  kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
+  kable_styling(fixed_thead = T, full_width=F) 
+```	
+
+### Instructions
+
+#### a) How to access tutorials:
+
+Through RStudio Add-in:
+
+- Install course Addins in RStudio: `library(LandGenCourse)`
+- In RStudio, click on `Addins` (top menu bar)
+- Follow instructions in the Console:
+  - type: `require(swirl)` 
+  - type: `swirl()` 
+  - follow prompts 
+  - select course ("Landscape_Genetics_R_Course") and tutorial (Weeks 1 - 8)
+
+
+#### b) How to complete tutorial:
+
+Follow prompts in the RStudio Console.
+
+To stop and resume a tutorial: 
+
+ - to stop and exit swirl, type: `bye()` 
+ - to resume where you stopped, type: `swirl()` 
+
+To restart tutorial from beginning: 
+
+ - type:` swirl()` 
+ - use a different name 
+   (simply add a number, like this: 'MyName2')
+
+#### c) How to submit answers (participating institutions only):
+
+The last prompt will ask whether you would like to submit the log of your tutorial session to Google Forms so that your instructor may evaluate your progress. **This feature is only available for students from participating institutions.**
+
+If you choose 'yes', a form will open in your web browser. Complete and submit the form. 
+    
+You can submit multiple attempts and the best attempt will be graded. You will receive full marks as long as you answered all questions (i.e. did not use 'skip'). If you used 'skip' because you could not answer a question, please contact your instructor for advice.
+
+
 
 
 
