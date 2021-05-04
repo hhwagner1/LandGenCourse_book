@@ -101,7 +101,8 @@ This video walks through the process of installing devtools, the course package,
 
 Note: lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
 
-```{r echo=FALSE)
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+library(kableExtra)
 Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% 
   kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
@@ -112,9 +113,9 @@ Table %>% kable() %>%
 ```
 
 
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-library(kableExtra}
+```{r echo=FALSE}
 library(kableExtra)
+Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% kable_paper() %>% scroll_box(width = "100%", height = "200px") %>%
   kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
   kable_styling(fixed_thead = T, full_width=F, font_size = 12)
