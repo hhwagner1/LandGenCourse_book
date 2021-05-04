@@ -5,7 +5,14 @@ account: hhwagner1
 server: bookdown.org
 hostUrl: https://bookdown.org/__api__
 appId: 7443
+<<<<<<< HEAD
 bundleId: 40768
 url: https://bookdown.org/hhwagner1/LandGenCourse_book/
 when: 1620163780.00443
 lastSyncTime: 1620163780.00443
+=======
+bundleId: 40760
+url: https://bookdown.org/hhwagner1/LandGenCourse_book/
+when: 1620159218.21357
+lastSyncTime: 1620159218.21357
+>>>>>>> main

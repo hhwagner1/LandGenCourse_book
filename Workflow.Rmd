@@ -164,6 +164,46 @@ bookdown:::serve_book()
 ```
 
 
+## NOT NEEDED? API for accessing RStudio Connect (first time in session)
+
+To put the information into the .Renviron file, paste the following lines into the file:
+
+CONNECT_SERVER="https://bookdown.org/"
+CONNECT_API_KEY="YKilVq9PkvyEYymPpkaY35e3KFV7b1Nn"
+
+```{r}
+usethis::edit_r_environ()  # This will open the file
+```
+
+At the beginning of the session:
+
+```{r}
+library(httr)
+
+connectServer <- "https://bookdown.org/"
+connectAPIKey <- "YKilVq9PkvyEYymPpkaY35e3KFV7b1Nn"
+
+#connectServer <- Sys.getenv("CONNECT_SERVER")
+#connectAPIKey <- Sys.getenv("CONNECT_API_KEY")
+
+# The initial request in an R session will have no HTTP session cookies.
+resp <- httr::GET(connectServer, 
+  path = "/content/24/mean",
+  query = list(samples = 5),
+  add_headers(Authorization = paste("Key", connectAPIKey))
+)
+# ...
+
+# Later requests retain cookies set by the previous request.
+resp <- httr::GET(connectServer, 
+  path = "/content/24/mean",
+  query = list(samples = 10),
+  add_headers(Authorization = paste("Key", connectAPIKey))
+)
+# ...
+```
+
+
 ## Push to bookdown.org
 
 ```{r}

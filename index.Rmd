@@ -61,6 +61,7 @@ This book has weekly chapters that correspond to course modules, with three part
 #### a) How to use the labs 
 
 Weeks 1 - 8:
+<<<<<<< HEAD
 
 - **Beginners**:   watch video -> do tutorial -> read WE
 - **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
@@ -70,6 +71,17 @@ Weeks 1 - 8:
 
 #### b) Check contents
 
+=======
+
+- **Beginners**:   watch video -> do tutorial -> read WE
+- **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
+- **Advanced**:   check video slides -> R exercise? -> adapt WE to own data
+
+**By Week 9**: you will be at least at ‘intermediate’ if not a pro!
+
+#### b) Check contents
+
+>>>>>>> main
 - **Videos**: Check first weekly slide, browse slides for each week
 - **Interactive tutorials**: check weekly list of commands for each chapter
 - **Worked examples**: check list of packages by vignette (below), check introduction section for each worked example (or bonus vignette) 
@@ -101,7 +113,11 @@ This video walks through the process of installing devtools, the course package,
 
 Note: lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
 
+<<<<<<< HEAD
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+=======
+```{r echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+>>>>>>> main
 library(kableExtra)
 Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% 
@@ -113,7 +129,11 @@ Table %>% kable() %>%
 ```
 
 
+<<<<<<< HEAD
 ```{r echo=FALSE}
+=======
+```{r eval=FALSE}
+>>>>>>> main
 library(kableExtra)
 Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% kable_paper() %>% scroll_box(width = "100%", height = "200px") %>%
