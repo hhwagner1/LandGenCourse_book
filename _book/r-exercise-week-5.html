@@ -1020,10 +1020,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
-<<<<<<< HEAD
-=======
-<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
->>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1706,19 +1702,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Filter the dataset to retain adults (OffID == 0) from site A25 (Population == “A25”).</li>
 </ul></li>
 </ol>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="r-exercise-week-5.html#cb670-1" aria-hidden="true" tabindex="-1"></a>Pulsatilla.gstudio <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">read_population</span>(<span class="at">path=</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
 <span id="cb670-2"><a href="r-exercise-week-5.html#cb670-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;pulsatilla_genotypes.csv&quot;</span>, </span>
 <span id="cb670-3"><a href="r-exercise-week-5.html#cb670-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), </span>
 <span id="cb670-4"><a href="r-exercise-week-5.html#cb670-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">type=</span><span class="st">&quot;column&quot;</span>, <span class="at">locus.columns=</span><span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">19</span>), </span>
 <span id="cb670-5"><a href="r-exercise-week-5.html#cb670-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">phased=</span><span class="cn">FALSE</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="r-exercise-week-5.html#cb677-1" aria-hidden="true" tabindex="-1"></a>Pulsatilla.gstudio <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">read_population</span>(<span class="at">path=</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
-<span id="cb677-2"><a href="r-exercise-week-5.html#cb677-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;pulsatilla_genotypes.csv&quot;</span>, </span>
-<span id="cb677-3"><a href="r-exercise-week-5.html#cb677-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), </span>
-<span id="cb677-4"><a href="r-exercise-week-5.html#cb677-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">type=</span><span class="st">&quot;column&quot;</span>, <span class="at">locus.columns=</span><span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">19</span>), </span>
-<span id="cb677-5"><a href="r-exercise-week-5.html#cb677-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">phased=</span><span class="cn">FALSE</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
->>>>>>> main
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p><strong>Plot locations of individuals</strong>: use <code>plot</code> with the argument <code>asp = 1</code> to plot the locations of the sampled individuals from site A25 to scale.</p></li>
 <li><p><strong>Convert to ecogen and genind</strong>: use <code>EcoGenetics::gstudio2ecogen</code> to convert to an <code>ecogen</code> object. From there, use <code>EcoGenetics::ecogen2genind</code> to convert to a <code>genind</code> object.</p></li>

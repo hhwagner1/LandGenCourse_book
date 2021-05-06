@@ -1020,10 +1020,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
-<<<<<<< HEAD
-=======
-<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
->>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1732,30 +1728,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="c.-required-packages" class="section level4">
 <h4>c. Required packages</h4>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1093"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1093-1"><a href="WE-12.html#cb1093-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
 <span id="cb1093-2"><a href="WE-12.html#cb1093-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1093-3"><a href="WE-12.html#cb1093-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(lme4)</span></span>
 <span id="cb1093-4"><a href="WE-12.html#cb1093-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(usdm)</span></span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1100-1"><a href="WE-12.html#cb1100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb1100-2"><a href="WE-12.html#cb1100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1100-3"><a href="WE-12.html#cb1100-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(lme4)</span></span>
-<span id="cb1100-4"><a href="WE-12.html#cb1100-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(usdm)</span></span></code></pre></div>
->>>>>>> main
 </div>
 <div id="d.-import-data-1" class="section level4">
 <h4>d. Import data</h4>
 <p>First, read in the dataset. It is named CSF (Columbia spotted frog) to differentiate it from the RALU dataset you have used in previous labs (same species, very different landscapes).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1094"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1094-1"><a href="WE-12.html#cb1094-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
 <span id="cb1094-2"><a href="WE-12.html#cb1094-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
 <span id="cb1094-3"><a href="WE-12.html#cb1094-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1101-1"><a href="WE-12.html#cb1101-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
-<span id="cb1101-2"><a href="WE-12.html#cb1101-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb1101-3"><a href="WE-12.html#cb1101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
->>>>>>> main
 <pre><code>##   Id         Name  logDc.km   LENGTH     slope solarinso    soils         ag
 ## 1  1 CeGr to FeCr -5.664895 5449.643 11.328851  16332.75 thirteen 0.00000000
 ## 2  2 CeGr to FlCr -5.786712 8352.643 12.822890  16142.01      one 0.01351351
@@ -1771,11 +1754,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 0.05000000 0.00000000 0.3250000 0.6250000 0.00000000 0.9500000   12    4
 ## 6 0.20000000 0.21333333 0.2666667 0.3066667 0.01333333 0.5733333    5    1</code></pre>
 <p>Take a look at the column names and make sure you and R agree on what everything is called, and on the data types (e.g., factor vs. character).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1096"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1096-1"><a href="WE-12.html#cb1096-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1103-1"><a href="WE-12.html#cb1103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
->>>>>>> main
 <pre><code>## &#39;data.frame&#39;:    48 obs. of  16 variables:
 ##  $ Id       : int  1 2 43 3 44 46 4 6 7 31 ...
 ##  $ Name     : chr  &quot;CeGr to FeCr&quot; &quot;CeGr to FlCr&quot; &quot;CeGr to Krum&quot; &quot;FlCr to Krum&quot; ...
@@ -1820,7 +1799,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>b. Prepare for model fitting</h4>
 <p>Because link data are not independent (i.e. the genetic diversity at node 1 influences both the node1/node2 genetic distance and that from node1/node3, etc.), we need to develop a set of random effects to account for this dependency, so that we seperate the pattern due to this covariance from the signal of landscape influence on genetic distance. We start by creating matrices from the <code>pop1</code> and <code>pop2</code> variables:</p>
 <p>Create the <code>Zl</code> and <code>ZZ</code> matrices:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1098"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1098-1"><a href="WE-12.html#cb1098-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
 <span id="cb1098-2"><a href="WE-12.html#cb1098-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
 <span id="cb1098-3"><a href="WE-12.html#cb1098-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
@@ -1828,24 +1806,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now we can fit an <code>lmer</code> model (linear mixed model; see Week 6 videos) to the data.</p>
 <div class="sourceCode" id="cb1099"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1099-1"><a href="WE-12.html#cb1099-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinso <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
 <span id="cb1099-2"><a href="WE-12.html#cb1099-2" aria-hidden="true" tabindex="-1"></a>                       dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1105-1"><a href="WE-12.html#cb1105-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
-<span id="cb1105-2"><a href="WE-12.html#cb1105-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
-<span id="cb1105-3"><a href="WE-12.html#cb1105-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
-<p>Note: The list ‘Zl’ contains two sparse matrices, one for the ‘from’ node in ‘pop1’ and one for the ‘to’ node in ‘pop2.’ Each sparse matrix has 20 rows (for the 20 populations) and 48 columns (for the 48 links). Each column has a single value of ‘1’ that indicates the ‘from’ or ‘to’ population of the corresponding link. The matrix ‘ZZ’ is again a sparse matrix that is the sum of the two sparse matrices in ‘Zl.’ Each column thus has two values of ‘1,’ one for the ‘from’ and one for the ‘to’ node.</p>
-<p>Now we can fit an <code>lmer</code> model (linear mixed model; see Week 6 videos) to the data.</p>
-<div class="sourceCode" id="cb1106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1106-1"><a href="WE-12.html#cb1106-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinso <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
-<span id="cb1106-2"><a href="WE-12.html#cb1106-2" aria-hidden="true" tabindex="-1"></a>                       dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Warning: Some predictor variables are on very different scales: consider
 ## rescaling</code></pre>
 <p>At this point an error message appears: “Warning message: Some predictor variables are on very different scales: consider rescaling.”</p>
 <p>Which variable is causing this problem? To check, get R to show you the first few rows of the dataset:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1101-1"><a href="WE-12.html#cb1101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1108-1"><a href="WE-12.html#cb1108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata)</span></code></pre></div>
->>>>>>> main
 <pre><code>##   Id         Name  logDc.km   LENGTH     slope solarinso    soils         ag
 ## 1  1 CeGr to FeCr -5.664895 5449.643 11.328851  16332.75 thirteen 0.00000000
 ## 2  2 CeGr to FlCr -5.786712 8352.643 12.822890  16142.01      one 0.01351351
@@ -1862,17 +1827,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 0.20000000 0.21333333 0.2666667 0.3066667 0.01333333 0.5733333    5    1</code></pre>
 <p>One of these variables is a lot larger than the others, but has a small range. This often happens with variables such as easting and can cause issues for model fit. The common solution is to z-transform (standardize) the data, which is conveniently done in R using the <code>scale</code> function.</p>
 <p>Note: we could use the scale function without specifying the arguments ‘center’ or ‘scale,’ as both are ‘TRUE’ by default. The argument ‘center=TRUE’ centers the variable by subtracting the mean, the ‘scale=TRUE’ argument rescales the variables to unit variance by dividing each value by the standard deviation. The resulting variable has a mean of zero and a standard deviation and variance of one.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1103-1"><a href="WE-12.html#cb1103-1" aria-hidden="true" tabindex="-1"></a>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>We then can attach these data back to our dataframe and check to make sure this worked:</p>
 <div class="sourceCode" id="cb1104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1104-1"><a href="WE-12.html#cb1104-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(CSFdata, solarinsoz)</span>
 <span id="cb1104-2"><a href="WE-12.html#cb1104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CSFdata)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1110-1"><a href="WE-12.html#cb1110-1" aria-hidden="true" tabindex="-1"></a>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p>We then can attach these data back to our dataframe and check to make sure this worked:</p>
-<div class="sourceCode" id="cb1111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1111-1"><a href="WE-12.html#cb1111-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(CSFdata, solarinsoz)</span>
-<span id="cb1111-2"><a href="WE-12.html#cb1111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CSFdata)</span></code></pre></div>
->>>>>>> main
 <pre><code>##  [1] &quot;Id&quot;         &quot;Name&quot;       &quot;logDc.km&quot;   &quot;LENGTH&quot;     &quot;slope&quot;     
 ##  [6] &quot;solarinso&quot;  &quot;soils&quot;      &quot;ag&quot;         &quot;grass&quot;      &quot;shrub&quot;     
 ## [11] &quot;hi&quot;         &quot;lo&quot;         &quot;dev&quot;        &quot;forest&quot;     &quot;pop1&quot;      
@@ -1880,13 +1838,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If <code>solarinsoz</code> is there, you are good.</p>
 <p>While we are at it, we will make sure that these variables do not have issues with multicollinearity.</p>
 <p>Make a dataframe of just the variables to test (note, you cannot use factors here):</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1106-1"><a href="WE-12.html#cb1106-1" aria-hidden="true" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
 <span id="cb1106-2"><a href="WE-12.html#cb1106-2" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1113-1"><a href="WE-12.html#cb1113-1" aria-hidden="true" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
-<span id="cb1113-2"><a href="WE-12.html#cb1113-2" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
->>>>>>> main
 <pre><code>##    Variables      VIF
 ## 1 solarinsoz 1.479273
 ## 2     forest 3.127104
@@ -1895,11 +1848,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5         ag 2.532198</code></pre>
 <p>If you get an error that there is no package called ‘usdm,’ use install.packages(“usdm”)</p>
 <p>Numbers less than 10, or 3, or 4, depending on who you ask, are considered to not be collinear enough to affect model outcomes. So we are good to go here. What would happen if we added grass to this?</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1108-1"><a href="WE-12.html#cb1108-1" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1115-1"><a href="WE-12.html#cb1115-1" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
->>>>>>> main
 <pre><code>##    Variables       VIF
 ## 1 solarinsoz  1.541954
 ## 2     forest 97.167730
@@ -1910,11 +1859,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Question 1</strong>: Why would adding in the last land cover cause a high amount of collinearity? Consider how these data were calculated.</p>
 <p>The variables ‘forest,’ ‘dev,’ ‘shrub,’ ‘ag’ and ‘grass’ together cover almost all land cover types in the study area. Each is measured as percent area, and together, they make up 100% or close to 100% of the land cover types along each link. Thus if we know e.g. that all ‘forest,’ ‘dev,’ ‘shrub’ and ‘ag’ together cover 80% along a link, then it is a good bet that ‘grass’ will cover the remaining 20%.</p>
 <p>With such sets of compositional data, we need to omit one variable to avoid multi-collinearity (where a variable is a linear combination of other variables), even though the pairwise correlations may be low. For example, there the variable ‘grass’ showed relatively low correlations with the other variables:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1110-1"><a href="WE-12.html#cb1110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1117-1"><a href="WE-12.html#cb1117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
->>>>>>> main
 <pre><code>##                   [,1]
 ## solarinsoz  0.10394523
 ## forest     -0.41341968
@@ -1925,7 +1870,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-fit-all-five-models" class="section level4">
 <h4>c. Fit all five models</h4>
 <p>Now we have to remake the modeling objects with our new and improved data frame, but referring to our z-transformed data (thanks to Martin Van Strien and Helene Wagner for the base model code):</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1112-1"><a href="WE-12.html#cb1112-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
 <span id="cb1112-2"><a href="WE-12.html#cb1112-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
 <span id="cb1112-3"><a href="WE-12.html#cb1112-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
@@ -1939,21 +1883,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1115-2"><a href="WE-12.html#cb1115-2" aria-hidden="true" tabindex="-1"></a>opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
 <span id="cb1115-3"><a href="WE-12.html#cb1115-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod_1<span class="sc">$</span>reTrms, <span class="at">fr =</span> mod_1<span class="sc">$</span>fr)</span>
 <span id="cb1115-4"><a href="WE-12.html#cb1115-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1119-1"><a href="WE-12.html#cb1119-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
-<span id="cb1119-2"><a href="WE-12.html#cb1119-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
-<span id="cb1119-3"><a href="WE-12.html#cb1119-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
-<p>Fit an lmer model to the data:</p>
-<div class="sourceCode" id="cb1120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1120-1"><a href="WE-12.html#cb1120-1" aria-hidden="true" tabindex="-1"></a>mod_1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
-<span id="cb1120-2"><a href="WE-12.html#cb1120-2" aria-hidden="true" tabindex="-1"></a>                        dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>In the fitted model replace Zt slot (matrix for the random effects generated with just pop1) with the ZZ matrix created above:</p>
-<div class="sourceCode" id="cb1121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1121-1"><a href="WE-12.html#cb1121-1" aria-hidden="true" tabindex="-1"></a>mod_1<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span></code></pre></div>
-<p>Refit the model (this involves a few steps of optimization starting from the previously fitted model <code>mod_1</code>):</p>
-<div class="sourceCode" id="cb1122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1122-1"><a href="WE-12.html#cb1122-1" aria-hidden="true" tabindex="-1"></a>dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod_1)</span>
-<span id="cb1122-2"><a href="WE-12.html#cb1122-2" aria-hidden="true" tabindex="-1"></a>opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1122-3"><a href="WE-12.html#cb1122-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod_1<span class="sc">$</span>reTrms, <span class="at">fr =</span> mod_1<span class="sc">$</span>fr)</span>
-<span id="cb1122-4"><a href="WE-12.html#cb1122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## 
 ## REML criterion at convergence: 101.9
@@ -1986,7 +1915,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## dev        -0.691 -0.020  0.533  0.551  0.195</code></pre>
 <p>In this output, we focus on the estimates of fixed effects, which we will use later to examine the effect of each variable. Note that there are no p-values because of the nature of these models and the philosophy of the package writers. There are packages available that calculate these but the results may be misleading.
 This is the closest to a full model in our dataset (although our models are not completely nested), so we will take a look at the residuals:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1117-1"><a href="WE-12.html#cb1117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod1) </span></code></pre></div>
 <p><img src="12-Week12_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Residuals are centered around zero and do not show large groupings or patterns, although there is some increase in variation at larger numbers (so the model is having a more difficult time predicting larger genetic distances per km). We will keep that in mind as we move on.</p>
@@ -2013,39 +1941,10 @@ This is the closest to a full model in our dataset (although our models are not 
 <span id="cb1120-2"><a href="WE-12.html#cb1120-2" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
 <span id="cb1120-3"><a href="WE-12.html#cb1120-3" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
 <span id="cb1120-4"><a href="WE-12.html#cb1120-4" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1124-1"><a href="WE-12.html#cb1124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod1) </span></code></pre></div>
-<p><img src="12-Week12_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Residuals are centered around zero and do not show large groupings or patterns, although there is some increase in variation at larger numbers (so the model is having a more difficult time predicting larger genetic distances per km). We will keep that in mind as we move on.</p>
-<p>Next we will check to make sure the residuals are normally distributed.</p>
-<div class="sourceCode" id="cb1125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1125-1"><a href="WE-12.html#cb1125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(mod1)) </span></code></pre></div>
-<p><img src="12-Week12_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p>This can also be done with the <code>qqmath</code> function in package lattice if you are more used to seeing qq plots. These residuals look okay so we will move on (but if this were a publication we would do a closer examination of the shape of the data at the ends of the distribution).</p>
-<p>Now we will make a function (called MLPE) to fit the rest of our models, so that we are not typing the same code over and over (which causes errors and long code that is difficult to navigate or update):</p>
-<div class="sourceCode" id="cb1126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1126-1"><a href="WE-12.html#cb1126-1" aria-hidden="true" tabindex="-1"></a>MLPE <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
-<span id="cb1126-2"><a href="WE-12.html#cb1126-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1126-3"><a href="WE-12.html#cb1126-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1126-4"><a href="WE-12.html#cb1126-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1126-5"><a href="WE-12.html#cb1126-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1126-6"><a href="WE-12.html#cb1126-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
-<span id="cb1126-7"><a href="WE-12.html#cb1126-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1126-8"><a href="WE-12.html#cb1126-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
-<span id="cb1126-9"><a href="WE-12.html#cb1126-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1126-10"><a href="WE-12.html#cb1126-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1126-11"><a href="WE-12.html#cb1126-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1126-12"><a href="WE-12.html#cb1126-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
-<span id="cb1126-13"><a href="WE-12.html#cb1126-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>To use this function, we define variables (the model as we want it to run) and data (the object that contains our data).</p>
-<div class="sourceCode" id="cb1127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1127-1"><a href="WE-12.html#cb1127-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1127-2"><a href="WE-12.html#cb1127-2" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1127-3"><a href="WE-12.html#cb1127-3" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1127-4"><a href="WE-12.html#cb1127-4" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
->>>>>>> main
 </div>
 <div id="d.-compare-evidence-for-models" class="section level4">
 <h4>d. Compare evidence for models</h4>
 <p>First we need to refit the models with REML = FALSE to get a useable estimate of likelihood for AIC and BIC. To do this, we’ll create a new function called MLPEnoREML and use it to fit our 5 models.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1121-1"><a href="WE-12.html#cb1121-1" aria-hidden="true" tabindex="-1"></a>MLPEnoREML <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
 <span id="cb1121-2"><a href="WE-12.html#cb1121-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1121-3"><a href="WE-12.html#cb1121-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
@@ -2071,33 +1970,6 @@ This is the closest to a full model in our dataset (although our models are not 
 <span id="cb1123-3"><a href="WE-12.html#cb1123-3" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
 <span id="cb1123-4"><a href="WE-12.html#cb1123-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
 <span id="cb1123-5"><a href="WE-12.html#cb1123-5" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1128-1"><a href="WE-12.html#cb1128-1" aria-hidden="true" tabindex="-1"></a>MLPEnoREML <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
-<span id="cb1128-2"><a href="WE-12.html#cb1128-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1128-3"><a href="WE-12.html#cb1128-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1128-4"><a href="WE-12.html#cb1128-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1128-5"><a href="WE-12.html#cb1128-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1128-6"><a href="WE-12.html#cb1128-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
-<span id="cb1128-7"><a href="WE-12.html#cb1128-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1128-8"><a href="WE-12.html#cb1128-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
-<span id="cb1128-9"><a href="WE-12.html#cb1128-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1128-10"><a href="WE-12.html#cb1128-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1128-11"><a href="WE-12.html#cb1128-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1128-12"><a href="WE-12.html#cb1128-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
-<span id="cb1128-13"><a href="WE-12.html#cb1128-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1129-1"><a href="WE-12.html#cb1129-1" aria-hidden="true" tabindex="-1"></a>mod1noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span> (logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1129-2"><a href="WE-12.html#cb1129-2" aria-hidden="true" tabindex="-1"></a>mod2noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1129-3"><a href="WE-12.html#cb1129-3" aria-hidden="true" tabindex="-1"></a>mod3noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1129-4"><a href="WE-12.html#cb1129-4" aria-hidden="true" tabindex="-1"></a>mod4noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1129-5"><a href="WE-12.html#cb1129-5" aria-hidden="true" tabindex="-1"></a>mod5noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
-<p>In information theory, we use information criteria (AIC, BIC) to evaluate the relative distance of our hypothesis from truth. For more information, see Burnham and Anderson (2002).</p>
-<p>Note: package MuMIn will do this for you, but for this exercise it is useful to see all the pieces of what goes into your evaluation.</p>
-<div class="sourceCode" id="cb1130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1130-1"><a href="WE-12.html#cb1130-1" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1noREML, <span class="at">Landcover=</span>mod2noREML, <span class="at">HumanFootprint=</span>mod3noREML, </span>
-<span id="cb1130-2"><a href="WE-12.html#cb1130-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4noREML, <span class="at">Historical=</span>mod5noREML)</span>
-<span id="cb1130-3"><a href="WE-12.html#cb1130-3" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
-<span id="cb1130-4"><a href="WE-12.html#cb1130-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
-<span id="cb1130-5"><a href="WE-12.html#cb1130-5" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
->>>>>>> main
 <pre><code>##                         AIC      BIC
 ## Full               115.9620 130.9316
 ## Landcover          113.9757 127.0742
@@ -2107,13 +1979,8 @@ This is the closest to a full model in our dataset (although our models are not 
 <p>We now have some results, great!</p>
 <p>Now we will work with these a bit. First, because we do not have an infinite number of samples, we will convert AIC to AICc (which adds a small-sample correction to AIC).</p>
 <p>First, find the k parameters used in the model and add them to the table.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1125-1"><a href="WE-12.html#cb1125-1" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
 <span id="cb1125-2"><a href="WE-12.html#cb1125-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1132-1"><a href="WE-12.html#cb1132-1" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
-<span id="cb1132-2"><a href="WE-12.html#cb1132-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
->>>>>>> main
 <pre><code>##                         AIC      BIC k
 ## Full               115.9620 130.9316 8
 ## Landcover          113.9757 127.0742 7
@@ -2122,13 +1989,8 @@ This is the closest to a full model in our dataset (although our models are not 
 ## Historical         122.4089 137.3785 8</code></pre>
 <p><strong>Question 2</strong>: How does k relate to the number of parameters in each model?</p>
 <p>Now, calculate AICc and add it to the dataframe:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1127-1"><a href="WE-12.html#cb1127-1" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(<span class="dv">48</span><span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
 <span id="cb1127-2"><a href="WE-12.html#cb1127-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1134-1"><a href="WE-12.html#cb1134-1" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(<span class="dv">48</span><span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
-<span id="cb1134-2"><a href="WE-12.html#cb1134-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
->>>>>>> main
 <pre><code>##                         AIC      BIC k     AICc
 ## Full               115.9620 130.9316 8 119.6543
 ## Landcover          113.9757 127.0742 7 116.7757
@@ -2140,7 +2002,6 @@ This is the closest to a full model in our dataset (although our models are not 
 <h4>e. Calculate evidence weights</h4>
 <p>Next we calculate evidence weights for each model based on AICc and BIC. These can be interpreted as the probability that the model is the closest to truth in the candidate model set.</p>
 <p>Calculate model weights for AICc:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1129-1"><a href="WE-12.html#cb1129-1" aria-hidden="true" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
 <span id="cb1129-2"><a href="WE-12.html#cb1129-2" aria-hidden="true" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
 <span id="cb1129-3"><a href="WE-12.html#cb1129-3" aria-hidden="true" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
@@ -2151,18 +2012,6 @@ This is the closest to a full model in our dataset (although our models are not 
 <span id="cb1130-3"><a href="WE-12.html#cb1130-3" aria-hidden="true" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
 <span id="cb1130-4"><a href="WE-12.html#cb1130-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
 <span id="cb1130-5"><a href="WE-12.html#cb1130-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1136-1"><a href="WE-12.html#cb1136-1" aria-hidden="true" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
-<span id="cb1136-2"><a href="WE-12.html#cb1136-2" aria-hidden="true" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
-<span id="cb1136-3"><a href="WE-12.html#cb1136-3" aria-hidden="true" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
-<span id="cb1136-4"><a href="WE-12.html#cb1136-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICcmin <span class="ot">&lt;-</span> RL<span class="sc">/</span>sumRL</span></code></pre></div>
-<p>Calculate model weights for BIC:</p>
-<div class="sourceCode" id="cb1137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1137-1"><a href="WE-12.html#cb1137-1" aria-hidden="true" tabindex="-1"></a>BICmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>BIC)</span>
-<span id="cb1137-2"><a href="WE-12.html#cb1137-2" aria-hidden="true" tabindex="-1"></a>RL.B <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>BIC <span class="sc">-</span> BICmin))</span>
-<span id="cb1137-3"><a href="WE-12.html#cb1137-3" aria-hidden="true" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
-<span id="cb1137-4"><a href="WE-12.html#cb1137-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
-<span id="cb1137-5"><a href="WE-12.html#cb1137-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>##                        AIC     BIC k    AICc AICcmin BICew
 ## Full               115.962 130.932 8 119.654   0.047 0.012
 ## Landcover          113.976 127.074 7 116.776   0.200 0.085
@@ -2182,17 +2031,10 @@ This is the closest to a full model in our dataset (although our models are not 
 <div id="f.-confidence-intervals-for-predictors" class="section level4">
 <h4>f. Confidence intervals for predictors</h4>
 <p>According to Row et al. (2017), we can use the confidence interval from the variables in the models to identify those that are contributing to landscape resistance. Looking at models 2 and 3, we have some evidence that shrub and forest cover matter, but it’s not as strong as the evidence for ag and development. Let’s look at the parameter estimates to understand more. Note that for parameter estimation we use the REML estimates.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1132-1"><a href="WE-12.html#cb1132-1" aria-hidden="true" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
 <span id="cb1132-2"><a href="WE-12.html#cb1132-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
 <p>Now we’ll estimate the 95% confidence interval for these estimates:</p>
 <div class="sourceCode" id="cb1133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1133-1"><a href="WE-12.html#cb1133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1139-1"><a href="WE-12.html#cb1139-1" aria-hidden="true" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
-<span id="cb1139-2"><a href="WE-12.html#cb1139-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
-<p>Now we’ll estimate the 95% confidence interval for these estimates:</p>
-<div class="sourceCode" id="cb1140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1140-1"><a href="WE-12.html#cb1140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>##                 2.5 %     97.5 %
 ## .sig01             NA         NA
 ## .sigma             NA         NA
@@ -2201,22 +2043,14 @@ This is the closest to a full model in our dataset (although our models are not 
 ## ag          -2.767849 -0.2789161
 ## shrub       -4.335188  0.4391626
 ## dev         -1.077595  1.4292392</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1135-1"><a href="WE-12.html#cb1135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1142-1"><a href="WE-12.html#cb1142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>##                  2.5 %     97.5 %
 ## .sig01              NA         NA
 ## .sigma              NA         NA
 ## (Intercept) -5.3193590 -4.5159303
 ## ag          -2.0215023 -0.1997056
 ## dev         -0.6843463  1.5082812</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb1137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1137-1"><a href="WE-12.html#cb1137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb1144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1144-1"><a href="WE-12.html#cb1144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>##                   2.5 %     97.5 %
 ## .sig01               NA         NA
 ## .sigma               NA         NA

@@ -1020,10 +1020,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
-<<<<<<< HEAD
-=======
-<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
->>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1718,7 +1714,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-2" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>All required packages should have been installed already when you installed ‘LandGenCourse.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="WE-3.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(adegenet)</span></span>
 <span id="cb451-2"><a href="WE-3.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
 <span id="cb451-3"><a href="WE-3.html#cb451-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(pegas)       </span></span>
@@ -1726,15 +1721,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb451-5"><a href="WE-3.html#cb451-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(PopGenReport)</span></span>
 <span id="cb451-6"><a href="WE-3.html#cb451-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(dplyr)</span>
 <span id="cb451-7"><a href="WE-3.html#cb451-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(poppr) </span></code></pre></div>
-=======
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="WE-3.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(adegenet)</span></span>
-<span id="cb458-2"><a href="WE-3.html#cb458-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
-<span id="cb458-3"><a href="WE-3.html#cb458-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(pegas)       </span></span>
-<span id="cb458-4"><a href="WE-3.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(sp)</span></span>
-<span id="cb458-5"><a href="WE-3.html#cb458-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(PopGenReport)</span></span>
-<span id="cb458-6"><a href="WE-3.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(dplyr)</span>
-<span id="cb458-7"><a href="WE-3.html#cb458-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(poppr) </span></code></pre></div>
->>>>>>> main
 </div>
 </div>
 <div id="basic-checking-of-markers-and-populations" class="section level3">
@@ -1744,7 +1730,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Re-create genind object</h4>
 <p>Adapted from Week 1 tutorial:</p>
 <p>Note: we use the double colon notation ‘package::function(argument)’ to indicate, for each function, which package it belongs to (see Week 2 video).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="WE-3.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.loci, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span>
 <span id="cb452-2"><a href="WE-3.html#cb452-2" aria-hidden="true" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID =</span> <span class="fu">paste</span>(<span class="fu">substr</span>(ralu.loci<span class="sc">$</span>Pop, <span class="dv">1</span>, <span class="dv">3</span>), </span>
 <span id="cb452-3"><a href="WE-3.html#cb452-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">row.names</span>(ralu.loci), <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), ralu.loci)</span>
@@ -1753,16 +1738,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb452-6"><a href="WE-3.html#cb452-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pop=</span>Frogs<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
 <span id="cb452-7"><a href="WE-3.html#cb452-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
 <span id="cb452-8"><a href="WE-3.html#cb452-8" aria-hidden="true" tabindex="-1"></a>Frogs.genind</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="WE-3.html#cb459-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.loci, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span>
-<span id="cb459-2"><a href="WE-3.html#cb459-2" aria-hidden="true" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID =</span> <span class="fu">paste</span>(<span class="fu">substr</span>(ralu.loci<span class="sc">$</span>Pop, <span class="dv">1</span>, <span class="dv">3</span>), </span>
-<span id="cb459-3"><a href="WE-3.html#cb459-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">row.names</span>(ralu.loci), <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), ralu.loci)</span>
-<span id="cb459-4"><a href="WE-3.html#cb459-4" aria-hidden="true" tabindex="-1"></a>Frogs.genind <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">df2genind</span>(<span class="at">X=</span>Frogs[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>)], <span class="at">sep=</span><span class="st">&quot;:&quot;</span>, <span class="at">ncode=</span><span class="cn">NULL</span>, </span>
-<span id="cb459-5"><a href="WE-3.html#cb459-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ind.names=</span> Frogs<span class="sc">$</span>FrogID, <span class="at">loc.names=</span><span class="cn">NULL</span>, </span>
-<span id="cb459-6"><a href="WE-3.html#cb459-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pop=</span>Frogs<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
-<span id="cb459-7"><a href="WE-3.html#cb459-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
-<span id="cb459-8"><a href="WE-3.html#cb459-8" aria-hidden="true" tabindex="-1"></a>Frogs.genind</span></code></pre></div>
->>>>>>> main
 <pre><code>## /// GENIND OBJECT /////////
 ## 
 ##  // 181 individuals; 8 loci; 39 alleles; size: 55.5 Kb
@@ -1785,11 +1760,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-check-that-markers-are-polymorphic" class="section level4">
 <h4>b. Check that markers are polymorphic</h4>
 <p>The genetic resolution depends on the number of markers and their polymorphism. The table above and the summary function for genind objects together provide this information. Now we run the summary function:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="WE-3.html#cb454-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Frogs.genind)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="WE-3.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Frogs.genind)</span></code></pre></div>
->>>>>>> main
 <pre><code>## 
 ## // Number of individuals: 181
 ## // Group sizes: 21 8 14 13 7 17 9 20 19 13 17 23
@@ -1818,24 +1789,16 @@ In general, we don’t expect all of these assumptions to be met (e.g., if we wa
 <li><strong>Pr.exact</strong>: p-value from an exact test based on Monte Carlo permutation of alleles (for diploids only). The default is B = 1000 permutations (set B = 0 to skip this test).
 Here we use the function ‘round’ with argument ‘digits = 3’ to round all values to 3 decimals.</li>
 </ul>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="WE-3.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pegas<span class="sc">::</span><span class="fu">hw.test</span>(Frogs.genind, <span class="at">B =</span> <span class="dv">1000</span>), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##     chi^2 df Pr(chi^2 &gt;) Pr.exact
-## A  40.462  3       0.000    0.000
-## B  17.135  6       0.009    0.044
-=======
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="WE-3.html#cb463-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pegas<span class="sc">::</span><span class="fu">hw.test</span>(Frogs.genind, <span class="at">B =</span> <span class="dv">1000</span>), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>##     chi^2 df Pr(chi^2 &gt;) Pr.exact
-## A  40.462  3       0.000    0.000
-## B  17.135  6       0.009    0.026
->>>>>>> main
-## C 136.522  6       0.000    0.000
-## D  83.338  6       0.000    0.000
-## E 226.803 36       0.000    0.000
-## F   0.024  3       0.999    1.000
-<<<<<<< HEAD
-## G  12.349  6       0.055    0.010
-## H  76.813 28       0.000    0.000</code></pre>
+## A  40.462  3       0.000     0.00
+## B  17.135  6       0.009     0.04
+## C 136.522  6       0.000     0.00
+## D  83.338  6       0.000     0.00
+## E 226.803 36       0.000     0.00
+## F   0.024  3       0.999     1.00
+## G  12.349  6       0.055     0.01
+## H  76.813 28       0.000     0.00</code></pre>
 <p>Both tests suggest that all loci except for locus “F” are out of HWE globally (across all 181 individuals). Next, we check for HWE of each locus in each population.</p>
 <p>Notes on the code: The curly brackets ‘{ }’ below are used to keep the output from multiple lines together in the html file. Function ‘seppop’ splits the genind object by population. We use ‘sapply’ to apply the function ‘hw.test’ from package ‘pegas’ to each population (see this week’s video and tutorial). We set ‘B=0’ to specify that we don’t need any permutations right now. The function ‘t’ takes the transpose of the resulting matrix, which means it flips rows and columns. This works on a matrix, not a data frame, hence we use ‘data.matrix’ to temporarily interpret the data frame as a matrix.</p>
 <div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="WE-3.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-squared test: p-value</span></span>
@@ -1844,18 +1807,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <span id="cb458-4"><a href="WE-3.html#cb458-4" aria-hidden="true" tabindex="-1"></a>HWE.test.chisq <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
 <span id="cb458-5"><a href="WE-3.html#cb458-5" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Chi-squared test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb458-6"><a href="WE-3.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(HWE.test.chisq,<span class="dv">3</span>)}</span></code></pre></div>
-=======
-## G  12.349  6       0.055    0.008
-## H  76.813 28       0.000    0.000</code></pre>
-<p>Both tests suggest that all loci except for locus “F” are out of HWE globally (across all 181 individuals). Next, we check for HWE of each locus in each population.</p>
-<p>Notes on the code: The curly brackets ‘{ }’ below are used to keep the output from multiple lines together in the html file. Function ‘seppop’ splits the genind object by population. We use ‘sapply’ to apply the function ‘hw.test’ from package ‘pegas’ to each population (see this week’s video and tutorial). We set ‘B=0’ to specify that we don’t need any permutations right now. The function ‘t’ takes the transpose of the resulting matrix, which means it flips rows and columns. This works on a matrix, not a data frame, hence we use ‘data.matrix’ to temporarily interpret the data frame as a matrix.</p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="WE-3.html#cb465-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-squared test: p-value</span></span>
-<span id="cb465-2"><a href="WE-3.html#cb465-2" aria-hidden="true" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
-<span id="cb465-3"><a href="WE-3.html#cb465-3" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">0</span>)[,<span class="dv">3</span>]))</span>
-<span id="cb465-4"><a href="WE-3.html#cb465-4" aria-hidden="true" tabindex="-1"></a>HWE.test.chisq <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
-<span id="cb465-5"><a href="WE-3.html#cb465-5" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Chi-squared test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb465-6"><a href="WE-3.html#cb465-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(HWE.test.chisq,<span class="dv">3</span>)}</span></code></pre></div>
->>>>>>> main
 <pre><code>## Chi-squared test (p-values):</code></pre>
 <pre><code>##                A     B     C     D     E     F     G     H
 ## Airplane   0.092 0.359 1.000 0.427 0.680 1.000 0.178 0.051
@@ -1871,7 +1822,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## ShipIsland 0.807 0.497 1.000 0.521 0.006 1.000 0.498 0.403
 ## Skyhigh    0.915 0.493 0.063 0.001 0.155 1.000 0.126 0.078</code></pre>
 <p>Let’s repeat this with a Monte Carlo permutation test with B = 1000 replicates:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="WE-3.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Monte Carlo: p-value</span></span>
 <span id="cb461-2"><a href="WE-3.html#cb461-2" aria-hidden="true" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
 <span id="cb461-3"><a href="WE-3.html#cb461-3" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">1000</span>)[,<span class="dv">4</span>]))</span>
@@ -1880,52 +1830,24 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <span id="cb461-6"><a href="WE-3.html#cb461-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(HWE.test.MC,<span class="dv">3</span>)}</span></code></pre></div>
 <pre><code>## MC permuation test (p-values):</code></pre>
 <pre><code>##                A     B     C     D     E F     G     H
-## Airplane   0.021 1.000 1.000 0.389 0.636 1 0.249 0.012
-## Bachelor   1.000 0.447 1.000 1.000 0.865 1 0.453 0.581
-## BarkingFox 1.000 0.232 0.072 1.000 0.736 1 1.000 0.178
-## Bob        1.000 1.000 1.000 1.000 0.026 1 1.000 0.250
-## Cache      1.000 0.392 0.140 1.000 1.000 1 1.000 0.603
-## Egg        1.000 1.000 1.000 1.000 0.072 1 0.522 0.441
-## Frog       1.000 1.000 0.059 1.000 0.412 1 1.000 0.180
-## GentianL   1.000 0.052 1.000 0.061 0.661 1 0.661 0.143
-## ParagonL   1.000 0.153 1.000 1.000 1.000 1 0.322 0.068
-## Pothole    1.000 1.000 1.000 1.000 0.521 1 0.523 1.000
-## ShipIsland 1.000 0.580 1.000 0.693 0.147 1 0.551 0.454
-## Skyhigh    1.000 0.340 0.163 0.088 0.110 1 0.080 0.034</code></pre>
+## Airplane   0.009 1.000 1.000 0.392 0.619 1 0.277 0.006
+## Bachelor   1.000 0.415 1.000 1.000 0.848 1 0.437 0.622
+## BarkingFox 1.000 0.213 0.072 1.000 0.712 1 1.000 0.159
+## Bob        1.000 1.000 1.000 1.000 0.018 1 1.000 0.269
+## Cache      1.000 0.393 0.146 1.000 1.000 1 1.000 0.605
+## Egg        1.000 1.000 1.000 1.000 0.081 1 0.540 0.425
+## Frog       1.000 1.000 0.093 1.000 0.445 1 1.000 0.155
+## GentianL   1.000 0.064 1.000 0.077 0.672 1 0.641 0.155
+## ParagonL   1.000 0.169 1.000 1.000 1.000 1 0.318 0.072
+## Pothole    1.000 1.000 1.000 1.000 0.549 1 0.547 1.000
+## ShipIsland 1.000 0.624 1.000 0.696 0.127 1 0.547 0.452
+## Skyhigh    1.000 0.321 0.175 0.092 0.124 1 0.073 0.033</code></pre>
 <p>To summarize, let’s calculate, for each locus, the proportion of populations where it was out of HWE. Here we’ll use the conservative cut-off of alpha = 0.05 for each test. There are various ways of modifying this, including a simple Bonferroni correction, where we divide alpha by the number of tests, which you can activate here by removing the ## i. front of the line.</p>
 <p>We write the results into a data frame ‘Prop.loci.out.of.HWE’ and use ‘=’ to specify the name for each column.</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="WE-3.html#cb464-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
 <span id="cb464-2"><a href="WE-3.html#cb464-2" aria-hidden="true" tabindex="-1"></a>Prop.loci.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean), </span>
 <span id="cb464-3"><a href="WE-3.html#cb464-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean))</span>
 <span id="cb464-4"><a href="WE-3.html#cb464-4" aria-hidden="true" tabindex="-1"></a>Prop.loci.out.of.HWE             <span class="co"># Type this line again to see results table</span></span></code></pre></div>
-=======
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="WE-3.html#cb468-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Monte Carlo: p-value</span></span>
-<span id="cb468-2"><a href="WE-3.html#cb468-2" aria-hidden="true" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
-<span id="cb468-3"><a href="WE-3.html#cb468-3" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">1000</span>)[,<span class="dv">4</span>]))</span>
-<span id="cb468-4"><a href="WE-3.html#cb468-4" aria-hidden="true" tabindex="-1"></a>HWE.test.MC <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
-<span id="cb468-5"><a href="WE-3.html#cb468-5" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;MC permuation test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb468-6"><a href="WE-3.html#cb468-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(HWE.test.MC,<span class="dv">3</span>)}</span></code></pre></div>
-<pre><code>## MC permuation test (p-values):</code></pre>
-<pre><code>##                A     B     C     D     E F     G     H
-## Airplane   0.011 1.000 1.000 0.417 0.636 1 0.247 0.009
-## Bachelor   1.000 0.447 1.000 1.000 0.871 1 0.497 0.618
-## BarkingFox 1.000 0.203 0.059 1.000 0.757 1 1.000 0.159
-## Bob        1.000 1.000 1.000 1.000 0.012 1 1.000 0.259
-## Cache      1.000 0.379 0.139 1.000 1.000 1 1.000 0.623
-## Egg        1.000 1.000 1.000 1.000 0.082 1 0.559 0.464
-## Frog       1.000 1.000 0.065 1.000 0.450 1 1.000 0.178
-## GentianL   1.000 0.054 1.000 0.058 0.647 1 0.645 0.166
-## ParagonL   1.000 0.171 1.000 1.000 1.000 1 0.333 0.077
-## Pothole    1.000 1.000 1.000 1.000 0.542 1 0.507 1.000
-## ShipIsland 1.000 0.605 1.000 0.696 0.157 1 0.543 0.445
-## Skyhigh    1.000 0.345 0.177 0.118 0.110 1 0.075 0.031</code></pre>
-<p>To summarize, let’s calculate, for each locus, the proportion of populations where it was out of HWE. Here we’ll use the conservative cut-off of alpha = 0.05 for each test. There are various ways of modifying this, including a simple Bonferroni correction, where we divide alpha by the number of tests, which you can activate here by removing the ## i. front of the line.</p>
-<p>We write the results into a data frame ‘Prop.loci.out.of.HWE’ and use ‘=’ to specify the name for each column.</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="WE-3.html#cb471-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
-<span id="cb471-2"><a href="WE-3.html#cb471-2" aria-hidden="true" tabindex="-1"></a>Prop.loci.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean), </span>
-<span id="cb471-3"><a href="WE-3.html#cb471-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean))</span>
-<span id="cb471-4"><a href="WE-3.html#cb471-4" aria-hidden="true" tabindex="-1"></a>Prop.loci.out.of.HWE             <span class="co"># Type this line again to see results table</span></span></code></pre></div>
->>>>>>> main
 <pre><code>##        Chisq         MC
 ## A 0.00000000 0.08333333
 ## B 0.00000000 0.00000000
@@ -1936,15 +1858,9 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## G 0.00000000 0.00000000
 ## H 0.08333333 0.16666667</code></pre>
 <p>And similarly, for each population, the proportion of loci that were out of HWE:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="WE-3.html#cb466-1" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
 <span id="cb466-2"><a href="WE-3.html#cb466-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
 <span id="cb466-3"><a href="WE-3.html#cb466-3" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
-=======
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="WE-3.html#cb473-1" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
-<span id="cb473-2"><a href="WE-3.html#cb473-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
-<span id="cb473-3"><a href="WE-3.html#cb473-3" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
->>>>>>> main
 <pre><code>##            Chisq    MC
 ## Airplane   0.000 0.250
 ## Bachelor   0.000 0.000
@@ -1965,7 +1881,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <li>No population is consistently out of HWE across loci (probably no recent major bottlenecks/ founder effects).</li>
 </ul>
 <p>Let’s repeat this with ‘false discovery rate’ correction for the number of tests. Here we use the function ‘p.adjust’ with the argument ‘method=“fdr”’ to adjust the p-values from the previous tests. This returns a vector of length 96 (the number of p-values used), which we convert back into a matrix of 12 rows (pops) by 8 columns (loci). Then we procede as above.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="WE-3.html#cb468-1" aria-hidden="true" tabindex="-1"></a>Chisq.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.chisq,<span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
 <span id="cb468-2"><a href="WE-3.html#cb468-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.chisq))</span>
 <span id="cb468-3"><a href="WE-3.html#cb468-3" aria-hidden="true" tabindex="-1"></a>MC.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.MC, <span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
@@ -1976,18 +1891,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <span id="cb468-8"><a href="WE-3.html#cb468-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">Chisq.fdr=</span><span class="fu">apply</span>(Chisq.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
 <span id="cb468-9"><a href="WE-3.html#cb468-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC.fdr=</span><span class="fu">apply</span>(MC.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
 <span id="cb468-10"><a href="WE-3.html#cb468-10" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
-=======
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="WE-3.html#cb475-1" aria-hidden="true" tabindex="-1"></a>Chisq.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.chisq,<span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
-<span id="cb475-2"><a href="WE-3.html#cb475-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.chisq))</span>
-<span id="cb475-3"><a href="WE-3.html#cb475-3" aria-hidden="true" tabindex="-1"></a>MC.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.MC, <span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
-<span id="cb475-4"><a href="WE-3.html#cb475-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.MC))</span>
-<span id="cb475-5"><a href="WE-3.html#cb475-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb475-6"><a href="WE-3.html#cb475-6" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
-<span id="cb475-7"><a href="WE-3.html#cb475-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
-<span id="cb475-8"><a href="WE-3.html#cb475-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">Chisq.fdr=</span><span class="fu">apply</span>(Chisq.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
-<span id="cb475-9"><a href="WE-3.html#cb475-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">MC.fdr=</span><span class="fu">apply</span>(MC.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
-<span id="cb475-10"><a href="WE-3.html#cb475-10" aria-hidden="true" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
->>>>>>> main
 <pre><code>##            Chisq    MC Chisq.fdr MC.fdr
 ## Airplane   0.000 0.250     0.000      0
 ## Bachelor   0.000 0.000     0.000      0
@@ -2011,19 +1914,11 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <p>This step is especially important when developing a new set of markers. You may want to drop (the less informative) one marker of any pair of linked loci.</p>
 <p>Here, we start with performing an overall test of linkage disequilibrium (the null hypothesis is that there is no linkage among the set of markers). Two indices are calculated and tested: an index of association (Ia; Brown et al. 1980) and a measure of correlation (rbarD; Agapow and Burt 2001), which is less biased (see URL above). The number of permutations is specified by ‘sample = 199.’</p>
 <p>Overall, there is statistically significant association among the markers (p-value: prD = 0.005; also left figure). Recall that the power of a statistical test increases with sample size, and here we have n = 181, hence even a small effect may be statistically significant. Hence we look at effect size, i.e., the actual strength of the pairwise associations (right figure).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="WE-3.html#cb470-1" aria-hidden="true" tabindex="-1"></a>poppr<span class="sc">::</span><span class="fu">ia</span>(Frogs.genind, <span class="at">sample=</span><span class="dv">199</span>)</span></code></pre></div>
 <pre><code>##         Ia       p.Ia      rbarD       p.rD 
 ## 0.33744318 0.00500000 0.05366542 0.00500000</code></pre>
 <div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="WE-3.html#cb472-1" aria-hidden="true" tabindex="-1"></a>LD.pair <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">pair.ia</span>(Frogs.genind)</span>
 <span id="cb472-2"><a href="WE-3.html#cb472-2" aria-hidden="true" tabindex="-1"></a>LD.pair</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="WE-3.html#cb477-1" aria-hidden="true" tabindex="-1"></a>poppr<span class="sc">::</span><span class="fu">ia</span>(Frogs.genind, <span class="at">sample=</span><span class="dv">199</span>)</span></code></pre></div>
-<pre><code>##         Ia       p.Ia      rbarD       p.rD 
-## 0.33744318 0.00500000 0.05366542 0.00500000</code></pre>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="WE-3.html#cb479-1" aria-hidden="true" tabindex="-1"></a>LD.pair <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">pair.ia</span>(Frogs.genind)</span>
-<span id="cb479-2"><a href="WE-3.html#cb479-2" aria-hidden="true" tabindex="-1"></a>LD.pair</span></code></pre></div>
->>>>>>> main
 <pre><code>##          Ia   rbarD
 ## A:B  0.0485  0.0492
 ## A:C -0.0314 -0.0335
@@ -2068,42 +1963,24 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <li><strong>homozygotes$bootstrap</strong>: distribution of the expected number of homozygotes</li>
 <li><strong>homozygotes$probability.obs</strong>: probability of observing the number of homozygotes</li>
 </ul>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="WE-3.html#cb474-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Null alleles: depends on method! See help file.</span></span>
 <span id="cb474-2"><a href="WE-3.html#cb474-2" aria-hidden="true" tabindex="-1"></a>Null.alleles <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">null.all</span>(Frogs.genind)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="WE-3.html#cb481-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Null alleles: depends on method! See help file.</span></span>
-<span id="cb481-2"><a href="WE-3.html#cb481-2" aria-hidden="true" tabindex="-1"></a>Null.alleles <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">null.all</span>(Frogs.genind)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;genetics&#39;:
 ##   method      from 
 ##   [.haplotype pegas</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="WE-3.html#cb477-1" aria-hidden="true" tabindex="-1"></a>Null.alleles<span class="sc">$</span>homozygotes<span class="sc">$</span>probability.obs</span></code></pre></div>
 <pre><code>##   Allele-1 Allele-2 Allele-3 Allele-4 Allele-5 Allele-6 Allele-7 Allele-8
-## A    0.107    0.000    0.035       NA       NA       NA       NA       NA
-## B    0.136    0.037    0.053    0.003       NA       NA       NA       NA
-## C    0.166    0.005    0.000    0.001       NA       NA       NA       NA
-## D    0.000    0.000    0.226    0.008       NA       NA       NA       NA
-## E    0.053    0.014    0.036    0.268    0.069    0.043    0.734    0.558
-## F    0.440    0.001    0.014       NA       NA       NA       NA       NA
-## G    0.081    0.071    0.028    0.002       NA       NA       NA       NA
-## H    0.454    0.099    0.019    0.023    0.255    0.321    0.008    0.001
-=======
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="WE-3.html#cb484-1" aria-hidden="true" tabindex="-1"></a>Null.alleles<span class="sc">$</span>homozygotes<span class="sc">$</span>probability.obs</span></code></pre></div>
-<pre><code>##   Allele-1 Allele-2 Allele-3 Allele-4 Allele-5 Allele-6 Allele-7 Allele-8
-## A    0.113    0.000    0.038       NA       NA       NA       NA       NA
-## B    0.143    0.050    0.067    0.004       NA       NA       NA       NA
-## C    0.183    0.002    0.000    0.002       NA       NA       NA       NA
-## D    0.000    0.000    0.222    0.006       NA       NA       NA       NA
-## E    0.058    0.010    0.038    0.303    0.070    0.044    0.738    0.530
-## F    0.453    0.000    0.014       NA       NA       NA       NA       NA
-## G    0.064    0.083    0.015    0.003       NA       NA       NA       NA
-## H    0.437    0.090    0.016    0.018    0.251    0.301    0.010    0.002
->>>>>>> main
+## A    0.113    0.000    0.027       NA       NA       NA       NA       NA
+## B    0.152    0.057    0.059    0.004       NA       NA       NA       NA
+## C    0.158    0.003    0.000    0.003       NA       NA       NA       NA
+## D    0.000    0.001    0.203    0.003       NA       NA       NA       NA
+## E    0.057    0.016    0.039    0.278    0.068    0.034    0.726    0.518
+## F    0.425    0.000    0.018       NA       NA       NA       NA       NA
+## G    0.081    0.074    0.020    0.002       NA       NA       NA       NA
+## H    0.445    0.093    0.016    0.029    0.260    0.308    0.007    0.002
 ##   Allele-9
 ## A       NA
 ## B       NA
@@ -2120,39 +1997,22 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 </ul>
 <p>From the help file: “Brookfield (1996) provides a brief discussion on which estimator should be used. In summary, it was recommended that Chakraborty et al. (1994)’s method (e.g. summary1) be used if there are individuals with no bands at a locus seen, but they are discounted as possible artefacts. If all individuals have one or more bands at a locus then Brookfield (1996)’s method (e.g. summary2) should be used.” In this case, we have many individuals with missing values for both alleles, hence better use summary1.</p>
 <p>Each summary table contains a summary with observed, median, 2.5th percentile and 97.5the percentile. The percentiles form a 95% confidence interval. From the help file: “If the 95% confidence interval includes zero, it indicates that the frequency of null alleles at a locus does not significantly differ from zero.”</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="WE-3.html#cb479-1" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot; summary1 (Chakraborty et al. 1994):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb479-2"><a href="WE-3.html#cb479-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary1,<span class="dv">2</span>)} </span></code></pre></div>
 <pre><code>##  summary1 (Chakraborty et al. 1994):</code></pre>
 <pre><code>##                       A    B    C    D    E     F    G    H
 ## Observed frequency 0.24 0.08 0.23 0.25 0.06  0.00 0.11 0.04
-## Median frequency   0.24 0.08 0.23 0.24 0.06  0.00 0.11 0.04
-## 2.5th percentile   0.07 0.01 0.04 0.17 0.02 -0.01 0.02 0.00
-## 97.5th percentile  0.42 0.16 0.47 0.33 0.11  0.00 0.22 0.09</code></pre>
+## Median frequency   0.23 0.08 0.23 0.24 0.06  0.00 0.11 0.04
+## 2.5th percentile   0.08 0.01 0.03 0.17 0.02 -0.01 0.01 0.00
+## 97.5th percentile  0.44 0.15 0.48 0.32 0.11  0.00 0.22 0.09</code></pre>
 <div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="WE-3.html#cb482-1" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;summary2 (Brookfield et al. 1996):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb482-2"><a href="WE-3.html#cb482-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary2,<span class="dv">2</span>)}   </span></code></pre></div>
-=======
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="WE-3.html#cb486-1" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot; summary1 (Chakraborty et al. 1994):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb486-2"><a href="WE-3.html#cb486-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary1,<span class="dv">2</span>)} </span></code></pre></div>
-<pre><code>##  summary1 (Chakraborty et al. 1994):</code></pre>
-<pre><code>##                       A    B    C    D    E     F    G    H
-## Observed frequency 0.24 0.08 0.23 0.25 0.06  0.00 0.11 0.04
-## Median frequency   0.24 0.08 0.22 0.24 0.06  0.00 0.11 0.04
-## 2.5th percentile   0.07 0.02 0.03 0.17 0.02 -0.01 0.01 0.00
-## 97.5th percentile  0.42 0.16 0.50 0.33 0.11  0.00 0.22 0.09</code></pre>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="WE-3.html#cb489-1" aria-hidden="true" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;summary2 (Brookfield et al. 1996):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb489-2"><a href="WE-3.html#cb489-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary2,<span class="dv">2</span>)}   </span></code></pre></div>
->>>>>>> main
 <pre><code>## summary2 (Brookfield et al. 1996):</code></pre>
 <pre><code>##                       A    B    C    D    E F    G    H
 ## Observed frequency 0.06 0.05 0.05 0.17 0.05 0 0.07 0.04
 ## Median frequency   0.06 0.05 0.05 0.17 0.05 0 0.07 0.04
-## 2.5th percentile   0.01 0.01 0.01 0.12 0.02 0 0.01 0.00
-<<<<<<< HEAD
-## 97.5th percentile  0.11 0.10 0.10 0.22 0.09 0 0.13 0.08</code></pre>
-=======
-## 97.5th percentile  0.10 0.10 0.11 0.22 0.09 0 0.13 0.08</code></pre>
->>>>>>> main
+## 2.5th percentile   0.02 0.01 0.01 0.12 0.01 0 0.01 0.00
+## 97.5th percentile  0.11 0.09 0.10 0.22 0.09 0 0.13 0.08</code></pre>
 <p>For this example, both methods suggest that there may be null alleles in most loci. However, the estimates of the frequency of null alleles differ a lot between the two methods.</p>
 <p>A different approach for estimating null alleles at microsatellite loci, based on the Estimation-Maximization algorithm, is implemented in <code>FreeNA</code> (outside of the R environment). <code>FreeNA</code> will directly provide Fst values and some other measurements using the corrected allele frequencies: <a href="https://www1.montpellier.inra.fr/CBGP/software/FreeNA/" class="uri">https://www1.montpellier.inra.fr/CBGP/software/FreeNA/</a></p>
 <p>Relevant papers for the Estimation-Maximization algorithm:</p>
@@ -2181,19 +2041,13 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <h4>a. Rarefied allelic richness</h4>
 <p>Both nominal sample size (number of frogs sampled) and valid sample size (e.g., for each locus, the number of frogs with non-missing genetic data) vary between sites. We would expect the number of alleles found in a population to increase with the number of individuals genotyped.</p>
 <p>We can check this by plotting the number of alleles against sample size. Here we create an object ‘Sum’ that contains the summary of the genind object, then we can access its elements by ‘$’ to plot what we need. The function ‘names’ lists the names of the elements, which reduced the guesswork.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="WE-3.html#cb485-1" aria-hidden="true" tabindex="-1"></a>Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
 <span id="cb485-2"><a href="WE-3.html#cb485-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Sum)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="WE-3.html#cb492-1" aria-hidden="true" tabindex="-1"></a>Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
-<span id="cb492-2"><a href="WE-3.html#cb492-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Sum)</span></code></pre></div>
->>>>>>> main
 <pre><code>## [1] &quot;n&quot;         &quot;n.by.pop&quot;  &quot;loc.n.all&quot; &quot;pop.n.all&quot; &quot;NA.perc&quot;   &quot;Hobs&quot;     
 ## [7] &quot;Hexp&quot;</code></pre>
 <p>The site names are quite long, hence we print the labels vertically by setting ‘las=3,’ and we modify the margins (‘mar’). The four numbers give the size of each margin in the following order: bottom, left, top, right.</p>
 <p>We add a regression line to the scatterplot with the function ‘abline,’ where we specify the linear regression model with the function ‘lm.’ In this case, we model the response ‘pop.n.all’ as a function of predictor ‘n.by.pop.’</p>
 <p>The barchart (left) shows that there is considerable variation among ponds in the number of alleles observed across all loci. The scatterplot (right) with the red regression line shows that the number of alleles increases with sample size.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="WE-3.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb487-2"><a href="WE-3.html#cb487-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(Sum<span class="sc">$</span>pop.n.all, <span class="at">las=</span><span class="dv">3</span>, </span>
 <span id="cb487-3"><a href="WE-3.html#cb487-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span>
@@ -2205,44 +2059,21 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <p>By default, the function ‘allel.rich’ finds the lowest valid sample size across all populations and loci, and multiplies it by the ploidy level. The number is stored as ‘Richness$alleles.sampled’ (here: 3 individuals * 2 alleles = 6 alleles). Alternatively, this number can be set with the ‘min.alleles’ argument.</p>
 <div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="WE-3.html#cb488-1" aria-hidden="true" tabindex="-1"></a>Richness <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">allel.rich</span>(Frogs.genind, <span class="at">min.alleles =</span> <span class="cn">NULL</span>)</span>
 <span id="cb488-2"><a href="WE-3.html#cb488-2" aria-hidden="true" tabindex="-1"></a>Richness<span class="sc">$</span>alleles.sampled</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="WE-3.html#cb494-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb494-2"><a href="WE-3.html#cb494-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(Sum<span class="sc">$</span>pop.n.all, <span class="at">las=</span><span class="dv">3</span>, </span>
-<span id="cb494-3"><a href="WE-3.html#cb494-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span>
-<span id="cb494-4"><a href="WE-3.html#cb494-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sum<span class="sc">$</span>n.by.pop, Sum<span class="sc">$</span>pop.n.all, </span>
-<span id="cb494-5"><a href="WE-3.html#cb494-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span>
-<span id="cb494-6"><a href="WE-3.html#cb494-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Sum<span class="sc">$</span>pop.n.all <span class="sc">~</span> Sum<span class="sc">$</span>n.by.pop), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
-<p>Hence we should not compare the number of alleles directly. Instead, we’ll use rarefied allelic richness (Ar).</p>
-<p>By default, the function ‘allel.rich’ finds the lowest valid sample size across all populations and loci, and multiplies it by the ploidy level. The number is stored as ‘Richness$alleles.sampled’ (here: 3 individuals * 2 alleles = 6 alleles). Alternatively, this number can be set with the ‘min.alleles’ argument.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="WE-3.html#cb495-1" aria-hidden="true" tabindex="-1"></a>Richness <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">allel.rich</span>(Frogs.genind, <span class="at">min.alleles =</span> <span class="cn">NULL</span>)</span>
-<span id="cb495-2"><a href="WE-3.html#cb495-2" aria-hidden="true" tabindex="-1"></a>Richness<span class="sc">$</span>alleles.sampled</span></code></pre></div>
->>>>>>> main
 <pre><code>## [1] 6</code></pre>
 <p>Populations with more alleles are resampled to determine the average allelic richness among the minimum number of alleles. Here, this means that 6 alleles are sampled from each population, allelic richness is calculated, and the process is repeated many times to determine the average).</p>
 <p>Let’s plot the results again. The barchart shows that there is considerable variation in genetic diversity among ponds. The scatterplot against sample size (here: for each population, the average number of valid alleles across loci) suggests that the variation is not related to sample size. The regression line (red) is almost horizontal.</p>
 <p>Here we plot the average Ar across loci, so that the result does not depend on the number of loci used.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="WE-3.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb490-2"><a href="WE-3.html#cb490-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(Richness<span class="sc">$</span>mean.richness, <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
 <span id="cb490-3"><a href="WE-3.html#cb490-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes), Richness<span class="sc">$</span>mean.richness,</span>
 <span id="cb490-4"><a href="WE-3.html#cb490-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valid sample size&quot;</span>, </span>
 <span id="cb490-5"><a href="WE-3.html#cb490-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
 <span id="cb490-6"><a href="WE-3.html#cb490-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Richness<span class="sc">$</span>mean.richness <span class="sc">~</span> <span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes)), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="WE-3.html#cb497-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb497-2"><a href="WE-3.html#cb497-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(Richness<span class="sc">$</span>mean.richness, <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
-<span id="cb497-3"><a href="WE-3.html#cb497-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes), Richness<span class="sc">$</span>mean.richness,</span>
-<span id="cb497-4"><a href="WE-3.html#cb497-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valid sample size&quot;</span>, </span>
-<span id="cb497-5"><a href="WE-3.html#cb497-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
-<span id="cb497-6"><a href="WE-3.html#cb497-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Richness<span class="sc">$</span>mean.richness <span class="sc">~</span> <span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes)), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <p><img src="03-Week03_files/figure-html/unnamed-chunk-20-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
 </div>
 <div id="b.-observed-and-expected-heterozygosity" class="section level4">
 <h4>b. Observed and expected heterozygosity</h4>
 <p>Note: Writing the ‘genind’ summary into an object ‘Sum’ allows accessing its attributes by name.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="WE-3.html#cb491-1" aria-hidden="true" tabindex="-1"></a>  Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
 <span id="cb491-2"><a href="WE-3.html#cb491-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Sum)</span></code></pre></div>
 <pre><code>## [1] &quot;n&quot;         &quot;n.by.pop&quot;  &quot;loc.n.all&quot; &quot;pop.n.all&quot; &quot;NA.perc&quot;   &quot;Hobs&quot;     
@@ -2260,25 +2091,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <span id="cb494-4"><a href="WE-3.html#cb494-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(Hexp, <span class="dv">2</span>)</span>
 <span id="cb494-5"><a href="WE-3.html#cb494-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Observed heterozygosity (Hobs):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb494-6"><a href="WE-3.html#cb494-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(Hobs, <span class="dv">2</span>)}</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="WE-3.html#cb498-1" aria-hidden="true" tabindex="-1"></a>  Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
-<span id="cb498-2"><a href="WE-3.html#cb498-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Sum)</span></code></pre></div>
-<pre><code>## [1] &quot;n&quot;         &quot;n.by.pop&quot;  &quot;loc.n.all&quot; &quot;pop.n.all&quot; &quot;NA.perc&quot;   &quot;Hobs&quot;     
-## [7] &quot;Hexp&quot;</code></pre>
-<p>Expected heterozygosity (here: Hexp) is the heterozygosity expected in a population under HWE, and observed heterozygosity (here: Hobs) is the observed number of heterozygotes at a locus divided by the total number of genotyped individuals. Here are the global values (pooled across all populations):</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="WE-3.html#cb500-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb500-2"><a href="WE-3.html#cb500-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hexp, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
-<span id="cb500-3"><a href="WE-3.html#cb500-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hobs, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-22-1.png" width="384" /><img src="03-Week03_files/figure-html/unnamed-chunk-22-2.png" width="384" /></p>
-<p>By locus and population:</p>
-<p>Here we use ‘seppop’ to split the genind object by population, then ‘sapply’ to apply function ‘summary’ to each population.</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="WE-3.html#cb501-1" aria-hidden="true" tabindex="-1"></a>  Hobs <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hobs))</span>
-<span id="cb501-2"><a href="WE-3.html#cb501-2" aria-hidden="true" tabindex="-1"></a>  Hexp <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hexp))</span>
-<span id="cb501-3"><a href="WE-3.html#cb501-3" aria-hidden="true" tabindex="-1"></a>  {<span class="fu">cat</span>(<span class="st">&quot;Expected heterozygosity (Hexp):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb501-4"><a href="WE-3.html#cb501-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(Hexp, <span class="dv">2</span>)</span>
-<span id="cb501-5"><a href="WE-3.html#cb501-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Observed heterozygosity (Hobs):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb501-6"><a href="WE-3.html#cb501-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(Hobs, <span class="dv">2</span>)}</span></code></pre></div>
->>>>>>> main
 <pre><code>## Expected heterozygosity (Hexp): 
 ## 
 ##  Observed heterozygosity (Hobs):</code></pre>
@@ -2295,7 +2107,6 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## Pothole    0.00 0.00 0.00 0.33 0.50 0.00 0.57 0.73
 ## ShipIsland 0.41 0.41 0.00 0.59 0.53 0.00 0.36 0.71
 ## Skyhigh    0.04 0.57 0.11 0.30 0.52 0.00 0.77 0.59</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="WE-3.html#cb497-1" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 1.- Hobs/Hexp</span></span></code></pre></div>
 <p>Locus F shows variation only in two populations (i.e., Hexp = 0 in 10 populations).</p>
 <p>Let’s plot the average across all loci for each population:</p>
@@ -2305,36 +2116,16 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <span id="cb498-3"><a href="WE-3.html#cb498-3" aria-hidden="true" tabindex="-1"></a>  Hexp.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hexp, <span class="dv">1</span>, mean) </span>
 <span id="cb498-4"><a href="WE-3.html#cb498-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Hexp.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
 <span id="cb498-5"><a href="WE-3.html#cb498-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Hobs.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="WE-3.html#cb504-1" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 1.- Hobs/Hexp</span></span></code></pre></div>
-<p>Locus F shows variation only in two populations (i.e., Hexp = 0 in 10 populations).</p>
-<p>Let’s plot the average across all loci for each population:</p>
-<p>Here we use ‘apply’ to apply the function ‘mean’ to the rows (MARGIN = 1). For columns, use ‘MARGIN = 2.’</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="WE-3.html#cb505-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb505-2"><a href="WE-3.html#cb505-2" aria-hidden="true" tabindex="-1"></a>  Hobs.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hobs, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> mean)</span>
-<span id="cb505-3"><a href="WE-3.html#cb505-3" aria-hidden="true" tabindex="-1"></a>  Hexp.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hexp, <span class="dv">1</span>, mean) </span>
-<span id="cb505-4"><a href="WE-3.html#cb505-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Hexp.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
-<span id="cb505-5"><a href="WE-3.html#cb505-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>(Hobs.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <p><img src="03-Week03_files/figure-html/unnamed-chunk-24-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
 </div>
 <div id="c.-create-table-with-sitel-level-genetic-diversity-measures" class="section level4">
 <h4>c. Create table with sitel-level genetic diversity measures</h4>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="WE-3.html#cb499-1" aria-hidden="true" tabindex="-1"></a>Frogs.diversity <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pop =</span> <span class="fu">names</span>(Hobs.pop),</span>
 <span id="cb499-2"><a href="WE-3.html#cb499-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">n =</span> Sum<span class="sc">$</span>n.by.pop,</span>
 <span id="cb499-3"><a href="WE-3.html#cb499-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Hobs =</span> Hobs.pop,</span>
 <span id="cb499-4"><a href="WE-3.html#cb499-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Hexp =</span> Hexp.pop,</span>
 <span id="cb499-5"><a href="WE-3.html#cb499-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Ar =</span> Richness<span class="sc">$</span>mean.richness)</span>
 <span id="cb499-6"><a href="WE-3.html#cb499-6" aria-hidden="true" tabindex="-1"></a>Frogs.diversity</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="WE-3.html#cb506-1" aria-hidden="true" tabindex="-1"></a>Frogs.diversity <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pop =</span> <span class="fu">names</span>(Hobs.pop),</span>
-<span id="cb506-2"><a href="WE-3.html#cb506-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">n =</span> Sum<span class="sc">$</span>n.by.pop,</span>
-<span id="cb506-3"><a href="WE-3.html#cb506-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Hobs =</span> Hobs.pop,</span>
-<span id="cb506-4"><a href="WE-3.html#cb506-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Hexp =</span> Hexp.pop,</span>
-<span id="cb506-5"><a href="WE-3.html#cb506-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Ar =</span> Richness<span class="sc">$</span>mean.richness)</span>
-<span id="cb506-6"><a href="WE-3.html#cb506-6" aria-hidden="true" tabindex="-1"></a>Frogs.diversity</span></code></pre></div>
->>>>>>> main
 <pre><code>##                   Pop  n      Hobs      Hexp       Ar
 ## Airplane     Airplane 21 0.3038064 0.3433019 1.939629
 ## Bachelor     Bachelor  8 0.3729167 0.3651953 2.003673
@@ -2349,47 +2140,28 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## ShipIsland ShipIsland 17 0.3755252 0.3918983 1.949255
 ## Skyhigh       Skyhigh 23 0.3632542 0.3552167 1.953610</code></pre>
 <p>You can save the R object ‘Frogs.diversity’ with the code below (need to uncomment by removing the hashtags ‘#’):</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="WE-3.html#cb501-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
 <span id="cb501-2"><a href="WE-3.html#cb501-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
 <span id="cb501-3"><a href="WE-3.html#cb501-3" aria-hidden="true" tabindex="-1"></a><span class="co">#save(Frogs.diversity, file = paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span>
 <span id="cb501-4"><a href="WE-3.html#cb501-4" aria-hidden="true" tabindex="-1"></a><span class="co">#load(paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span></code></pre></div>
-=======
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="WE-3.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
-<span id="cb508-2"><a href="WE-3.html#cb508-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
-<span id="cb508-3"><a href="WE-3.html#cb508-3" aria-hidden="true" tabindex="-1"></a><span class="co">#save(Frogs.diversity, file = paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span>
-<span id="cb508-4"><a href="WE-3.html#cb508-4" aria-hidden="true" tabindex="-1"></a><span class="co">#load(paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span></code></pre></div>
->>>>>>> main
 </div>
 </div>
 <div id="aggregate-genetic-data-at-population-level-allele-frequencies" class="section level3">
 <h3>4. Aggregate genetic data at population level (allele frequencies)</h3>
 <p>For some analyses, we will need to aggregate data from the individual to the population level, e.g. as a table of allele frequencies per population.</p>
 <p>Here we convert the ‘genind’ object to a ‘genpop’ object (NOT the same as a ‘genepop’ object!). This is defined in the package ‘adegenet’ to hold population-level genetic data. The function ‘genind2genpop’ obviously converts from ‘genind’ to ‘genpop.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="WE-3.html#cb502-1" aria-hidden="true" tabindex="-1"></a>Frogs.genpop <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">genind2genpop</span>(Frogs.genind)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="WE-3.html#cb509-1" aria-hidden="true" tabindex="-1"></a>Frogs.genpop <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">genind2genpop</span>(Frogs.genind)</span></code></pre></div>
->>>>>>> main
 <pre><code>## 
 ##  Converting data from a genind to a genpop object... 
 ## 
 ## ...done.</code></pre>
 <p>The function ‘makefreq’ extracts the table with allele frequencies from the ‘genpop’ object. We’ll plot just a few lines and alleles.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="WE-3.html#cb504-1" aria-hidden="true" tabindex="-1"></a>Freq <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">makefreq</span>(Frogs.genpop)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="WE-3.html#cb511-1" aria-hidden="true" tabindex="-1"></a>Freq <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">makefreq</span>(Frogs.genpop)</span></code></pre></div>
->>>>>>> main
 <pre><code>## 
 ##  Finding allelic frequencies from a genpop object... 
 ## 
 ## ...done.</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="WE-3.html#cb506-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="dv">2</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="WE-3.html#cb513-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="dv">2</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>##             A.1  A.2  A.3  B.1  B.3  B.2  B.4  C.1  C.2 C.4
 ## Airplane   0.62 0.35 0.03 0.83 0.17 0.00 0.00 1.00 0.00   0
 ## Bachelor   1.00 0.00 0.00 0.56 0.06 0.38 0.00 0.80 0.20   0
@@ -2398,11 +2170,7 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## Cache      1.00 0.00 0.00 0.42 0.00 0.50 0.08 0.75 0.25   0
 ## Egg        1.00 0.00 0.00 0.74 0.00 0.26 0.00 1.00 0.00   0</code></pre>
 <p>The allele frequencies of all alleles from the same locus (e.g., A.1, A.2 and A.3) should sum to 1 for each population. With eight loci, the row sums should thus add to 8.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="WE-3.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(Freq, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> sum)    <span class="co"># Just checking</span></span></code></pre></div>
-=======
-<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="WE-3.html#cb515-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(Freq, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> sum)    <span class="co"># Just checking</span></span></code></pre></div>
->>>>>>> main
 <pre><code>##   Airplane   Bachelor BarkingFox        Bob      Cache        Egg       Frog 
 ##          8          8          8          8          8          8          8 
 ##   GentianL   ParagonL    Pothole ShipIsland    Skyhigh 

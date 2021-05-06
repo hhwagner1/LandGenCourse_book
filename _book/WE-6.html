@@ -1020,10 +1020,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
-<<<<<<< HEAD
-=======
-<li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
->>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1720,7 +1716,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-packages-1" class="section level4">
 <h4>c. Required R packages</h4>
 <p>Install some packages needed for this worked example.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb671-1"><a href="WE-6.html#cb671-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
 <span id="cb671-2"><a href="WE-6.html#cb671-2" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</span>
 <span id="cb671-3"><a href="WE-6.html#cb671-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;QstFstComp&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;kjgilbert/QstFstComp&quot;</span>)</span></code></pre></div>
@@ -1742,29 +1737,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb674-2"><a href="WE-6.html#cb674-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
 <span id="cb674-3"><a href="WE-6.html#cb674-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;panel.cor.r&quot;</span>, </span>
 <span id="cb674-4"><a href="WE-6.html#cb674-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb678"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb678-1"><a href="WE-6.html#cb678-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb678-2"><a href="WE-6.html#cb678-2" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</span>
-<span id="cb678-3"><a href="WE-6.html#cb678-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;QstFstComp&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;kjgilbert/QstFstComp&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="WE-6.html#cb679-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb679-2"><a href="WE-6.html#cb679-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb679-3"><a href="WE-6.html#cb679-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(EcoGenetics)</span></span>
-<span id="cb679-4"><a href="WE-6.html#cb679-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methods)</span>
-<span id="cb679-5"><a href="WE-6.html#cb679-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb679-6"><a href="WE-6.html#cb679-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(lattice)</span></span>
-<span id="cb679-7"><a href="WE-6.html#cb679-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(MuMIn)</span></span>
-<span id="cb679-8"><a href="WE-6.html#cb679-8" aria-hidden="true" tabindex="-1"></a><span class="co">#require(predictmeans)</span></span>
-<span id="cb679-9"><a href="WE-6.html#cb679-9" aria-hidden="true" tabindex="-1"></a><span class="co">#require(nlme)</span></span>
-<span id="cb679-10"><a href="WE-6.html#cb679-10" aria-hidden="true" tabindex="-1"></a><span class="co">#require(QstFstComp)</span></span>
-<span id="cb679-11"><a href="WE-6.html#cb679-11" aria-hidden="true" tabindex="-1"></a><span class="co">#require(car)  </span></span></code></pre></div>
-<p>Package ‘ggeffects’ not automatically installed with ‘LandGenCourse’:</p>
-<div class="sourceCode" id="cb680"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb680-1"><a href="WE-6.html#cb680-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(ggeffects)) <span class="fu">install.packages</span>(<span class="st">&quot;ggeffects&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span></code></pre></div>
-<p>Source two files with additional functions:</p>
-<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="WE-6.html#cb681-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;supplemental_R_functions.R&quot;</span>, </span>
-<span id="cb681-2"><a href="WE-6.html#cb681-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb681-3"><a href="WE-6.html#cb681-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;panel.cor.r&quot;</span>, </span>
-<span id="cb681-4"><a href="WE-6.html#cb681-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
->>>>>>> main
 </div>
 </div>
 <div id="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment" class="section level3">
@@ -1773,15 +1745,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Goals &amp; Background</strong>: The goal for this part of the laboratory is to construct, fit, and assess LMMs for <span class="math inline">\(δ^{13}C\)</span>. We will be using the data in the file named “WWP_phenotypic_data.txt.” These data are organized in a tab-delimited text file with seedlings grouped by maternal tree (i.e. its mother tree), plot, and population. Also included is an experimental treatment known as “block.” In a common garden, seedlings from the same maternal tree are randomized among blocks to avoid the influence of micro-environmental variation on expression of phenotypic traits.</p>
 <div id="a.-import-phenytypic-data" class="section level4">
 <h4>a. Import phenytypic data</h4>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="WE-6.html#cb675-1" aria-hidden="true" tabindex="-1"></a>phen <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;WWP_phenotype_data.txt&quot;</span>, </span>
 <span id="cb675-2"><a href="WE-6.html#cb675-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header =</span> T)</span>
 <span id="cb675-3"><a href="WE-6.html#cb675-3" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(phen)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb682-1"><a href="WE-6.html#cb682-1" aria-hidden="true" tabindex="-1"></a>phen <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;WWP_phenotype_data.txt&quot;</span>, </span>
-<span id="cb682-2"><a href="WE-6.html#cb682-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb682-3"><a href="WE-6.html#cb682-3" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(phen)</span></code></pre></div>
->>>>>>> main
 <pre><code>## # A tibble: 779 x 5
 ##    population plot  family block  d13c
 ##    &lt;chr&gt;      &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
@@ -1797,15 +1763,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 blk cyn    BC1       60     2 -29.3
 ## # ... with 769 more rows</code></pre>
 <p>Check the variable types: ‘family’ and ‘block’ have been imported as type ‘integer,’ and we need to convert them to ‘factor’ first.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="WE-6.html#cb677-1" aria-hidden="true" tabindex="-1"></a>phen<span class="sc">$</span>family <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(phen<span class="sc">$</span>family)</span>
 <span id="cb677-2"><a href="WE-6.html#cb677-2" aria-hidden="true" tabindex="-1"></a>phen<span class="sc">$</span>block <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(phen<span class="sc">$</span>block)</span>
 <span id="cb677-3"><a href="WE-6.html#cb677-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(phen, class)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb684-1"><a href="WE-6.html#cb684-1" aria-hidden="true" tabindex="-1"></a>phen<span class="sc">$</span>family <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(phen<span class="sc">$</span>family)</span>
-<span id="cb684-2"><a href="WE-6.html#cb684-2" aria-hidden="true" tabindex="-1"></a>phen<span class="sc">$</span>block <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(phen<span class="sc">$</span>block)</span>
-<span id="cb684-3"><a href="WE-6.html#cb684-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(phen, class)</span></code></pre></div>
->>>>>>> main
 <pre><code>##  population        plot      family       block        d13c 
 ## &quot;character&quot; &quot;character&quot;    &quot;factor&quot;    &quot;factor&quot;   &quot;numeric&quot;</code></pre>
 </div>
@@ -1817,21 +1777,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - <strong>mod3</strong>:a LMM where the random effect due to family is nested within population. We will thus be ignoring the variable “plot.”
 - <strong>mod4</strong>:a LMM where the nesting of family within population is not explicitly specified, it is implied by the data.</p>
 <p>Note: ‘d13c ~ 1 + block’ is equivalent to ‘d13c ~ block’ (see video, Part 1).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="WE-6.html#cb679-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(d13c <span class="sc">~</span> block, <span class="at">data =</span> phen)</span>
 <span id="cb679-2"><a href="WE-6.html#cb679-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>family) <span class="sc">+</span> block,<span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb679-3"><a href="WE-6.html#cb679-3" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>population<span class="sc">/</span>family) <span class="sc">+</span> block, </span>
 <span id="cb679-4"><a href="WE-6.html#cb679-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb679-5"><a href="WE-6.html#cb679-5" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>population) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>family) <span class="sc">+</span> block, </span>
 <span id="cb679-6"><a href="WE-6.html#cb679-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb686"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb686-1"><a href="WE-6.html#cb686-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(d13c <span class="sc">~</span> block, <span class="at">data =</span> phen)</span>
-<span id="cb686-2"><a href="WE-6.html#cb686-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>family) <span class="sc">+</span> block,<span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb686-3"><a href="WE-6.html#cb686-3" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>population<span class="sc">/</span>family) <span class="sc">+</span> block, </span>
-<span id="cb686-4"><a href="WE-6.html#cb686-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb686-5"><a href="WE-6.html#cb686-5" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>population) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>family) <span class="sc">+</span> block, </span>
-<span id="cb686-6"><a href="WE-6.html#cb686-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> phen, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
->>>>>>> main
 <p>Models ‘mod3’ and ‘mod4’ produce identical results, as long as each family has its own unique ID. In the following, we will use ‘mod4’ as it simplifies interpretation (as commonly used in quantitative genetics).</p>
 <p>Notice that we are using REML=TRUE, which stands for restricted maximum likelihood. This method is advised for quantitative genetic analysis, because it provides unbiased estimates of the variance components. The other approach would be to use ML or maximum likelihood, however, it generally underestimates the residual variance, thus leading to inflated estimates of the family variance and thus the heritability. ML would be needed e.g. to test fixed effects.</p>
 </div>
@@ -1844,17 +1795,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>For the other models that were fitted with ‘lmer,’ we use ‘extractAIC.’</li>
 </ul>
 <p>For model comparison purposes, we have to use the ML fit, as AIC is no longer valid for REML. The function ‘extractAIC’ refits the models with ‘REML=FALSE’ to obtain AIC values that are comparable between models with different fixed effects (though this does not apply here because the fixed effects were the same), or between models fitted with ‘lm’ and ‘lmer.’ It returns two values, the first is the ‘equivalent degrees of freedom’ of the fitted model, and the second is the ‘AIC’ value. Here we only extract the second value.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb680"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb680-1"><a href="WE-6.html#cb680-1" aria-hidden="true" tabindex="-1"></a>aic_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">AIC</span>(mod1), <span class="fu">extractAIC</span>(mod2)[<span class="dv">2</span>], <span class="fu">extractAIC</span>(mod3)[<span class="dv">2</span>], </span>
 <span id="cb680-2"><a href="WE-6.html#cb680-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">extractAIC</span>(mod4)[<span class="dv">2</span>])</span>
 <span id="cb680-3"><a href="WE-6.html#cb680-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(aic_vals) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mod1&quot;</span>,<span class="st">&quot;mod2&quot;</span>,<span class="st">&quot;mod3&quot;</span>, <span class="st">&quot;mod4&quot;</span>)</span>
 <span id="cb680-4"><a href="WE-6.html#cb680-4" aria-hidden="true" tabindex="-1"></a>aic_vals</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="WE-6.html#cb687-1" aria-hidden="true" tabindex="-1"></a>aic_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">AIC</span>(mod1), <span class="fu">extractAIC</span>(mod2)[<span class="dv">2</span>], <span class="fu">extractAIC</span>(mod3)[<span class="dv">2</span>], </span>
-<span id="cb687-2"><a href="WE-6.html#cb687-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">extractAIC</span>(mod4)[<span class="dv">2</span>])</span>
-<span id="cb687-3"><a href="WE-6.html#cb687-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(aic_vals) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mod1&quot;</span>,<span class="st">&quot;mod2&quot;</span>,<span class="st">&quot;mod3&quot;</span>, <span class="st">&quot;mod4&quot;</span>)</span>
-<span id="cb687-4"><a href="WE-6.html#cb687-4" aria-hidden="true" tabindex="-1"></a>aic_vals</span></code></pre></div>
->>>>>>> main
 <pre><code>##     mod1     mod2     mod3     mod4 
 ## 2120.987 2080.266 2051.207 2051.207</code></pre>
 <p>Hence, model ‘mod3’ (and its equivalent ‘mod4’) appears to be the best model. This suggests that there are important differences among populations, and among trees within populations.</p>
@@ -1863,11 +1807,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="d.-check-model-validity" class="section level4">
 <h4>d. Check model validity</h4>
 <p>Is the model ‘mod4’ valid? Let’s check the residuals. The function ‘residplot’ from package ‘predictmeans’ produces four diagnostic plots for a model fitted with ‘lmer.’ The option ‘level’ indicates which random factor should be plotted (here: 1 = family, 2 = population). This function uses the ‘conditional’ residuals, which represent ‘observed - fitted(fixed) - fitted(random).’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb682-1"><a href="WE-6.html#cb682-1" aria-hidden="true" tabindex="-1"></a>predictmeans<span class="sc">::</span><span class="fu">residplot</span>(mod4, <span class="at">group=</span><span class="st">&quot;population&quot;</span>, <span class="at">level=</span><span class="dv">1</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="WE-6.html#cb689-1" aria-hidden="true" tabindex="-1"></a>predictmeans<span class="sc">::</span><span class="fu">residplot</span>(mod4, <span class="at">group=</span><span class="st">&quot;population&quot;</span>, <span class="at">level=</span><span class="dv">1</span>)</span></code></pre></div>
->>>>>>> main
 <p>Hint: You may need to use the arrow symbols to scroll through the plots in the ‘Plot’ tab in RStudio.</p>
 <p>The plots are:</p>
 <ul>
@@ -1883,19 +1823,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>A plot of Cook’s distances, where D &gt; 1 indicates influential points (more relevant when using quantitative predictors (covariates). Note: this may take a while to calculate.</li>
 </ul>
 <p>First we calculate the marginal residuals by predicting values with fixed effects only (‘re.form=NA’) and subtract these fitted values from the observed values.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="WE-6.html#cb683-1" aria-hidden="true" tabindex="-1"></a>marginal.residuals <span class="ot">&lt;-</span> mod4<span class="sc">@</span>frame<span class="sc">$</span>d13c <span class="sc">-</span> <span class="fu">predict</span>(mod4, <span class="at">re.form=</span><span class="cn">NA</span>)</span>
 <span id="cb683-2"><a href="WE-6.html#cb683-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod4<span class="sc">@</span>frame<span class="sc">$</span>block, marginal.residuals)</span></code></pre></div>
 <p><img src="06-Week06_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb684-1"><a href="WE-6.html#cb684-1" aria-hidden="true" tabindex="-1"></a><span class="co">#predictmeans::CookD(mod4)</span></span>
 <span id="cb684-2"><a href="WE-6.html#cb684-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cooks.distance</span>(mod4))</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="WE-6.html#cb690-1" aria-hidden="true" tabindex="-1"></a>marginal.residuals <span class="ot">&lt;-</span> mod4<span class="sc">@</span>frame<span class="sc">$</span>d13c <span class="sc">-</span> <span class="fu">predict</span>(mod4, <span class="at">re.form=</span><span class="cn">NA</span>)</span>
-<span id="cb690-2"><a href="WE-6.html#cb690-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod4<span class="sc">@</span>frame<span class="sc">$</span>block, marginal.residuals)</span></code></pre></div>
-<p><img src="06-Week06_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="WE-6.html#cb691-1" aria-hidden="true" tabindex="-1"></a><span class="co">#predictmeans::CookD(mod4)</span></span>
-<span id="cb691-2"><a href="WE-6.html#cb691-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cooks.distance</span>(mod4))</span></code></pre></div>
->>>>>>> main
 <p><img src="06-Week06_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 <p>The residual plots did not indicate any major problem. Hence we can proceed with interpreting the results.</p>
 </div>
@@ -1907,21 +1839,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>R2c: conditional <span class="math inline">\(R^2\)</span>. This is interpreted as the variance explained by both fixed and random factors, i.e., the entire model.</li>
 </ul>
 <p>In both statistics, the denominator is a sum of the fixed-effects variance, the random effect variance, and the residual variance.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="WE-6.html#cb685-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">r.squaredGLMM</span>(mod4)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb692"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb692-1"><a href="WE-6.html#cb692-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">r.squaredGLMM</span>(mod4)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Warning: &#39;r.squaredGLMM&#39; now calculates a revised statistic. See the help page.</code></pre>
 <pre><code>##             R2m       R2c
 ## [1,] 0.02466321 0.2297893</code></pre>
 <p>The fixed effect ‘block’ had a small effect of about 2.5%. The total model explained about 23%, most of which was due to the random effects.</p>
 <p>How important are the random factors ‘population’ and ‘family?’ The summary for ‘mod4’ lists the variance components under ‘Random effects.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb688"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb688-1"><a href="WE-6.html#cb688-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod4)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb695-1"><a href="WE-6.html#cb695-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod4)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: d13c ~ 1 + (1 | population) + (1 | family) + block
 ##    Data: phen
@@ -1954,21 +1878,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## block4 -0.378  0.497  0.505       
 ## block5 -0.374  0.492  0.499  0.496</code></pre>
 <p>Here we extract these variance components from the summary and divide by their sum.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="WE-6.html#cb690-1" aria-hidden="true" tabindex="-1"></a>fam.var <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">VarCorr</span>(mod4)<span class="sc">$</span><span class="st">&quot;family&quot;</span>[<span class="dv">1</span>]</span>
 <span id="cb690-2"><a href="WE-6.html#cb690-2" aria-hidden="true" tabindex="-1"></a>prov.var <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">VarCorr</span>(mod4)<span class="sc">$</span><span class="st">&quot;population&quot;</span>[<span class="dv">1</span>]</span>
 <span id="cb690-3"><a href="WE-6.html#cb690-3" aria-hidden="true" tabindex="-1"></a>res.var <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod4)<span class="sc">$</span>sigma<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb690-4"><a href="WE-6.html#cb690-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb690-5"><a href="WE-6.html#cb690-5" aria-hidden="true" tabindex="-1"></a>Components <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(fam.var, prov.var, res.var)</span>
 <span id="cb690-6"><a href="WE-6.html#cb690-6" aria-hidden="true" tabindex="-1"></a>Components <span class="sc">/</span> <span class="fu">sum</span>(Components)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb697-1"><a href="WE-6.html#cb697-1" aria-hidden="true" tabindex="-1"></a>fam.var <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">VarCorr</span>(mod4)<span class="sc">$</span><span class="st">&quot;family&quot;</span>[<span class="dv">1</span>]</span>
-<span id="cb697-2"><a href="WE-6.html#cb697-2" aria-hidden="true" tabindex="-1"></a>prov.var <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">VarCorr</span>(mod4)<span class="sc">$</span><span class="st">&quot;population&quot;</span>[<span class="dv">1</span>]</span>
-<span id="cb697-3"><a href="WE-6.html#cb697-3" aria-hidden="true" tabindex="-1"></a>res.var <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod4)<span class="sc">$</span>sigma<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb697-4"><a href="WE-6.html#cb697-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb697-5"><a href="WE-6.html#cb697-5" aria-hidden="true" tabindex="-1"></a>Components <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(fam.var, prov.var, res.var)</span>
-<span id="cb697-6"><a href="WE-6.html#cb697-6" aria-hidden="true" tabindex="-1"></a>Components <span class="sc">/</span> <span class="fu">sum</span>(Components)</span></code></pre></div>
->>>>>>> main
 <pre><code>##      fam.var  prov.var   res.var
 ## 1 0.09026004 0.1200531 0.7896869</code></pre>
 <p>Compared to Cohen’s (1988) effect sizes, population and family each had a medium-size effect (&gt; 9% variance explained) on d13c values.</p>
@@ -1978,17 +1893,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In quantiative genetics, we are more interested in estimating variance components and effects than hypothesis testing. Let’s do some testing anyways to see how it works.</p>
 <p>The confusing part here is that we need to fit the model differentely to test fixed and random effects. For random effects, we can use model ‘mod4’ that was fitted with ‘REML=TRUE.’</p>
 <p>The simplest way to test the significance of a random effect is to calculate the model with and without it and use ‘anova()’ to test whether the more complex model (listed first) explains significantly more than the simpler model. This implements a likelihood ratio test (LR). By default, when used for a model fitted with ‘lmer,’ ‘anova’ will refit the models with ML. Here we use the option’refit=FALSE’ to prevent this.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb692"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb692-1"><a href="WE-6.html#cb692-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mod.noPop &lt;- update(mod4, .~. -(1 | population))</span></span>
 <span id="cb692-2"><a href="WE-6.html#cb692-2" aria-hidden="true" tabindex="-1"></a>mod.noPop <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
 <span id="cb692-3"><a href="WE-6.html#cb692-3" aria-hidden="true" tabindex="-1"></a>mod.noFam <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
 <span id="cb692-4"><a href="WE-6.html#cb692-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noPop, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="WE-6.html#cb699-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mod.noPop &lt;- update(mod4, .~. -(1 | population))</span></span>
-<span id="cb699-2"><a href="WE-6.html#cb699-2" aria-hidden="true" tabindex="-1"></a>mod.noPop <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
-<span id="cb699-3"><a href="WE-6.html#cb699-3" aria-hidden="true" tabindex="-1"></a>mod.noFam <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
-<span id="cb699-4"><a href="WE-6.html#cb699-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noPop, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Data: phen
 ## Models:
 ## mod.noPop: d13c ~ 1 + (1 | family) + block
@@ -1998,11 +1906,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mod4         8 2066.4 2103.7 -1025.2   2050.4 32.819  1  1.012e-08 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="WE-6.html#cb694-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noFam, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="WE-6.html#cb701-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noFam, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Data: phen
 ## Models:
 ## mod.noFam: d13c ~ 1 + (1 | population) + block
@@ -2013,15 +1917,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>We can do a similar test for the fixed effecs. Here we have only one effect.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="WE-6.html#cb696-1" aria-hidden="true" tabindex="-1"></a>mod.noBlock <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family), <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
 <span id="cb696-2"><a href="WE-6.html#cb696-2" aria-hidden="true" tabindex="-1"></a>mod.noFam <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
 <span id="cb696-3"><a href="WE-6.html#cb696-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noBlock, <span class="at">refit=</span><span class="cn">TRUE</span>, <span class="at">REML=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb703"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb703-1"><a href="WE-6.html#cb703-1" aria-hidden="true" tabindex="-1"></a>mod.noBlock <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family), <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
-<span id="cb703-2"><a href="WE-6.html#cb703-2" aria-hidden="true" tabindex="-1"></a>mod.noFam <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> block, <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
-<span id="cb703-3"><a href="WE-6.html#cb703-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod4, mod.noBlock, <span class="at">refit=</span><span class="cn">TRUE</span>, <span class="at">REML=</span><span class="cn">FALSE</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
 <pre><code>## Data: phen
 ## Models:
@@ -2033,15 +1931,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>If we have several fixed effects, it may be more convenient to use function ‘Anova’ from the ‘car’ package to perform a Wald chi-square test. However, the model must be fitted with ML. Choose between type II and type II sums of squares (see video).</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="WE-6.html#cb699-1" aria-hidden="true" tabindex="-1"></a>mod4.ML <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family) <span class="sc">+</span> block, </span>
 <span id="cb699-2"><a href="WE-6.html#cb699-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
 <span id="cb699-3"><a href="WE-6.html#cb699-3" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod4.ML, <span class="at">type=</span><span class="st">&quot;II&quot;</span>, <span class="at">test.statistic=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="WE-6.html#cb706-1" aria-hidden="true" tabindex="-1"></a>mod4.ML <span class="ot">&lt;-</span> <span class="fu">lmer</span>(d13c <span class="sc">~</span> <span class="dv">1</span>  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> population) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> family) <span class="sc">+</span> block, </span>
-<span id="cb706-2"><a href="WE-6.html#cb706-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>phen, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
-<span id="cb706-3"><a href="WE-6.html#cb706-3" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod4.ML, <span class="at">type=</span><span class="st">&quot;II&quot;</span>, <span class="at">test.statistic=</span><span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <pre><code>## Registered S3 methods overwritten by &#39;car&#39;:
 ##   method                          from
 ##   influence.merMod                lme4
@@ -2066,11 +1958,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s start with estimating the heritability of <span class="math inline">\(δ^{13}C\)</span>. If you remember from your undergraduate evolution course, heritability refers generally to the proportion of phenotypic variance due to genetic variance. It comes in at least two different versions. The version we are interested in is narrow-sense heritability (<span class="math inline">\(h^2\)</span>), which is defined as the ratio of additive genetic variance to total phenotypic variance:</p>
 <p><span class="math display">\[h^{2} = \frac{\sigma^{2}_{additive}}{\sigma^{2}_{total}}\]</span>
 We need to extract the variance components from ‘mod3’ for all model terms. We do this visually by printing mod3 to screen or using a set of functions applied to ‘mod3.’ Here, we will do both.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="WE-6.html#cb702-1" aria-hidden="true" tabindex="-1"></a>mod4</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb709"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb709-1"><a href="WE-6.html#cb709-1" aria-hidden="true" tabindex="-1"></a>mod4</span></code></pre></div>
->>>>>>> main
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: d13c ~ 1 + (1 | population) + (1 | family) + block
 ##    Data: phen
@@ -2086,7 +1974,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 ##    -30.6263      -0.1383      -0.3507      -0.1006      -0.3944</code></pre>
 <p>Using the results from above, let’s calculate <span class="math inline">\(h^2\)</span>. If we assume that the seedlings from each maternal tree are half-siblings (i.e. same mom, but each with a different father) then <span class="math inline">\(σ^2_A = 4 σ^2_{family}\)</span> (so variance due to family). If the seedlings were all full-siblings, then the 4 would be replaced with 2. Let’s assume half-siblings. We can then do the following:</p>
 <p>Copying the values visually from the output above (note that we need to square the standard deviations to get the variances):</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="WE-6.html#cb704-1" aria-hidden="true" tabindex="-1"></a>add_var <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">*</span>(<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb704-2"><a href="WE-6.html#cb704-2" aria-hidden="true" tabindex="-1"></a>total_wp_var <span class="ot">&lt;-</span> (<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (<span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (<span class="fl">0.8452</span><span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb704-3"><a href="WE-6.html#cb704-3" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> add_var<span class="sc">/</span>total_wp_var</span>
@@ -2096,17 +1983,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="WE-6.html#cb706-1" aria-hidden="true" tabindex="-1"></a>one.over.relatedness <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fl">0.25</span></span>
 <span id="cb706-2"><a href="WE-6.html#cb706-2" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> (one.over.relatedness<span class="sc">*</span>Components<span class="sc">$</span>fam.var) <span class="sc">/</span> <span class="fu">sum</span>(Components)</span>
 <span id="cb706-3"><a href="WE-6.html#cb706-3" aria-hidden="true" tabindex="-1"></a>h2</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb711"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb711-1"><a href="WE-6.html#cb711-1" aria-hidden="true" tabindex="-1"></a>add_var <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">*</span>(<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb711-2"><a href="WE-6.html#cb711-2" aria-hidden="true" tabindex="-1"></a>total_wp_var <span class="ot">&lt;-</span> (<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (<span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (<span class="fl">0.8452</span><span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb711-3"><a href="WE-6.html#cb711-3" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> add_var<span class="sc">/</span>total_wp_var</span>
-<span id="cb711-4"><a href="WE-6.html#cb711-4" aria-hidden="true" tabindex="-1"></a>h2</span></code></pre></div>
-<pre><code>## [1] 0.3609476</code></pre>
-<p>And the same using the variance components from above:</p>
-<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb713-1"><a href="WE-6.html#cb713-1" aria-hidden="true" tabindex="-1"></a>one.over.relatedness <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fl">0.25</span></span>
-<span id="cb713-2"><a href="WE-6.html#cb713-2" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> (one.over.relatedness<span class="sc">*</span>Components<span class="sc">$</span>fam.var) <span class="sc">/</span> <span class="fu">sum</span>(Components)</span>
-<span id="cb713-3"><a href="WE-6.html#cb713-3" aria-hidden="true" tabindex="-1"></a>h2</span></code></pre></div>
->>>>>>> main
 <pre><code>## [1] 0.3610402</code></pre>
 <p><strong>Question:</strong> Inspect your value of <span class="math inline">\(h^2\)</span>. What does it mean?</p>
 <p>We have generated a point estimate for <span class="math inline">\(h^2\)</span>. It represents the average <span class="math inline">\(h^2\)</span> across populations after removing the genetic effects due to population differences. To take this further and also get a SE (so that you can construct a confidence interval), you could check out this R package:
@@ -2118,7 +1994,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p><span class="math display">\[Q_{ST} = \frac{\sigma^{2}_{population}}
 {\sigma^{2}_{population}+8\sigma^{2}_{family}}\]</span></p>
 <p>Again, we can do this by copying the values visually from the output:</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb708-1"><a href="WE-6.html#cb708-1" aria-hidden="true" tabindex="-1"></a>num_qst <span class="ot">&lt;-</span> <span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb708-2"><a href="WE-6.html#cb708-2" aria-hidden="true" tabindex="-1"></a>dem_qst <span class="ot">&lt;-</span> <span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">8</span><span class="sc">*</span>(<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb708-3"><a href="WE-6.html#cb708-3" aria-hidden="true" tabindex="-1"></a>qst <span class="ot">&lt;-</span> num_qst<span class="sc">/</span>dem_qst</span>
@@ -2129,18 +2004,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <span id="cb710-2"><a href="WE-6.html#cb710-2" aria-hidden="true" tabindex="-1"></a>dem_qst <span class="ot">&lt;-</span> Components<span class="sc">$</span>prov.var <span class="sc">+</span> (<span class="dv">8</span><span class="sc">*</span>Components<span class="sc">$</span>fam.var)</span>
 <span id="cb710-3"><a href="WE-6.html#cb710-3" aria-hidden="true" tabindex="-1"></a>qst <span class="ot">&lt;-</span> num_qst<span class="sc">/</span>dem_qst</span>
 <span id="cb710-4"><a href="WE-6.html#cb710-4" aria-hidden="true" tabindex="-1"></a>qst</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="WE-6.html#cb715-1" aria-hidden="true" tabindex="-1"></a>num_qst <span class="ot">&lt;-</span> <span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb715-2"><a href="WE-6.html#cb715-2" aria-hidden="true" tabindex="-1"></a>dem_qst <span class="ot">&lt;-</span> <span class="fl">0.3295</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">8</span><span class="sc">*</span>(<span class="fl">0.2857</span><span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb715-3"><a href="WE-6.html#cb715-3" aria-hidden="true" tabindex="-1"></a>qst <span class="ot">&lt;-</span> num_qst<span class="sc">/</span>dem_qst</span>
-<span id="cb715-4"><a href="WE-6.html#cb715-4" aria-hidden="true" tabindex="-1"></a>qst</span></code></pre></div>
-<pre><code>## [1] 0.1425618</code></pre>
-<p>Or using the variance components from above:</p>
-<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb717-1"><a href="WE-6.html#cb717-1" aria-hidden="true" tabindex="-1"></a>num_qst <span class="ot">&lt;-</span> Components<span class="sc">$</span>prov.var</span>
-<span id="cb717-2"><a href="WE-6.html#cb717-2" aria-hidden="true" tabindex="-1"></a>dem_qst <span class="ot">&lt;-</span> Components<span class="sc">$</span>prov.var <span class="sc">+</span> (<span class="dv">8</span><span class="sc">*</span>Components<span class="sc">$</span>fam.var)</span>
-<span id="cb717-3"><a href="WE-6.html#cb717-3" aria-hidden="true" tabindex="-1"></a>qst <span class="ot">&lt;-</span> num_qst<span class="sc">/</span>dem_qst</span>
-<span id="cb717-4"><a href="WE-6.html#cb717-4" aria-hidden="true" tabindex="-1"></a>qst</span></code></pre></div>
->>>>>>> main
 <pre><code>## [1] 0.1425583</code></pre>
 <p><strong>Question:</strong> Inspect your ‘qst’ value:</p>
 <ul>
@@ -2159,11 +2022,7 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <div id="a.-import-ecogen-object" class="section level4">
 <h4>a. Import ‘ecogen’ object</h4>
 <p>Load the data set ‘WWP.ecogen.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="WE-6.html#cb712-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(WWP.ecogen, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb719-1"><a href="WE-6.html#cb719-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(WWP.ecogen, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
->>>>>>> main
 <p>This ‘ecogen’ object has information in the following slots:</p>
 <ul>
 <li><strong>XY</strong>: data frame with spatial coordinates (here: longitude, latitude)</li>
@@ -2180,7 +2039,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p>Here, we will use the ‘QstFstComp’ library to formally test whether or not <span class="math inline">\(Q_{ST} &gt; F_{ST}\)</span> for <span class="math inline">\(δ^{13}C\)</span>. The function ‘QstFstComp’ from the package with the same name calculates both <span class="math inline">\(Q_{ST}\)</span> and <span class="math inline">\(F_{ST}\)</span> itself, then tests whethere they are different from each other.</p>
 <p>Note: as this is a permutation test, if you run it several times, the results may change slightly from run to run.</p>
 <p>First, however, we need to re-format the data to the format that ‘QstFstComp’ expects. This is easy with the function ‘ecogen2hierfstat.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb713-1"><a href="WE-6.html#cb713-1" aria-hidden="true" tabindex="-1"></a>WWP.hierfstat <span class="ot">&lt;-</span> EcoGenetics<span class="sc">::</span><span class="fu">ecogen2hierfstat</span>(WWP.ecogen, <span class="at">pop=</span><span class="st">&#39;population&#39;</span>, </span>
 <span id="cb713-2"><a href="WE-6.html#cb713-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">to_numeric=</span><span class="cn">TRUE</span>, <span class="at">nout=</span><span class="dv">1</span>)</span>
 <span id="cb713-3"><a href="WE-6.html#cb713-3" aria-hidden="true" tabindex="-1"></a>phen_mod <span class="ot">&lt;-</span> phen[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]</span>
@@ -2195,66 +2053,28 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="WE-6.html#cb715-1" aria-hidden="true" tabindex="-1"></a>QstFst_out</span></code></pre></div>
 <pre><code>## [[1]]
 ##            Calculated Qst-Fst  Lower Bound crit. value.2.5% 
-##                    0.11917632                   -0.02690111 
+##                    0.11917632                   -0.02653722 
 ## Upper bound crit. value.97.5% 
-##                    0.06572486 
+##                    0.06606086 
 ## 
 ## [[2]]
-## [1] &quot;Qst-Fst values output to file: C:/Users/wagnerh1/Desktop/LandGenCourse_book/vignettes/QminusFvalues_2021-05-06_07-05-20.txt&quot;
+## [1] &quot;Qst-Fst values output to file: C:/Users/wagnerh1/Desktop/LandGenCourse_book/vignettes/QminusFvalues_2021-05-06_09-46-08.txt&quot;
 ## 
 ## [[3]]
 ## Lower one-tailed p value Upper one-tailed p value       Two-tailed p value 
-##                   0.9948                   0.0052                   0.0104 
+##                   0.9935                   0.0065                   0.0130 
 ## 
 ## [[4]]
 ##        Estimated Fst  Lower Bound CI.2.5% Upper bound CI.97.5% 
-##           0.01419871           0.01110933           0.01747113 
+##           0.01419871           0.01110478           0.01747439 
 ## 
 ## [[5]]
 ##        Estimated Qst  Lower Bound CI.2.5% Upper bound CI.97.5% 
-##           0.13337503           0.02502491           0.37830855 
+##           0.13337503           0.02681086           0.35942620 
 ## 
 ## [[6]]
 ##                   Va  Lower bound CI.2.5% Upper bound CI.97.5% 
-##            0.3180848            0.1099279            0.5496897</code></pre>
-=======
-<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="WE-6.html#cb720-1" aria-hidden="true" tabindex="-1"></a>WWP.hierfstat <span class="ot">&lt;-</span> EcoGenetics<span class="sc">::</span><span class="fu">ecogen2hierfstat</span>(WWP.ecogen, <span class="at">pop=</span><span class="st">&#39;population&#39;</span>, </span>
-<span id="cb720-2"><a href="WE-6.html#cb720-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">to_numeric=</span><span class="cn">TRUE</span>, <span class="at">nout=</span><span class="dv">1</span>)</span>
-<span id="cb720-3"><a href="WE-6.html#cb720-3" aria-hidden="true" tabindex="-1"></a>phen_mod <span class="ot">&lt;-</span> phen[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]</span>
-<span id="cb720-4"><a href="WE-6.html#cb720-4" aria-hidden="true" tabindex="-1"></a>QstFst_out <span class="ot">&lt;-</span> QstFstComp<span class="sc">::</span><span class="fu">QstFstComp</span>(<span class="at">fst.dat =</span> WWP.hierfstat, </span>
-<span id="cb720-5"><a href="WE-6.html#cb720-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">qst.dat =</span> phen_mod, </span>
-<span id="cb720-6"><a href="WE-6.html#cb720-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">numpops =</span> <span class="fu">nlevels</span>(WWP<span class="sc">@</span>S<span class="sc">$</span>population), </span>
-<span id="cb720-7"><a href="WE-6.html#cb720-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">nsim =</span> <span class="dv">10000</span>, </span>
-<span id="cb720-8"><a href="WE-6.html#cb720-8" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">breeding.design =</span> <span class="st">&quot;half.sib.dam&quot;</span>,</span>
-<span id="cb720-9"><a href="WE-6.html#cb720-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">dam.offspring.relatedness =</span> <span class="fl">0.25</span>, </span>
-<span id="cb720-10"><a href="WE-6.html#cb720-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">output =</span> <span class="st">&quot;concise_nowrite&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;No output file of Q minus F values written.&quot;</code></pre>
-<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="WE-6.html#cb722-1" aria-hidden="true" tabindex="-1"></a>QstFst_out</span></code></pre></div>
-<pre><code>## [[1]]
-##            Calculated Qst-Fst  Lower Bound crit. value.2.5% 
-##                    0.11917632                   -0.02716319 
-## Upper bound crit. value.97.5% 
-##                    0.06398990 
-## 
-## [[2]]
-## [1] &quot;Qst-Fst values output to file: C:/Users/wagnerh1/Desktop/LandGenCourse_book/vignettes/QminusFvalues_2021-05-06_04-15-39.txt&quot;
-## 
-## [[3]]
-## Lower one-tailed p value Upper one-tailed p value       Two-tailed p value 
-##                   0.9942                   0.0058                   0.0116 
-## 
-## [[4]]
-##        Estimated Fst  Lower Bound CI.2.5% Upper bound CI.97.5% 
-##           0.01419871           0.01106050           0.01750534 
-## 
-## [[5]]
-##        Estimated Qst  Lower Bound CI.2.5% Upper bound CI.97.5% 
-##           0.13337503           0.02603101           0.37388786 
-## 
-## [[6]]
-##                   Va  Lower bound CI.2.5% Upper bound CI.97.5% 
-##            0.3180848            0.1063183            0.5476306</code></pre>
->>>>>>> main
+##            0.3180848            0.1095568            0.5500721</code></pre>
 <p>The output contains the following elements:</p>
 <ul>
 <li>‘[[1]]’: The calculated difference between Qst and Fst, with 95% critical values of the distribution of the distribution under the null hypothesis of no difference.</li>
@@ -2283,24 +2103,14 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p>Which blocks, populations or trees had higher mean d13c values than others? To answer this question, we extract and plot the fixed and random effects. We’ll start with the fixed effect for ‘block.’</p>
 <p>The effects are not simply the mean of all seedlings from the same block, but the marginal effect of ‘block,’ i.e., estimates of the mean per block after accounting for all other effects (i.e., keeping population and family constant).</p>
 <p>There are two ways to extract the block effects. The first is with function ‘fixef.’ This treats the first level of ‘block’ as a reference level and uses it to estimate the global intercept, then expresses the effect of the other blocks as deviations from the first block.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb717-1"><a href="WE-6.html#cb717-1" aria-hidden="true" tabindex="-1"></a>lme4<span class="sc">::</span><span class="fu">fixef</span>(mod4)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="WE-6.html#cb724-1" aria-hidden="true" tabindex="-1"></a>lme4<span class="sc">::</span><span class="fu">fixef</span>(mod4)</span></code></pre></div>
->>>>>>> main
 <pre><code>## (Intercept)      block2      block3      block4      block5 
 ## -30.6263478  -0.1383311  -0.3507053  -0.1006031  -0.3944314</code></pre>
 <p>A more convenient way to extract the effects is with function ‘ggeffect’ of the package ‘ggeffects.’</p>
 <p>Note: The package ‘ggeffects’ is not automatically imported with ‘LandGenCourse’ to avoid incompatibility issues. You can install by runing ‘install.packages(“ggeffects”)’ below without ‘#.’</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb719-1"><a href="WE-6.html#cb719-1" aria-hidden="true" tabindex="-1"></a><span class="do">## i.stall.packages(&quot;ggeffects&quot;)</span></span>
 <span id="cb719-2"><a href="WE-6.html#cb719-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb719-3"><a href="WE-6.html#cb719-3" aria-hidden="true" tabindex="-1"></a>ggeffects<span class="sc">::</span><span class="fu">ggeffect</span>(mod4, <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;block&quot;</span>))</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="WE-6.html#cb726-1" aria-hidden="true" tabindex="-1"></a><span class="do">## i.stall.packages(&quot;ggeffects&quot;)</span></span>
-<span id="cb726-2"><a href="WE-6.html#cb726-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb726-3"><a href="WE-6.html#cb726-3" aria-hidden="true" tabindex="-1"></a>ggeffects<span class="sc">::</span><span class="fu">ggeffect</span>(mod4, <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;block&quot;</span>))</span></code></pre></div>
->>>>>>> main
 <pre><code>## Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.FALSE</code></pre>
 <pre><code>## # Predicted values of d13c
 ## 
@@ -2318,11 +2128,7 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p>The table lists the predicted d13c value for each block (accounting for population and family) and a 95% confidence interval for each predicted value.</p>
 <p>Now let’s plot the effects (mean with 95% confidence interval) for each random factor, accounting for all other factors. Again, these are not simply means of observed traits values but marginal effect, accounting for all other factors in the model.</p>
 <p>Note: If the plots appear in the ‘Plot’ tab in RStudio, use the arrows to scroll between plots.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="WE-6.html#cb722-1" aria-hidden="true" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(<span class="fu">ranef</span>(mod4,<span class="at">condVar=</span><span class="cn">TRUE</span>))</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="WE-6.html#cb729-1" aria-hidden="true" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(<span class="fu">ranef</span>(mod4,<span class="at">condVar=</span><span class="cn">TRUE</span>))</span></code></pre></div>
->>>>>>> main
 <pre><code>## $family</code></pre>
 <p><img src="06-Week06_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <pre><code>## 
@@ -2330,15 +2136,9 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p><img src="06-Week06_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
 <p>We can see that there are considerable differences between populations, where ‘blk cyn’ has the highest, and ‘mt watson’ the lowest mean.</p>
 <p>We can extract the values with ‘ranef.’ Again, they are deviations from the global intercept (block 1). We are now ready to correlate the population effect to the environmental data.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb725"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb725-1"><a href="WE-6.html#cb725-1" aria-hidden="true" tabindex="-1"></a>prov.eff <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">ranef</span>(mod4)<span class="sc">$</span>population</span>
 <span id="cb725-2"><a href="WE-6.html#cb725-2" aria-hidden="true" tabindex="-1"></a>fam.eff <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">ranef</span>(mod4)<span class="sc">$</span>family</span>
 <span id="cb725-3"><a href="WE-6.html#cb725-3" aria-hidden="true" tabindex="-1"></a>prov.eff</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb732-1"><a href="WE-6.html#cb732-1" aria-hidden="true" tabindex="-1"></a>prov.eff <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">ranef</span>(mod4)<span class="sc">$</span>population</span>
-<span id="cb732-2"><a href="WE-6.html#cb732-2" aria-hidden="true" tabindex="-1"></a>fam.eff <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">ranef</span>(mod4)<span class="sc">$</span>family</span>
-<span id="cb732-3"><a href="WE-6.html#cb732-3" aria-hidden="true" tabindex="-1"></a>prov.eff</span></code></pre></div>
->>>>>>> main
 <pre><code>##              (Intercept)
 ## armstrong    -0.16372457
 ## blk cyn       0.56424812
@@ -2350,11 +2150,7 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 ## meiss mdw    -0.18557714
 ## montreal cyn -0.02673127
 ## mt watson    -0.46206634</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb727-1"><a href="WE-6.html#cb727-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fam.eff)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb734-1"><a href="WE-6.html#cb734-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fam.eff)</span></code></pre></div>
->>>>>>> main
 <pre><code>##     (Intercept)
 ## 59  0.269660618
 ## 60 -0.036688490
@@ -2366,7 +2162,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <div id="b.-correlation-of-population-effect-with-environment" class="section level4">
 <h4>b. Correlation of population effect with environment</h4>
 <p>We have population effects estimated for 10 populations, and bioclimatic data for 30 plots (3 plots x 10 populations). If we used all 157 rows of the site data set, this would inflate our sample size. To avoid this, we first extract 30 unique rows (one per plot) from the site data ‘<a href="mailto:WWP.ecogen@E" class="email">WWP.ecogen@E</a>.’ Then we use’ match’ to find for each plot the corresponding population. This returns the row number (‘index’) and we use it to extract the corresponding population effect.</p>
-<<<<<<< HEAD
 <div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="WE-6.html#cb729-1" aria-hidden="true" tabindex="-1"></a>Plot.data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(<span class="fu">data.frame</span>(WWP.ecogen<span class="sc">@</span>E, </span>
 <span id="cb729-2"><a href="WE-6.html#cb729-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">population=</span>WWP.ecogen<span class="sc">@</span>S<span class="sc">$</span>population))</span>
 <span id="cb729-3"><a href="WE-6.html#cb729-3" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">match</span>(Plot.data<span class="sc">$</span>population, <span class="fu">row.names</span>(prov.eff))</span>
@@ -2374,15 +2169,6 @@ We need to extract the variance components from ‘mod3’ for all model terms. 
 <p>Now we estimate the correlation between the population effect and each bioclimatic variable. We summarize the results in a correlation matrix plot.</p>
 <div class="sourceCode" id="cb730"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb730-1"><a href="WE-6.html#cb730-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(dat2, <span class="at">lower.panel=</span>panel.smooth, <span class="at">upper.panel=</span>panel.cor,</span>
 <span id="cb730-2"><a href="WE-6.html#cb730-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">diag.panel=</span>panel.hist)</span></code></pre></div>
-=======
-<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb736-1"><a href="WE-6.html#cb736-1" aria-hidden="true" tabindex="-1"></a>Plot.data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(<span class="fu">data.frame</span>(WWP.ecogen<span class="sc">@</span>E, </span>
-<span id="cb736-2"><a href="WE-6.html#cb736-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">population=</span>WWP.ecogen<span class="sc">@</span>S<span class="sc">$</span>population))</span>
-<span id="cb736-3"><a href="WE-6.html#cb736-3" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">match</span>(Plot.data<span class="sc">$</span>population, <span class="fu">row.names</span>(prov.eff))</span>
-<span id="cb736-4"><a href="WE-6.html#cb736-4" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">prov.eff=</span>prov.eff[index,<span class="dv">1</span>], Plot.data[,<span class="sc">-</span><span class="dv">8</span>])</span></code></pre></div>
-<p>Now we estimate the correlation between the population effect and each bioclimatic variable. We summarize the results in a correlation matrix plot.</p>
-<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb737-1"><a href="WE-6.html#cb737-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(dat2, <span class="at">lower.panel=</span>panel.smooth, <span class="at">upper.panel=</span>panel.cor,</span>
-<span id="cb737-2"><a href="WE-6.html#cb737-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">diag.panel=</span>panel.hist)</span></code></pre></div>
->>>>>>> main
 <p><img src="06-Week06_files/figure-html/unnamed-chunk-32-1.png" width="720" /></p>
 <p>How to read this plot:</p>
 <ul>
