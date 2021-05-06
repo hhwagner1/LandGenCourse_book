@@ -70,8 +70,6 @@ Weeks 1 - 8:
 
 #### b) Check contents
 
-=======
-
 - **Beginners**:   watch video -> do tutorial -> read WE
 - **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
 - **Advanced**:   check video slides -> R exercise? -> adapt WE to own data

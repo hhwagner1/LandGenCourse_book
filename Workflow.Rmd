@@ -169,7 +169,7 @@ bookdown:::serve_book()
 To put the information into the .Renviron file, paste the following lines into the file:
 
 CONNECT_SERVER="https://bookdown.org/"
-CONNECT_API_KEY="YKilVq9PkvyEYymPpkaY35e3KFV7b1Nn"
+CONNECT_API_KEY=
 
 ```{r}
 usethis::edit_r_environ()  # This will open the file
@@ -181,7 +181,7 @@ At the beginning of the session:
 library(httr)
 
 connectServer <- "https://bookdown.org/"
-connectAPIKey <- "YKilVq9PkvyEYymPpkaY35e3KFV7b1Nn"
+#connectAPIKey <- 
 
 #connectServer <- Sys.getenv("CONNECT_SERVER")
 #connectAPIKey <- Sys.getenv("CONNECT_API_KEY")

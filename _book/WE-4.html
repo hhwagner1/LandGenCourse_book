@@ -1020,7 +1020,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<<<<<<< HEAD
+=======
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+>>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1721,6 +1724,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-3" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="WE-4.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb510-2"><a href="WE-4.html#cb510-2" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="WE-4.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb511-2"><a href="WE-4.html#cb511-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EcoGenetics)</span>
+<span id="cb511-3"><a href="WE-4.html#cb511-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methods)</span>
+<span id="cb511-4"><a href="WE-4.html#cb511-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb511-5"><a href="WE-4.html#cb511-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(tibble)</span></span>
+<span id="cb511-6"><a href="WE-4.html#cb511-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(poppr)</span></span>
+<span id="cb511-7"><a href="WE-4.html#cb511-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(ade4)</span></span>
+<span id="cb511-8"><a href="WE-4.html#cb511-8" aria-hidden="true" tabindex="-1"></a><span class="co">#require(pwr)</span></span>
+<span id="cb511-9"><a href="WE-4.html#cb511-9" aria-hidden="true" tabindex="-1"></a><span class="co">#require(effsize)</span></span>
+<span id="cb511-10"><a href="WE-4.html#cb511-10" aria-hidden="true" tabindex="-1"></a><span class="co">#require(sp)</span></span>
+<span id="cb511-11"><a href="WE-4.html#cb511-11" aria-hidden="true" tabindex="-1"></a><span class="co">#require(ggmap)</span></span>
+<span id="cb511-12"><a href="WE-4.html#cb511-12" aria-hidden="true" tabindex="-1"></a><span class="co">#require(car)  </span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="WE-4.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;EcoGenetics&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
 <span id="cb517-2"><a href="WE-4.html#cb517-2" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;leandroroser/EcoGenetics-devel&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="WE-4.html#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
@@ -1735,6 +1754,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb518-10"><a href="WE-4.html#cb518-10" aria-hidden="true" tabindex="-1"></a><span class="co">#require(sp)</span></span>
 <span id="cb518-11"><a href="WE-4.html#cb518-11" aria-hidden="true" tabindex="-1"></a><span class="co">#require(ggmap)</span></span>
 <span id="cb518-12"><a href="WE-4.html#cb518-12" aria-hidden="true" tabindex="-1"></a><span class="co">#require(car)  </span></span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="d.-import-data" class="section level4">
 <h4>d. Import data</h4>
@@ -1746,8 +1766,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>A</strong>: Table of allele frequencies (columns = alleles, rows = individuals)</li>
 <li><strong>S</strong>: Structure variables (SiteID, SITE, YEAR, Cluster)</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="WE-4.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.ecogen, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb512-2"><a href="WE-4.html#cb512-2" aria-hidden="true" tabindex="-1"></a>dd.ecogen</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="WE-4.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.ecogen, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
 <span id="cb519-2"><a href="WE-4.html#cb519-2" aria-hidden="true" tabindex="-1"></a>dd.ecogen</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ##                    || ECOGEN CLASS OBJECT ||
 ## ----------------------------------------------------------------------------
@@ -1764,11 +1789,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  | slot C:     | --&gt; 0 x 0          variables
 ##  | slot OUT:   | --&gt; 0              results
 ## ----------------------------------------------------------------------------</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="WE-4.html#cb514-1" aria-hidden="true" tabindex="-1"></a>?dd.ecogen   </span></code></pre></div>
+<pre><code>## starting httpd help server ... done</code></pre>
+<p>We also import site-level data from Tables 2 - 5 in Lamy et al. (2012). Use ‘?dd.site’ to check helpfile with data set desription of the variables.</p>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="WE-4.html#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.site, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb516-2"><a href="WE-4.html#cb516-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(dd.site)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="WE-4.html#cb521-1" aria-hidden="true" tabindex="-1"></a>?dd.ecogen   </span></code></pre></div>
 <pre><code>## starting httpd help server ... done</code></pre>
 <p>We also import site-level data from Tables 2 - 5 in Lamy et al. (2012). Use ‘?dd.site’ to check helpfile with data set desription of the variables.</p>
 <div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="WE-4.html#cb523-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dd.site, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
 <span id="cb523-2"><a href="WE-4.html#cb523-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(dd.site)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 42 x 24
 ##    SiteID   SITE   YEAR Spatial MultiYear APE   Cluster     n    RA    He      f
 ##    &lt;chr&gt;    &lt;fct&gt; &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;     &lt;lgl&gt; &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -1785,7 +1818,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # ... with 32 more rows, and 13 more variables: s &lt;dbl&gt;, Type &lt;fct&gt;,
 ## #   FST.GESTE &lt;dbl&gt;, Size &lt;dbl&gt;, V &lt;dbl&gt;, C &lt;dbl&gt;, Stab &lt;dbl&gt;, D &lt;int&gt;,
 ## #   APA &lt;int&gt;, NLT &lt;dbl&gt;, Fst.temp &lt;dbl&gt;, Longitude &lt;dbl&gt;, Latitude &lt;dbl&gt;</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="WE-4.html#cb518-1" aria-hidden="true" tabindex="-1"></a>?dd.site</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="WE-4.html#cb525-1" aria-hidden="true" tabindex="-1"></a>?dd.site</span></code></pre></div>
+>>>>>>> main
 <p><strong>Questions</strong>: with the help file for ‘dd.site,’ check the meaning of the following explanatory variables:</p>
 <ul>
 <li>What does ‘APE’ refer to, and how is it different from ‘APA?’</li>
@@ -1813,8 +1850,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-creating-a-genind-object-with-the-hierarchical-data-set" class="section level4">
 <h4>a. Creating a ‘genind’ object with the hierarchical data set</h4>
 <p>First, we need to extract the samples that belong to the hierarchical data set. There are four clusters: “North,” “East,” “Center” and “South.” We are looking for the observations where the variable “Cluster” has one of these four values, all other observations will have a missing value for “Cluster.” We can use ‘!is.na’ to extract all rows with non-missing values. Then we convert to a ‘genind’ object.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="WE-4.html#cb519-1" aria-hidden="true" tabindex="-1"></a>dd.ecogen.Cluster <span class="ot">&lt;-</span> dd.ecogen[<span class="sc">!</span><span class="fu">is.na</span>(dd.ecogen[[<span class="st">&quot;S&quot;</span>]]<span class="sc">$</span>Cluster),]</span>
+<span id="cb519-2"><a href="WE-4.html#cb519-2" aria-hidden="true" tabindex="-1"></a>dd.genind.Cluster <span class="ot">&lt;-</span> EcoGenetics<span class="sc">::</span><span class="fu">ecogen2genind</span>(dd.ecogen.Cluster)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="WE-4.html#cb526-1" aria-hidden="true" tabindex="-1"></a>dd.ecogen.Cluster <span class="ot">&lt;-</span> dd.ecogen[<span class="sc">!</span><span class="fu">is.na</span>(dd.ecogen[[<span class="st">&quot;S&quot;</span>]]<span class="sc">$</span>Cluster),]</span>
 <span id="cb526-2"><a href="WE-4.html#cb526-2" aria-hidden="true" tabindex="-1"></a>dd.genind.Cluster <span class="ot">&lt;-</span> EcoGenetics<span class="sc">::</span><span class="fu">ecogen2genind</span>(dd.ecogen.Cluster)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Loading required package: adegenet</code></pre>
 <pre><code>## Loading required package: ade4</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;spdep&#39;:
@@ -1836,14 +1878,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The argument ‘within=FALSE’ specifies that within-individual variance (i.e., observed heterozygosity) should not be tested. Setting this to ‘TRUE’ can lead to problems with missing values.</li>
 </ul>
 <p>First we run the AMOVA and estimate the percent of molecular variance at each hierarchical level.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="WE-4.html#cb524-1" aria-hidden="true" tabindex="-1"></a>amova.result <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">poppr.amova</span>(dd.genind.Cluster, <span class="at">hier =</span> <span class="sc">~</span> Cluster<span class="sc">/</span>SITE, </span>
+<span id="cb524-2"><a href="WE-4.html#cb524-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">within=</span><span class="cn">FALSE</span>, <span class="at">method =</span> <span class="st">&quot;ade4&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="WE-4.html#cb531-1" aria-hidden="true" tabindex="-1"></a>amova.result <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">poppr.amova</span>(dd.genind.Cluster, <span class="at">hier =</span> <span class="sc">~</span> Cluster<span class="sc">/</span>SITE, </span>
 <span id="cb531-2"><a href="WE-4.html#cb531-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">within=</span><span class="cn">FALSE</span>, <span class="at">method =</span> <span class="st">&quot;ade4&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Registered S3 method overwritten by &#39;pegas&#39;:
 ##   method      from
 ##   print.amova ade4</code></pre>
 <pre><code>## 
 ##  No missing values detected.</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="WE-4.html#cb527-1" aria-hidden="true" tabindex="-1"></a>amova.result</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="WE-4.html#cb534-1" aria-hidden="true" tabindex="-1"></a>amova.result</span></code></pre></div>
+>>>>>>> main
 <pre><code>## $call
 ## ade4::amova(samples = xtab, distances = xdist, structures = xstruct)
 ## 
@@ -1867,8 +1918,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Phi-samples-Cluster 0.102635446
 ## Phi-Cluster-total   0.005582719</code></pre>
 <p>Then we test whether each variance component is statistically significant (i.e., significantly larger than zero).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="WE-4.html#cb529-1" aria-hidden="true" tabindex="-1"></a>amova.test <span class="ot">&lt;-</span> ade4<span class="sc">::</span><span class="fu">randtest</span>(amova.result, <span class="at">nrepet =</span> <span class="dv">999</span>)</span>
+<span id="cb529-2"><a href="WE-4.html#cb529-2" aria-hidden="true" tabindex="-1"></a>amova.test</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="WE-4.html#cb536-1" aria-hidden="true" tabindex="-1"></a>amova.test <span class="ot">&lt;-</span> ade4<span class="sc">::</span><span class="fu">randtest</span>(amova.result, <span class="at">nrepet =</span> <span class="dv">999</span>)</span>
 <span id="cb536-2"><a href="WE-4.html#cb536-2" aria-hidden="true" tabindex="-1"></a>amova.test</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class: krandtest lightkrandtest 
 ## Monte-Carlo tests
 ## Call: randtest.amova(xtest = amova.result, nrepet = 999)
@@ -1878,9 +1934,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Adjustment method for multiple comparisons:   none 
 ## Permutation number:   999 
 ##                         Test        Obs    Std.Obs   Alter Pvalue
+<<<<<<< HEAD
+## 1  Variations within samples 4.42799478 -83.647837    less  0.001
+## 2 Variations between samples 0.50644882  57.231401 greater  0.001
+## 3 Variations between Cluster 0.02770227   1.628161 greater  0.064</code></pre>
+=======
 ## 1  Variations within samples 4.42799478 -85.194138    less  0.001
 ## 2 Variations between samples 0.50644882  57.432337 greater  0.001
 ## 3 Variations between Cluster 0.02770227   1.719109 greater  0.053</code></pre>
+>>>>>>> main
 <p><strong>Questions</strong>:</p>
 <ul>
 <li>At what level is there stronger differentiation, within or among clusters?</li>
@@ -1897,12 +1959,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Gene flow</strong>: gene flow homogenizes allele frequencies, hence we expect less differentiation for well connected patches. Predictors: connectivity ‘C,’ density of favorable habitat ‘D’ (within 2 km radius).</li>
 </ul>
 <p>First, we create a new SpatialPointsDataFrame with the subset of data for the spatial analysis (25 ponds, one year each).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="WE-4.html#cb531-1" aria-hidden="true" tabindex="-1"></a>dd.spatial <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>Spatial<span class="sc">==</span><span class="cn">TRUE</span>, ]</span></code></pre></div>
+<div id="a.-correlation-matrix" class="section level4">
+<h4>a. Correlation matrix</h4>
+<p>Let’s start with a correlation matrix.</p>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="WE-4.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[ , <span class="fu">c</span>(<span class="st">&quot;FST.GESTE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)], </span>
+<span id="cb532-2"><a href="WE-4.html#cb532-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="WE-4.html#cb538-1" aria-hidden="true" tabindex="-1"></a>dd.spatial <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>Spatial<span class="sc">==</span><span class="cn">TRUE</span>, ]</span></code></pre></div>
 <div id="a.-correlation-matrix" class="section level4">
 <h4>a. Correlation matrix</h4>
 <p>Let’s start with a correlation matrix.</p>
 <div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="WE-4.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[ , <span class="fu">c</span>(<span class="st">&quot;FST.GESTE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)], </span>
 <span id="cb539-2"><a href="WE-4.html#cb539-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##             FST.GESTE         NLT           C           D
 ## FST.GESTE  1.00000000 -0.48565247 -0.43104600  0.02768978
 ## NLT       -0.48565247  1.00000000 -0.08369541  0.10242973
@@ -1925,6 +1996,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We add a regression line (<code>geom_smooth</code>), make it linear (<code>method = lm</code>) and add a shaded area for plus/minus 1 SE of the mean for a given value of x (<code>se = TRUE</code>).</li>
 <li>We add backfilled labels (<code>geom_label</code>), define their size (<code>size</code>), and move them up a little along the y-axis (<code>nudge_y</code>)</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="WE-4.html#cb534-1" aria-hidden="true" tabindex="-1"></a>NLT.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd.spatial<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span>NLT, <span class="at">y=</span>FST.GESTE, <span class="at">label=</span>SITE)) <span class="sc">+</span> </span>
+<span id="cb534-2"><a href="WE-4.html#cb534-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb534-3"><a href="WE-4.html#cb534-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb534-4"><a href="WE-4.html#cb534-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">nudge_x=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.01</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>)</span>
+<span id="cb534-5"><a href="WE-4.html#cb534-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb534-6"><a href="WE-4.html#cb534-6" aria-hidden="true" tabindex="-1"></a>C.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd.spatial<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span>C, <span class="at">y=</span>FST.GESTE, <span class="at">label=</span>SITE)) <span class="sc">+</span> </span>
+<span id="cb534-7"><a href="WE-4.html#cb534-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb534-8"><a href="WE-4.html#cb534-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb534-9"><a href="WE-4.html#cb534-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="fl">2.5</span>, <span class="at">nudge_x=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.01</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>)</span>
+<span id="cb534-10"><a href="WE-4.html#cb534-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb534-11"><a href="WE-4.html#cb534-11" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(NLT.plot, C.plot)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="WE-4.html#cb541-1" aria-hidden="true" tabindex="-1"></a>NLT.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd.spatial<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span>NLT, <span class="at">y=</span>FST.GESTE, <span class="at">label=</span>SITE)) <span class="sc">+</span> </span>
 <span id="cb541-2"><a href="WE-4.html#cb541-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb541-3"><a href="WE-4.html#cb541-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
@@ -1936,6 +2020,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb541-9"><a href="WE-4.html#cb541-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="fl">2.5</span>, <span class="at">nudge_x=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.01</span>, <span class="at">check_overlap=</span><span class="cn">TRUE</span>)</span>
 <span id="cb541-10"><a href="WE-4.html#cb541-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb541-11"><a href="WE-4.html#cb541-11" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(NLT.plot, C.plot)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
 ## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="04-Week04_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
@@ -1943,9 +2028,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-regression-model" class="section level4">
 <h4>c. Regression model</h4>
 <p>The two predictors ‘NLT’ and ‘C’ are not strongly correlated. We’ll fit a regression model with both predictors. Here we use function ‘scale’ to standardize each variable, so that we can interpret the regression slope coefficients as partial correlation coefficients (beta coefficients).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="WE-4.html#cb536-1" aria-hidden="true" tabindex="-1"></a>mod.diff <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb536-2"><a href="WE-4.html#cb536-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial)</span>
+<span id="cb536-3"><a href="WE-4.html#cb536-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="WE-4.html#cb543-1" aria-hidden="true" tabindex="-1"></a>mod.diff <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
 <span id="cb543-2"><a href="WE-4.html#cb543-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial)</span>
 <span id="cb543-3"><a href="WE-4.html#cb543-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(FST.GESTE) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -1966,20 +2057,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.4599, Adjusted R-squared:  0.4108 
 ## F-statistic: 9.367 on 2 and 22 DF,  p-value: 0.00114</code></pre>
 <p>Is the model valid? Let’s check the residual plots:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="WE-4.html#cb538-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb538-2"><a href="WE-4.html#cb538-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="WE-4.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>If we had more than two predictors, it would be a good idea to calculate variance inflation factors. The package ‘car’ has a function ‘vif’ that takes as argument a fitted model. Here, both predictors have VIF = 1.007, which indicates no collinearity.</p>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="WE-4.html#cb540-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(mod.diff)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="WE-4.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb545-2"><a href="WE-4.html#cb545-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
 <p><img src="04-Week04_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
 <div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="WE-4.html#cb546-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>If we had more than two predictors, it would be a good idea to calculate variance inflation factors. The package ‘car’ has a function ‘vif’ that takes as argument a fitted model. Here, both predictors have VIF = 1.007, which indicates no collinearity.</p>
 <div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="WE-4.html#cb547-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(mod.diff)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## scale(NLT)   scale(C) 
 ##   1.007054   1.007054</code></pre>
 </div>
 <div id="d.-which-populations-dont-fit-the-general-pattern" class="section level4">
 <h4>d. Which populations don’t fit the general pattern?</h4>
 <p>Let’s plot the residuals in space. The function ‘bubble’ from the package ‘sp’ evaluates the projection information of the SpatialPointsDataFrame ‘dd.spatial.’</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="WE-4.html#cb542-1" aria-hidden="true" tabindex="-1"></a>dd.spatial<span class="sc">@</span>data<span class="sc">$</span>Residuals <span class="ot">&lt;-</span> mod.diff<span class="sc">$</span>residuals</span>
+<span id="cb542-2"><a href="WE-4.html#cb542-2" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">bubble</span>(dd.spatial, <span class="at">zcol =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="WE-4.html#cb549-1" aria-hidden="true" tabindex="-1"></a>dd.spatial<span class="sc">@</span>data<span class="sc">$</span>Residuals <span class="ot">&lt;-</span> mod.diff<span class="sc">$</span>residuals</span>
 <span id="cb549-2"><a href="WE-4.html#cb549-2" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">bubble</span>(dd.spatial, <span class="at">zcol =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Warning in wkt(obj): CRS object has no comment
 
 ## Warning in wkt(obj): CRS object has no comment</code></pre>
@@ -1991,6 +2096,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Grabs a grayscale map from the internet, plots all ponds with size and color according to their residuals, and stores the resulting map in the object <code>myMap</code>.</li>
 <li>Plots the map and adds labels for the two potential outliers.The argument <code>size</code> affects font size and <code>label.padding</code> determines the size of the textbox for the label.</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="WE-4.html#cb544-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">is.element</span>(dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE, <span class="fu">c</span>(<span class="st">&quot;DESB&quot;</span>, <span class="st">&quot;PTC&quot;</span>))</span>
+<span id="cb544-2"><a href="WE-4.html#cb544-2" aria-hidden="true" tabindex="-1"></a>a2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dd.spatial<span class="sc">@</span>data))[a]</span>
+<span id="cb544-3"><a href="WE-4.html#cb544-3" aria-hidden="true" tabindex="-1"></a>myMap <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">qmplot</span>(Longitude, Latitude,  <span class="at">data =</span> <span class="fu">as.data.frame</span>(dd.spatial),</span>
+<span id="cb544-4"><a href="WE-4.html#cb544-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">source =</span> <span class="st">&quot;stamen&quot;</span>, <span class="at">maptype =</span> <span class="st">&quot;toner-lite&quot;</span>, <span class="at">force=</span><span class="cn">TRUE</span>,  </span>
+<span id="cb544-5"><a href="WE-4.html#cb544-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="fu">sign</span>(Residuals), <span class="at">size =</span> <span class="fu">abs</span>(Residuals))</span>
+<span id="cb544-6"><a href="WE-4.html#cb544-6" aria-hidden="true" tabindex="-1"></a>myMap <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">as.data.frame</span>(dd.spatial[a2,]),</span>
+<span id="cb544-7"><a href="WE-4.html#cb544-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(Longitude, Latitude, <span class="at">label =</span> SITE),</span>
+<span id="cb544-8"><a href="WE-4.html#cb544-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label.padding =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;lines&quot;</span>), </span>
+<span id="cb544-9"><a href="WE-4.html#cb544-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">nudge_x =</span> <span class="dv">0</span>, <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.015</span>)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Exports the last plot as a ‘png’ (Portable Network Graphics) file, specifying canvas size and resolution. To run the code, uncomment by removing ‘#’ at the beginning of each line.</p>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="WE-4.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb545-2"><a href="WE-4.html#cb545-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb545-3"><a href="WE-4.html#cb545-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot2::ggsave(paste0(here(),&quot;/output/ResidualMap.png&quot;), </span></span>
+<span id="cb545-4"><a href="WE-4.html#cb545-4" aria-hidden="true" tabindex="-1"></a><span class="co">#               width = 7, height = 5.5, units = &quot;in&quot;,  dpi = 300)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="WE-4.html#cb551-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">is.element</span>(dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE, <span class="fu">c</span>(<span class="st">&quot;DESB&quot;</span>, <span class="st">&quot;PTC&quot;</span>))</span>
 <span id="cb551-2"><a href="WE-4.html#cb551-2" aria-hidden="true" tabindex="-1"></a>a2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dd.spatial<span class="sc">@</span>data))[a]</span>
 <span id="cb551-3"><a href="WE-4.html#cb551-3" aria-hidden="true" tabindex="-1"></a>myMap <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">qmplot</span>(Longitude, Latitude,  <span class="at">data =</span> <span class="fu">as.data.frame</span>(dd.spatial),</span>
@@ -2006,6 +2128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb552-2"><a href="WE-4.html#cb552-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
 <span id="cb552-3"><a href="WE-4.html#cb552-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot2::ggsave(paste0(here(),&quot;/output/ResidualMap.png&quot;), </span></span>
 <span id="cb552-4"><a href="WE-4.html#cb552-4" aria-hidden="true" tabindex="-1"></a><span class="co">#               width = 7, height = 5.5, units = &quot;in&quot;,  dpi = 300)</span></span></code></pre></div>
+>>>>>>> main
 <p>What might explain the large residuals for the two sites ‘PTC’ and ‘DESB?’</p>
 <ul>
 <li>Site ‘PTC’ lies on the tip of a peninsula and thus is very isolated geographically.</li>
@@ -2015,9 +2138,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="e.-regression-model-without-outliers" class="section level4">
 <h4>e. Regression model without outliers</h4>
 <p>We can use the same index ‘a’ to exclude the potential outliers from the regression model:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="WE-4.html#cb546-1" aria-hidden="true" tabindex="-1"></a>mod.diff.minus2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb546-2"><a href="WE-4.html#cb546-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial[<span class="sc">-</span>a2,])</span>
+<span id="cb546-3"><a href="WE-4.html#cb546-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff.minus2)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="WE-4.html#cb553-1" aria-hidden="true" tabindex="-1"></a>mod.diff.minus2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(FST.GESTE) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
 <span id="cb553-2"><a href="WE-4.html#cb553-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>dd.spatial[<span class="sc">-</span>a2,])</span>
 <span id="cb553-3"><a href="WE-4.html#cb553-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.diff.minus2)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(FST.GESTE) ~ scale(NLT) + scale(C), data = dd.spatial[-a2, 
@@ -2043,10 +2172,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Did it change the nature of the results?</li>
 <li>Does this affect the biologial interpretation?</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="WE-4.html#cb548-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb548-2"><a href="WE-4.html#cb548-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff.minus2, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE[<span class="sc">-</span>a2])</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="WE-4.html#cb549-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="WE-4.html#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb555-2"><a href="WE-4.html#cb555-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.diff.minus2, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE[<span class="sc">-</span>a2])</span></code></pre></div>
 <p><img src="04-Week04_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
 <div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="WE-4.html#cb556-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="what-determines-genetic-diversity" class="section level3">
@@ -2058,8 +2194,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="a.-correlation-matrix-1" class="section level4">
 <h4>a. Correlation matrix</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="WE-4.html#cb550-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;RA&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Size&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)],</span>
+<span id="cb550-2"><a href="WE-4.html#cb550-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="WE-4.html#cb557-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.spatial<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;RA&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Size&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)],</span>
 <span id="cb557-2"><a href="WE-4.html#cb557-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##               RA          He       Size         NLT           C           D
 ## RA    1.00000000  0.95151016  0.3482453  0.51343861  0.46576979 -0.09856668
 ## He    0.95151016  1.00000000  0.3057086  0.49851503  0.45206733 -0.09593604
@@ -2079,8 +2220,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-regression-models" class="section level4">
 <h4>b. Regression models</h4>
 <p>For allelic richness:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="WE-4.html#cb552-1" aria-hidden="true" tabindex="-1"></a>mod.RA <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(RA) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
+<span id="cb552-2"><a href="WE-4.html#cb552-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.RA)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="WE-4.html#cb559-1" aria-hidden="true" tabindex="-1"></a>mod.RA <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(RA) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
 <span id="cb559-2"><a href="WE-4.html#cb559-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.RA)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(RA) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -2100,6 +2246,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Residual standard error: 0.7204 on 22 degrees of freedom
 ## Multiple R-squared:  0.5243, Adjusted R-squared:  0.481 
 ## F-statistic: 12.12 on 2 and 22 DF,  p-value: 0.0002825</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="WE-4.html#cb554-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb554-2"><a href="WE-4.html#cb554-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.RA, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-24-1.png" width="768" /></p>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="WE-4.html#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>For gene diversity (expected heterozygosity):</p>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="WE-4.html#cb556-1" aria-hidden="true" tabindex="-1"></a>mod.He <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(He) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
+<span id="cb556-2"><a href="WE-4.html#cb556-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.He)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="WE-4.html#cb561-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb561-2"><a href="WE-4.html#cb561-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.RA, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
 <p><img src="04-Week04_files/figure-html/unnamed-chunk-24-1.png" width="768" /></p>
@@ -2107,6 +2262,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For gene diversity (expected heterozygosity):</p>
 <div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="WE-4.html#cb563-1" aria-hidden="true" tabindex="-1"></a>mod.He <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(He) <span class="sc">~</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C), <span class="at">data =</span> dd.spatial)</span>
 <span id="cb563-2"><a href="WE-4.html#cb563-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.He)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(He) ~ scale(NLT) + scale(C), data = dd.spatial)
@@ -2126,17 +2282,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Residual standard error: 0.7429 on 22 degrees of freedom
 ## Multiple R-squared:  0.4941, Adjusted R-squared:  0.4481 
 ## F-statistic: 10.74 on 2 and 22 DF,  p-value: 0.0005559</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="WE-4.html#cb558-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb558-2"><a href="WE-4.html#cb558-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.He, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
+<p><img src="04-Week04_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="WE-4.html#cb559-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="WE-4.html#cb565-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb565-2"><a href="WE-4.html#cb565-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.He, <span class="at">labels.id =</span> dd.spatial<span class="sc">@</span>data<span class="sc">$</span>SITE)</span></code></pre></div>
 <p><img src="04-Week04_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
 <div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="WE-4.html#cb566-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="are-genetic-differentiation-and-diversity-related" class="section level3">
 <h3>5. Are genetic differentiation and diversity related?</h3>
 <p>Would you expect a relationship between genetic diversity and genetic differentiation of individual patches?</p>
 <p>Lets examine the correlation between gene diversity (He) and site-specific Fst:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="WE-4.html#cb560-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.site<span class="sc">$</span>He, dd.site<span class="sc">$</span>FST.GESTE, <span class="at">use =</span> <span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="WE-4.html#cb567-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.site<span class="sc">$</span>He, dd.site<span class="sc">$</span>FST.GESTE, <span class="at">use =</span> <span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] -0.9567184</code></pre>
 <p>There are a number of possible reasons for such a correlation. Can you put forward some hypotheses to explain this relationship? See Lamy et al. (2012) for their interpretation.</p>
 </div>
@@ -2145,17 +2312,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Several patches fell dry between observation years, which is assumed to signify extinction of the local population. Does genetic evidence support this interpretation, i.e., is there genetic evidence of bottlenecks or founder effects in <em>D. depressissimum</em>?</p>
 <div id="a.-effect-of-patch-extinction-event-temporal-data-set" class="section level4">
 <h4>a. Effect of patch extinction event (temporal data set)</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="WE-4.html#cb562-1" aria-hidden="true" tabindex="-1"></a>dd.temporal <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>MultiYear<span class="sc">==</span><span class="cn">TRUE</span>,]</span>
+<span id="cb562-2"><a href="WE-4.html#cb562-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.temporal<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;Fst.temp&quot;</span>, <span class="st">&quot;APE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>)], </span>
+<span id="cb562-3"><a href="WE-4.html#cb562-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="WE-4.html#cb569-1" aria-hidden="true" tabindex="-1"></a>dd.temporal <span class="ot">&lt;-</span> dd.site[dd.site<span class="sc">@</span>data<span class="sc">$</span>MultiYear<span class="sc">==</span><span class="cn">TRUE</span>,]</span>
 <span id="cb569-2"><a href="WE-4.html#cb569-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dd.temporal<span class="sc">@</span>data[, <span class="fu">c</span>(<span class="st">&quot;Fst.temp&quot;</span>, <span class="st">&quot;APE&quot;</span>, <span class="st">&quot;NLT&quot;</span>, <span class="st">&quot;C&quot;</span>)], </span>
 <span id="cb569-3"><a href="WE-4.html#cb569-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##            Fst.temp         APE         NLT          C
 ## Fst.temp  1.0000000  0.29379662 -0.10494809 -0.3356817
 ## APE       0.2937966  1.00000000 -0.07420821 -0.4927664
 ## NLT      -0.1049481 -0.07420821  1.00000000  0.3103541
 ## C        -0.3356817 -0.49276638  0.31035409  1.0000000</code></pre>
 <p>We can compare a number of competing models using the Akaike Information Criterion (AIC). Models with lower AIC are better (see Week 12).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="WE-4.html#cb564-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE), <span class="at">data=</span>dd.temporal)</span>
+<span id="cb564-2"><a href="WE-4.html#cb564-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.Fst.temp)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="WE-4.html#cb571-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE), <span class="at">data=</span>dd.temporal)</span>
 <span id="cb571-2"><a href="WE-4.html#cb571-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.Fst.temp)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Call:
 ## lm(formula = scale(Fst.temp) ~ scale(APE), data = dd.temporal)
@@ -2173,6 +2351,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   (17 observations deleted due to missingness)
 ## Multiple R-squared:  0.08632,    Adjusted R-squared:  -0.005052 
 ## F-statistic: 0.9447 on 1 and 10 DF,  p-value: 0.354</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="WE-4.html#cb566-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.C <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
+<span id="cb566-2"><a href="WE-4.html#cb566-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>dd.temporal)</span>
+<span id="cb566-3"><a href="WE-4.html#cb566-3" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.NLT <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT), </span>
+<span id="cb566-4"><a href="WE-4.html#cb566-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data=</span>dd.temporal)</span>
+<span id="cb566-5"><a href="WE-4.html#cb566-5" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.both <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C),  </span>
+<span id="cb566-6"><a href="WE-4.html#cb566-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>dd.temporal)</span>
+<span id="cb566-7"><a href="WE-4.html#cb566-7" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod.Fst.temp, mod.Fst.temp.C, mod.Fst.temp.NLT, mod.Fst.temp.both)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="WE-4.html#cb573-1" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.C <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(C), </span>
 <span id="cb573-2"><a href="WE-4.html#cb573-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>dd.temporal)</span>
 <span id="cb573-3"><a href="WE-4.html#cb573-3" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.NLT <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT), </span>
@@ -2180,14 +2367,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb573-5"><a href="WE-4.html#cb573-5" aria-hidden="true" tabindex="-1"></a>mod.Fst.temp.both <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">scale</span>(Fst.temp) <span class="sc">~</span> <span class="fu">scale</span>(APE) <span class="sc">+</span> <span class="fu">scale</span>(NLT) <span class="sc">+</span> <span class="fu">scale</span>(C),  </span>
 <span id="cb573-6"><a href="WE-4.html#cb573-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>dd.temporal)</span>
 <span id="cb573-7"><a href="WE-4.html#cb573-7" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod.Fst.temp, mod.Fst.temp.C, mod.Fst.temp.NLT, mod.Fst.temp.both)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##                   df      AIC
 ## mod.Fst.temp       3 37.92714
 ## mod.Fst.temp.C     4 39.27770
 ## mod.Fst.temp.NLT   4 39.83549
 ## mod.Fst.temp.both  5 41.27462</code></pre>
 <p>The best model includes neither ‘C’ nor ‘NLT.’ Note that ‘APE’ is a binary variable, so in essence we’re performing a t-test here.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="WE-4.html#cb568-1" aria-hidden="true" tabindex="-1"></a>res.Fst.temp <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Fst.temp <span class="sc">~</span> APE, <span class="at">data=</span>dd.temporal, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span>
+<span id="cb568-2"><a href="WE-4.html#cb568-2" aria-hidden="true" tabindex="-1"></a>res.Fst.temp</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="WE-4.html#cb575-1" aria-hidden="true" tabindex="-1"></a>res.Fst.temp <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Fst.temp <span class="sc">~</span> APE, <span class="at">data=</span>dd.temporal, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span>
 <span id="cb575-2"><a href="WE-4.html#cb575-2" aria-hidden="true" tabindex="-1"></a>res.Fst.temp</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -2209,7 +2402,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>large effect: d &gt; 0.8</li>
 </ul>
 <p>We can let R calculate effect size for us:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="WE-4.html#cb570-1" aria-hidden="true" tabindex="-1"></a>effsize<span class="sc">::</span><span class="fu">cohen.d</span>(Fst.temp <span class="sc">~</span> <span class="fu">factor</span>(APE), <span class="at">data=</span>dd.temporal)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="WE-4.html#cb577-1" aria-hidden="true" tabindex="-1"></a>effsize<span class="sc">::</span><span class="fu">cohen.d</span>(Fst.temp <span class="sc">~</span> <span class="fu">factor</span>(APE), <span class="at">data=</span>dd.temporal)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## Cohen&#39;s d
 ## 
@@ -2219,13 +2416,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## -1.8992165  0.7609722</code></pre>
 <p>So, we actually found a ‘medium’ effect (more than 0.5 standard deviations difference between group means). Maybe sample size was too small to have sufficient power?</p>
 <p>Let’s check sample size:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="WE-4.html#cb572-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dd.temporal<span class="sc">$</span>APE[<span class="sc">!</span><span class="fu">is.na</span>(dd.temporal<span class="sc">$</span>Fst.temp)])</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="WE-4.html#cb579-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dd.temporal<span class="sc">$</span>APE[<span class="sc">!</span><span class="fu">is.na</span>(dd.temporal<span class="sc">$</span>Fst.temp)])</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## FALSE  TRUE 
 ##     7     5</code></pre>
 <p>Ah, that explains a lot. There were only 5 sites with apparent extinction, and 7 without.</p>
 <p>Given that sample size, what was the statistical power of our test to detect at least a large effect (d = - 0.8), i.e., be able to reject the null hypothesis if such an effect is present in the population from which we sampled?</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="WE-4.html#cb574-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t2n.test</span>(<span class="at">n1=</span><span class="dv">7</span>, <span class="at">n2=</span><span class="dv">5</span>, <span class="at">d=</span><span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="WE-4.html#cb581-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t2n.test</span>(<span class="at">n1=</span><span class="dv">7</span>, <span class="at">n2=</span><span class="dv">5</span>, <span class="at">d=</span><span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ##      t test power calculation 
 ## 
@@ -2240,7 +2445,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-sample-size-calculation" class="section level4">
 <h4>c. Sample size calculation</h4>
 <p>How large a sample would we have needed in each group to achieve a power of 0.8 to detect a large effect? And for a medium effect?</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="WE-4.html#cb576-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="WE-4.html#cb583-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
@@ -2251,7 +2460,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##     alternative = less
 ## 
 ## NOTE: n is number in *each* group</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="WE-4.html#cb578-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="WE-4.html#cb585-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.t.test</span>(<span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">d =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 

@@ -257,7 +257,11 @@
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.3)                          
+<<<<<<< HEAD
+ Github (hhwagner1/LandGenCourse@c03f3a6)
+=======
  Github (hhwagner1/LandGenCourse@fc53cf5)
+>>>>>>> main
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.3)                          

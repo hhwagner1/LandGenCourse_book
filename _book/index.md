@@ -68,8 +68,11 @@ Weeks 1 - 8:
 
 #### b) Check contents
 
+<<<<<<< HEAD
+=======
 =======
 
+>>>>>>> main
 - **Beginners**:   watch video -> do tutorial -> read WE
 - **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
 - **Advanced**:   check video slides -> R exercise? -> adapt WE to own data
@@ -103,7 +106,11 @@ devtools::install_github("hhwagner1/LandGenCourse")
 ```
 
 ```
+<<<<<<< HEAD
+## Skipping install of 'LandGenCourse' from a github remote, the SHA1 (c03f3a6a) has not changed since last install.
+=======
 ## Skipping install of 'LandGenCourse' from a github remote, the SHA1 (fc53cf56) has not changed since last install.
+>>>>>>> main
 ##   Use `force = TRUE` to force installation
 ```
 

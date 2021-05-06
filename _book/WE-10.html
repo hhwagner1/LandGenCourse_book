@@ -1020,7 +1020,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<<<<<<< HEAD
+=======
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+>>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1719,23 +1722,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-7" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="WE-10.html#cb992-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb993"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb993-1"><a href="WE-10.html#cb993-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb993-2"><a href="WE-10.html#cb993-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(GeNetIt)</span></span>
+<span id="cb993-3"><a href="WE-10.html#cb993-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(raster)</span></span>
+<span id="cb993-4"><a href="WE-10.html#cb993-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(gdistance)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="WE-10.html#cb999-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="WE-10.html#cb1000-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
 <span id="cb1000-2"><a href="WE-10.html#cb1000-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(GeNetIt)</span></span>
 <span id="cb1000-3"><a href="WE-10.html#cb1000-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(raster)</span></span>
 <span id="cb1000-4"><a href="WE-10.html#cb1000-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(gdistance)</span></span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="d.-import-rasters-gsp-err-cti-and-ffp." class="section level4">
 <h4>d. Import rasters (gsp, err, cti, and ffp).</h4>
 <p>Here we load the raster data as a SpatialPixelsDataFrame and convert them in to a raster stack.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="WE-10.html#cb994-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
+<span id="cb994-2"><a href="WE-10.html#cb994-2" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(rasters)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1001-1"><a href="WE-10.html#cb1001-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
 <span id="cb1001-2"><a href="WE-10.html#cb1001-2" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(rasters)</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="e.-import-site-data-with-sampling-locations" class="section level4">
 <h4>e. Import site data with sampling locations</h4>
 <p>In addition to spatial data, sample locations are also needed. Sample locations are located in the data folder (RALU_UTM.csv). Read in site locations (wetlands with Columbia spotted frogs).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="WE-10.html#cb995-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
+<span id="cb995-2"><a href="WE-10.html#cb995-2" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1002-1"><a href="WE-10.html#cb1002-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
 <span id="cb1002-2"><a href="WE-10.html#cb1002-2" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
+>>>>>>> main
 <p><strong>Question 1</strong>: What are UTMs and why might it be important to work in UTMs (as opposed to latitude and longitude)?</p>
 </div>
 </div>
@@ -1744,15 +1765,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Explore these rasters by plotting them. As you go through this exercise, use the plot function at each step to make sure your outputs “make sense.”</p>
 <div id="a.-plot-all-rasters" class="section level4">
 <h4>a. Plot all rasters</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="WE-10.html#cb996-1" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="WE-10.html#cb1003-1" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
 </div>
 <div id="b.-plot-spatial-points-over-ffp-raster" class="section level4">
 <h4>b. Plot spatial points over ffp raster</h4>
 <p>These are the locations of the ponds where Columbia spotted frogs were sampled within the study area.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb997"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb997-1"><a href="WE-10.html#cb997-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb997-2"><a href="WE-10.html#cb997-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps<span class="sc">$</span>ffp)</span>
+<span id="cb997-3"><a href="WE-10.html#cb997-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites, <span class="at">pch=</span><span class="dv">3</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="WE-10.html#cb1004-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb1004-2"><a href="WE-10.html#cb1004-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps<span class="sc">$</span>ffp)</span>
 <span id="cb1004-3"><a href="WE-10.html#cb1004-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites, <span class="at">pch=</span><span class="dv">3</span>)</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 </div>
@@ -1779,7 +1810,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note: this step is not needed here as all rasters do already have the same resolution.</p>
 <p>Originally, the topographic variables were calculated off a 10 m DEM. The climate variables are at a 30 m resolution. In order to calculate costs, all of the rasters need to have exactly the same resolution, dimensions, and co-ordinate locations (i.e., the cells need to match up perfectly. The method of resampling (bilinear vs nearest-neighbor) depends on the type of data. Nearest-neighbor is for categorical data whereas bilinear interpolation is for continuous data.</p>
 <p>Here is some sample code to show how you would resample a raster ‘cti’ (assumed to have 10 m resolution) to the dimensions of a raster ‘gsp’ (with 30 m resolution):</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="WE-10.html#cb1000-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cti &lt;- raster::resample(cti, gsp, method= &quot;bilinear&quot;)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="WE-10.html#cb1007-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cti &lt;- raster::resample(cti, gsp, method= &quot;bilinear&quot;)</span></span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="c.-calculate-conductance-values" class="section level4">
 <h4>c. Calculate conductance values</h4>
@@ -1787,7 +1822,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 The err function is inverted compared to the other variables because the raw err data have low values relative to the other variables (&lt; 1).</p>
 <p>To use the below tools, conductance values must be calculated. First, look at the range of the variable in a given raster. Then apply a function to get the desired
 relative conductance values. Make sure to use the plot function and visually inspect your conductance surfaces.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1001-1"><a href="WE-10.html#cb1001-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>err27</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="WE-10.html#cb1008-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>err27</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1798,8 +1837,13 @@ relative conductance values. Make sure to use the plot function and visually ins
 ## values     : 0.03906551, 0.7637643  (min, max)</code></pre>
 <p>Elevation relief ratio (‘err27’) is identifying major topographic features. In this first case, the goal is for ‘err27’ to have the lowest conductance values compared to our other landscape variables. Greater ‘err27’ means more change in topography in a given area. So, the higher the value, the more resistance to a Columbian spotted frog.
 Note that the function below gives a linear relationship between the raw value and the cost. Any type of functional relationship could be used however.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="WE-10.html#cb1003-1" aria-hidden="true" tabindex="-1"></a>err.cost <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span>RasterMaps<span class="sc">$</span>err27)</span>
+<span id="cb1003-2"><a href="WE-10.html#cb1003-2" aria-hidden="true" tabindex="-1"></a>err.cost</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="WE-10.html#cb1010-1" aria-hidden="true" tabindex="-1"></a>err.cost <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span>RasterMaps<span class="sc">$</span>err27)</span>
 <span id="cb1010-2"><a href="WE-10.html#cb1010-2" aria-hidden="true" tabindex="-1"></a>err.cost</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1808,7 +1852,11 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : err27 
 ## values     : 1.309305, 25.59803  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1005-1"><a href="WE-10.html#cb1005-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>ffp</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1012"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1012-1"><a href="WE-10.html#cb1012-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>ffp</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1817,8 +1865,13 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : ffp 
 ## values     : 0, 51  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="WE-10.html#cb1007-1" aria-hidden="true" tabindex="-1"></a>ffp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>ffp<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb1007-2"><a href="WE-10.html#cb1007-2" aria-hidden="true" tabindex="-1"></a>ffp.cost</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1014"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1014-1"><a href="WE-10.html#cb1014-1" aria-hidden="true" tabindex="-1"></a>ffp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>ffp<span class="sc">/</span><span class="dv">5</span>)</span>
 <span id="cb1014-2"><a href="WE-10.html#cb1014-2" aria-hidden="true" tabindex="-1"></a>ffp.cost</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1827,7 +1880,11 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : ffp 
 ## values     : 0, 10.2  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1009-1"><a href="WE-10.html#cb1009-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>gsp</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1016"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1016-1"><a href="WE-10.html#cb1016-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>gsp</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1836,8 +1893,13 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : gsp 
 ## values     : 227, 338.0697  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1011"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1011-1"><a href="WE-10.html#cb1011-1" aria-hidden="true" tabindex="-1"></a>gsp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>gsp<span class="dv">-196</span>)<span class="sc">/</span><span class="dv">15</span></span>
+<span id="cb1011-2"><a href="WE-10.html#cb1011-2" aria-hidden="true" tabindex="-1"></a>gsp.cost</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1018"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1018-1"><a href="WE-10.html#cb1018-1" aria-hidden="true" tabindex="-1"></a>gsp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>gsp<span class="dv">-196</span>)<span class="sc">/</span><span class="dv">15</span></span>
 <span id="cb1018-2"><a href="WE-10.html#cb1018-2" aria-hidden="true" tabindex="-1"></a>gsp.cost</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1846,7 +1908,11 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : gsp 
 ## values     : 2.066667, 9.471311  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1013"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1013-1"><a href="WE-10.html#cb1013-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>cti</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1020"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1020-1"><a href="WE-10.html#cb1020-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>cti</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1855,8 +1921,13 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : cti 
 ## values     : 0.8429851, 23.71476  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1015"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1015-1"><a href="WE-10.html#cb1015-1" aria-hidden="true" tabindex="-1"></a>cti.cost <span class="ot">&lt;-</span> RasterMaps<span class="sc">$</span>cti<span class="sc">/</span><span class="dv">5</span></span>
+<span id="cb1015-2"><a href="WE-10.html#cb1015-2" aria-hidden="true" tabindex="-1"></a>cti.cost</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="WE-10.html#cb1022-1" aria-hidden="true" tabindex="-1"></a>cti.cost <span class="ot">&lt;-</span> RasterMaps<span class="sc">$</span>cti<span class="sc">/</span><span class="dv">5</span></span>
 <span id="cb1022-2"><a href="WE-10.html#cb1022-2" aria-hidden="true" tabindex="-1"></a>cti.cost</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1869,8 +1940,13 @@ Note that the function below gives a linear relationship between the raw value a
 <div id="d.-create-a-single-landscape-conductance-raster" class="section level4">
 <h4>d. Create a single landscape conductance raster</h4>
 <p>Testing variables independently may be more appropriate depending on the research question but for the purposes of today’s lab, a single conductance raster will be employed.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1017"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1017-1"><a href="WE-10.html#cb1017-1" aria-hidden="true" tabindex="-1"></a>cost1 <span class="ot">&lt;-</span> (gsp.cost <span class="sc">+</span> cti.cost <span class="sc">+</span> err.cost <span class="sc">+</span> ffp.cost)</span>
+<span id="cb1017-2"><a href="WE-10.html#cb1017-2" aria-hidden="true" tabindex="-1"></a>cost1</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="WE-10.html#cb1024-1" aria-hidden="true" tabindex="-1"></a>cost1 <span class="ot">&lt;-</span> (gsp.cost <span class="sc">+</span> cti.cost <span class="sc">+</span> err.cost <span class="sc">+</span> ffp.cost)</span>
 <span id="cb1024-2"><a href="WE-10.html#cb1024-2" aria-hidden="true" tabindex="-1"></a>cost1</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1890,8 +1966,13 @@ Note that the function below gives a linear relationship between the raw value a
 <p>Transition layers are constructed from a raster, and they take the geographic references (projection, resolution, extent) from the original raster object. They also contain a matrix of probability of movement between cells which can be interpreted as “conductance.” Each cell in the matrix represents a cell in the original raster object.</p>
 <p>The first step is to construct a transition object based on ‘cost1’ (which is a conductance layer as calculated). This step is computationally intensive and make take a few minutes to run.</p>
 <p>Connections can be set based on 4, 8, or 16 neighbor rules. A value of 8 connects all adjacent cells in 8 directions.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1019"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1019-1"><a href="WE-10.html#cb1019-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1, <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>) </span>
+<span id="cb1019-2"><a href="WE-10.html#cb1019-2" aria-hidden="true" tabindex="-1"></a>tr.cost1</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="WE-10.html#cb1026-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1, <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>) </span>
 <span id="cb1026-2"><a href="WE-10.html#cb1026-2" aria-hidden="true" tabindex="-1"></a>tr.cost1</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : TransitionLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1902,8 +1983,13 @@ Note that the function below gives a linear relationship between the raw value a
 </div>
 <div id="b.-visually-inspect-the-raster" class="section level4">
 <h4>b. Visually inspect the raster</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1021"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1021-1"><a href="WE-10.html#cb1021-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb1021-2"><a href="WE-10.html#cb1021-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1028"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1028-1"><a href="WE-10.html#cb1028-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb1028-2"><a href="WE-10.html#cb1028-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1))</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="c.-correct-for-geometric-distortion" class="section level4">
@@ -1911,7 +1997,11 @@ Note that the function below gives a linear relationship between the raw value a
 <p>Transition values are calculated based on values of adjacent cells in the cost raster. However, we used an 8 neighbor rule and the center of diagonally connected
 raster cells are farther apart from each other than the orthogonally connected cells. We are using UTM co-ordinates; however, in lat-long projections, cell sizes become smaller as you move poleward.</p>
 <p>Values of the matrix have to be corrected for the first type of distortion for our analysis (and we would need to correct for the second type of distortion if we were using lat-longs).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="WE-10.html#cb1022-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost1,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="WE-10.html#cb1029-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost1,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="d.-plot-shortest-paths-in-space" class="section level4">
 <h4>d. Plot shortest paths in space</h4>
@@ -1922,6 +2012,15 @@ raster cells are farther apart from each other than the orthogonally connected c
 <li>Plot the shortest path onto the map</li>
 </ul>
 <p>Note: the path is stored as a ‘SpatialLines’ object (package ‘spdep’). A path is a sequence of coordinate pairs, which is stored in the <code>@lines</code> slot. Like a ‘SpatialPointsDataFrame,’ a ‘SpatialLines’ object has a ‘proje4string’ attribute that stores the projection information. This means that we can easily plot it on top of a raster map.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1023"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1023-1"><a href="WE-10.html#cb1023-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1023-2"><a href="WE-10.html#cb1023-2" aria-hidden="true" tabindex="-1"></a>AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[<span class="dv">1</span>,], </span>
+<span id="cb1023-3"><a href="WE-10.html#cb1023-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[<span class="dv">2</span>,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
+<span id="cb1023-4"><a href="WE-10.html#cb1023-4" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
+<span id="cb1023-5"><a href="WE-10.html#cb1023-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>,<span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
+<span id="cb1023-6"><a href="WE-10.html#cb1023-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb1023-7"><a href="WE-10.html#cb1023-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,])</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1030"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1030-1"><a href="WE-10.html#cb1030-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb1030-2"><a href="WE-10.html#cb1030-2" aria-hidden="true" tabindex="-1"></a>AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[<span class="dv">1</span>,], </span>
 <span id="cb1030-3"><a href="WE-10.html#cb1030-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[<span class="dv">2</span>,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
@@ -1929,6 +2028,7 @@ raster cells are farther apart from each other than the orthogonally connected c
 <span id="cb1030-5"><a href="WE-10.html#cb1030-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>,<span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
 <span id="cb1030-6"><a href="WE-10.html#cb1030-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb1030-7"><a href="WE-10.html#cb1030-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,])</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>That’s nice, but it shows only the shortest path between sites 1 and 2. It would not be very useful to plot all pairwise shortest paths. Here we do the following:</p>
 <ul>
@@ -1940,6 +2040,25 @@ raster cells are farther apart from each other than the orthogonally connected c
 <li>Plot the shortest paths onto the map in red</li>
 </ul>
 <p>Note: this may take a while. If it does not show up nicely in the notebook, copy and paste the code to the console and watch how the plot is evolving in the Plots tab (nothing beats being able to actually watch R do the work for you).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="WE-10.html#cb1024-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1024-2"><a href="WE-10.html#cb1024-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
+<span id="cb1024-3"><a href="WE-10.html#cb1024-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>, <span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
+<span id="cb1024-4"><a href="WE-10.html#cb1024-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites)</span>
+<span id="cb1024-5"><a href="WE-10.html#cb1024-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1024-6"><a href="WE-10.html#cb1024-6" aria-hidden="true" tabindex="-1"></a>Neighbours <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">tri2nb</span>(sites<span class="sc">@</span>coords, <span class="at">row.names =</span> sites<span class="sc">$</span>SiteName)</span>
+<span id="cb1024-7"><a href="WE-10.html#cb1024-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1024-8"><a href="WE-10.html#cb1024-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Neighbours, sites<span class="sc">@</span>coords, <span class="at">col=</span><span class="st">&quot;darkgrey&quot;</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1024-9"><a href="WE-10.html#cb1024-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Neighbours))</span>
+<span id="cb1024-10"><a href="WE-10.html#cb1024-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1024-11"><a href="WE-10.html#cb1024-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> Neighbours[[i]][Neighbours[[i]] <span class="sc">&gt;</span> i])</span>
+<span id="cb1024-12"><a href="WE-10.html#cb1024-12" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1024-13"><a href="WE-10.html#cb1024-13" aria-hidden="true" tabindex="-1"></a>    AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[i,], </span>
+<span id="cb1024-14"><a href="WE-10.html#cb1024-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[j,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
+<span id="cb1024-15"><a href="WE-10.html#cb1024-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb1024-16"><a href="WE-10.html#cb1024-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1024-17"><a href="WE-10.html#cb1024-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="WE-10.html#cb1031-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb1031-2"><a href="WE-10.html#cb1031-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
 <span id="cb1031-3"><a href="WE-10.html#cb1031-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>, <span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
@@ -1957,6 +2076,7 @@ raster cells are farther apart from each other than the orthogonally connected c
 <span id="cb1031-15"><a href="WE-10.html#cb1031-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span>
 <span id="cb1031-16"><a href="WE-10.html#cb1031-16" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1031-17"><a href="WE-10.html#cb1031-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p><strong>Question 3</strong>: Do the shortest paths (red) deviate from the Euclidean distances (grey)? Why?</p>
 <p><strong>Question 4</strong>: Are there paths that merge? How would you explain this?</p>
@@ -1968,16 +2088,33 @@ raster cells are farther apart from each other than the orthogonally connected c
 <h4>a. Least cost distance</h4>
 <p>The cost-distance matrix is based on the corrected transition layer and the site locations (here we supply a ‘SpatialPointsDataFrame’ object). The ‘costDistance’ function requires conductance values, even though cost distance will be 1/conductance (i.e., resistance). The cost distance is a function of the transition (tr.cost1, a transition object) and spatial locations (sites, a spatial object).
 This is a single least-cost path (accumulated cost units as opposed to length units) between each pair of sites..</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1025"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1025-1"><a href="WE-10.html#cb1025-1" aria-hidden="true" tabindex="-1"></a>cost1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost1,sites)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="WE-10.html#cb1032-1" aria-hidden="true" tabindex="-1"></a>cost1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost1,sites)</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="b.-cost-distance-matrix-based-on-random-paths-similar-to-circuitscape" class="section level4">
 <h4>b. Cost-distance matrix based on random paths (similar to Circuitscape)</h4>
 <p>Commute-time distance is an alternative to effective resistance from circuit theory. Commute-time is the expected time it takes for a random walk between nodes, and has been shown to correlate highly with effective resistance (Marrotte and Bowman 2017).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="WE-10.html#cb1026-1" aria-hidden="true" tabindex="-1"></a>comm1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost1, <span class="at">coords =</span> sites)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1033"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1033-1"><a href="WE-10.html#cb1033-1" aria-hidden="true" tabindex="-1"></a>comm1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost1, <span class="at">coords =</span> sites)</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="c.-compare-cost-distances" class="section level4">
 <h4>c. Compare cost distances</h4>
 <p>Create a distance table to compare different cost distance estimates:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1027"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1027-1"><a href="WE-10.html#cb1027-1" aria-hidden="true" tabindex="-1"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;cost1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(cost1.dist),</span>
+<span id="cb1027-2"><a href="WE-10.html#cb1027-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;comm1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(comm1.dist))</span></code></pre></div>
+<p>Look at the correlation between the two different cost distances:</p>
+<div class="sourceCode" id="cb1028"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1028-1"><a href="WE-10.html#cb1028-1" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, dist_df<span class="sc">$</span>comm1.dist, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb1028-2"><a href="WE-10.html#cb1028-2" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm</span></code></pre></div>
+<pre><code>## [1] 0.9519704</code></pre>
+<div class="sourceCode" id="cb1030"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1030-1"><a href="WE-10.html#cb1030-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cost1.dist<span class="sc">~</span>comm1.dist)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1034"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1034-1"><a href="WE-10.html#cb1034-1" aria-hidden="true" tabindex="-1"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;cost1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(cost1.dist),</span>
 <span id="cb1034-2"><a href="WE-10.html#cb1034-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;comm1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(comm1.dist))</span></code></pre></div>
 <p>Look at the correlation between the two different cost distances:</p>
@@ -1985,6 +2122,7 @@ This is a single least-cost path (accumulated cost units as opposed to length un
 <span id="cb1035-2"><a href="WE-10.html#cb1035-2" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm</span></code></pre></div>
 <pre><code>## [1] 0.9519704</code></pre>
 <div class="sourceCode" id="cb1037"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1037-1"><a href="WE-10.html#cb1037-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cost1.dist<span class="sc">~</span>comm1.dist)</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p><strong>Question 5</strong>: Are the distance measures similar or different? Why?</p>
 <p><strong>Question 6</strong>: What is the major difference? What are the implications of this difference? When might you use one or other of the methods?</p>
@@ -1996,6 +2134,34 @@ This is a single least-cost path (accumulated cost units as opposed to length un
 these metrics and compare them to the finer resolution raster metric using a Spearman correlation. The loop will take a few minutes to run.</p>
 <div id="a.-create-loop" class="section level4">
 <h4>a. Create loop</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="WE-10.html#cb1031-1" aria-hidden="true" tabindex="-1"></a>cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1031-2"><a href="WE-10.html#cb1031-2" aria-hidden="true" tabindex="-1"></a>cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1031-3"><a href="WE-10.html#cb1031-3" aria-hidden="true" tabindex="-1"></a>res_fact <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</span>
+<span id="cb1031-4"><a href="WE-10.html#cb1031-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(fac <span class="cf">in</span> res_fact){</span>
+<span id="cb1031-5"><a href="WE-10.html#cb1031-5" aria-hidden="true" tabindex="-1"></a>  cost1_agg <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">aggregate</span>(cost1, <span class="at">fact =</span> fac)</span>
+<span id="cb1031-6"><a href="WE-10.html#cb1031-6" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1_agg, </span>
+<span id="cb1031-7"><a href="WE-10.html#cb1031-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>)</span>
+<span id="cb1031-8"><a href="WE-10.html#cb1031-8" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost_agg,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span>
+<span id="cb1031-9"><a href="WE-10.html#cb1031-9" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost_agg,sites)</span>
+<span id="cb1031-10"><a href="WE-10.html#cb1031-10" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost_agg, <span class="at">coords =</span> sites)</span>
+<span id="cb1031-11"><a href="WE-10.html#cb1031-11" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(cost.dist_agg)</span>
+<span id="cb1031-12"><a href="WE-10.html#cb1031-12" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(comm.dist_agg)</span>
+<span id="cb1031-13"><a href="WE-10.html#cb1031-13" aria-hidden="true" tabindex="-1"></a>  cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_cost,<span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, cost.dist_agg, </span>
+<span id="cb1031-14"><a href="WE-10.html#cb1031-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
+<span id="cb1031-15"><a href="WE-10.html#cb1031-15" aria-hidden="true" tabindex="-1"></a>  cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_comm,<span class="fu">cor</span>(dist_df<span class="sc">$</span>comm1.dist, comm.dist_agg, </span>
+<span id="cb1031-16"><a href="WE-10.html#cb1031-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
+<span id="cb1031-17"><a href="WE-10.html#cb1031-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="b.-plot-the-results" class="section level4">
+<h4>b. Plot the results</h4>
+<div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="WE-10.html#cb1032-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb1032-2"><a href="WE-10.html#cb1032-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> cor_cost, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, </span>
+<span id="cb1032-3"><a href="WE-10.html#cb1032-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="dv">1</span>), <span class="at">xlab =</span> <span class="st">&quot;Aggregation factor&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spearman correlation&quot;</span>)</span>
+<span id="cb1032-4"><a href="WE-10.html#cb1032-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> cor_comm, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb1032-5"><a href="WE-10.html#cb1032-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Costdist&quot;</span>,<span class="st">&quot;Commdist&quot;</span>), </span>
+<span id="cb1032-6"><a href="WE-10.html#cb1032-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb1038"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1038-1"><a href="WE-10.html#cb1038-1" aria-hidden="true" tabindex="-1"></a>cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
 <span id="cb1038-2"><a href="WE-10.html#cb1038-2" aria-hidden="true" tabindex="-1"></a>cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
 <span id="cb1038-3"><a href="WE-10.html#cb1038-3" aria-hidden="true" tabindex="-1"></a>res_fact <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</span>
@@ -2022,6 +2188,7 @@ these metrics and compare them to the finer resolution raster metric using a Spe
 <span id="cb1039-4"><a href="WE-10.html#cb1039-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> cor_comm, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
 <span id="cb1039-5"><a href="WE-10.html#cb1039-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Costdist&quot;</span>,<span class="st">&quot;Commdist&quot;</span>), </span>
 <span id="cb1039-6"><a href="WE-10.html#cb1039-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+>>>>>>> main
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p><strong>Question 7</strong>: What effect does changing resolution have on these metrics?</p>
 </div>

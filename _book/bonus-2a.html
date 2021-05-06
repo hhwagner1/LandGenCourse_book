@@ -1020,7 +1020,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<<<<<<< HEAD
+=======
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+>>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1707,28 +1710,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="b.-required-r-libraries" class="section level4">
 <h4>b. Required R libraries</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="bonus-2a.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb434-2"><a href="bonus-2a.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sp)</span>
+<span id="cb434-3"><a href="bonus-2a.html#cb434-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sf)</span>
+<span id="cb434-4"><a href="bonus-2a.html#cb434-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(raster)</span>
+<span id="cb434-5"><a href="bonus-2a.html#cb434-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(GeNetIt)</span>
+<span id="cb434-6"><a href="bonus-2a.html#cb434-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rasterVis)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="bonus-2a.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
 <span id="cb441-2"><a href="bonus-2a.html#cb441-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sp)</span>
 <span id="cb441-3"><a href="bonus-2a.html#cb441-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sf)</span>
 <span id="cb441-4"><a href="bonus-2a.html#cb441-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(raster)</span>
 <span id="cb441-5"><a href="bonus-2a.html#cb441-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(GeNetIt)</span>
 <span id="cb441-6"><a href="bonus-2a.html#cb441-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rasterVis)</span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="convert-spatialpointsdataframe-to-sf-object" class="section level3">
 <h3>2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object</h3>
 <p>While ‘sp’ was a major achievement, it is being replaced now by ‘sf,’ which is short for “simple feature.” The conversion is easy. The resulting S3 object is a data frame and also an ‘sf’ object.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="bonus-2a.html#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb435-2"><a href="bonus-2a.html#cb435-2" aria-hidden="true" tabindex="-1"></a>Sites.sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ralu.site)</span>
+<span id="cb435-3"><a href="bonus-2a.html#cb435-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites.sf)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="bonus-2a.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
 <span id="cb442-2"><a href="bonus-2a.html#cb442-2" aria-hidden="true" tabindex="-1"></a>Sites.sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ralu.site)</span>
 <span id="cb442-3"><a href="bonus-2a.html#cb442-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites.sf)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 </div>
 <div id="plot-variables-first-10-in-data-set" class="section level3">
 <h3>3. Plot variables (first 10 in data set)</h3>
 <p>If we use ‘plot’ on this ‘sf’ object, it will plot site attribute data in space! Here we set the point character ‘pch’ to a filled circle, which is symbol #16.</p>
 <p>For an overview of ‘pch’ symbol numbers, and colors, check: <a href="http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/" class="uri">http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/</a></p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="bonus-2a.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb437-2"><a href="bonus-2a.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="bonus-2a.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb444-2"><a href="bonus-2a.html#cb444-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Warning: plotting the first 10 out of 17 attributes; use max.plot = 17 to plot
 ## all</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
@@ -1738,25 +1761,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Variables ‘AREA_m2’ and ‘Depth_m’ (right): these are quantitative variables, and R automatically uses a color ramp (from blue to pink to orange) to indicate variation in the values.</li>
 </ul>
 <p>Note: To learn about options for the ‘plot’ function for ‘sf’ objects, access the help file by typing ‘?plot’ and select ‘Plot sf object.’</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="bonus-2a.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;Drainage&quot;</span>, <span class="st">&quot;Basin&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb439-2"><a href="bonus-2a.html#cb439-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;AREA_m2&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="bonus-2a.html#cb446-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;Drainage&quot;</span>, <span class="st">&quot;Basin&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span>
 <span id="cb446-2"><a href="bonus-2a.html#cb446-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;AREA_m2&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+>>>>>>> main
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-58-1.png" width="672" /><img src="02-Week02_files/figure-html/unnamed-chunk-58-2.png" width="672" /></p>
 </div>
 <div id="export-site-data-as-esri-shapefile" class="section level3">
 <h3>4. Export site data as ESRI shapefile</h3>
 <p>Just in case you want to know how you could get your results into a GIS. This is really easy with the ‘sf’ package. The following code may produce a warning that column names were abbreviated, and writes the component files for the ESRI shapefile into the pre-existing folder ‘output’ (the first line will create it if does not exist yet). Remember to remove the hashtags ‘#’ to uncomment the code before running it.</p>
 <p>The argument ‘delete_dsn’ specifies whether any existing file with the same name should be deleted first (i.e., overwritten).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="bonus-2a.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb440-2"><a href="bonus-2a.html#cb440-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb440-3"><a href="bonus-2a.html#cb440-3" aria-hidden="true" tabindex="-1"></a><span class="co">#st_write(Sites.sf, paste0(here(),&quot;/output/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="bonus-2a.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
 <span id="cb447-2"><a href="bonus-2a.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
 <span id="cb447-3"><a href="bonus-2a.html#cb447-3" aria-hidden="true" tabindex="-1"></a><span class="co">#st_write(Sites.sf, paste0(here(),&quot;/output/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="display-categorical-map-with-a-predefined-color-table" class="section level3">
 <h3>5. Display categorical map with a predefined color table</h3>
 <p>Now to a more tricky topica. Recall that the last raster layer in the Worked Example, ‘nlcd,’ contains categorial land cover data that are coded numerically. The ‘raster’ package actually misinterpreted them as numeric data.</p>
 <p>Let’s again extract the categorical raster layer into a new object ‘NLCD.’</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="bonus-2a.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
+<span id="cb441-2"><a href="bonus-2a.html#cb441-2" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">raster</span>(rasters[<span class="dv">6</span>])</span>
+<span id="cb441-3"><a href="bonus-2a.html#cb441-3" aria-hidden="true" tabindex="-1"></a>NLCD</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="bonus-2a.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
 <span id="cb448-2"><a href="bonus-2a.html#cb448-2" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">raster</span>(rasters[<span class="dv">6</span>])</span>
 <span id="cb448-3"><a href="bonus-2a.html#cb448-3" aria-hidden="true" tabindex="-1"></a>NLCD</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1767,9 +1807,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## values     : 11, 95  (min, max)</code></pre>
 <p>Then we use function ‘ratify’ to tell R that this is a categorical map (factor) that needs a ‘raster attribute table’ (rat). Nothing to do with rats…</p>
 <p>Then create the raster attribute table from the factor levels. This is simply a vector with all factor levels present in ‘NLCD.’ The levels are codes as numbers between 11 and 95. Here’s the legend information: <a href="https://www.mrlc.gov/nlcd06_leg.php" class="uri">https://www.mrlc.gov/nlcd06_leg.php</a></p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="bonus-2a.html#cb443-1" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">ratify</span>(NLCD)</span>
+<span id="cb443-2"><a href="bonus-2a.html#cb443-2" aria-hidden="true" tabindex="-1"></a>rat <span class="ot">&lt;-</span> <span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]]</span>
+<span id="cb443-3"><a href="bonus-2a.html#cb443-3" aria-hidden="true" tabindex="-1"></a>rat</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="bonus-2a.html#cb450-1" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">ratify</span>(NLCD)</span>
 <span id="cb450-2"><a href="bonus-2a.html#cb450-2" aria-hidden="true" tabindex="-1"></a>rat <span class="ot">&lt;-</span> <span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]]</span>
 <span id="cb450-3"><a href="bonus-2a.html#cb450-3" aria-hidden="true" tabindex="-1"></a>rat</span></code></pre></div>
+>>>>>>> main
 <pre><code>##   ID
 ## 1 11
 ## 2 12
@@ -1781,11 +1827,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8 95</code></pre>
 <p>Let’s add some columns with labels and predefined colors (using hex color code). A color table (“Colortable_LULC.csv”) is already in the data folder.</p>
 <p>It has more rows than we need, because not all US land cover classes occur in the study area. We need to make sure the colors and cover types are stored as ‘character,’ because the missing factor levels would later create problems.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="bonus-2a.html#cb445-1" aria-hidden="true" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
+<span id="cb445-2"><a href="bonus-2a.html#cb445-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb445-3"><a href="bonus-2a.html#cb445-3" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>color)</span>
+<span id="cb445-4"><a href="bonus-2a.html#cb445-4" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>attribute <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>attribute)</span>
+<span id="cb445-5"><a href="bonus-2a.html#cb445-5" aria-hidden="true" tabindex="-1"></a>ColTab</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="bonus-2a.html#cb452-1" aria-hidden="true" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
 <span id="cb452-2"><a href="bonus-2a.html#cb452-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
 <span id="cb452-3"><a href="bonus-2a.html#cb452-3" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>color)</span>
 <span id="cb452-4"><a href="bonus-2a.html#cb452-4" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>attribute <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>attribute)</span>
 <span id="cb452-5"><a href="bonus-2a.html#cb452-5" aria-hidden="true" tabindex="-1"></a>ColTab</span></code></pre></div>
+>>>>>>> main
 <pre><code>##    value   color                    attribute
 ## 1     11 #456DA8                   Open Water
 ## 2     12 #E6EEF9           Perennial Ice/Snow
@@ -1809,9 +1863,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 20    95 #6EA5C4 Emergent Herbaceous Wetlands</code></pre>
 <p>Now we need to match the codes in ‘NLCD.rat’ and ‘ColTab’ and extract the additional variables for the land use categories that occur in NLCD. We can use the function ‘merge’ to do this.</p>
 <p>Finally we tell R that the factor levels of NLCD are defined in ‘rat,’ and R stores the information in the slot ‘<a href="mailto:NLCD@data@attributes" class="email">NLCD@data@attributes</a>.’</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="bonus-2a.html#cb447-1" aria-hidden="true" tabindex="-1"></a>rat <span class="ot">&lt;-</span> <span class="fu">merge</span>(rat, ColTab, <span class="at">by.x=</span><span class="st">&quot;ID&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;value&quot;</span>, <span class="at">all=</span><span class="cn">FALSE</span>, <span class="at">sort=</span><span class="cn">TRUE</span>)</span>
+<span id="cb447-2"><a href="bonus-2a.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(NLCD) <span class="ot">&lt;-</span> rat</span>
+<span id="cb447-3"><a href="bonus-2a.html#cb447-3" aria-hidden="true" tabindex="-1"></a>NLCD<span class="sc">@</span>data<span class="sc">@</span>attributes</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="bonus-2a.html#cb454-1" aria-hidden="true" tabindex="-1"></a>rat <span class="ot">&lt;-</span> <span class="fu">merge</span>(rat, ColTab, <span class="at">by.x=</span><span class="st">&quot;ID&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;value&quot;</span>, <span class="at">all=</span><span class="cn">FALSE</span>, <span class="at">sort=</span><span class="cn">TRUE</span>)</span>
 <span id="cb454-2"><a href="bonus-2a.html#cb454-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(NLCD) <span class="ot">&lt;-</span> rat</span>
 <span id="cb454-3"><a href="bonus-2a.html#cb454-3" aria-hidden="true" tabindex="-1"></a>NLCD<span class="sc">@</span>data<span class="sc">@</span>attributes</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [[1]]
 ##   ID   color                    attribute
 ## 1 11 #456DA8                   Open Water
@@ -1825,6 +1885,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now we can use the function ‘levelplot’ (package ‘rasterVis’) to plot the land cover map with the correct color scheme and legend. We will overlay the sampling locations, using yellow circles with black outlines.</p>
 <p>This code uses advanced plotting ‘language,’ where we first define ‘Map’ as the levelplot of the categorical map. The argument ‘att’ specifies which column in the ‘rat’ should be used for the labels, ‘colorkey’ scales the size of the legend, and ‘col.regions’ defines the color scheme.</p>
 <p>Then, we can plot ‘Map’ simply by writing its name.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="bonus-2a.html#cb449-1" aria-hidden="true" tabindex="-1"></a>Map <span class="ot">&lt;-</span> <span class="fu">levelplot</span>(NLCD, <span class="at">att=</span><span class="st">&#39;attribute&#39;</span>, <span class="at">colorkey=</span><span class="fu">list</span>(<span class="at">height=</span><span class="fl">0.5</span>), </span>
+<span id="cb449-2"><a href="bonus-2a.html#cb449-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">col.regions=</span>NLCD<span class="sc">@</span>data<span class="sc">@</span>attributes[[<span class="dv">1</span>]]<span class="sc">$</span>color) </span>
+<span id="cb449-3"><a href="bonus-2a.html#cb449-3" aria-hidden="true" tabindex="-1"></a>Map</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p>Additional layers are added to the map with ‘+ layer()’: first we add a layer with the yellow filled circles at the sampling locations, then another layer with the black symbol outlines.</p>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="bonus-2a.html#cb450-1" aria-hidden="true" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> ralu.site</span>
+<span id="cb450-2"><a href="bonus-2a.html#cb450-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb450-3"><a href="bonus-2a.html#cb450-3" aria-hidden="true" tabindex="-1"></a>Map <span class="sc">+</span> <span class="fu">layer</span>(<span class="fu">sp.points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">cex=</span><span class="fl">1.1</span>)) <span class="sc">+</span></span>
+<span id="cb450-4"><a href="bonus-2a.html#cb450-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer</span>(<span class="fu">sp.points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">cex=</span><span class="fl">1.1</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="bonus-2a.html#cb456-1" aria-hidden="true" tabindex="-1"></a>Map <span class="ot">&lt;-</span> <span class="fu">levelplot</span>(NLCD, <span class="at">att=</span><span class="st">&#39;attribute&#39;</span>, <span class="at">colorkey=</span><span class="fu">list</span>(<span class="at">height=</span><span class="fl">0.5</span>), </span>
 <span id="cb456-2"><a href="bonus-2a.html#cb456-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">col.regions=</span>NLCD<span class="sc">@</span>data<span class="sc">@</span>attributes[[<span class="dv">1</span>]]<span class="sc">$</span>color) </span>
 <span id="cb456-3"><a href="bonus-2a.html#cb456-3" aria-hidden="true" tabindex="-1"></a>Map</span></code></pre></div>
@@ -1834,6 +1905,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb457-2"><a href="bonus-2a.html#cb457-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb457-3"><a href="bonus-2a.html#cb457-3" aria-hidden="true" tabindex="-1"></a>Map <span class="sc">+</span> <span class="fu">layer</span>(<span class="fu">sp.points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">cex=</span><span class="fl">1.1</span>)) <span class="sc">+</span></span>
 <span id="cb457-4"><a href="bonus-2a.html#cb457-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer</span>(<span class="fu">sp.points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">cex=</span><span class="fl">1.1</span>))</span></code></pre></div>
+>>>>>>> main
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
 
 </div>

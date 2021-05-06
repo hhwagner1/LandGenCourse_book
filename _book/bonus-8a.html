@@ -1020,7 +1020,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<<<<<<< HEAD
+=======
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+>>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1711,6 +1714,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="c.-required-r-libraries-5" class="section level4">
 <h4>c. Required R libraries</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="bonus-8a.html#cb863-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb863-2"><a href="bonus-8a.html#cb863-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(microbenchmark)</span></span>
+<span id="cb863-3"><a href="bonus-8a.html#cb863-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(profvis)</span></span>
+<span id="cb863-4"><a href="bonus-8a.html#cb863-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(here)</span></span>
+<span id="cb863-5"><a href="bonus-8a.html#cb863-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(readr)</span></span>
+<span id="cb863-6"><a href="bonus-8a.html#cb863-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(data.table)</span></span>
+<span id="cb863-7"><a href="bonus-8a.html#cb863-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(feather)</span></span>
+<span id="cb863-8"><a href="bonus-8a.html#cb863-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rio)</span></span>
+<span id="cb863-9"><a href="bonus-8a.html#cb863-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(devtools)</span></span>
+<span id="cb863-10"><a href="bonus-8a.html#cb863-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(parallel)</span></span>
+<span id="cb863-11"><a href="bonus-8a.html#cb863-11" aria-hidden="true" tabindex="-1"></a><span class="co">#library(doParallel)</span></span>
+<span id="cb863-12"><a href="bonus-8a.html#cb863-12" aria-hidden="true" tabindex="-1"></a><span class="co">#library(knitr)</span></span>
+<span id="cb863-13"><a href="bonus-8a.html#cb863-13" aria-hidden="true" tabindex="-1"></a><span class="co">#library(compiler)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb870-1"><a href="bonus-8a.html#cb870-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
 <span id="cb870-2"><a href="bonus-8a.html#cb870-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(microbenchmark)</span></span>
 <span id="cb870-3"><a href="bonus-8a.html#cb870-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(profvis)</span></span>
@@ -1724,6 +1742,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb870-11"><a href="bonus-8a.html#cb870-11" aria-hidden="true" tabindex="-1"></a><span class="co">#library(doParallel)</span></span>
 <span id="cb870-12"><a href="bonus-8a.html#cb870-12" aria-hidden="true" tabindex="-1"></a><span class="co">#library(knitr)</span></span>
 <span id="cb870-13"><a href="bonus-8a.html#cb870-13" aria-hidden="true" tabindex="-1"></a><span class="co">#library(compiler)</span></span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="navigating-the-file-system" class="section level3">
@@ -1733,6 +1752,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-where-am-i" class="section level4">
 <h4>a. Where am I?</h4>
 <p>Let’s see where we are.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="bonus-8a.html#cb864-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/Desktop/LandGenCourse_book/vignettes&quot;</code></pre>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="bonus-8a.html#cb866-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/Desktop/LandGenCourse_book&quot;</code></pre>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="bonus-8a.html#cb868-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;C:\\Users\\wagnerh1\\Documents&quot;</code></pre>
+<div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb870-1"><a href="bonus-8a.html#cb870-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="bonus-8a.html#cb871-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;C:/Users/wagnerh1/Desktop/LandGenCourse_book/vignettes&quot;</code></pre>
 <div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="bonus-8a.html#cb873-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div>
@@ -1740,6 +1768,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb875-1"><a href="bonus-8a.html#cb875-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;C:\\Users\\wagnerh1\\Documents&quot;</code></pre>
 <div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="bonus-8a.html#cb877-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;C:/Users/wagnerh1/DOCUME~1/R/R-40~1.5&quot;</code></pre>
 <p><strong>Question:</strong> Copy-paste the commands in the chunk above directly into the Console and run them there. Do you get the same paths?</p>
 <ul>
@@ -1752,6 +1781,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-accessing-a-system-file" class="section level4">
 <h4>b. Accessing a system file</h4>
 <p>The example data set is available in the ‘extdata’ folder of the ‘LandGenCoures’ package. This is how we import the data in the Week 11 Worked Example:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb872"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb872-1"><a href="bonus-8a.html#cb872-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb872-2"><a href="bonus-8a.html#cb872-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb872-3"><a href="bonus-8a.html#cb872-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gen)</span></code></pre></div>
+<pre><code>## [1]    94 10000</code></pre>
+<p>Let’s unpack this code. What does the function <code>system.file</code> do? Let’s compare it to <code>R.home</code>.</p>
+<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="bonus-8a.html#cb874-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/DOCUME~1/R/R-40~1.5&quot;</code></pre>
+<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="bonus-8a.html#cb876-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/DOCUME~1/R/R-40~1.5/library/base&quot;</code></pre>
+<p>So, <code>system.file</code> goes to the R home and, without additional arguments, locates the folder ‘library’ with the subfolder ‘base.’</p>
+<p>What happens when we add the arguments?</p>
+<div class="sourceCode" id="cb878"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb878-1"><a href="bonus-8a.html#cb878-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/Documents/R/R-4.0.5/library/LandGenCourse&quot;</code></pre>
+<div class="sourceCode" id="cb880"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb880-1"><a href="bonus-8a.html#cb880-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb880-2"><a href="bonus-8a.html#cb880-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="bonus-8a.html#cb879-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
 <span id="cb879-2"><a href="bonus-8a.html#cb879-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">row.names=</span><span class="dv">1</span>)</span>
 <span id="cb879-3"><a href="bonus-8a.html#cb879-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gen)</span></code></pre></div>
@@ -1767,6 +1813,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] &quot;C:/Users/wagnerh1/Documents/R/R-4.0.5/library/LandGenCourse&quot;</code></pre>
 <div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="bonus-8a.html#cb887-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
 <span id="cb887-2"><a href="bonus-8a.html#cb887-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;C:/Users/wagnerh1/Documents/R/R-4.0.5/library/LandGenCourse/extdata/wolf_geno_samp_10000.csv&quot;</code></pre>
 <p>Compare the paths to those from the previous chunk!</p>
 <ul>
@@ -1778,11 +1825,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-file-manipulation" class="section level4">
 <h4>c. File manipulation</h4>
 <p>We can use R’s file manipulation functions to do things with the file before even importing the data. Let’s check the file size:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb882-1"><a href="bonus-8a.html#cb882-1" aria-hidden="true" tabindex="-1"></a>myFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb882-2"><a href="bonus-8a.html#cb882-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb882-3"><a href="bonus-8a.html#cb882-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.size</span>(myFile)</span></code></pre></div>
+<pre><code>## [1] 2078748</code></pre>
+<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="bonus-8a.html#cb884-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;File size: &quot;</span>, <span class="fu">file.size</span>(myFile) <span class="sc">/</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">&quot; MB&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb889"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb889-1"><a href="bonus-8a.html#cb889-1" aria-hidden="true" tabindex="-1"></a>myFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
 <span id="cb889-2"><a href="bonus-8a.html#cb889-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
 <span id="cb889-3"><a href="bonus-8a.html#cb889-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.size</span>(myFile)</span></code></pre></div>
 <pre><code>## [1] 2078748</code></pre>
 <div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb891-1"><a href="bonus-8a.html#cb891-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;File size: &quot;</span>, <span class="fu">file.size</span>(myFile) <span class="sc">/</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">&quot; MB&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## File size:  2.078748  MB</code></pre>
 <p>The number returned is in byte, hence we divide by 1 million (10^6) to get megabyte (MB).</p>
 <p>Other useful functions include (see help file: ‘?files’):</p>
@@ -1809,7 +1864,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>dir(myFile)</li>
 </ul>
 <p>Give it a try:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="bonus-8a.html#cb886-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb893-1"><a href="bonus-8a.html#cb893-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] &quot;WE12_Fig1.PNG&quot;            &quot;WE13_Fig1.png&quot;           
 ##  [3] &quot;WE9_Fig1.png&quot;             &quot;WE9_Fig2.png&quot;            
 ##  [5] &quot;Week0_BasicR.Rmd&quot;         &quot;Week0_Graphics.Rmd&quot;      
@@ -1821,7 +1880,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [17] &quot;Week5_vignette.Rmd&quot;       &quot;Week6_vignette.Rmd&quot;      
 ## [19] &quot;Week7_vignette.Rmd&quot;       &quot;Week8_bonus_vignette.Rmd&quot;
 ## [21] &quot;Week8_vignette.Rmd&quot;       &quot;Week9_vignette.Rmd&quot;</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="bonus-8a.html#cb888-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(here<span class="sc">::</span><span class="fu">here</span>())</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb895-1"><a href="bonus-8a.html#cb895-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(here<span class="sc">::</span><span class="fu">here</span>())</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] &quot;_book&quot;                    &quot;_bookdown.yml&quot;           
 ##  [3] &quot;_bookdown_files&quot;          &quot;_output.yml&quot;             
 ##  [5] &quot;00-ReviewR.md&quot;            &quot;00-ReviewR.Rmd&quot;          
@@ -1840,6 +1903,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [31] &quot;06-Week06.utf8.md&quot;        &quot;06-Week06_files&quot;         
 ## [33] &quot;07-Week07.md&quot;             &quot;07-Week07.Rmd&quot;           
 ## [35] &quot;07-Week07.utf8.md&quot;        &quot;07-Week07_files&quot;         
+<<<<<<< HEAD
+## [37] &quot;08-Week08.Rmd&quot;            &quot;08-Week08_files&quot;         
+## [39] &quot;09-Week09.Rmd&quot;            &quot;09-Week09_files&quot;         
+## [41] &quot;10-Week10.Rmd&quot;            &quot;10-Week10_files&quot;         
+## [43] &quot;11-Week11.Rmd&quot;            &quot;11-Week11_files&quot;         
+## [45] &quot;12-Week12.Rmd&quot;            &quot;12-Week12_files&quot;         
+## [47] &quot;13-Week13.Rmd&quot;            &quot;13-Week13_files&quot;         
+## [49] &quot;14-Week14.Rmd&quot;            &quot;14-Week14_files&quot;         
+## [51] &quot;book.bib&quot;                 &quot;ChapterDepot.R&quot;          
+## [53] &quot;downloads&quot;                &quot;header.html&quot;             
+## [55] &quot;index.md&quot;                 &quot;index.Rmd&quot;               
+## [57] &quot;index.utf8.md&quot;            &quot;js&quot;                      
+## [59] &quot;LandGenCourse_book.rds&quot;   &quot;LandGenCourse_book.Rproj&quot;
+## [61] &quot;LICENSE&quot;                  &quot;ListOfPackages.nb.html&quot;  
+## [63] &quot;ListOfPackages.Rmd&quot;       &quot;my_plot.png&quot;             
+## [65] &quot;output&quot;                   &quot;README.md&quot;               
+## [67] &quot;render1e541582584a.rds&quot;   &quot;render2fbc1ad7f46.rds&quot;   
+## [69] &quot;render33ed6170c2e4.rds&quot;   &quot;render363c1997640c.rds&quot;  
+## [71] &quot;render3894c561f3.rds&quot;     &quot;render3b305196d38.rds&quot;   
+## [73] &quot;render66c9275c5e.rds&quot;     &quot;rendera1ac36509ec1.rds&quot;  
+## [75] &quot;renderf9011b67ac.rds&quot;     &quot;rsconnect&quot;               
+## [77] &quot;style.css&quot;                &quot;toc.css&quot;                 
+## [79] &quot;tutorials&quot;                &quot;vignettes&quot;               
+## [81] &quot;Workflow.nb.html&quot;         &quot;Workflow.Rmd&quot;</code></pre>
+<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb890-1"><a href="bonus-8a.html#cb890-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;data&quot;        &quot;DESCRIPTION&quot; &quot;extdata&quot;     &quot;help&quot;        &quot;html&quot;       
+##  [6] &quot;INDEX&quot;       &quot;Meta&quot;        &quot;NAMESPACE&quot;   &quot;R&quot;           &quot;rstudio&quot;</code></pre>
+<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb892-1"><a href="bonus-8a.html#cb892-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+=======
 ## [37] &quot;08-Week08.Rmd&quot;            &quot;08-Week08.utf8.md&quot;       
 ## [39] &quot;08-Week08_files&quot;          &quot;09-Week09.Rmd&quot;           
 ## [41] &quot;09-Week09_files&quot;          &quot;10-Week10.Rmd&quot;           
@@ -1866,6 +1958,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>##  [1] &quot;data&quot;        &quot;DESCRIPTION&quot; &quot;extdata&quot;     &quot;help&quot;        &quot;html&quot;       
 ##  [6] &quot;INDEX&quot;       &quot;Meta&quot;        &quot;NAMESPACE&quot;   &quot;R&quot;           &quot;rstudio&quot;</code></pre>
 <div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb899-1"><a href="bonus-8a.html#cb899-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] &quot;BashExample.sh&quot;                   &quot;Colortable_LULC.csv&quot;             
 ##  [3] &quot;CSF_network.csv&quot;                  &quot;dataNm1.str&quot;                     
 ##  [5] &quot;dataNm10.txt&quot;                     &quot;dataNm2.txt&quot;                     
@@ -1883,7 +1976,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [29] &quot;Wetlands.csv&quot;                     &quot;wolf_geno_samp_10000.csv&quot;        
 ## [31] &quot;WWP_environmental_data.txt&quot;       &quot;WWP_phenotype_data.txt&quot;          
 ## [33] &quot;WWP_SNP_genotypes.txt&quot;</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb894-1"><a href="bonus-8a.html#cb894-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(myFile)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb901-1"><a href="bonus-8a.html#cb901-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(myFile)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## character(0)</code></pre>
 <ul>
 <li><code>dir()</code>: the content of the last folder to which you navigated.</li>
@@ -1902,6 +1999,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The file ‘myFile’ has 2MB and thus a reasonable size to compare the speed of different import and export functions.</p>
 <p>Let’s benchmark the function <code>read.csv</code> used in Week 11. We use the function <code>microbenchmark</code> from the package <code>microbenchmark</code> to compare the speed of four different functions that can import a ‘csv’ file.</p>
 <p>Note: Here we execute each function only once to save time, typically you would set <code>times = 10</code> or so. Also, <code>read_csv</code> will print a warning about a missing column name. This is because the first column here contains the row names and does not have a column name. We’ll ignore this here, as we can use the first column as an example to compare how character data are being imported.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb896-1"><a href="bonus-8a.html#cb896-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> myFile</span>
+<span id="cb896-2"><a href="bonus-8a.html#cb896-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb896-3"><a href="bonus-8a.html#cb896-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), readr<span class="sc">::</span><span class="fu">read_csv</span>(x), data.table<span class="sc">::</span><span class="fu">fread</span>(x),</span>
+<span id="cb896-4"><a href="bonus-8a.html#cb896-4" aria-hidden="true" tabindex="-1"></a>          rio<span class="sc">::</span><span class="fu">import</span>(x))</span></code></pre></div>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<pre><code>## Unit: milliseconds
+##                  expr       min        lq      mean    median        uq
+##           read.csv(x) 3831.9176 3831.9176 3831.9176 3831.9176 3831.9176
+##    readr::read_csv(x) 5932.1155 5932.1155 5932.1155 5932.1155 5932.1155
+##  data.table::fread(x)   87.9424   87.9424   87.9424   87.9424   87.9424
+##        rio::import(x)  154.3189  154.3189  154.3189  154.3189  154.3189
+##        max neval
+##  3831.9176     1
+##  5932.1155     1
+##    87.9424     1
+##   154.3189     1</code></pre>
+<p>Would it be faster if we first loaded the packages so that we could call the functions directly?</p>
+<p>Note: you can list several independent commands on the same line by separating the with a semi-colon ‘;’ Also, the chunk setting <code>message=FALSE</code> here suppresses the warning message from <code>read_csv</code>.</p>
+<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb899-1"><a href="bonus-8a.html#cb899-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(data.table); <span class="fu">library</span>(rio); <span class="fu">library</span>(microbenchmark)</span>
+<span id="cb899-2"><a href="bonus-8a.html#cb899-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb899-3"><a href="bonus-8a.html#cb899-3" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb899-4"><a href="bonus-8a.html#cb899-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), <span class="fu">read_csv</span>(x), <span class="fu">fread</span>(x), <span class="fu">import</span>(x))</span></code></pre></div>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<pre><code>## Unit: milliseconds
+##         expr       min        lq      mean    median        uq       max neval
+##  read.csv(x) 3940.9549 3940.9549 3940.9549 3940.9549 3940.9549 3940.9549     1
+##  read_csv(x) 5865.0204 5865.0204 5865.0204 5865.0204 5865.0204 5865.0204     1
+##     fread(x)  150.8235  150.8235  150.8235  150.8235  150.8235  150.8235     1
+##    import(x)   85.1180   85.1180   85.1180   85.1180   85.1180   85.1180     1</code></pre>
+=======
 <div class="sourceCode" id="cb903"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb903-1"><a href="bonus-8a.html#cb903-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> myFile</span>
 <span id="cb903-2"><a href="bonus-8a.html#cb903-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
 <span id="cb903-3"><a href="bonus-8a.html#cb903-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), readr<span class="sc">::</span><span class="fu">read_csv</span>(x), data.table<span class="sc">::</span><span class="fu">fread</span>(x),</span>
@@ -1931,6 +2059,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  read_csv(x) 3520.9875 3520.9875 3520.9875 3520.9875 3520.9875 3520.9875     1
 ##     fread(x)   66.7760   66.7760   66.7760   66.7760   66.7760   66.7760     1
 ##    import(x)   88.9253   88.9253   88.9253   88.9253   88.9253   88.9253     1</code></pre>
+>>>>>>> main
 <p>Yes, the import was faster when the packages were already loaded.</p>
 <p>Overall <code>fread</code> and <code>import</code> were in the order of 50 times faster than <code>read.csv</code> and <code>read_csv</code>! The two had practically the same speed, which is little surprising: for ‘csv’ files, <code>import</code> uses the function <code>fread</code>.</p>
 <p>The beauty of <code>import</code> is that it can handle a wide range of file types (and the list keeps growing): csv, xls, xlsx, html, xml, json, feather, R, RData, rda, rds, psv, tsv, sas7bdat, xpt, sav, dta, xpt, por, rec, mtp, syd, dbf, arff, dif, fwf, csv.gz, CSVY, fst, mat, ods, yml, as well as Fortan files and clipboard imports (Mac and Windows). It recognizes the file type from the extension and uses an appropriate import function.</p>
@@ -1941,6 +2070,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The functions differ not only in their speed but also in how they handle text data (character or factor?), missing values etc.</p>
 <p>The first column in ‘myFile’ is an ID variable that should be used as row names. Let’s compare what the four methods did with this. The following code determines, for each import method, the class of the first column (IDs), and the class (or classes) of the resulting object.</p>
 <p>Note: here we use double square brackets to subset the first column. Strictly speaking, we interpret ‘gen’ as a list of vectors. With a data.frame, we could also access the first column by gen[,1]. However, this would not return what we want for ‘tbl’ of ‘data.table’ objects. Always double check.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb902-1"><a href="bonus-8a.html#cb902-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;  &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb904-1"><a href="bonus-8a.html#cb904-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<pre><code>## [1] &quot;character&quot;   &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb907-1"><a href="bonus-8a.html#cb907-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">fread</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;  &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb909-1"><a href="bonus-8a.html#cb909-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb909-1"><a href="bonus-8a.html#cb909-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;  &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb911-1"><a href="bonus-8a.html#cb911-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
@@ -1949,6 +2088,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb914-1"><a href="bonus-8a.html#cb914-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">fread</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;  &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb916-1"><a href="bonus-8a.html#cb916-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;character&quot;  &quot;data.frame&quot;</code></pre>
 <ul>
 <li>The function <code>read.csv</code> interprets any text as ‘factor,’ the other functions use ‘character’ as default. Always double check!<br />
@@ -1961,6 +2101,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>c. Binary files</h4>
 <p>Binary files are not readable by users (or other software) but provide an efficient way of storing data. Let’s compare file size and input/output speed between text files (csv) and different types of binary files (RData, rds, feather). We’ll also export the ‘csv’ file so that we have it in the same location.</p>
 <p>First we make sure an <code>output</code> folder exists in the R project:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb911"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb911-1"><a href="bonus-8a.html#cb911-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb912-1"><a href="bonus-8a.html#cb912-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(myFile)</span>
+<span id="cb912-2"><a href="bonus-8a.html#cb912-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb912-3"><a href="bonus-8a.html#cb912-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>))</span>
+<span id="cb912-4"><a href="bonus-8a.html#cb912-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>))</span>
+<span id="cb912-5"><a href="bonus-8a.html#cb912-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
+<span id="cb912-6"><a href="bonus-8a.html#cb912-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>))</span></code></pre></div>
+<pre><code>## Loading required namespace: feather</code></pre>
+<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb914-1"><a href="bonus-8a.html#cb914-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">csv=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
+<span id="cb914-2"><a href="bonus-8a.html#cb914-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">RData=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
+<span id="cb914-3"><a href="bonus-8a.html#cb914-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rds=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
+<span id="cb914-4"><a href="bonus-8a.html#cb914-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">feather=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb918-1"><a href="bonus-8a.html#cb918-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb919"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb919-1"><a href="bonus-8a.html#cb919-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(myFile)</span>
 <span id="cb919-2"><a href="bonus-8a.html#cb919-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1973,6 +2127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb921-2"><a href="bonus-8a.html#cb921-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">RData=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
 <span id="cb921-3"><a href="bonus-8a.html#cb921-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rds=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
 <span id="cb921-4"><a href="bonus-8a.html#cb921-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">feather=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
+>>>>>>> main
 <pre><code>##      csv    RData      rds  feather 
 ## 2.002586 0.351647 0.351620 4.759960</code></pre>
 <ul>
@@ -1981,6 +2136,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>In contrast, the ‘feather’ file (last row) is twice as large here than the ‘csv’ file, and more than 10 times larger than ‘rds!’</li>
 </ul>
 <p>Let’s benchmark the import again. We can use the function <code>import</code> for all of them. This is so fast that we can actually do it 10 times.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb916-1"><a href="bonus-8a.html#cb916-1" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb916-2"><a href="bonus-8a.html#cb916-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">csv=</span> <span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
+<span id="cb916-3"><a href="bonus-8a.html#cb916-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">RData=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
+<span id="cb916-4"><a href="bonus-8a.html#cb916-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">rds=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
+<span id="cb916-5"><a href="bonus-8a.html#cb916-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">feather=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))</span></code></pre></div>
+<pre><code>## Unit: milliseconds
+##     expr     min      lq     mean   median      uq     max neval cld
+##      csv 63.5149 64.6514 66.30174 65.07345 67.8021 72.6304    10  b 
+##    RData 14.9272 15.6169 16.16177 15.91850 16.2611 19.4511    10 a  
+##      rds 14.9037 15.5138 15.80388 15.85240 16.1839 16.5527    10 a  
+##  feather 64.0513 67.1752 73.17925 70.75710 78.5029 92.9404    10   c</code></pre>
+=======
 <div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb923-1"><a href="bonus-8a.html#cb923-1" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
 <span id="cb923-2"><a href="bonus-8a.html#cb923-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">csv=</span> <span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
 <span id="cb923-3"><a href="bonus-8a.html#cb923-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">RData=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
@@ -1992,6 +2160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    RData 15.0345 15.1168 15.86305 15.56375 16.1838 18.2565    10 a  
 ##      rds 14.8866 15.0950 15.82153 15.41105 16.0085 19.2394    10 a  
 ##  feather 63.7461 66.7099 72.25826 70.70965 79.2637 81.2181    10   c</code></pre>
+>>>>>>> main
 <p>Look at the column ‘mean.’ Importing any of the binary files was at least twice as fast as importing the ‘csv’ file with the underlying function <code>fread</code> (which was already 50 times faster than <code>read.csv</code>).</p>
 <p>Here’s my recommendation for saving R objects/data efficiently:</p>
 <ul>
@@ -2006,6 +2175,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>with ‘readRDS,’ you can directly assign the imported data to an object, and thus choose the object name.</li>
 <li>with ‘load,’ you have to do this in two steps. When using ‘load,’ the loaded object will inherit the name from the object that was stored.</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb918-1"><a href="bonus-8a.html#cb918-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s delete any copy of &#39;gen&#39; from the workspace:</span></span>
+<span id="cb918-2"><a href="bonus-8a.html#cb918-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
+<span id="cb918-3"><a href="bonus-8a.html#cb918-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb918-4"><a href="bonus-8a.html#cb918-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create object &#39;myData&#39; in a single step from &#39;rds&#39; file:</span></span>
+<span id="cb918-5"><a href="bonus-8a.html#cb918-5" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
+<span id="cb918-6"><a href="bonus-8a.html#cb918-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb918-7"><a href="bonus-8a.html#cb918-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Two steps when importing &#39;RData&#39;: first, load the stored object:</span></span>
+<span id="cb918-8"><a href="bonus-8a.html#cb918-8" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)) </span>
+<span id="cb918-9"><a href="bonus-8a.html#cb918-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then assign to the new object &#39;myData&#39;:</span></span>
+<span id="cb918-10"><a href="bonus-8a.html#cb918-10" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> gen</span></code></pre></div>
+<p>Note that when you use <code>load</code>, the object name is NOT taken from the file name! This means that you may not know what object you are loading, if the object and file names are different.</p>
+<p>Let’s test this. Here we save the object ‘gen’ in file ‘gen2.RData,’ then load it.</p>
+<div class="sourceCode" id="cb919"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb919-1"><a href="bonus-8a.html#cb919-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export &#39;gen&#39; to a file with a different name &#39;gen2.RData&#39;:</span></span>
+<span id="cb919-2"><a href="bonus-8a.html#cb919-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>))</span>
+<span id="cb919-3"><a href="bonus-8a.html#cb919-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
+<span id="cb919-4"><a href="bonus-8a.html#cb919-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb919-5"><a href="bonus-8a.html#cb919-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load:</span></span>
+<span id="cb919-6"><a href="bonus-8a.html#cb919-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>)) </span>
+<span id="cb919-7"><a href="bonus-8a.html#cb919-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb919-8"><a href="bonus-8a.html#cb919-8" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the name of the loaded object?</span></span>
+<span id="cb919-9"><a href="bonus-8a.html#cb919-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb921-1"><a href="bonus-8a.html#cb921-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen2&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb925-1"><a href="bonus-8a.html#cb925-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s delete any copy of &#39;gen&#39; from the workspace:</span></span>
 <span id="cb925-2"><a href="bonus-8a.html#cb925-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
 <span id="cb925-3"><a href="bonus-8a.html#cb925-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2029,6 +2223,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb926-9"><a href="bonus-8a.html#cb926-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="bonus-8a.html#cb928-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen2&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] FALSE</code></pre>
 <p>We see that an object ‘gen’ exists (TRUE), but an object ‘gen2’ does not exist (FALSE). The name of the loaded object is thus ‘gen.’</p>
 </div>
@@ -2063,6 +2258,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use some kind of version control for your functions file so that you can go back to an older version, and you always know which is the current version.</li>
 </ul>
 <p>To further speed up your code, you can compile your function with ‘cmpfun’:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb923-1"><a href="bonus-8a.html#cb923-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb923-2"><a href="bonus-8a.html#cb923-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>))<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb923-3"><a href="bonus-8a.html#cb923-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb923-4"><a href="bonus-8a.html#cb923-4" aria-hidden="true" tabindex="-1"></a>myFunction.cmp <span class="ot">&lt;-</span> compiler<span class="sc">::</span><span class="fu">cmpfun</span>(myFunction)</span>
+<span id="cb923-5"><a href="bonus-8a.html#cb923-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb923-6"><a href="bonus-8a.html#cb923-6" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">myFunction</span>(), <span class="fu">myFunction.cmp</span>())</span></code></pre></div>
+<pre><code>## Unit: microseconds
+##              expr  min    lq   mean median    uq    max neval cld
+##      myFunction() 58.4 59.35 76.885   60.1 60.90 1551.9   100   a
+##  myFunction.cmp() 58.4 59.20 61.263   60.0 61.15   90.5   100   a</code></pre>
+=======
 <div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb930-1"><a href="bonus-8a.html#cb930-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb930-2"><a href="bonus-8a.html#cb930-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>))<span class="sc">/</span><span class="dv">1000</span></span>
 <span id="cb930-3"><a href="bonus-8a.html#cb930-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -2073,6 +2280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##              expr  min    lq   mean median    uq    max neval cld
 ##      myFunction() 53.2 54.75 75.878   58.1 61.60 1716.9   100   a
 ##  myFunction.cmp() 53.2 54.30 58.098   56.8 60.85   78.2   100   a</code></pre>
+>>>>>>> main
 <p><strong>Question</strong>: Which of the following times are most different between the uncompiled and the compiled versions of this simple function?</p>
 <ul>
 <li><strong>min</strong>: minimum time across ‘neval’ replicates</li>
@@ -2125,6 +2333,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Finally, we use <code>file.show</code> to show the file in a tab.</li>
 </ul>
 <p>Note: An ‘output’ folder should have been created already when you accessed this worked example with the Addin. We are not creating the folder with ‘dir.create’ because this would not work when knitting the R Notebook.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb925-1"><a href="bonus-8a.html#cb925-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myScript.R&quot;</span>)</span>
+<span id="cb925-2"><a href="bonus-8a.html#cb925-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
+<span id="cb925-3"><a href="bonus-8a.html#cb925-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
+<span id="cb925-4"><a href="bonus-8a.html#cb925-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
+<span id="cb925-5"><a href="bonus-8a.html#cb925-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>,</span>
+<span id="cb925-6"><a href="bonus-8a.html#cb925-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>), fileConn)</span>
+<span id="cb925-7"><a href="bonus-8a.html#cb925-7" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
+<span id="cb925-8"><a href="bonus-8a.html#cb925-8" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
+<p>Check the tab ‘R Information,’ which should now display the content of the file ‘myScript.R.’ Are the quotes still there?</p>
+<p>Now we can pass the file to <code>profvis</code>:</p>
+<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb926-1"><a href="bonus-8a.html#cb926-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>(<span class="fu">source</span>(myPath))</span></code></pre></div>
+<p><img src="08-Week08_files/figure-html/profvis2-1.png" width="672" /><img src="08-Week08_files/figure-html/profvis2-2.png" width="672" /></p>
+<div id="htmlwidget-33de65d5df039931a737" style="width:100%;height:600px;" class="profvis html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33de65d5df039931a737">{"x":{"message":{"prof":{"time":[1,1,2,2,3,3],"depth":[2,1,2,1,2,1],"label":[".External2","local",".External2","local",".External2","local"],"filenum":[null,null,null,null,null,null],"linenum":[null,null,null,null,null,null],"memalloc":[140.066177368164,140.066177368164,140.066177368164,140.066177368164,140.066177368164,140.066177368164],"meminc":[0,0,0,0,0,0],"filename":[null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:\\Users\\wagnerh1\\AppData\\Local\\Temp\\1\\RtmpgzAEI0\\file262c70fd2ef0.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+=======
 <div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb932-1"><a href="bonus-8a.html#cb932-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myScript.R&quot;</span>)</span>
 <span id="cb932-2"><a href="bonus-8a.html#cb932-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
 <span id="cb932-3"><a href="bonus-8a.html#cb932-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
@@ -2139,6 +2363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="08-Week08_files/figure-html/profvis2-1.png" width="672" /><img src="08-Week08_files/figure-html/profvis2-2.png" width="672" /></p>
 <div id="htmlwidget-33de65d5df039931a737" style="width:100%;height:600px;" class="profvis html-widget"></div>
 <script type="application/json" data-for="htmlwidget-33de65d5df039931a737">{"x":{"message":{"prof":{"time":[1,1,1,1,1,1,2,2,3,3],"depth":[6,5,4,3,2,1,2,1,2,1],"label":["tryCatch","profvis::profvis","eval","eval","eval.parent","local",".External2","local",".External2","local"],"filenum":[null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null],"memalloc":[139.725494384766,139.725494384766,139.725494384766,139.725494384766,139.725494384766,139.725494384766,140.066093444824,140.066093444824,140.066093444824,140.066093444824],"meminc":[0,0,0,0,0,0,0.340599060058594,0,0,0],"filename":[null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:\\Users\\wagnerh1\\AppData\\Local\\Temp\\1\\RtmpyWiLrl\\file5a0538b46.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+>>>>>>> main
 <ul>
 <li>The ‘Flame Graph’ should look the same as before.</li>
 <li>The content of the ‘Data’ tab is different. Click on the triangle before ‘source’ to navigate to: ‘source’ &gt; ‘withVisible’ &gt; ‘eval’ &gt; ‘eval.’</li>
@@ -2150,6 +2375,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Unfortunately, we can’t profile an entire R Notebook (as far as I know). However, we can extract the R code as a script file, then profile the script file.</p>
 <p>The file ‘myNotebook.Rmd’ contains the same R code as our file ‘myScript.R,’ but in the format of an R Notebook, with R markdown text (e.g. titles) and several chunks of code.</p>
 <p>Note: With ‘file.show,’ the Notebook is opened with a simple text editor (without the coloring etc.). Alternatively, you could run ‘file.edit’ to open it with the familiar RStudio editor.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb927-1"><a href="bonus-8a.html#cb927-1" aria-hidden="true" tabindex="-1"></a>inFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myNotebook.Rmd&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb927-2"><a href="bonus-8a.html#cb927-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(inFile)</span>
+<span id="cb927-3"><a href="bonus-8a.html#cb927-3" aria-hidden="true" tabindex="-1"></a><span class="co">#file.edit(inFile)</span></span></code></pre></div>
+<p>We can use the function ‘purl’ from the ‘knitr’ package to extract the R code from the R Notebook file ‘myNotebook.Rmd’:</p>
+<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="bonus-8a.html#cb928-1" aria-hidden="true" tabindex="-1"></a>outFile <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myNotebook.R&quot;</span>)</span>
+<span id="cb928-2"><a href="bonus-8a.html#cb928-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(inFile, <span class="at">output=</span>outFile, <span class="at">quiet=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Users/wagnerh1/Desktop/LandGenCourse_book/output/myNotebook.R&quot;</code></pre>
+<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb930-1"><a href="bonus-8a.html#cb930-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(outFile)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb934-1"><a href="bonus-8a.html#cb934-1" aria-hidden="true" tabindex="-1"></a>inFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myNotebook.Rmd&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
 <span id="cb934-2"><a href="bonus-8a.html#cb934-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(inFile)</span>
 <span id="cb934-3"><a href="bonus-8a.html#cb934-3" aria-hidden="true" tabindex="-1"></a><span class="co">#file.edit(inFile)</span></span></code></pre></div>
@@ -2158,6 +2393,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb935-2"><a href="bonus-8a.html#cb935-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(inFile, <span class="at">output=</span>outFile, <span class="at">quiet=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;C:/Users/wagnerh1/Desktop/LandGenCourse_book/output/myNotebook.R&quot;</code></pre>
 <div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb937-1"><a href="bonus-8a.html#cb937-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(outFile)</span></code></pre></div>
+>>>>>>> main
 <p><strong>Question</strong>: Compare the two files (they should be open, check the tabs of the source pane).</p>
 <ul>
 <li>How are the chunks from the Notebook file divided in the new script file?</li>
@@ -2165,14 +2401,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>What about the header information?</li>
 </ul>
 <p>Now we can pass the file to `profvis’:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb931-1"><a href="bonus-8a.html#cb931-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>(<span class="fu">source</span>(outFile), <span class="at">prof_output=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/output.prof&quot;</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb938-1"><a href="bonus-8a.html#cb938-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>(<span class="fu">source</span>(outFile), <span class="at">prof_output=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/output.prof&quot;</span>))</span></code></pre></div>
+>>>>>>> main
 <pre><code>## profvis: code exited with error:
 ## C:/Users/wagnerh1/Desktop/LandGenCourse_book/output/myNotebook.R:8:6: unexpected symbol
 ## 7: 
 ## 8: This file
 ##         ^</code></pre>
 <div id="htmlwidget-7ece7cccec775b3a474d" style="width:100%;height:600px;" class="profvis html-widget"></div>
+<<<<<<< HEAD
+<script type="application/json" data-for="htmlwidget-7ece7cccec775b3a474d">{"x":{"message":{"prof":{"time":[1,1,1,1,1],"depth":[5,4,3,2,1],"label":["profvis::profvis","eval","eval","eval.parent","local"],"filenum":[null,null,null,null,null],"linenum":[null,null,null,null,null],"memalloc":[139.793006896973,139.793006896973,139.793006896973,139.793006896973,139.793006896973],"meminc":[0,0,0,0,0],"filename":[null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:/Users/wagnerh1/Desktop/LandGenCourse_book/output/output.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+=======
 <script type="application/json" data-for="htmlwidget-7ece7cccec775b3a474d">{"x":{"message":{"prof":{"time":[1,1,1,1,1],"depth":[5,4,3,2,1],"label":["profvis::profvis","eval","eval","eval.parent","local"],"filenum":[null,null,null,null,null],"linenum":[null,null,null,null,null],"memalloc":[139.793182373047,139.793182373047,139.793182373047,139.793182373047,139.793182373047],"meminc":[0,0,0,0,0],"filename":[null,null,null,null,null]},"interval":10,"files":[],"prof_output":"C:/Users/wagnerh1/Desktop/LandGenCourse_book//output/output.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+>>>>>>> main
 <p><strong>Question</strong>: Which lines of code took the longest to run in this example?</p>
 </div>
 </div>
@@ -2204,6 +2448,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We close the graphics device (png file) with <code>dev.off</code>.</li>
 </ul>
 <p>Note: We use single quotes for the file name here, ‘my_plot.png,’ as they are nested within a set of double quotes. R pretty much considers single and double quotes as synonyms, which allows us to nest them either way: ‘"“’ or”’’".</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb933-1"><a href="bonus-8a.html#cb933-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myBashScript.sh&quot;</span>)</span>
+<span id="cb933-2"><a href="bonus-8a.html#cb933-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
+<span id="cb933-3"><a href="bonus-8a.html#cb933-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;#!/bin/bash&quot;</span>,</span>
+<span id="cb933-4"><a href="bonus-8a.html#cb933-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;R --slave &lt;&lt; EOF&quot;</span>,</span>
+<span id="cb933-5"><a href="bonus-8a.html#cb933-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
+<span id="cb933-6"><a href="bonus-8a.html#cb933-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
+<span id="cb933-7"><a href="bonus-8a.html#cb933-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;png(&#39;my_plot.png&#39;, height = 400, width = 800)&quot;</span>,</span>
+<span id="cb933-8"><a href="bonus-8a.html#cb933-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;par(mfrow=c(1,2))&quot;</span>, </span>
+<span id="cb933-9"><a href="bonus-8a.html#cb933-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>, </span>
+<span id="cb933-10"><a href="bonus-8a.html#cb933-10" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>,</span>
+<span id="cb933-11"><a href="bonus-8a.html#cb933-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;dev.off()&quot;</span>,</span>
+<span id="cb933-12"><a href="bonus-8a.html#cb933-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;EOF&quot;</span>), fileConn)</span>
+<span id="cb933-13"><a href="bonus-8a.html#cb933-13" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
+<span id="cb933-14"><a href="bonus-8a.html#cb933-14" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb940-1"><a href="bonus-8a.html#cb940-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myBashScript.sh&quot;</span>)</span>
 <span id="cb940-2"><a href="bonus-8a.html#cb940-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
 <span id="cb940-3"><a href="bonus-8a.html#cb940-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;#!/bin/bash&quot;</span>,</span>
@@ -2218,6 +2478,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb940-12"><a href="bonus-8a.html#cb940-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;EOF&quot;</span>), fileConn)</span>
 <span id="cb940-13"><a href="bonus-8a.html#cb940-13" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
 <span id="cb940-14"><a href="bonus-8a.html#cb940-14" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="c.-executing-a-bash-r-script" class="section level4">
 <h4>c. Executing a Bash R script</h4>
@@ -2247,18 +2508,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ol>
 <p>Use R again to open the graphics file (the code here first checks whether the file exists):</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb934-1"><a href="bonus-8a.html#cb934-1" aria-hidden="true" tabindex="-1"></a>myPNG <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/my_plot.png&quot;</span>)</span>
+<span id="cb934-2"><a href="bonus-8a.html#cb934-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(myPNG))</span>
+<span id="cb934-3"><a href="bonus-8a.html#cb934-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb934-4"><a href="bonus-8a.html#cb934-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.show</span>(myPNG)</span>
+<span id="cb934-5"><a href="bonus-8a.html#cb934-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb941-1"><a href="bonus-8a.html#cb941-1" aria-hidden="true" tabindex="-1"></a>myPNG <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/my_plot.png&quot;</span>)</span>
 <span id="cb941-2"><a href="bonus-8a.html#cb941-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(myPNG))</span>
 <span id="cb941-3"><a href="bonus-8a.html#cb941-3" aria-hidden="true" tabindex="-1"></a>{</span>
 <span id="cb941-4"><a href="bonus-8a.html#cb941-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.show</span>(myPNG)</span>
 <span id="cb941-5"><a href="bonus-8a.html#cb941-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+>>>>>>> main
 </div>
 <div id="d.-moving-to-a-node-or-cluster" class="section level4">
 <h4>d. Moving to a node or cluster?</h4>
 <p>The example bash file and advice in this section have been provided by Hossam Abdel Moniem, thanks!</p>
 <p>Here’s an annotated example of a bash file that contains instructions for submitting a job to a single node (a single machine with multiple/many cores).</p>
 <p>Note: A copy of the file ‘BashExample.sh’ should also have been copied into the downloads folder inside your project folder.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb935-1"><a href="bonus-8a.html#cb935-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;BashExample.sh&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb942-1"><a href="bonus-8a.html#cb942-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;BashExample.sh&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
+>>>>>>> main
 <pre><code>## #!/bin/bash 
 ## 
 ## #SBATCH --nodes=1                                 # Number of Nodes 
@@ -2296,8 +2569,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>packages</strong>: List of all packages, including their version, installation date and repository (CRAN, Github etc.). All packages that are currently loaded will be marked with an asterisk.</li>
 </ul>
 <p>Platform:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb937-1"><a href="bonus-8a.html#cb937-1" aria-hidden="true" tabindex="-1"></a>Session <span class="ot">&lt;-</span> devtools<span class="sc">::</span><span class="fu">session_info</span>()</span>
+<span id="cb937-2"><a href="bonus-8a.html#cb937-2" aria-hidden="true" tabindex="-1"></a>Session<span class="sc">$</span>platform</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="bonus-8a.html#cb944-1" aria-hidden="true" tabindex="-1"></a>Session <span class="ot">&lt;-</span> devtools<span class="sc">::</span><span class="fu">session_info</span>()</span>
 <span id="cb944-2"><a href="bonus-8a.html#cb944-2" aria-hidden="true" tabindex="-1"></a>Session<span class="sc">$</span>platform</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  setting  value                       
 ##  version  R version 4.0.5 (2021-03-31)
 ##  os       Windows 10 x64              
@@ -2309,7 +2587,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  tz       America/New_York            
 ##  date     2021-05-06</code></pre>
 <p>Packages: here we display only the first six lines, as the list may be long.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb939-1"><a href="bonus-8a.html#cb939-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Session<span class="sc">$</span>packages)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="bonus-8a.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Session<span class="sc">$</span>packages)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  package  * version date       lib source        
 ##  abind      1.4-5   2016-07-21 [1] CRAN (R 4.0.3)
 ##  ade4       1.7-16  2020-10-28 [1] CRAN (R 4.0.5)
@@ -2362,6 +2644,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Replace ‘lapply’ by ‘mclapply’ with package ‘parallel’</h4>
 <p>Note: while this will run on a Windows without causing an error, it will only be faster on Mac / Unix.</p>
 <p>With the package ‘parallel,’ it is really easy to use all cores of your local machine (as long as you are on a Mac / Unix / Linux system). Let’s check the number of cores available:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb941-1"><a href="bonus-8a.html#cb941-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb941-2"><a href="bonus-8a.html#cb941-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<p><strong>Question</strong>: How many cores does your machine have?</p>
+<p>Note: Here we check whether the operating system is ‘Windows,’ in which case we set <code>nCores = 1</code>. This means that we will use all cores on Mac or Linux, but only one core on Windows. This is to avoid problems on Windows machines.</p>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb943-1"><a href="bonus-8a.html#cb943-1" aria-hidden="true" tabindex="-1"></a>nCores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb943-2"><a href="bonus-8a.html#cb943-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[[<span class="st">&#39;sysname&#39;</span>]]<span class="sc">==</span><span class="st">&quot;Windows&quot;</span>) nCores <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb943-3"><a href="bonus-8a.html#cb943-3" aria-hidden="true" tabindex="-1"></a>nCores</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="bonus-8a.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
 <span id="cb948-2"><a href="bonus-8a.html#cb948-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
@@ -2370,16 +2662,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb950-1"><a href="bonus-8a.html#cb950-1" aria-hidden="true" tabindex="-1"></a>nCores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
 <span id="cb950-2"><a href="bonus-8a.html#cb950-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[[<span class="st">&#39;sysname&#39;</span>]]<span class="sc">==</span><span class="st">&quot;Windows&quot;</span>) nCores <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb950-3"><a href="bonus-8a.html#cb950-3" aria-hidden="true" tabindex="-1"></a>nCores</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] 1</code></pre>
 <ul>
 <li>Code your analysis with <code>lapply</code> (and related functions).</li>
 <li>Replace <code>lapply</code> by <code>mclapply</code> (and related functions). Use the argument <code>mc.cores=detectCores()</code> to automatically detect the number of cores in your machine.</li>
 </ul>
 <p>NOTE: April 2021: package build does not work with multiple cores, changing nCores to 1.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb945"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb945-1"><a href="bonus-8a.html#cb945-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> gen[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb945-2"><a href="bonus-8a.html#cb945-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb945-3"><a href="bonus-8a.html#cb945-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m2 &lt;- mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)  # Use this line when running the code yourself</span></span>
+<span id="cb945-4"><a href="bonus-8a.html#cb945-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)        <span class="co"># Replace this line with the previous line</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb952-1"><a href="bonus-8a.html#cb952-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> gen[,<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb952-2"><a href="bonus-8a.html#cb952-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
 <span id="cb952-3"><a href="bonus-8a.html#cb952-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m2 &lt;- mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)  # Use this line when running the code yourself</span></span>
 <span id="cb952-4"><a href="bonus-8a.html#cb952-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)        <span class="co"># Replace this line with the previous line</span></span></code></pre></div>
+>>>>>>> main
 <p>Let’s benchmark four ways of calculating the mean of each column in our example data set ‘gen’ with 94 rows and 10,000 columns (SNPs):</p>
 <ul>
 <li><strong>Method 1</strong>: The dedicated function <code>colMeans</code> from base R.</li>
@@ -2387,6 +2687,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Method 3</strong>: Vectorization with <code>lapply</code></li>
 <li><strong>Method 4</strong>: Multi-core with <code>mclapply</code>.</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="bonus-8a.html#cb946-1" aria-hidden="true" tabindex="-1"></a>method1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">colMeans</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb946-2"><a href="bonus-8a.html#cb946-2" aria-hidden="true" tabindex="-1"></a>method2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb946-3"><a href="bonus-8a.html#cb946-3" aria-hidden="true" tabindex="-1"></a>method3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb946-4"><a href="bonus-8a.html#cb946-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)} # Use this line when running the code yourself</span></span>
+<span id="cb946-5"><a href="bonus-8a.html#cb946-5" aria-hidden="true" tabindex="-1"></a>method4 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)}  <span class="co"># Replace this line with the previous line</span></span>
+<span id="cb946-6"><a href="bonus-8a.html#cb946-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb946-7"><a href="bonus-8a.html#cb946-7" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>,</span>
+<span id="cb946-8"><a href="bonus-8a.html#cb946-8" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">method1</span>(x), <span class="fu">method2</span>(x), <span class="fu">method3</span>(x), <span class="fu">method4</span>(x))</span></code></pre></div>
+<pre><code>## Unit: milliseconds
+##        expr      min       lq      mean   median       uq      max neval cld
+##  method1(x)  34.1365  34.2769  40.91901  36.3829  42.5025  63.3001    10  a 
+##  method2(x) 144.0516 149.2856 162.87317 158.2103 174.9715 200.6437    10   b
+##  method3(x)  31.3999  32.7412  39.26943  36.6563  40.1584  56.9164    10  a 
+##  method4(x)  32.6947  33.0409  35.69796  34.2545  37.4404  41.3809    10  a</code></pre>
+=======
 <div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb953-1"><a href="bonus-8a.html#cb953-1" aria-hidden="true" tabindex="-1"></a>method1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">colMeans</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
 <span id="cb953-2"><a href="bonus-8a.html#cb953-2" aria-hidden="true" tabindex="-1"></a>method2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
 <span id="cb953-3"><a href="bonus-8a.html#cb953-3" aria-hidden="true" tabindex="-1"></a>method3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
@@ -2401,6 +2717,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  method2(x) 149.8661 160.0045 169.54971 171.92180 178.5980 188.1043    10   b
 ##  method3(x)  33.3108  33.7978  39.42758  34.93725  37.9695  60.3094    10  a 
 ##  method4(x)  32.8447  33.4907  35.58582  34.91595  37.2769  40.8918    10  a</code></pre>
+>>>>>>> main
 <p><strong>Question</strong>: Compare the mean</p>
 <ul>
 <li>Which method was the fastest? Can you explain this?</li>
@@ -2418,18 +2735,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Register the cluster with <code>registerDoParallel</code>. If you omit this step, the code will not use parallel computing.</li>
 </ul>
 <p>The following code is commented out to avoid problems when knitting the Notebook. You may uncomment and run it.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="bonus-8a.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span></code></pre></div>
+<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## Loading required package: iterators</code></pre>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb951-1"><a href="bonus-8a.html#cb951-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cl &lt;- makeCluster(2)</span></span>
+<span id="cb951-2"><a href="bonus-8a.html#cb951-2" aria-hidden="true" tabindex="-1"></a><span class="co">#cl</span></span>
+<span id="cb951-3"><a href="bonus-8a.html#cb951-3" aria-hidden="true" tabindex="-1"></a><span class="co">#registerDoParallel(cl)</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb955"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb955-1"><a href="bonus-8a.html#cb955-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span></code></pre></div>
 <pre><code>## Loading required package: foreach</code></pre>
 <pre><code>## Loading required package: iterators</code></pre>
 <div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb958-1"><a href="bonus-8a.html#cb958-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cl &lt;- makeCluster(2)</span></span>
 <span id="cb958-2"><a href="bonus-8a.html#cb958-2" aria-hidden="true" tabindex="-1"></a><span class="co">#cl</span></span>
 <span id="cb958-3"><a href="bonus-8a.html#cb958-3" aria-hidden="true" tabindex="-1"></a><span class="co">#registerDoParallel(cl)</span></span></code></pre></div>
+>>>>>>> main
 <p>Now we adapt the code in two steps:</p>
 <ul>
 <li>The code is a little different with <code>foreach</code> than with <code>for</code>, as we use a pipe-like syntax with <code>%do%</code>, which means, for each value of <em>i</em>, do the following.</li>
 <li>Thus, <code>%do%</code> is only a pipe operator, it does not result in parallelisation yet.</li>
 <li>To make this parallel, replace <code>%do%</code> by <code>%dopar%</code>.</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb952-1"><a href="bonus-8a.html#cb952-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb952-2"><a href="bonus-8a.html#cb952-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="sc">%do%</span> (<span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb952-3"><a href="bonus-8a.html#cb952-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m3 &lt;- foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))</span></span></code></pre></div>
+<p>Let’s benchmark this again. We’ll only do 3 replicates this time (uncomment before running this code).</p>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb953-1"><a href="bonus-8a.html#cb953-1" aria-hidden="true" tabindex="-1"></a><span class="co">#method1 &lt;- function(x) {colMeans(x, na.rm=TRUE)}</span></span>
+<span id="cb953-2"><a href="bonus-8a.html#cb953-2" aria-hidden="true" tabindex="-1"></a><span class="co">#method2 &lt;- function(x) {for(i in 1:ncol(x)) mean(x[,i], na.rm=TRUE)}</span></span>
+<span id="cb953-3"><a href="bonus-8a.html#cb953-3" aria-hidden="true" tabindex="-1"></a><span class="co">#method3 &lt;- function(x) {lapply(x, mean, na.rm=TRUE)}</span></span>
+<span id="cb953-4"><a href="bonus-8a.html#cb953-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)}</span></span>
+<span id="cb953-5"><a href="bonus-8a.html#cb953-5" aria-hidden="true" tabindex="-1"></a><span class="co">#method5 &lt;- function(x) {foreach(i = 1:ncol(x)) %do% (mean(x[,i], na.rm=TRUE))}</span></span>
+<span id="cb953-6"><a href="bonus-8a.html#cb953-6" aria-hidden="true" tabindex="-1"></a><span class="co">#method6 &lt;- function(x) {foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))}</span></span>
+<span id="cb953-7"><a href="bonus-8a.html#cb953-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb953-8"><a href="bonus-8a.html#cb953-8" aria-hidden="true" tabindex="-1"></a><span class="co">#microbenchmark::microbenchmark(times = 3, unit = &quot;ms&quot;,method1(x), method2(x), method3(x), method4(x), method5(x), method6(x))</span></span></code></pre></div>
+=======
 <div class="sourceCode" id="cb959"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb959-1"><a href="bonus-8a.html#cb959-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
 <span id="cb959-2"><a href="bonus-8a.html#cb959-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="sc">%do%</span> (<span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
 <span id="cb959-3"><a href="bonus-8a.html#cb959-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m3 &lt;- foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))</span></span></code></pre></div>
@@ -2442,6 +2782,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb960-6"><a href="bonus-8a.html#cb960-6" aria-hidden="true" tabindex="-1"></a><span class="co">#method6 &lt;- function(x) {foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))}</span></span>
 <span id="cb960-7"><a href="bonus-8a.html#cb960-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb960-8"><a href="bonus-8a.html#cb960-8" aria-hidden="true" tabindex="-1"></a><span class="co">#microbenchmark::microbenchmark(times = 3, unit = &quot;ms&quot;,method1(x), method2(x), method3(x), method4(x), method5(x), method6(x))</span></span></code></pre></div>
+>>>>>>> main
 <p>Whether parallelisation is faster depends on the type of task and on your system. In this case, both versions that used parallelisation were actually slower than the sequential code (at least on my system).</p>
 <p>Of course, this will not always be the case, it may depend on:</p>
 <ul>

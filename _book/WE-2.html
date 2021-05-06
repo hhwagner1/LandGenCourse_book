@@ -1020,7 +1020,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<<<<<<< HEAD
+=======
 <li class="chapter" data-level="" data-path="bonus-1a.html"><a href="bonus-1a.html"><i class="fa fa-check"></i>Bonus: Importing SNP data</a></li>
+>>>>>>> main
 </ul></li>
 <li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
 <ul>
@@ -1726,6 +1729,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-1" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="WE-2.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="WE-2.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb336-2"><a href="WE-2.html#cb336-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(landscapemetrics)</span>
+<span id="cb336-3"><a href="WE-2.html#cb336-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb336-4"><a href="WE-2.html#cb336-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb336-5"><a href="WE-2.html#cb336-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb336-6"><a href="WE-2.html#cb336-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GeNetIt)</span>
+<span id="cb336-7"><a href="WE-2.html#cb336-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
+<p>Package <code>tmaptools</code> not automatically installed with <code>LandGenCourse</code>:</p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="WE-2.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(tmaptools)) <span class="fu">install.packages</span>(<span class="st">&quot;tmaptools&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="WE-2.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="WE-2.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
 <span id="cb343-2"><a href="WE-2.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(landscapemetrics)</span>
@@ -1736,6 +1751,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb343-7"><a href="WE-2.html#cb343-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
 <p>Package <code>tmaptools</code> not automatically installed with <code>LandGenCourse</code>:</p>
 <div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="WE-2.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(tmaptools)) <span class="fu">install.packages</span>(<span class="st">&quot;tmaptools&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="import-site-data-from-.csv-file" class="section level3">
@@ -1744,6 +1760,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Import data into SpatialPointsDataFrame</h4>
 <p>The site data are already in a SpatialPointsDataFrame named <code>ralu.site</code> that comes with the package <code>GeNetIt</code>. Use <code>data(ralu.site)</code> to load it. This will create an object <code>ralu.site</code>.</p>
 <p>To demonstrate how to create a SpatialPointsDataFrame, we create a simple data frame <code>Sites</code> with the coordinates and site data.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="WE-2.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb338-2"><a href="WE-2.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ralu.site)</span></code></pre></div>
+<pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="WE-2.html#cb340-1" aria-hidden="true" tabindex="-1"></a>Sites <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(ralu.site<span class="sc">@</span>coords, ralu.site<span class="sc">@</span>data)</span>
+<span id="cb340-2"><a href="WE-2.html#cb340-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="WE-2.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="WE-2.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
 <span id="cb345-2"><a href="WE-2.html#cb345-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ralu.site)</span></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
@@ -1753,6 +1780,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb347-2"><a href="WE-2.html#cb347-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="WE-2.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##   coords.x1 coords.x2       SiteName        Drainage      Basin Substrate
 ## 1  688816.6   5003207   AirplaneLake ShipIslandCreek Sheepeater      Silt
 ## 2  688494.4   4999093 BachelorMeadow     WilsonCreek    Skyhigh      Silt
@@ -1778,6 +1806,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To illustrate importing spatial data from Excel, here we export the data as a csv file, import it again as a data frame, then convert it to a SpatialPointsDataFrame. First we create a folder <code>output</code> if it does not yet exist.</p>
 <p>Note: to run the code, remove all the hashtags <code>#</code> at the beginning of the lines to uncomment them. This part assumes that you have writing permission on your computer. Alternatively, try setting up your R project folder on an external drive where you have writing permission.</p>
 <p>The second line exports the data in <code>Sites</code> as a .csv file. The third line re-imports the .csv file to re-create data frame <code>Sites</code>.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="WE-2.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb344-2"><a href="WE-2.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb344-3"><a href="WE-2.html#cb344-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(Sites, file=paste0(here(),&quot;/output/ralu.site.csv&quot;), </span></span>
+<span id="cb344-4"><a href="WE-2.html#cb344-4" aria-hidden="true" tabindex="-1"></a><span class="co">#          quote=FALSE, row.names=FALSE)</span></span>
+<span id="cb344-5"><a href="WE-2.html#cb344-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Sites &lt;- read.csv(paste0(here(),&quot;/output/ralu.site.csv&quot;), header=TRUE)</span></span></code></pre></div>
+<p>The dataset <code>Sites</code> contains two columns with spatial coordinates and 17 attribute variables. So far, R treats the spatial coordinates like any other quantitative variables. To let R know this is spatial information, we import it into a spatial object type, a <code>SpatialPointsDataFrame</code> from the ‘sp’ package.</p>
+<p>The conversion is done with the function <code>coordinates</code>, which takes a data frame and converts it to a spatial object of the same name. The code is not very intuitive.</p>
+<p>Note: the tilde symbol <code>~</code> (here before the first coordinate) is often used in R formulas, we will see it again later. It roughly translates to “is modeled as a function of.”</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="WE-2.html#cb345-1" aria-hidden="true" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> Sites</span>
+<span id="cb345-2"><a href="WE-2.html#cb345-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(Sites.sp) <span class="ot">&lt;-</span> <span class="er">~</span>coords.x1<span class="sc">+</span>coords.x2</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="WE-2.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
 <span id="cb351-2"><a href="WE-2.html#cb351-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
 <span id="cb351-3"><a href="WE-2.html#cb351-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(Sites, file=paste0(here(),&quot;/output/ralu.site.csv&quot;), </span></span>
@@ -1788,6 +1828,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note: the tilde symbol <code>~</code> (here before the first coordinate) is often used in R formulas, we will see it again later. It roughly translates to “is modeled as a function of.”</p>
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="WE-2.html#cb352-1" aria-hidden="true" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> Sites</span>
 <span id="cb352-2"><a href="WE-2.html#cb352-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(Sites.sp) <span class="ot">&lt;-</span> <span class="er">~</span>coords.x1<span class="sc">+</span>coords.x2</span></code></pre></div>
+>>>>>>> main
 <p>Now R knows these are spatial data and knows how to handle them. It does not treat the coordinates as variables anymore, hence the first column is now <code>SiteName</code>.</p>
 </div>
 <div id="b.-add-spatial-reference-data" class="section level4">
@@ -1795,7 +1836,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Before we can combine the sampling locations with other spatial datasets, such as raster data, we need to tell R where on earth these locations are (georeferencing). This is done by specifying the “Coordinate Reference System” (CRS) or a <code>proj4</code> string.</p>
 <p>For more information on CRS, see: <a href="https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf" class="uri">https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf</a></p>
 <p>We know that these coordinates are UTM zone 11 (Northern hemisphere) coordinates, hence we can use a helper function to find the correct <code>proj4string</code>, using function <code>get_proj4</code> from the <code>tmaptools</code> package. (For the Southern hemisphere, you would add <code>s</code> after the zone: <code>utm11s</code>). Here we call the function and the package simultaneously (this is good practice, as it helps keep track of where the functions in your code come from).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="WE-2.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(Sites.sp) <span class="ot">&lt;-</span> tmaptools<span class="sc">::</span><span class="fu">get_proj4</span>(<span class="st">&quot;utm11&quot;</span>)<span class="sc">$</span>proj4string</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="WE-2.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(Sites.sp) <span class="ot">&lt;-</span> tmaptools<span class="sc">::</span><span class="fu">get_proj4</span>(<span class="st">&quot;utm11&quot;</span>)<span class="sc">$</span>proj4string</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Warning in showSRID(uprojargs, format = &quot;PROJ&quot;, multiline = &quot;NO&quot;, prefer_proj
 ## = prefer_proj): Discarded datum Unknown based on WGS84 ellipsoid in Proj4
 ## definition</code></pre>
@@ -1806,9 +1851,15 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <div id="c.-change-projection" class="section level4">
 <h4>c. Change projection</h4>
 <p>In case we needed to <strong>transform</strong> the projection from UTM zone 11 to longitude/latitude, we could create a new sp object <code>Sites.sp.longlat</code>. We use the function <code>spTransform</code> to change the projection from the projection of the old object <code>Sites.sp</code> to the “longlat” coordinate system, which we define by the argument <code>CRSobj</code>.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="WE-2.html#cb348-1" aria-hidden="true" tabindex="-1"></a>Sites.sp.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Sites.sp, </span>
+<span id="cb348-2"><a href="WE-2.html#cb348-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">CRSobj =</span> tmaptools<span class="sc">::</span><span class="fu">get_proj4</span>(<span class="st">&quot;longlat&quot;</span>)<span class="sc">$</span>proj4string)</span>
+<span id="cb348-3"><a href="WE-2.html#cb348-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp.longlat<span class="sc">@</span>coords)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="WE-2.html#cb355-1" aria-hidden="true" tabindex="-1"></a>Sites.sp.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Sites.sp, </span>
 <span id="cb355-2"><a href="WE-2.html#cb355-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">CRSobj =</span> tmaptools<span class="sc">::</span><span class="fu">get_proj4</span>(<span class="st">&quot;longlat&quot;</span>)<span class="sc">$</span>proj4string)</span>
 <span id="cb355-3"><a href="WE-2.html#cb355-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp.longlat<span class="sc">@</span>coords)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##   coords.x1 coords.x2
 ## 1 -114.5977  45.15708
 ## 2 -114.6034  45.12016
@@ -1828,10 +1879,17 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <li><code>@bbox</code>: bounding box, i.e., the minimum and maximum of x and y coordinates (filled automatically)</li>
 <li><code>@proj4string</code>: the georeferencing information</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="WE-2.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(Sites.sp)</span></code></pre></div>
+<pre><code>## [1] &quot;data&quot;        &quot;coords.nrs&quot;  &quot;coords&quot;      &quot;bbox&quot;        &quot;proj4string&quot;</code></pre>
+<p>Here are the first few lines of the coordinates:</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="WE-2.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp<span class="sc">@</span>coords)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="WE-2.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(Sites.sp)</span></code></pre></div>
 <pre><code>## [1] &quot;data&quot;        &quot;coords.nrs&quot;  &quot;coords&quot;      &quot;bbox&quot;        &quot;proj4string&quot;</code></pre>
 <p>Here are the first few lines of the coordinates:</p>
 <div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="WE-2.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp<span class="sc">@</span>coords)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##   coords.x1 coords.x2
 ## 1  688816.6   5003207
 ## 2  688494.4   4999093
@@ -1840,16 +1898,28 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## 5  690104.0   4999355
 ## 6  688742.5   4997481</code></pre>
 <p>And the proj4 string: Let’s compare this to the proj4string of the original <code>ralu.site</code> dataset.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="WE-2.html#cb354-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string</span></code></pre></div>
+<pre><code>## CRS arguments:
+##  +proj=utm +zone=11 +ellps=WGS84 +units=m +no_defs</code></pre>
+<p>The default for <code>get_proj4("utm11")</code> results in a slightly different proj4string than the <code>ralu.site</code> dataset. The difference is in the <code>datum</code> argument (<code>WGS84</code> vs. <code>NAD83</code>):</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="WE-2.html#cb356-1" aria-hidden="true" tabindex="-1"></a>ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="WE-2.html#cb361-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string</span></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +proj=utm +zone=11 +ellps=WGS84 +units=m +no_defs</code></pre>
 <p>The default for <code>get_proj4("utm11")</code> results in a slightly different proj4string than the <code>ralu.site</code> dataset. The difference is in the <code>datum</code> argument (<code>WGS84</code> vs. <code>NAD83</code>):</p>
 <div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="WE-2.html#cb363-1" aria-hidden="true" tabindex="-1"></a>ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+>>>>>>> main
 <pre><code>## CRS arguments:
 ##  +proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +ellps=GRS80
 ## +towgs84=0,0,0</code></pre>
 <p>Let’s go with the original information and copy it:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="WE-2.html#cb358-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string <span class="ot">&lt;-</span> ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="WE-2.html#cb365-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string <span class="ot">&lt;-</span> ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+>>>>>>> main
 </div>
 </div>
 <div id="display-raster-data-and-overlay-sampling-locations-extract-data" class="section level3">
@@ -1857,14 +1927,24 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <div id="a.-display-raster-data" class="section level4">
 <h4>a. Display raster data</h4>
 <p>The raster data for this project are already available in the package <code>GeNetIt</code>, under the name <code>rasters</code>, and we can load them with <code>data(rasters)</code>. They are stored as a <code>SpatialPixelsDataFrame</code>, another S4 object type from the <code>sp</code> package.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="WE-2.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
+<span id="cb359-2"><a href="WE-2.html#cb359-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rasters)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="WE-2.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
 <span id="cb366-2"><a href="WE-2.html#cb366-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rasters)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;SpatialPixelsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
 <p>However, raster data are better analyzed with the package <code>raster</code>, which has an object type <code>raster</code>. Let’s convert the data to a <code>RasterStack</code> of <code>RasterLayer</code> objects (i.e. a set of raster layers with the same spatial reference information).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="WE-2.html#cb361-1" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">stack</span>(rasters)</span>
+<span id="cb361-2"><a href="WE-2.html#cb361-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(RasterMaps)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="WE-2.html#cb368-1" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">stack</span>(rasters)</span>
 <span id="cb368-2"><a href="WE-2.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(RasterMaps)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## [1] &quot;RasterStack&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;raster&quot;</code></pre>
@@ -1874,7 +1954,11 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <li><strong>resolution</strong>: cell size is 30 m both in x and y directions (typical for Landsat-derived remote sensing data)</li>
 <li><strong>coord.ref</strong>: projected in UTM zone 11, though the ‘datum’ (NAD83) is different than what we used for the sampling locations.</li>
 </ul>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="WE-2.html#cb363-1" aria-hidden="true" tabindex="-1"></a>RasterMaps</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="WE-2.html#cb370-1" aria-hidden="true" tabindex="-1"></a>RasterMaps</span></code></pre></div>
+>>>>>>> main
 <pre><code>## class      : RasterStack 
 ## dimensions : 426, 358, 152508, 6  (nrow, ncol, ncell, nlayers)
 ## resolution : 30, 30  (x, y)
@@ -1885,10 +1969,17 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## max values :   23.7147598,    0.7637643,   51.0000000,  338.0696716, 9263.0000000,   95.0000000</code></pre>
 <p>Now we can use <code>plot</code>, which knows what to do with a raster stack.</p>
 <p>Note: layer <code>nlcd</code> is a categorical map of land cover types. See this week’s bonus materials for how to better display a categorical map in R.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="WE-2.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
+<p>Some layers seem to show a similar pattern. It is easy to calculate the correlation between quantitative raster layers. Here, the last layer <code>ncld</code>, is in fact categorical (land cover type), and it’s correlation here is meaningless.</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="WE-2.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layerStats</span>(RasterMaps, <span class="st">&#39;pearson&#39;</span>, <span class="at">na.rm=</span>T)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="WE-2.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
 <p>Some layers seem to show a similar pattern. It is easy to calculate the correlation between quantitative raster layers. Here, the last layer <code>ncld</code>, is in fact categorical (land cover type), and it’s correlation here is meaningless.</p>
 <div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="WE-2.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layerStats</span>(RasterMaps, <span class="st">&#39;pearson&#39;</span>, <span class="at">na.rm=</span>T)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## $`pearson correlation coefficient`
 ##              cti       err27         ffp         gsp         hli       nlcd
 ## cti    1.0000000 -0.25442672  0.12264734 -0.14029572 -0.30501483 -0.1807878
@@ -1907,9 +1998,15 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <p>We can specify a color ramp by setting the <code>col</code> argument. The default is <code>terrain.colors(255)</code>. Here we change it to <code>rainbow(9)</code>, a rainbow colorpalette with 9 color levels.</p>
 <p>Note: To learn about options for the <code>plot</code> function for <code>raster</code> objects, access the help file by typing <code>?plot</code> and select <code>Plot a Raster object</code>.</p>
 <p>We can add the sampling locations (if we plot only a single raster layer). Here we use <code>rev</code> to reverse the color ramp for plotting raster layer <code>ffp</code>, and add the sites as white circles with black outlines.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="WE-2.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb368-2"><a href="WE-2.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">raster</span>(RasterMaps, <span class="at">layer=</span><span class="st">&quot;ffp&quot;</span>), <span class="at">col=</span><span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb368-3"><a href="WE-2.html#cb368-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="WE-2.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb375-2"><a href="WE-2.html#cb375-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">raster</span>(RasterMaps, <span class="at">layer=</span><span class="st">&quot;ffp&quot;</span>), <span class="at">col=</span><span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
 <span id="cb375-3"><a href="WE-2.html#cb375-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-23-1.png" width="427.2" /></p>
 <p><strong>Question</strong>: Recall that ‘ffp’ stands for frost free period (in days). What do you think is the average length of the frost free period at theses sampling sites?</p>
 </div>
@@ -1917,12 +2014,21 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <h4>c. Extract raster values at sampling locations</h4>
 <p>The following code adds six variables to the data slot of Sites.sp. Technically we combine the columns of the existing data frame <code>Sites.sp</code> with the new columns in a new data frame with the same name.</p>
 <p>R notices the difference in projection (CRS) between the sampling point data and the rasters and takes care of it, providing just a warning.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="WE-2.html#cb369-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Sites.sp<span class="sc">@</span>data, <span class="fu">extract</span>(RasterMaps, Sites.sp))</span></code></pre></div>
+<p>Let’s calcualate the mean length of the frost free period for these sites:</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="WE-2.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ffp)</span></code></pre></div>
+<pre><code>## [1] 8.0963</code></pre>
+<p>What land cover type is assigned to the most sampling units? Let’s tabulate them.</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="WE-2.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>nlcd)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="WE-2.html#cb376-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Sites.sp<span class="sc">@</span>data, <span class="fu">extract</span>(RasterMaps, Sites.sp))</span></code></pre></div>
 <p>Let’s calcualate the mean length of the frost free period for these sites:</p>
 <div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="WE-2.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ffp)</span></code></pre></div>
 <pre><code>## [1] 8.0963</code></pre>
 <p>What land cover type is assigned to the most sampling units? Let’s tabulate them.</p>
 <div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="WE-2.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>nlcd)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## 
 ## 11 12 42 52 71 90 
 ##  3  1 21  1  4  1</code></pre>
@@ -1934,14 +2040,24 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <h3>4. Calculate landscape metrics</h3>
 <p>We are going to use the package <a href="https://r-spatialecology.github.io/landscapemetrics/"><code>landscapemetrics</code></a>. It is an R package to calculate landscape metrics in a tidy workflow (for more information about tidy data see <a href="https://www.jstatsoft.org/article/view/v059i10/">here</a>). <code>landscapemetrics</code> is basically a reimplementation of <a href="https://www.umass.edu/landeco/research/fragstats/fragstats.html">‘FRAGSTATS’</a>, which allows an integration into larger workflows within the R environment. The core of the package are functions to calculate landscape metrics, but also several auxiliary functions exit.</p>
 <p>To facilitate an integration into larger workflows, <code>landscapemetrics</code> is based on the <a href="https://CRAN.R-project.org/package=raster"><code>raster</code> package</a>. To check if a raster is suitable for <code>landscapemetrics</code>, run the <code>check_landscape()</code> function first. The function checks the coordinate reference system (and mainly if units are in meters) and if the raster values are discrete classes. If the check fails, the calculation of metrics is still possible, however, especially metrics that are based on area and distances must be used with caution.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="WE-2.html#cb374-1" aria-hidden="true" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> <span class="fu">raster</span>(RasterMaps, <span class="at">layer =</span> <span class="st">&quot;nlcd&quot;</span>)</span>
+<span id="cb374-2"><a href="WE-2.html#cb374-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-3"><a href="WE-2.html#cb374-3" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">check_landscape</span>(nlcd)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="WE-2.html#cb381-1" aria-hidden="true" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> <span class="fu">raster</span>(RasterMaps, <span class="at">layer =</span> <span class="st">&quot;nlcd&quot;</span>)</span>
 <span id="cb381-2"><a href="WE-2.html#cb381-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb381-3"><a href="WE-2.html#cb381-3" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">check_landscape</span>(nlcd)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##   layer       crs units   class n_classes OK
 ## 1     1 projected     m integer         8  v</code></pre>
 <p>There are three different levels of landscape metrics. Firstly, metrics can be calculated for each single patch (a patch is defined as neighbouring cells of the same class). Secondly, metrics can be calculated for a certain class (i.e. all patches belonging to the same class) and lastly for the whole landscape. All these levels are implemented and easily accessible in <code>landscapemetrics</code>.</p>
 <p>All functions to calculate metrics start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). Lastly, the final part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the Euclidean nearest-neighbor distance). To list all available metrics, you can use the <code>list_lsm()</code> function. The function also allows to show metrics filtered by level, type or metric name. For more information about the metrics, please see either the corresponding helpfile(s) or <a href="https://r-spatialecology.github.io/landscapemetrics/reference/index.html">https://r-spatialecology.github.io/landscapemetrics</a>.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="WE-2.html#cb376-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, <span class="at">type =</span> <span class="st">&quot;diversity metric&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="WE-2.html#cb383-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, <span class="at">type =</span> <span class="st">&quot;diversity metric&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 9 x 5
 ##   metric name                             type            level    function_name
 ##   &lt;chr&gt;  &lt;chr&gt;                            &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;        
@@ -1954,7 +2070,11 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## 7 shei   shannon&#39;s evenness index         diversity metr~ landsca~ lsm_l_shei   
 ## 8 sidi   simpson&#39;s diversity index        diversity metr~ landsca~ lsm_l_sidi   
 ## 9 siei   simspon&#39;s evenness index         diversity metr~ landsca~ lsm_l_siei</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="WE-2.html#cb378-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">metric =</span> <span class="st">&quot;area&quot;</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="WE-2.html#cb385-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">metric =</span> <span class="st">&quot;area&quot;</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 7 x 5
 ##   metric  name       type                 level     function_name
 ##   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;        
@@ -1965,8 +2085,13 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## 5 area_cv patch area area and edge metric landscape lsm_l_area_cv
 ## 6 area_mn patch area area and edge metric landscape lsm_l_area_mn
 ## 7 area_sd patch area area and edge metric landscape lsm_l_area_sd</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="WE-2.html#cb380-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;landscape&quot;</span>), <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>, </span>
+<span id="cb380-2"><a href="WE-2.html#cb380-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="WE-2.html#cb387-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;landscape&quot;</span>), <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>, </span>
 <span id="cb387-2"><a href="WE-2.html#cb387-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] &quot;lsm_c_ai&quot;       &quot;lsm_c_clumpy&quot;   &quot;lsm_c_cohesion&quot; &quot;lsm_c_division&quot;
 ##  [5] &quot;lsm_c_enn_cv&quot;   &quot;lsm_c_enn_mn&quot;   &quot;lsm_c_enn_sd&quot;   &quot;lsm_c_iji&quot;     
 ##  [9] &quot;lsm_c_lsi&quot;      &quot;lsm_c_mesh&quot;     &quot;lsm_c_nlsi&quot;     &quot;lsm_c_np&quot;      
@@ -1979,10 +2104,17 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <h4>a. Calculate patch-, class- and landscape level landscape metrics</h4>
 <p>Note: This section explains different ways of calculating a selection of landscape metrics from a raster map with ‘landscapemetrics.’ If this seems too technical for a first go, you may jump to section 4b.</p>
 <p>To calculate a single metric, just use the corresponding function. The result of all landscape metric functions is always an identically structured <code>tibble</code> (i.e. an advanced <code>data.frame</code>). The first coloumn is the layer id (only interesting for e.g. a <code>RasterStack</code>). The second coloumn specifies the level (‘patch,’ ‘class’ or ‘landscape’). The third coloumn is the class ID (<code>NA</code> on landscape level) and the fourth coloumn is the patch ID (<code>NA</code> on class- and landscape level). Lastly, The fith coloumn is the abbreviation of the metric and finally the corresponding value in the last coloumn.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="WE-2.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.lculate percentage of landscape of class</span></span>
+<span id="cb382-2"><a href="WE-2.html#cb382-2" aria-hidden="true" tabindex="-1"></a>percentage_class <span class="ot">&lt;-</span> <span class="fu">lsm_c_pland</span>(<span class="at">landscape =</span> nlcd)</span>
+<span id="cb382-3"><a href="WE-2.html#cb382-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb382-4"><a href="WE-2.html#cb382-4" aria-hidden="true" tabindex="-1"></a>percentage_class</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="WE-2.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.lculate percentage of landscape of class</span></span>
 <span id="cb389-2"><a href="WE-2.html#cb389-2" aria-hidden="true" tabindex="-1"></a>percentage_class <span class="ot">&lt;-</span> <span class="fu">lsm_c_pland</span>(<span class="at">landscape =</span> nlcd)</span>
 <span id="cb389-3"><a href="WE-2.html#cb389-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb389-4"><a href="WE-2.html#cb389-4" aria-hidden="true" tabindex="-1"></a>percentage_class</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 8 x 6
 ##   layer level class    id metric   value
 ##   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -2000,6 +2132,15 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <li>What percentage of the landscape is classified as wetlands (classes 90 and 95)?</li>
 </ul>
 <p>Because the resulting <code>tibble</code> is type stable, you can easily row-bind (<code>rbind</code>) different metrics (even of different levels):</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="WE-2.html#cb384-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb384-2"><a href="WE-2.html#cb384-2" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_c_pladj</span>(nlcd), </span>
+<span id="cb384-3"><a href="WE-2.html#cb384-3" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_pr</span>(nlcd),</span>
+<span id="cb384-4"><a href="WE-2.html#cb384-4" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_shdi</span>(nlcd)</span>
+<span id="cb384-5"><a href="WE-2.html#cb384-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb384-6"><a href="WE-2.html#cb384-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb384-7"><a href="WE-2.html#cb384-7" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="WE-2.html#cb391-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb391-2"><a href="WE-2.html#cb391-2" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_c_pladj</span>(nlcd), </span>
 <span id="cb391-3"><a href="WE-2.html#cb391-3" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_pr</span>(nlcd),</span>
@@ -2007,6 +2148,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb391-5"><a href="WE-2.html#cb391-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb391-6"><a href="WE-2.html#cb391-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb391-7"><a href="WE-2.html#cb391-7" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 10 x 6
 ##    layer level     class    id metric value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2023,9 +2165,15 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <p>To calculate a larger set of landscape metrics, you can just use the wrapper <code>calculate_lsm()</code>. The arguments are similar to <code>list_lsm()</code>, e.g. you can specify the level or the type of metrics to calculate. Alternatively, you can also provide a vector with the function names of metrics to calculate to the <code>what</code> argument.</p>
 <p>However, watch out, for large rasters and many metrics, this can be rather slow (set <code>progress = TRUE</code> to get an progress report on the console). Also, we suggest to not just calculate all available metrics, but rather think about which ones might be actually suitable for your research question.</p>
 <p>Calculate all patch-level metrics using wrapper:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="WE-2.html#cb386-1" aria-hidden="true" tabindex="-1"></a>nlcd_patch <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd,</span>
+<span id="cb386-2"><a href="WE-2.html#cb386-2" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">level =</span> <span class="st">&quot;patch&quot;</span>)</span>
+<span id="cb386-3"><a href="WE-2.html#cb386-3" aria-hidden="true" tabindex="-1"></a>nlcd_patch</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="WE-2.html#cb393-1" aria-hidden="true" tabindex="-1"></a>nlcd_patch <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd,</span>
 <span id="cb393-2"><a href="WE-2.html#cb393-2" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">level =</span> <span class="st">&quot;patch&quot;</span>)</span>
 <span id="cb393-3"><a href="WE-2.html#cb393-3" aria-hidden="true" tabindex="-1"></a>nlcd_patch</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 19,776 x 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2041,6 +2189,16 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## 10     1 patch    11    10 area    1.17
 ## # ... with 19,766 more rows</code></pre>
 <p>Show abbreviation of all calculated metrics:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="WE-2.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(nlcd_patch<span class="sc">$</span>metric)</span></code></pre></div>
+<pre><code>##  [1] &quot;area&quot;   &quot;cai&quot;    &quot;circle&quot; &quot;contig&quot; &quot;core&quot;   &quot;enn&quot;    &quot;frac&quot;   &quot;gyrate&quot;
+##  [9] &quot;ncore&quot;  &quot;para&quot;   &quot;perim&quot;  &quot;shape&quot;</code></pre>
+<p>Calculate all aggregation metrics on landscape level:</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="WE-2.html#cb390-1" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb390-2"><a href="WE-2.html#cb390-2" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, </span>
+<span id="cb390-3"><a href="WE-2.html#cb390-3" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>)</span>
+<span id="cb390-4"><a href="WE-2.html#cb390-4" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="WE-2.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(nlcd_patch<span class="sc">$</span>metric)</span></code></pre></div>
 <pre><code>##  [1] &quot;area&quot;   &quot;cai&quot;    &quot;circle&quot; &quot;contig&quot; &quot;core&quot;   &quot;enn&quot;    &quot;frac&quot;   &quot;gyrate&quot;
 ##  [9] &quot;ncore&quot;  &quot;para&quot;   &quot;perim&quot;  &quot;shape&quot;</code></pre>
@@ -2049,6 +2207,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb397-2"><a href="WE-2.html#cb397-2" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, </span>
 <span id="cb397-3"><a href="WE-2.html#cb397-3" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>)</span>
 <span id="cb397-4"><a href="WE-2.html#cb397-4" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 14 x 6
 ##    layer level     class    id metric      value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;
@@ -2067,11 +2226,19 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## 13     1 landscape    NA    NA pladj      83.7  
 ## 14     1 landscape    NA    NA split       5.09</code></pre>
 <p>Calculate specific metrics:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="WE-2.html#cb392-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb392-2"><a href="WE-2.html#cb392-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
+<span id="cb392-3"><a href="WE-2.html#cb392-3" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
+<span id="cb392-4"><a href="WE-2.html#cb392-4" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_shdi&quot;</span>))</span>
+<span id="cb392-5"><a href="WE-2.html#cb392-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="WE-2.html#cb399-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
 <span id="cb399-2"><a href="WE-2.html#cb399-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
 <span id="cb399-3"><a href="WE-2.html#cb399-3" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
 <span id="cb399-4"><a href="WE-2.html#cb399-4" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_shdi&quot;</span>))</span>
 <span id="cb399-5"><a href="WE-2.html#cb399-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 10 x 6
 ##    layer level     class    id metric value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2088,6 +2255,15 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <p>The resulting <code>tibble</code> is easy to integrate into a workflow. For example, to get the ordered patch IDs of the 5% largest patches, the following code could be used.</p>
 <p>The pipe operator %&gt;% from the <code>dplyr</code> package passes the resulting object automatically to the next function as first argument.</p>
 <p>Note: the last step (pulling the id variable only) could be done by adding this to the pipe: <code>%&gt;% dplyr::pull(id)</code>. Due to some package inconsistencies, this sometimes created an error. Here we extract the id variable in a separate step as a work-around.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="WE-2.html#cb394-1" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> nlcd_patch <span class="sc">%&gt;%</span> <span class="co"># previously calculated patch metrics</span></span>
+<span id="cb394-2"><a href="WE-2.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;area&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># only patch area</span></span>
+<span id="cb394-3"><a href="WE-2.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>value) <span class="sc">%&gt;%</span> <span class="co"># order by decreasing size</span></span>
+<span id="cb394-4"><a href="WE-2.html#cb394-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="fu">quantile</span>(value, <span class="at">probs =</span> <span class="fl">0.95</span>)) <span class="do">## g.t only patches larger than 95% quantile</span></span>
+<span id="cb394-5"><a href="WE-2.html#cb394-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb394-6"><a href="WE-2.html#cb394-6" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> id_largest<span class="sc">$</span>id <span class="do">## g.t only patch id</span></span>
+<span id="cb394-7"><a href="WE-2.html#cb394-7" aria-hidden="true" tabindex="-1"></a>id_largest</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="WE-2.html#cb401-1" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> nlcd_patch <span class="sc">%&gt;%</span> <span class="co"># previously calculated patch metrics</span></span>
 <span id="cb401-2"><a href="WE-2.html#cb401-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;area&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># only patch area</span></span>
 <span id="cb401-3"><a href="WE-2.html#cb401-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>value) <span class="sc">%&gt;%</span> <span class="co"># order by decreasing size</span></span>
@@ -2095,6 +2271,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb401-5"><a href="WE-2.html#cb401-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb401-6"><a href="WE-2.html#cb401-6" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> id_largest<span class="sc">$</span>id <span class="do">## g.t only patch id</span></span>
 <span id="cb401-7"><a href="WE-2.html#cb401-7" aria-hidden="true" tabindex="-1"></a>id_largest</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1]  206  166 1265 1459 1549 1558 1421  427 1434 1385  226    3  386 1205  589
 ## [16] 1441  426 1059 1206  324  433 1195  315 1225  712 1266 1377  389  753 1528
 ## [31]  894 1510  286  563  240 1411  478 1364  435 1336  812  640 1376 1523  786
@@ -2103,12 +2280,21 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## [76]  802 1614  729  977 1488   37  357 1353</code></pre>
 <p>Because the metric names are only abbreviated, there is also a way to include the full name in the results. For the wrapper, just set <code>full_name = TRUE</code>. For the rowbinded <code>tibble</code>, you can use the provided <code>tibble</code> called <code>lsm_abbreviations_names</code> that comes with the package and use e.g. <code>dplyr::left_join()</code> to combine it with your results.</p>
 <p>Add full metrics name to result:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="WE-2.html#cb396-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(nlcd, </span>
+<span id="cb396-2"><a href="WE-2.html#cb396-2" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
+<span id="cb396-3"><a href="WE-2.html#cb396-3" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
+<span id="cb396-4"><a href="WE-2.html#cb396-4" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_shdi&quot;</span>), </span>
+<span id="cb396-5"><a href="WE-2.html#cb396-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">full_name =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb396-6"><a href="WE-2.html#cb396-6" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="WE-2.html#cb403-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(nlcd, </span>
 <span id="cb403-2"><a href="WE-2.html#cb403-2" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
 <span id="cb403-3"><a href="WE-2.html#cb403-3" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
 <span id="cb403-4"><a href="WE-2.html#cb403-4" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_shdi&quot;</span>), </span>
 <span id="cb403-5"><a href="WE-2.html#cb403-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">full_name =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb403-6"><a href="WE-2.html#cb403-6" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 10 x 9
 ##    layer level   class    id metric value name           type      function_name
 ##    &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;        
@@ -2123,11 +2309,19 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ##  9     1 landsc~    NA    NA pr      8    patch richness diversit~ lsm_l_pr     
 ## 10     1 landsc~    NA    NA shdi    1.01 shannon&#39;s div~ diversit~ lsm_l_shdi</code></pre>
 <p>Add full metrics name to results calculated previously using <code>left_join()</code>:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="WE-2.html#cb398-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">x =</span> nlcd_subset,</span>
+<span id="cb398-2"><a href="WE-2.html#cb398-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">y =</span> lsm_abbreviations_names,</span>
+<span id="cb398-3"><a href="WE-2.html#cb398-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;metric&quot;</span>, <span class="st">&quot;level&quot;</span>))</span>
+<span id="cb398-4"><a href="WE-2.html#cb398-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb398-5"><a href="WE-2.html#cb398-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="WE-2.html#cb405-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">x =</span> nlcd_subset,</span>
 <span id="cb405-2"><a href="WE-2.html#cb405-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">y =</span> lsm_abbreviations_names,</span>
 <span id="cb405-3"><a href="WE-2.html#cb405-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;metric&quot;</span>, <span class="st">&quot;level&quot;</span>))</span>
 <span id="cb405-4"><a href="WE-2.html#cb405-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb405-5"><a href="WE-2.html#cb405-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 10 x 9
 ##    layer level   class    id metric value name           type      function_name
 ##    &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;        
@@ -2145,6 +2339,22 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <div id="b.-calculate-patch-level-landscape-metrics-for-evergreen-forest" class="section level4">
 <h4>b. Calculate patch-level landscape metrics for ‘Evergreen Forest’</h4>
 <p>To only get the results for class 42 (evergreen forest), you can just <code>dplyr::filter()</code> the <code>tibble</code> (or use any other subset method you prefer).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="WE-2.html#cb400-1" aria-hidden="true" tabindex="-1"></a>forest_patch_metrics <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_patch, class <span class="sc">==</span> <span class="dv">42</span>)</span></code></pre></div>
+<p>All functions make heavy use of connected components labeling to delineate patches (neighbouring cells of the same class). To get all patches of every class you can just use <code>get_patches()</code>. To get only a certain class, just specify the <code>class</code> argument and the neighbourhood rule can be chosen between 8-neighbour rule or 4-neighbour rule with the argument <code>directions</code>.</p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="WE-2.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nnected components labeling of landscape</span></span>
+<span id="cb401-2"><a href="WE-2.html#cb401-2" aria-hidden="true" tabindex="-1"></a>cc_nlcd <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">directions =</span> <span class="dv">8</span>)</span>
+<span id="cb401-3"><a href="WE-2.html#cb401-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb401-4"><a href="WE-2.html#cb401-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show name of each class</span></span>
+<span id="cb401-5"><a href="WE-2.html#cb401-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(cc_nlcd, <span class="cf">function</span>(x) <span class="fu">names</span>(x)) </span></code></pre></div>
+<pre><code>##      11      12      31      42      52      71      90      95 
+## &quot;layer&quot; &quot;layer&quot; &quot;layer&quot; &quot;layer&quot; &quot;layer&quot; &quot;layer&quot; &quot;layer&quot; &quot;layer&quot;</code></pre>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="WE-2.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the fourth list entry is class forest</span></span>
+<span id="cb403-2"><a href="WE-2.html#cb403-2" aria-hidden="true" tabindex="-1"></a>cc_forest_a <span class="ot">&lt;-</span> cc_nlcd[<span class="dv">4</span>]</span>
+<span id="cb403-3"><a href="WE-2.html#cb403-3" aria-hidden="true" tabindex="-1"></a>cc_forest_b <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">class =</span> <span class="dv">42</span>) <span class="co"># watch out: result is list with one entry</span></span>
+<span id="cb403-4"><a href="WE-2.html#cb403-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-5"><a href="WE-2.html#cb403-5" aria-hidden="true" tabindex="-1"></a>cc_forest_a</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="WE-2.html#cb407-1" aria-hidden="true" tabindex="-1"></a>forest_patch_metrics <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_patch, class <span class="sc">==</span> <span class="dv">42</span>)</span></code></pre></div>
 <p>All functions make heavy use of connected components labeling to delineate patches (neighbouring cells of the same class). To get all patches of every class you can just use <code>get_patches()</code>. To get only a certain class, just specify the <code>class</code> argument and the neighbourhood rule can be chosen between 8-neighbour rule or 4-neighbour rule with the argument <code>directions</code>.</p>
 <div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="WE-2.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nnected components labeling of landscape</span></span>
@@ -2159,6 +2369,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb410-3"><a href="WE-2.html#cb410-3" aria-hidden="true" tabindex="-1"></a>cc_forest_b <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">class =</span> <span class="dv">42</span>) <span class="co"># watch out: result is list with one entry</span></span>
 <span id="cb410-4"><a href="WE-2.html#cb410-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb410-5"><a href="WE-2.html#cb410-5" aria-hidden="true" tabindex="-1"></a>cc_forest_a</span></code></pre></div>
+>>>>>>> main
 <pre><code>## $`42`
 ## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
@@ -2168,7 +2379,11 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## source     : memory
 ## names      : layer 
 ## values     : 1, 222  (min, max)</code></pre>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="WE-2.html#cb405-1" aria-hidden="true" tabindex="-1"></a>cc_forest_b</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="WE-2.html#cb412-1" aria-hidden="true" tabindex="-1"></a>cc_forest_b</span></code></pre></div>
+>>>>>>> main
 <pre><code>## $`42`
 ## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
@@ -2179,6 +2394,16 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## names      : layer 
 ## values     : 1, 222  (min, max)</code></pre>
 <p>To plot the patches you can use the <code>show_patches()</code> function. Here we show patches of class 42 (forest) and class 52 (shrubland):</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="WE-2.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_patches</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>It is also possible to visualize only the core area of each patch using <code>show_cores()</code>. The core area is defined as all cells that are further away from the edge of each patch than a specified edge depth (e.g. 5 cells). Here we show core area with edge depth = 5 for class 42; try edge_depth = 1 for comparison:</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="WE-2.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_cores</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>), <span class="at">edge_depth =</span> <span class="dv">5</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Note: this may create a warning “no non-missing arguments to min; returning Inf” for each patch that does not have any core area. Here we suppressed the warnings for the chunk with the chunk option <code>warning=FALSE</code>.</p>
+<p>Lastly, you can plot the map and fill each patch with the corresponding metric value, e.g. patch size, using <code>show_lsm()</code>. Notice that there are two very large patches in class 42:</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="WE-2.html#cb409-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="WE-2.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_patches</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <p>It is also possible to visualize only the core area of each patch using <code>show_cores()</code>. The core area is defined as all cells that are further away from the edge of each patch than a specified edge depth (e.g. 5 cells). Here we show core area with edge depth = 5 for class 42; try edge_depth = 1 for comparison:</p>
@@ -2187,11 +2412,24 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <p>Note: this may create a warning “no non-missing arguments to min; returning Inf” for each patch that does not have any core area. Here we suppressed the warnings for the chunk with the chunk option <code>warning=FALSE</code>.</p>
 <p>Lastly, you can plot the map and fill each patch with the corresponding metric value, e.g. patch size, using <code>show_lsm()</code>. Notice that there are two very large patches in class 42:</p>
 <div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="WE-2.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+>>>>>>> main
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 </div>
 <div id="c.-extract-forest-patch-size-at-samplig-locations" class="section level4">
 <h4>c. Extract forest patch size at samplig locations</h4>
 <p>Let’s add forest patch size to the <code>Sites.sp</code> data. To extract landscape metrics of the patch in which each sampling point is located, use <code>extract_lsm()</code>. Which metrics are extracted can be specified by the <code>what</code> argument (similar to <code>calculate_lsm()</code>). However, only patch-level metrics are available. Please be aware, that the resulting <code>tibble</code> now has a new column, namely the ID of the sampling point (in the same order as the input points).</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="WE-2.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.tract patch area of all classes:</span></span>
+<span id="cb410-2"><a href="WE-2.html#cb410-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp <span class="ot">&lt;-</span> <span class="fu">extract_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">y =</span> Sites.sp, <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Only using &#39;what&#39; argument.</code></pre>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="WE-2.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="do">## b.cause we are only interested in the forest patch size, we set all area of class != 42 to 0:</span></span>
+<span id="cb412-2"><a href="WE-2.html#cb412-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp_forest <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(patch_size_sp, </span>
+<span id="cb412-3"><a href="WE-2.html#cb412-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">value =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(class <span class="sc">==</span> <span class="dv">42</span> <span class="sc">~</span> value, </span>
+<span id="cb412-4"><a href="WE-2.html#cb412-4" aria-hidden="true" tabindex="-1"></a>                                                               class <span class="sc">!=</span> <span class="dv">42</span> <span class="sc">~</span> <span class="dv">0</span>))</span>
+<span id="cb412-5"><a href="WE-2.html#cb412-5" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d data to sp object:</span></span>
+<span id="cb412-6"><a href="WE-2.html#cb412-6" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize <span class="ot">&lt;-</span> patch_size_sp_forest<span class="sc">$</span>value</span>
+<span id="cb412-7"><a href="WE-2.html#cb412-7" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="WE-2.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.tract patch area of all classes:</span></span>
 <span id="cb417-2"><a href="WE-2.html#cb417-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp <span class="ot">&lt;-</span> <span class="fu">extract_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">y =</span> Sites.sp, <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Only using &#39;what&#39; argument.</code></pre>
@@ -2202,6 +2440,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb419-5"><a href="WE-2.html#cb419-5" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d data to sp object:</span></span>
 <span id="cb419-6"><a href="WE-2.html#cb419-6" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize <span class="ot">&lt;-</span> patch_size_sp_forest<span class="sc">$</span>value</span>
 <span id="cb419-7"><a href="WE-2.html#cb419-7" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] 3179.88    0.00 3179.88    0.00    6.66 4539.33 4539.33 4539.33    0.00
 ## [10] 4539.33 4539.33   23.76   23.76    0.00    0.00 4539.33    0.00 4539.33
 ## [19]    3.60 3179.88    0.00 4539.33    3.87 4539.33    0.00    0.00   23.76
@@ -2209,8 +2448,13 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 </div>
 <div id="d.-plot-a-bubble-map-of-forest-patch-size-at-sampling-locations" class="section level4">
 <h4>d. Plot a bubble map of forest patch size at sampling locations</h4>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="WE-2.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb414-2"><a href="WE-2.html#cb414-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(Sites.sp, <span class="st">&quot;ForestPatchSize&quot;</span>, <span class="at">fill =</span> <span class="cn">FALSE</span>, <span class="at">key.entries =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize))))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="WE-2.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb421-2"><a href="WE-2.html#cb421-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(Sites.sp, <span class="st">&quot;ForestPatchSize&quot;</span>, <span class="at">fill =</span> <span class="cn">FALSE</span>, <span class="at">key.entries =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize))))</span></code></pre></div>
+>>>>>>> main
 <pre><code>## Warning in wkt(obj): CRS object has no comment
 
 ## Warning in wkt(obj): CRS object has no comment</code></pre>
@@ -2221,6 +2465,17 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <h3>5. Sample landscape metrics within buffer around sampling locations</h3>
 <p>The package <code>landscapemetrics</code> has a built-in function <code>sample_lsm</code> to sample metrics in a buffer around sampling locations, which are provided with argument <code>y</code>. You can choose the <code>shape</code> of the buffer window (either a circle or a square) and, with the argument <code>what</code>, which metrics to sample (similar to <code>calculate_lsm()</code>).</p>
 <p>The argument <code>size</code> specifies the buffer size in map units (e.g., meters): radius for circles, half of the side length for squares. Here, the value <code>size = 500</code> results in a square window of 1000 m x 1000 m centered at the sampling location.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="WE-2.html#cb416-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb416-2"><a href="WE-2.html#cb416-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>, </span>
+<span id="cb416-3"><a href="WE-2.html#cb416-3" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_np&quot;</span>,</span>
+<span id="cb416-4"><a href="WE-2.html#cb416-4" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_pland&quot;</span>, </span>
+<span id="cb416-5"><a href="WE-2.html#cb416-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
+<span id="cb416-6"><a href="WE-2.html#cb416-6" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
+<span id="cb416-7"><a href="WE-2.html#cb416-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">y =</span> Sites.sp, </span>
+<span id="cb416-8"><a href="WE-2.html#cb416-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">size =</span> <span class="dv">500</span>)</span>
+<span id="cb416-9"><a href="WE-2.html#cb416-9" aria-hidden="true" tabindex="-1"></a>nlcd_sampled</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="WE-2.html#cb423-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
 <span id="cb423-2"><a href="WE-2.html#cb423-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>, </span>
 <span id="cb423-3"><a href="WE-2.html#cb423-3" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_np&quot;</span>,</span>
@@ -2230,6 +2485,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb423-7"><a href="WE-2.html#cb423-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">y =</span> Sites.sp, </span>
 <span id="cb423-8"><a href="WE-2.html#cb423-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">size =</span> <span class="dv">500</span>)</span>
 <span id="cb423-9"><a href="WE-2.html#cb423-9" aria-hidden="true" tabindex="-1"></a>nlcd_sampled</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 493 x 8
 ##    layer level class    id metric value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2246,6 +2502,21 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## # ... with 483 more rows</code></pre>
 <p>The <code>tibble</code> now contains two additional columns. Firstly, the <code>plot_id</code> (in the same order as the input points) and secondly, the <code>percentage_inside</code>, i.e. what percentage of the buffer around the sampling location lies within the map. (In cases where the sampling location is on the edge of the landscape, the buffer around the sampling location could be only partly within the map). The value can also deviate from 100 % because the sampling locations are not necessarily in the cell center and the actually clipped cells lead to a slightly smaller or larger buffer area. A circular buffer shape increases this effect.</p>
 <p>It is also possible to get the clippings of the buffer around sampling locations as a <code>RasterLayer</code>. For this, just set <code>return_raster = TRUE</code>.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="WE-2.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample some metrics within buffer around sample location and returning sample</span></span>
+<span id="cb418-2"><a href="WE-2.html#cb418-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plots as raster</span></span>
+<span id="cb418-3"><a href="WE-2.html#cb418-3" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb418-4"><a href="WE-2.html#cb418-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>,</span>
+<span id="cb418-5"><a href="WE-2.html#cb418-5" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_np&quot;</span>,</span>
+<span id="cb418-6"><a href="WE-2.html#cb418-6" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_pland&quot;</span>,</span>
+<span id="cb418-7"><a href="WE-2.html#cb418-7" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
+<span id="cb418-8"><a href="WE-2.html#cb418-8" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
+<span id="cb418-9"><a href="WE-2.html#cb418-9" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">y =</span> Sites.sp, </span>
+<span id="cb418-10"><a href="WE-2.html#cb418-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">size =</span> <span class="dv">500</span>, </span>
+<span id="cb418-11"><a href="WE-2.html#cb418-11" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb418-12"><a href="WE-2.html#cb418-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb418-13"><a href="WE-2.html#cb418-13" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="WE-2.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample some metrics within buffer around sample location and returning sample</span></span>
 <span id="cb425-2"><a href="WE-2.html#cb425-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plots as raster</span></span>
 <span id="cb425-3"><a href="WE-2.html#cb425-3" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
@@ -2259,6 +2530,7 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb425-11"><a href="WE-2.html#cb425-11" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb425-12"><a href="WE-2.html#cb425-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb425-13"><a href="WE-2.html#cb425-13" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 493 x 9
 ##    layer level class    id metric value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2275,6 +2547,25 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 ## # ... with 483 more rows, and 1 more variable: raster_sample_plots &lt;list&gt;</code></pre>
 <p>The result will be a nested <code>tibble</code> containing the <code>plot_id</code>, the metrics and a <code>RasterLayer</code> with the clipped buffers (as a <code>list</code>). Attention: Because several metrics on class- and landscape-level the clipped buffers will be “repeated” several times.</p>
 <p>Here we show results for the first four sampling locations:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="WE-2.html#cb420-1" aria-hidden="true" tabindex="-1"></a>unique_plots <span class="ot">&lt;-</span> <span class="fu">unique</span>(nlcd_sampled_plots<span class="sc">$</span>raster_sample_plots)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb420-2"><a href="WE-2.html#cb420-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-3"><a href="WE-2.html#cb420-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb420-4"><a href="WE-2.html#cb420-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">1</span>]], </span>
+<span id="cb420-5"><a href="WE-2.html#cb420-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">1</span>]), </span>
+<span id="cb420-6"><a href="WE-2.html#cb420-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb420-7"><a href="WE-2.html#cb420-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">2</span>]],</span>
+<span id="cb420-8"><a href="WE-2.html#cb420-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">2</span>]),</span>
+<span id="cb420-9"><a href="WE-2.html#cb420-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb420-10"><a href="WE-2.html#cb420-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">3</span>]],</span>
+<span id="cb420-11"><a href="WE-2.html#cb420-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">3</span>]), </span>
+<span id="cb420-12"><a href="WE-2.html#cb420-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb420-13"><a href="WE-2.html#cb420-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">4</span>]],</span>
+<span id="cb420-14"><a href="WE-2.html#cb420-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">4</span>]), </span>
+<span id="cb420-15"><a href="WE-2.html#cb420-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-47-1.png" width="768" /></p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="WE-2.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="WE-2.html#cb427-1" aria-hidden="true" tabindex="-1"></a>unique_plots <span class="ot">&lt;-</span> <span class="fu">unique</span>(nlcd_sampled_plots<span class="sc">$</span>raster_sample_plots)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb427-2"><a href="WE-2.html#cb427-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb427-3"><a href="WE-2.html#cb427-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -2292,24 +2583,40 @@ proj4string(Sites.sp) &lt;- tmaptools::get_proj4(“longlat”)$proj4string.</p>
 <span id="cb427-15"><a href="WE-2.html#cb427-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-47-1.png" width="768" /></p>
 <div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="WE-2.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+>>>>>>> main
 <div id="b.-extract-landscape-metric-of-choice-for-a-single-cover-type-as-vector" class="section level4">
 <h4>b. Extract landscape metric of choice for a single cover type (as vector)</h4>
 <p>To extract a metrics you can just <code>dplyr::filter()</code> the resulting <code>tibble</code> and pull the <code>value</code> column.
 Here we filter the results for class == 42 (forest) and metric <code>pland</code> (percentage of landscape) and pull the results as a vector:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="WE-2.html#cb422-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, </span>
+<span id="cb422-2"><a href="WE-2.html#cb422-2" aria-hidden="true" tabindex="-1"></a>                                                     class <span class="sc">==</span> <span class="dv">42</span>, </span>
+<span id="cb422-3"><a href="WE-2.html#cb422-3" aria-hidden="true" tabindex="-1"></a>                                                     metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), value)</span>
+<span id="cb422-4"><a href="WE-2.html#cb422-4" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="WE-2.html#cb429-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, </span>
 <span id="cb429-2"><a href="WE-2.html#cb429-2" aria-hidden="true" tabindex="-1"></a>                                                     class <span class="sc">==</span> <span class="dv">42</span>, </span>
 <span id="cb429-3"><a href="WE-2.html#cb429-3" aria-hidden="true" tabindex="-1"></a>                                                     metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), value)</span>
 <span id="cb429-4"><a href="WE-2.html#cb429-4" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] 77.50230 39.57759 38.01653 31.40138 40.40404 83.30450 69.16221 86.80927
 ##  [9] 10.19284 72.81910 92.19467 34.04635 34.84848 27.09447 31.37255 56.23886
 ## [17] 59.77961 58.73440 37.64922 60.12111 46.16756 32.32323 23.35640 50.44563
 ## [25] 66.93405 30.57851 33.70064 26.53811 45.18717 38.05704 62.47772</code></pre>
 <p>As an alternative, here’s the same workflow again, but using a pipe:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="WE-2.html#cb424-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b <span class="ot">&lt;-</span> nlcd_sampled <span class="sc">%&gt;%</span> </span>
+<span id="cb424-2"><a href="WE-2.html#cb424-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(class <span class="sc">==</span> <span class="dv">42</span>, </span>
+<span id="cb424-3"><a href="WE-2.html#cb424-3" aria-hidden="true" tabindex="-1"></a>                metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb424-4"><a href="WE-2.html#cb424-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(value)</span>
+<span id="cb424-5"><a href="WE-2.html#cb424-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="WE-2.html#cb431-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b <span class="ot">&lt;-</span> nlcd_sampled <span class="sc">%&gt;%</span> </span>
 <span id="cb431-2"><a href="WE-2.html#cb431-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(class <span class="sc">==</span> <span class="dv">42</span>, </span>
 <span id="cb431-3"><a href="WE-2.html#cb431-3" aria-hidden="true" tabindex="-1"></a>                metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb431-4"><a href="WE-2.html#cb431-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(value)</span>
 <span id="cb431-5"><a href="WE-2.html#cb431-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b</span></code></pre></div>
+>>>>>>> main
 <pre><code>##  [1] 77.50230 39.57759 38.01653 31.40138 40.40404 83.30450 69.16221 86.80927
 ##  [9] 10.19284 72.81910 92.19467 34.04635 34.84848 27.09447 31.37255 56.23886
 ## [17] 59.77961 58.73440 37.64922 60.12111 46.16756 32.32323 23.35640 50.44563
@@ -2318,11 +2625,19 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 <div id="c.-extract-landscape-metric-of-choice-for-all-cover-types-as-data-frame." class="section level4">
 <h4>c. Extract landscape metric of choice for all cover types (as data frame).</h4>
 <p>To extract the landscape metric ‘prop.landscape’ for all cover types as a <code>tibble</code>, just filter <code>dplyr::filter()</code> the <code>tibble</code> again, but only use the <code>metric</code> as filter.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="WE-2.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for percentage of landscape</span></span>
+<span id="cb426-2"><a href="WE-2.html#cb426-2" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
+<span id="cb426-3"><a href="WE-2.html#cb426-3" aria-hidden="true" tabindex="-1"></a>                                          metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>)</span>
+<span id="cb426-4"><a href="WE-2.html#cb426-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb426-5"><a href="WE-2.html#cb426-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="WE-2.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for percentage of landscape</span></span>
 <span id="cb433-2"><a href="WE-2.html#cb433-2" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
 <span id="cb433-3"><a href="WE-2.html#cb433-3" aria-hidden="true" tabindex="-1"></a>                                          metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>)</span>
 <span id="cb433-4"><a href="WE-2.html#cb433-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb433-5"><a href="WE-2.html#cb433-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 154 x 8
 ##    layer level class    id metric   value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2338,11 +2653,19 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 ## 10     1 class    52    NA pland   5.33         2              98.0
 ## # ... with 144 more rows</code></pre>
 <p>The percent cover of all cover types should add up to ~ 100% (i.e., 1) for each site. We can check this with the function <code>dplyr::summarize()</code>. First, we need to group the data using the <code>plot_id</code>, then sum all percentages.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="WE-2.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="do">## g.oup by plot_id and sum all percentages</span></span>
+<span id="cb428-2"><a href="WE-2.html#cb428-2" aria-hidden="true" tabindex="-1"></a>pland_sum_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">summarize</span>(dplyr<span class="sc">::</span><span class="fu">group_by</span>(percentage_forest_500_df, </span>
+<span id="cb428-3"><a href="WE-2.html#cb428-3" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">by =</span> plot_id), </span>
+<span id="cb428-4"><a href="WE-2.html#cb428-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb428-5"><a href="WE-2.html#cb428-5" aria-hidden="true" tabindex="-1"></a>pland_sum_a</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="WE-2.html#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="do">## g.oup by plot_id and sum all percentages</span></span>
 <span id="cb435-2"><a href="WE-2.html#cb435-2" aria-hidden="true" tabindex="-1"></a>pland_sum_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">summarize</span>(dplyr<span class="sc">::</span><span class="fu">group_by</span>(percentage_forest_500_df, </span>
 <span id="cb435-3"><a href="WE-2.html#cb435-3" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">by =</span> plot_id), </span>
 <span id="cb435-4"><a href="WE-2.html#cb435-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
 <span id="cb435-5"><a href="WE-2.html#cb435-5" aria-hidden="true" tabindex="-1"></a>pland_sum_a</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 31 x 2
 ##       by sum_pland
 ##    &lt;int&gt;     &lt;dbl&gt;
@@ -2358,10 +2681,17 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 ## 10    10       100
 ## # ... with 21 more rows</code></pre>
 <p>Same workflow, but using a pipe:</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="WE-2.html#cb430-1" aria-hidden="true" tabindex="-1"></a>pland_sum_b <span class="ot">&lt;-</span> percentage_forest_500_df <span class="sc">%&gt;%</span> </span>
+<span id="cb430-2"><a href="WE-2.html#cb430-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(plot_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb430-3"><a href="WE-2.html#cb430-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb430-4"><a href="WE-2.html#cb430-4" aria-hidden="true" tabindex="-1"></a>pland_sum_b</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="WE-2.html#cb437-1" aria-hidden="true" tabindex="-1"></a>pland_sum_b <span class="ot">&lt;-</span> percentage_forest_500_df <span class="sc">%&gt;%</span> </span>
 <span id="cb437-2"><a href="WE-2.html#cb437-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(plot_id) <span class="sc">%&gt;%</span> </span>
 <span id="cb437-3"><a href="WE-2.html#cb437-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
 <span id="cb437-4"><a href="WE-2.html#cb437-4" aria-hidden="true" tabindex="-1"></a>pland_sum_b</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 31 x 2
 ##    plot_id sum_pland
 ##      &lt;int&gt;     &lt;dbl&gt;
@@ -2380,6 +2710,19 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 <div id="d.-extract-all-landscape-metrics-for-a-single-cover-type-as-data-frame" class="section level4">
 <h4>d. Extract all landscape metrics for a single cover type (as data frame)</h4>
 <p>Filter<code>dplyr::filter()</code> for <code>class == 42</code> and add the sites names as coloumn to the resulting <code>tibble</code>.</p>
+<<<<<<< HEAD
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="WE-2.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for class == 42 (forest)</span></span>
+<span id="cb432-2"><a href="WE-2.html#cb432-2" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
+<span id="cb432-3"><a href="WE-2.html#cb432-3" aria-hidden="true" tabindex="-1"></a>                               class <span class="sc">==</span> <span class="dv">42</span>)</span>
+<span id="cb432-4"><a href="WE-2.html#cb432-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb432-5"><a href="WE-2.html#cb432-5" aria-hidden="true" tabindex="-1"></a><span class="do">## d.ta.frame with id and name of site</span></span>
+<span id="cb432-6"><a href="WE-2.html#cb432-6" aria-hidden="true" tabindex="-1"></a>SiteName_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Sites.sp<span class="sc">$</span>SiteName), <span class="at">site_name =</span> Sites.sp<span class="sc">$</span>SiteName)</span>
+<span id="cb432-7"><a href="WE-2.html#cb432-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb432-8"><a href="WE-2.html#cb432-8" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d site_name to metrics using plot_id and id of sampling sites</span></span>
+<span id="cb432-9"><a href="WE-2.html#cb432-9" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(forest_500_df, SiteName_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;plot_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;id&quot;</span>))</span>
+<span id="cb432-10"><a href="WE-2.html#cb432-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb432-11"><a href="WE-2.html#cb432-11" aria-hidden="true" tabindex="-1"></a>forest_500_df</span></code></pre></div>
+=======
 <div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="WE-2.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for class == 42 (forest)</span></span>
 <span id="cb439-2"><a href="WE-2.html#cb439-2" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
 <span id="cb439-3"><a href="WE-2.html#cb439-3" aria-hidden="true" tabindex="-1"></a>                               class <span class="sc">==</span> <span class="dv">42</span>)</span>
@@ -2391,6 +2734,7 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 <span id="cb439-9"><a href="WE-2.html#cb439-9" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(forest_500_df, SiteName_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;plot_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;id&quot;</span>))</span>
 <span id="cb439-10"><a href="WE-2.html#cb439-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb439-11"><a href="WE-2.html#cb439-11" aria-hidden="true" tabindex="-1"></a>forest_500_df</span></code></pre></div>
+>>>>>>> main
 <pre><code>## # A tibble: 93 x 9
 ##    layer level class    id metric value plot_id percentage_inside site_name     
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt; &lt;chr&gt;         
