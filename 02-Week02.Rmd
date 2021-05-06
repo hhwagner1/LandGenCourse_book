@@ -32,7 +32,7 @@ plot_grid(plotlist=Plots, ncol=1)
 ## Interactive Tutorial 2{#tutorial_2}
 
 
-### List of R commands used
+### 1. List of R commands covered this week
 
 ```{r echo=FALSE}
 library(kableExtra)
@@ -40,9 +40,9 @@ Table <- readRDS(paste0(here::here(), "/output/table_list.rds"))[[2]]
 Table %>% kable() %>% 
   kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
   kable_styling(fixed_thead = T, full_width=F) 
-```
+```	
 
-### Instructions
+### 2. General Instructions
 
 #### a) How to access tutorials:
 

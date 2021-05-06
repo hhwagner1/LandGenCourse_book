@@ -31,7 +31,7 @@ plot_grid(plotlist=Plots, ncol=1)
 
 ## Interactive Tutorial 5{#tutorial_5}
 
-### List of R commands used
+### 1. List of R commands covered this week
 
 ```{r echo=FALSE}
 library(kableExtra)
@@ -41,7 +41,7 @@ Table %>% kable() %>%
   kable_styling(fixed_thead = T, full_width=F) 
 ```	
 
-### Instructions
+### 2. General Instructions
 
 #### a) How to access tutorials:
 
