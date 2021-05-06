@@ -96,4 +96,7 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 ```
 
 
-## Bonus: Efficient R {#bonus_8a}
+## Bonus Vignette {#bonus_8a}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week8_bonus_vignette.Rmd"), echo=TRUE}
+```

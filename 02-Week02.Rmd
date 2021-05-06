@@ -93,6 +93,7 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 
 
 
-## Bonus: Using package sf {#bonus_2a}
+## Bonus Vignette {#bonus_2a}
 
-## Bonus: Visualize LULC map {#bonus_2b}
+```{r child=paste0(here::here(), "/vignettes/", "Week2_bonus_vignette.Rmd"), echo=TRUE}
+```

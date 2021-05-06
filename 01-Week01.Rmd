@@ -90,6 +90,3 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 ```{r child=paste0(here::here(), "/vignettes/", "Week1_vignette.Rmd"), echo=TRUE}
 ```
 
-
-## Bonus: Importing SNP data {#bonus_1a}
-
