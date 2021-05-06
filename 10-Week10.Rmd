@@ -1,5 +1,10 @@
 # Week 10: Landscape Resistance {#Week10}
 
+This week's lab shows how to define cost surfaces and calculate cost distances. 
+
+- [Worked Example](#WE_10)
+
+Note: The worked examples in the Advanced Topics section require the R skills developed in the Basic Topics (Weeks 1 - 8).  
 
 ## Worked Example{#WE_10}
 

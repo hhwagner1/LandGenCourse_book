@@ -1,7 +1,23 @@
 # Week 3: Genetic Diversity {#Week3}
 
+In this week's computer lab, we will learn about how to perform basic population genetic analyses and quantify genetic diversity. Along the way, we will review hypothesis testing and learn about data manipulation in R.  
 
-## View Course Video {#video_3}
+- [View Course Video](#video_3)
+- [Interactive Tutorial 3](#tutorial_3)
+- [Worked Example](#WE_3)
+- [R Exercise Week 3](#r-exercise-week-3)
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
+
+## View Course Video{#video_3}
+
+
+### 1. Embedded Video
+
+- External link: [Week 3 video (Part 1)](https://sho.co/19UT5);  [Week 3 video (Part 2)](https://sho.co/19YDM)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week3_script_v2.pdf)
+
 
 ### Video, Part 1
 

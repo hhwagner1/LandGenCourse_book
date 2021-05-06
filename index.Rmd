@@ -27,11 +27,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is a web-interface to the teaching materials for the lab course 'Landscape Genetic Data Analysis with R' associated with the distributed graduate course  ['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website").
 
-All teaching materials are included in the R package `LandGenCourse` available on [Github](https://github.com/hhwagner1/LandGenCourse "github repository") 
+The Landscape Genetics Distributed Graduate Seminar (DGS) is an international collaboration that provides a unique opportunity for interdisciplinary graduate training. The course draws on experts from around the world to deliver an in-depth introduction and overview of the field of landscape genetics. The course caters to students in both basic and applied ecology, conservation/population genetics, landscape ecology and conservation biology. Every other year, several hundred students, post-docs and faculty from around the world participate in this course. For more information about the course, and to sign up to be notified when registration opens, please visit the course website: 
 
-**Code visiblity**: use the `Code` button to show or hide all R code, either globally or by chunk.
+['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website")
+
+The online book compiles the teaching materials for the optional computer lab component of the DGS Landscape Genetics. The materials included in this online resource are also included in the R package `LandGenCourse` available on [Github](https://github.com/hhwagner1/LandGenCourse "github repository").   
+
+
+Next sections:
+
+- [How to use this Book](#how-to-use)
+- [List of R Packages by Vignette](#list-of-packages)
+
+
 
 ## How to use this Book
+
+Hint:
+
+- **Code visibility**: use the `Code` button to show or hide all R code, either globally or by chunk.
+- **Table of contents**: in the left-side navigation bar, click on any entry to expand or collapse it.
+
 
 ### 1. Book Structure
 
@@ -58,7 +74,7 @@ This book has weekly chapters that correspond to course modules, with three part
 
 ### 2. Find what is relevant for you
 
-#### a) How to use the labs 
+#### a) How to use the labs {#how-to-use} 
 
 Weeks 1 - 8:
 
@@ -68,19 +84,12 @@ Weeks 1 - 8:
 
 **By Week 9**: you will be at least at ‘intermediate’ if not a pro!
 
-#### b) Check contents
-
-- **Beginners**:   watch video -> do tutorial -> read WE
-- **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
-- **Advanced**:   check video slides -> R exercise? -> adapt WE to own data
-
-**By Week 9**: you will be at least at ‘intermediate’ if not a pro!
 
 #### b) Check contents
 
 - **Videos**: Check first weekly slide, browse slides for each week
 - **Interactive tutorials**: check weekly list of commands for each chapter
-- **Worked examples**: check list of packages by vignette (below), check introduction section for each worked example (or bonus vignette) 
+- **Worked examples**: check [List of R Packages by Vignette](#list-of-packages); check introduction section for each worked example (or bonus vignette) 
 
 ### 3. Course R package `LandGenCourse`
 
@@ -105,7 +114,9 @@ This video walks through the process of installing devtools, the course package,
 <a href="https://www.dropbox.com/s/598kwim7x09m47t/Intro_LandGenCourse_small.mp4?dl=0" target="_blank">Intro_LandGenCourse_small.mp4</a>
 
 
-## List of Packages by Vignette
+## List of R Packages by Vignette {#list-of-packages} 
+
+Scroll through the list to find which R packages are used in which vignette (i.e., weekly worked example or bonus vignette). This may be helpful for finding relevant materials if you are interested in a specific type of analysis.
 
 Note: lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
 

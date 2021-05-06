@@ -15,11 +15,13 @@ library(magick)
 Import all Rmd and other (png) files from vignettes, replace old files
 
 ```{r}
-Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/"
+Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" # Mac
+#Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
 #list.of.files <- list.files(Path, pattern="Rmd")
 list.of.files <- list.files(Path)
 file.copy(paste0(Path, list.of.files), paste0(here::here(), "/vignettes"), overwrite=TRUE)
 dir(paste0(here::here(), "/vignettes"))
+
 ```
 
 Increase header level by 1
@@ -148,12 +150,17 @@ saveRDS(table_list, paste0(here::here(), "/output/table_list.rds"))
 ```
 
 
+
 ## Preview chapter
 
-```{r}
-bookdown::preview_chapter()
+NOTE: for some reason, chapter 8 (bonus vignette) needs to be precompiled before serving the entire book, may have to do with paths.
 
-bookdown::render_book(input="index.Rmd", preview=TRUE)
+May need to run all chunks in Week 8 bonus vignette before rendering the chapter.
+
+```{r}
+bookdown::preview_chapter("08-Week08.Rmd")
+
+#bookdown::render_book(input="index.Rmd", preview=TRUE)
 ```
 
 

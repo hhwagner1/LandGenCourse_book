@@ -1,7 +1,22 @@
 # Week 5: Spatial Statistics {#Week5}
 
+In this week's computer lab, we will test for spatial autocorrelation in genetic and landscape data. Along the way, we will learn how to calculate pairwise distances in R, how to define spatial weights, and how to work with two basic R object types: S3 vs. S4 objects.  
+
+- [View Course Video](#video_5)
+- [Interactive Tutorial 5](#tutorial_5)
+- [Worked Example](#WE_5)
+- [R Exercise Week 5](#r-exercise-week-5)
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
 
 ## View Course Video{#video_5}
+
+
+### 1. Embedded Video
+
+- External link: [Week 5 video](https://sho.co/19Y0B);  [Week 5 video (Part 2)](https://sho.co/19Y09)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week5_script.pdf)
 
 
 <iframe width="800" height="513" src="https://sho.co/19Y0B" frameborder="0" allowfullscreen></iframe>

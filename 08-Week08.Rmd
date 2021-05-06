@@ -1,7 +1,22 @@
 # Week 8: Simulation Experiments {#Week8}
 
+In this week's computer lab, we will perform a landscape genetic simulation experiment. Along the way, we will learn how to design simulation experiments to test landscape genetic methods, and how to make our code more efficient (see also Bonus Vignette).  
+
+- [View Course Video](#video_8)
+- [Interactive Tutorial 8](#tutorial_8)
+- [Worked Example](#WE_8)
+- [R Exercise Week 8](#r-exercise-week-8)
+- [Bonus Vignette](#bonus-8a): efficient R; parallel computing in R
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
 
 ## View Course Video{#video_8}
+
+### 1. Embedded Video
+
+- External link: [Week 8 video (Part 1)](https://sho.co/1A44W);  [Week 8 video (Part 2)](https://sho.co/1ADVK)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week8_script_v7.pdf)
 
 
 ### Video, Part 1

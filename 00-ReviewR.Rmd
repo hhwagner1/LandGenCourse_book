@@ -12,13 +12,19 @@ knitr::opts_chunk$set(
   echo = TRUE)
 ```
 
+This part contains two optional vignettes that will help you brush up your basic R programming skills and get a head-start on R graphics.
 
-## Basic R Programming
+- [Basic R Programming](#basic-r)
+- [R Graphics](#r-graphics)
+
+
+
+## Basic R Programming {#basic-r}
 
 ```{r child=paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd"), echo=TRUE}
 ```
 
-## R Graphics
+## R Graphics {#r-graphics}
 
 ```{r child=paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd"), echo=TRUE}
 ```

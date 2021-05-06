@@ -1,7 +1,23 @@
 # Week 6: Quantitative Genetics {#Week6}
 
+In this week's computer lab, we will compare phenotypic and genotypic variation from a common garden experiment and test for adaptation. Along the way, we will learn how to specify, run and interpret linear mixed models.  
 
-## View Course Video {#video_6}
+- [View Course Video](#video_6)
+- [Interactive Tutorial 6](#tutorial_6)
+- [Worked Example](#WE_6)
+- [R Exercise Week 6](#r-exercise-week-6)
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
+
+## View Course Video{#video_6}
+
+
+### 1. Embedded Video
+
+- External link: [Week 6 video (Part 1)](https://sho.co/19YGU);  [Week 6 video (Part 2)](https://sho.co/19YM)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week6_script_v5.pdf)
+
 
 ### Video, Part 1
 

@@ -257,7 +257,7 @@
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.3)                          
- Github (hhwagner1/LandGenCourse@c03f3a6)
+ Github (hhwagner1/LandGenCourse@9714433)
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.5)                          
  CRAN (R 4.0.3)                          

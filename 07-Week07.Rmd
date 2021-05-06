@@ -1,7 +1,23 @@
 # Week 7: Spatial Linear Models {#Week7}
 
+In this week's computer lab, we will test the effect of landscape data on genetic data. Along the way, we will explore different ways how to build spatial autocorrelation into statistical models.  
 
-## View Course Video {#video_7}
+- [View Course Video](#video_7)
+- [Interactive Tutorial 7](#tutorial_7)
+- [Worked Example](#WE_7)
+- [R Exercise Week 7](#r-exercise-week-7)
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
+
+## View Course Video{#video_7}
+
+
+### 1. Embedded Video
+
+- External link: [Week 7 video (Part 1)](https://sho.co/1A1KH);  [Week 7 video (Part 2)](https://sho.co/1A1K)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week7_script_v3.pdf)
+
 
 ### Video, Part 1
 
@@ -91,6 +107,7 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 
 ```{r child=paste0(here::here(), "/vignettes/", "Week7_vignette.Rmd"), echo=TRUE}
 ```
+
 
 
 
