@@ -160,8 +160,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.888005013 -0.580518294 -2.080854068  0.319787318  0.538937259
-##  [6]  0.145499175  0.877234505 -1.146278967 -0.006622415 -0.400793149
+##  [1] -0.0241544 -0.1986763  1.5780659 -0.2336767 -1.0182135 -0.7348850
+##  [7]  1.0023054  1.2616636  1.7632135  0.1130658
 ```
 
 from the normal distribution with designated mean and standard deviation:
@@ -172,8 +172,8 @@ rnorm(10,mean=42,sd=12)
 ```
 
 ```
-##  [1] 51.04746 25.21445 33.56092 30.08613 49.66267 49.90878 21.59023 51.88497
-##  [9] 31.95119 39.29777
+##  [1] 51.43037 53.45065 27.70277 49.29996 42.88562 29.71385 21.76291 55.72120
+##  [9] 29.23766 46.56467
 ```
 
 A poisson distribution with mean 2:
@@ -184,7 +184,7 @@ rpois(10,lambda = 2)
 ```
 
 ```
-##  [1] 1 1 1 2 1 5 2 2 2 2
+##  [1] 2 1 1 3 2 1 0 1 2 1
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
@@ -195,8 +195,8 @@ rchisq(10, df=1)
 ```
 
 ```
-##  [1] 0.015763140 2.631996419 1.081265931 3.215199149 2.314075258 0.005476961
-##  [7] 1.204152939 0.391477944 0.016400366 0.255649221
+##  [1] 0.67872713 0.43428490 0.59544508 0.03113559 0.22545807 2.23952062
+##  [7] 0.13261395 3.35158442 0.22151528 0.02692563
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -527,10 +527,10 @@ data
 ```
 
 ```
-##  [1]  1.13070623 -1.30620495 -0.30030871 -0.83431485 -0.10985865 -0.42588014
-##  [7] -0.44117709 -0.91448816 -0.51471149 -0.09421397 -1.22665068 -0.70758225
-## [13]  1.02812852  0.10508758  1.57926808  1.08607222 -0.88015755  0.64370045
-## [19]  1.05453395  1.62472306
+##  [1]  0.8562740 -1.3425142 -0.6932185 -0.4882860 -0.5807410  0.7310222
+##  [7] -1.5291784 -0.2769040  0.2835399  0.2697575  1.0670768 -0.8941157
+## [13] -0.6859685  0.4248590 -0.9061504  1.0404606 -1.7407995  0.2747079
+## [19] -1.3548394 -0.9144158
 ```
 
 
@@ -542,8 +542,8 @@ data[ data > 0 ]
 ```
 
 ```
-## [1] 1.1307062 1.0281285 0.1050876 1.5792681 1.0860722 0.6437005 1.0545340
-## [8] 1.6247231
+## [1] 0.8562740 0.7310222 0.2835399 0.2697575 1.0670768 0.4248590 1.0404606
+## [8] 0.2747079
 ```
 
 If you look at the condition being passed to as the index
@@ -554,8 +554,8 @@ data > 0
 ```
 
 ```
-##  [1]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [13]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+##  [1]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+## [13] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -579,8 +579,8 @@ data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
-##  [1]  1.1307062 -0.3003087 -0.1098587 -0.4411771 -0.5147115 -1.2266507
-##  [7]  1.0281285  1.5792681 -0.8801575  1.0545340
+##  [1]  0.8562740 -0.6932185 -0.5807410 -1.5291784  0.2835399  1.0670768
+##  [7] -0.6859685 -0.9061504 -1.7407995 -1.3548394
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -1135,11 +1135,11 @@ df
 
 ```
 ##   ID Names Score
-## 1  1   Bob    88
-## 2  2 Alice    87
+## 1  1   Bob    92
+## 2  2 Alice    85
 ## 3  3 Vicki    89
-## 4  4  John    91
-## 5  5 Sarah    84
+## 4  4  John    92
+## 5  5 Sarah    83
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
@@ -1158,12 +1158,12 @@ summary(df)
 
 ```
 ##        ID       Names               Score      Passed_Class   
-##  Min.   :1   Length:5           Min.   :84.0   Mode :logical  
-##  1st Qu.:2   Class :character   1st Qu.:87.0   FALSE:1        
-##  Median :3   Mode  :character   Median :88.0   TRUE :4        
-##  Mean   :3                      Mean   :87.8                  
-##  3rd Qu.:4                      3rd Qu.:89.0                  
-##  Max.   :5                      Max.   :91.0
+##  Min.   :1   Length:5           Min.   :83.0   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:85.0   FALSE:1        
+##  Median :3   Mode  :character   Median :89.0   TRUE :4        
+##  Mean   :3                      Mean   :88.2                  
+##  3rd Qu.:4                      3rd Qu.:92.0                  
+##  Max.   :5                      Max.   :92.0
 ```
 
 
@@ -1179,7 +1179,7 @@ df[1,3]
 ```
 
 ```
-## [1] 88
+## [1] 92
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
@@ -1191,7 +1191,7 @@ df[1,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
+## 1  1   Bob    92         TRUE
 ```
 
 or along columns (which give you a vector of data)
@@ -1202,7 +1202,7 @@ df[,3]
 ```
 
 ```
-## [1] 88 87 89 91 84
+## [1] 92 85 89 92 83
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
@@ -1225,8 +1225,8 @@ df[1:3,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
-## 2  2 Alice    87         TRUE
+## 1  1   Bob    92         TRUE
+## 2  2 Alice    85         TRUE
 ## 3  3 Vicki    89         TRUE
 ```
 
@@ -1238,7 +1238,7 @@ df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
-## character(0)
+## [1] "Bob"
 ```
 
 
@@ -2221,11 +2221,13 @@ colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
-##  [1] "mintcream"      "steelblue1"     "darkseagreen1"  "slategray2"    
-##  [5] "lavenderblush2" "gray93"         "slateblue2"     "chocolate"     
-##  [9] "grey96"         "gray5"          "chocolate4"     "salmon1"       
-## [13] "grey85"         "gray45"         "skyblue1"       "lightpink1"    
-## [17] "yellow3"        "grey84"         "chocolate3"     "darkslategrey"
+##  [1] "darkseagreen3"        "peachpuff3"           "lightgoldenrodyellow"
+##  [4] "aquamarine"           "gray43"               "gray82"              
+##  [7] "grey70"               "grey54"               "grey91"              
+## [10] "orangered1"           "grey82"               "seagreen1"           
+## [13] "paleturquoise3"       "grey43"               "brown4"              
+## [16] "gray62"               "aquamarine3"          "darkviolet"          
+## [19] "khaki4"               "lightslategray"
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).
