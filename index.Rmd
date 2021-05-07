@@ -55,8 +55,9 @@ This book has weekly chapters that correspond to course modules, with three part
 
 #### a) Getting Started 
   - Review of R Skills: check whether you need to build or brush up your R skills before starting the course:
-      - Basic R Programming: introduction to R objects and functions. **Prerequisite**.
-      - R Graphics: learn to create figures with base R and with `ggplot2`. Optional.
+      - [Basic R Programming](#basic-r): introduction to R objects and functions. **Prerequisite**.
+      - [R Graphics](#r-graphics): learn to create figures with base R and with `ggplot2`. Optional.
+      
       
 #### b) Basic Topics
   - These 8 weekly modules are streamlined to build the necessary R skills and brush up statistics knowledge. Best complete these in sequence.
@@ -65,6 +66,7 @@ This book has weekly chapters that correspond to course modules, with three part
       - Interactive Tutorial: swirl course to practice R programming
       - Worked Example: worked example by the weekly experts from the ['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website") course.
       - Bonus Materials: some weeks include bonus vignettes with optional advanced topics.
+      
       
 #### c) Advanced Topics
   - These weekly modules build on the skills developed in Basic Topics. You may pick and choose from the Advanced Topics according to your interests.
@@ -78,11 +80,23 @@ This book has weekly chapters that correspond to course modules, with three part
 
 Weeks 1 - 8:
 
-- **Beginners**:   watch video -> do tutorial -> read WE
-- **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
-- **Advanced**:   check video slides -> R exercise? -> adapt WE to own data
+- **Beginners**:   
+    - watch video 
+    - do tutorial to build basic R programming skills
+    - read worked example, focus on content
+    
+- **Intermediate**:   
+    - watch video 
+    - check weekly tutorial functions: do tutorial to brush up?
+    - understand worked example, focus on content and code
+    - do R exercise to practice coding
+    
+- **Advanced**:   
+    - check video slides: watch video to brush up on concepts?
+    - R exercise? 
+    - adapt worked example to own data
 
-**By Week 9**: you will be at least at ‘intermediate’ if not a pro!
+**By Week 9**: you will be at least at ‘intermediate’ level if not a pro!
 
 
 #### b) Check contents

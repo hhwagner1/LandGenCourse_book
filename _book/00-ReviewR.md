@@ -166,8 +166,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.97937125  0.70500145 -1.11889843 -0.67616577 -0.02645938  0.06118633
-##  [7] -1.51355194  0.59214969 -1.60252275  1.61135883
+##  [1] -0.5036823  0.2254516 -0.6955431 -0.4960175  0.6905568  1.8665223
+##  [7]  0.8911064 -0.2014828  0.1692843 -1.0751678
 ```
 
 from the normal distribution with designated mean and standard deviation:
@@ -178,8 +178,8 @@ rnorm(10,mean=42,sd=12)
 ```
 
 ```
-##  [1] 51.35823 23.61170 22.57883 35.37325 36.53692 35.28362 42.17864 34.56958
-##  [9] 34.67413 43.11127
+##  [1] 30.53404 42.37513 30.36483 44.38020 51.86059 40.71741 36.29278 20.71813
+##  [9] 61.56785 52.13182
 ```
 
 A poisson distribution with mean 2:
@@ -190,7 +190,7 @@ rpois(10,lambda = 2)
 ```
 
 ```
-##  [1] 5 3 3 4 0 2 1 2 2 2
+##  [1] 1 1 1 1 1 2 3 2 5 2
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
@@ -201,8 +201,8 @@ rchisq(10, df=1)
 ```
 
 ```
-##  [1] 0.178082281 1.328665523 0.004783394 0.012442759 1.410612228 0.357707046
-##  [7] 5.288459764 0.215479156 1.876561670 0.189169699
+##  [1] 0.57001629 0.13782593 0.04351464 0.15801173 0.19545357 1.61701776
+##  [7] 1.55007377 0.32639665 0.11908254 0.20886950
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -533,10 +533,10 @@ data
 ```
 
 ```
-##  [1]  1.036495057  0.946631334 -1.432528830  0.389770649 -0.248479684
-##  [6] -0.901651365  1.177553141  0.848226461 -0.427542883 -0.083557143
-## [11]  0.210348082 -0.727057021 -0.002302273 -0.251729404  1.629020440
-## [16]  1.997737961 -0.866119204  0.404553698  2.071127616  0.799560468
+##  [1] -0.42985069 -0.04668434  1.02308105  0.78139709  0.81921822  1.54393202
+##  [7] -2.69299804  0.27711910  0.07976353 -0.61925732  1.78731012 -0.83643786
+## [13]  0.30155195 -0.67712872  0.49869913  1.03128036  0.01525132  2.21730798
+## [19] -0.07533141 -1.12926673
 ```
 
 
@@ -548,8 +548,8 @@ data[ data > 0 ]
 ```
 
 ```
-##  [1] 1.0364951 0.9466313 0.3897706 1.1775531 0.8482265 0.2103481 1.6290204
-##  [8] 1.9977380 0.4045537 2.0711276 0.7995605
+##  [1] 1.02308105 0.78139709 0.81921822 1.54393202 0.27711910 0.07976353
+##  [7] 1.78731012 0.30155195 0.49869913 1.03128036 0.01525132 2.21730798
 ```
 
 If you look at the condition being passed to as the index
@@ -560,8 +560,8 @@ data > 0
 ```
 
 ```
-##  [1]  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE
-## [13] FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+##  [1] FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE
+## [13]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -585,8 +585,8 @@ data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
-##  [1]  1.036495057 -1.432528830 -0.248479684  1.177553141 -0.427542883
-##  [6]  0.210348082 -0.002302273  1.629020440 -0.866119204  2.071127616
+##  [1] -0.42985069  1.02308105  0.81921822 -2.69299804  0.07976353  1.78731012
+##  [7]  0.30155195  0.49869913  0.01525132 -0.07533141
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -1141,11 +1141,11 @@ df
 
 ```
 ##   ID Names Score
-## 1  1   Bob    88
-## 2  2 Alice    89
-## 3  3 Vicki    95
-## 4  4  John    84
-## 5  5 Sarah    95
+## 1  1   Bob    91
+## 2  2 Alice    87
+## 3  3 Vicki    87
+## 4  4  John    93
+## 5  5 Sarah    92
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
@@ -1163,13 +1163,13 @@ summary(df)
 ```
 
 ```
-##        ID       Names               Score      Passed_Class   
-##  Min.   :1   Length:5           Min.   :84.0   Mode :logical  
-##  1st Qu.:2   Class :character   1st Qu.:88.0   FALSE:1        
-##  Median :3   Mode  :character   Median :89.0   TRUE :4        
-##  Mean   :3                      Mean   :90.2                  
-##  3rd Qu.:4                      3rd Qu.:95.0                  
-##  Max.   :5                      Max.   :95.0
+##        ID       Names               Score    Passed_Class   
+##  Min.   :1   Length:5           Min.   :87   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:87   FALSE:1        
+##  Median :3   Mode  :character   Median :91   TRUE :4        
+##  Mean   :3                      Mean   :90                  
+##  3rd Qu.:4                      3rd Qu.:92                  
+##  Max.   :5                      Max.   :93
 ```
 
 
@@ -1185,7 +1185,7 @@ df[1,3]
 ```
 
 ```
-## [1] 88
+## [1] 91
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
@@ -1197,7 +1197,7 @@ df[1,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
+## 1  1   Bob    91         TRUE
 ```
 
 or along columns (which give you a vector of data)
@@ -1208,7 +1208,7 @@ df[,3]
 ```
 
 ```
-## [1] 88 89 95 84 95
+## [1] 91 87 87 93 92
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
@@ -1231,9 +1231,9 @@ df[1:3,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
-## 2  2 Alice    89         TRUE
-## 3  3 Vicki    95         TRUE
+## 1  1   Bob    91         TRUE
+## 2  2 Alice    87         TRUE
+## 3  3 Vicki    87         TRUE
 ```
 
 It is also possible to use logical operators as indices.  Here I select only those names in the data.frame whose score was >90 and they passed popgen.
@@ -1244,7 +1244,7 @@ df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
-## [1] "Vicki" "Sarah"
+## [1] "Bob"   "Sarah"
 ```
 
 
@@ -1721,7 +1721,7 @@ From this, a barplot can be constructed where the x-axis has discrete entities f
 barplot(x, xlab = "People", ylab = "Thinn-A-Ma-Jigs")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-120-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-121-1.png" width="672" />
 
 Notice here that I included labels for both the x- and y-axes.  You do this by inserting these arguments into the parameters passed to the `barplot()` (it is the same for all built-in plotting as we will see below).
 
@@ -1734,7 +1734,7 @@ df <- data.frame(Thinn_A_Ma_Jigs=x,names=names(x))
 ggplot( df, aes(x=names,y=Thinn_A_Ma_Jigs)) + geom_bar(stat="identity")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-121-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-122-1.png" width="672" />
 
 There are a couple of things to point out about this.   
 
@@ -1751,7 +1751,7 @@ If the data on the x-axis is not discrete but measured on a single variable, the
 h <- hist(iris$Sepal.Length)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-122-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-123-1.png" width="672" />
 
 The `hist()` function itself returns a bit of information that may be of interest.  It is not necessary that you capture these data, R will ignore it if you do not assign it to a variable.  What is of interest though is that it returns a `list()` object with the following keys:
 
@@ -1804,7 +1804,7 @@ The corresponding `ggplot` approach is
 ggplot( iris, aes(x=Sepal.Length)) + geom_bar()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-125-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-126-1.png" width="672" />
 
 which also takes a few liberties with the default binning parameters.  
 
@@ -1826,7 +1826,7 @@ x <- hist( iris$Sepal.Length,xlab="Sepal Length (cm)",
            ylab="Count", main="", col="lightblue")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-126-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-127-1.png" width="672" />
 
 A few things to notice:
 
@@ -1841,7 +1841,7 @@ ggplot( iris, aes(x=Sepal.Length)) + geom_bar(fill="lightblue") +
   xlab("Sepal Length (cm)") + ylab("Count")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-127-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-128-1.png" width="672" />
 
 
 #### 2.2. Plotting Parameters
@@ -1902,7 +1902,7 @@ plot( d, col = "red", lwd = 2,
       bty = "n", main = "Density Plot")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-129-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-130-1.png" width="672" />
 
 The corresponding `ggplot` approach is:
 
@@ -1911,7 +1911,7 @@ The corresponding `ggplot` approach is:
 ggplot( iris, aes(x=Sepal.Length)) + geom_density()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-130-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-131-1.png" width="672" />
 
 ### 3. Bivariate plots
 
@@ -1970,7 +1970,7 @@ legend( 6.5,1.1,c("I. setosa", "I. versicolor", "I. virginica"),
         col=c("red","green","blue"), lwd=2,bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-134-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-135-1.png" width="672" />
 
 A lot of that background material is unnecessary using `geom_density()` because we can specify to the plotting commands that the data are partitioned by the values contained in the `Species` column of the `data.frame`. This allows us to make this plot
 
@@ -1979,7 +1979,7 @@ A lot of that background material is unnecessary using `geom_density()` because 
 ggplot(iris, aes(Sepal.Length,color=Species)) + geom_density()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-135-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-136-1.png" width="672" />
 
 or a correpsonding one using `fill=Species` instead (I set the alpha transparency to allow you to see the plots in the background).
 
@@ -1988,7 +1988,7 @@ or a correpsonding one using `fill=Species` instead (I set the alpha transparenc
 ggplot(iris, aes(Sepal.Length,fill=Species)) + geom_density( alpha=0.8)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-136-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-137-1.png" width="672" />
 
 We can use the `barplot()` function here as well and either stack or stagger the density of sepal lengths using discrete bars.   
 
@@ -2024,7 +2024,7 @@ The matrix of data
 barplot(vals,xlab="Sepal Length", ylab="Frequency")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-138-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-139-1.png" width="672" />
 
 Stacked barplots may or may not be that informative, depending upon the complexity of your underlying data.  It is helpful though to be able to stagger them.  In the basic `barplot()` function allows you to specify the bars to be spaced beside each other as:
 
@@ -2034,7 +2034,7 @@ barplot(vals,xlab="Sepal Length", ylab="Frequency", col=c("red","green","blue"),
 legend(60, 10, c("I. setosa", "I. versicolor", "I. virginica"), fill = c("red", "green", "blue"), bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-139-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-140-1.png" width="672" />
 
 For plotting onto a barplot object, the x-axis number is not based upon the labels on the x-axis. It is an integer that relates to the number of bar-widths and separations. In this example, there are three bars for each category plus one separator (e.g., the area between two categories). So I had to plot the legend at 60 units on the x-coordinate, which puts it just after the 15th category (e.g., 15*4=60).
 
@@ -2050,7 +2050,7 @@ ggplot( iris, aes(x=Sepal.Length, fill=Species)) + geom_histogram()
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-140-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-141-1.png" width="672" />
 
 and the correspondingly staggered plot with bars positioned next to eachother.
 
@@ -2063,7 +2063,7 @@ ggplot( iris, aes(x=Sepal.Length, fill=Species)) + geom_histogram(position="dodg
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-141-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-142-1.png" width="672" />
 
 Notice how we add the fill color to the `aes()` function because the categories for assigning colors will be extracted from the `data.frame`, whereas when we just wanted to set them all light blue, the color is specified outside the `aes()` function.  Also notice when we specify something to the `aes()` command in this way, we do not quote the name of the column, we call it just as if it were a normal variable.
 
@@ -2089,7 +2089,7 @@ boxplot(Sepal.Length ~ Species, data=iris, notch=TRUE,
         frame.plot=FALSE)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-142-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-143-1.png" width="672" />
 
 A couple of things should be noted on this plot call.  First, I used a ‘functional' form for the relationship between the continuous variable (`Sepal.Length`) and the factor (`Species`) with the response variable indicated on the left side of the tilde and the predictor variables on the right side.  It is just as reasonable to use `boxplot(Species,Sepal.Length, ...)` in the call as x- and y- variables in the first two positions.  However, it reads a bit better to do it as a function, like a regression.  Also, it should be noted that I added the optional term, `data=iris`, to the call.  This allowed me to reference the columns in the iris data.frame without the dollar sign notation.  Without that I would have had to write `boxplot( data$Sepal.Length ~ data$Species, ...)`, a much more verbose way of doing it but most programmers are relatively lazy and anything they can do to get more functionality out of less typing...  Finally, I set `frame.plot=FALSE` to remove the box around the plot since the `bty="n"` does not work on boxplots (big shout out for consistency!).  I don't know why these are different, I just hate the box.
 
@@ -2102,7 +2102,7 @@ ggplot(iris, aes(x=Species, y=Sepal.Length)) +
   xlab("Iris Species") + ylab("Sepal Width (cm)")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-143-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-144-1.png" width="672" />
 
 #### 3.3. Scatter Plots
 
@@ -2117,7 +2117,7 @@ legend( 6.75, 4.3, c("I. setosa", "I. versicolor", "I. virginica"),
         pch=1:3, bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-144-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-145-1.png" width="672" />
 
 The call to `pch=` that I used coerced a factor into a numeric data type.  By default, this will create a numeric sequence (starting at 1) for all levels of the factor, including ones that may not be in the data you are doing the conversion on.  The parameter passed to `pch` is an integer that determines the shape of the symbol being plot. I typically forget which numbers correspond to which symbols (there are 25 of them in total ) and have to look them up when I need them.  One of the easiest ways is just to plot them as:
 
@@ -2126,7 +2126,7 @@ The call to `pch=` that I used coerced a factor into a numeric data type.  By de
 plot(1:25,1:25,pch=1:25, bty="n", xlab="pch", ylab="pch")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-145-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-146-1.png" width="672" />
 
 which produces the following figure where you can choose the appropriate symbols for your plotting needs.
 
@@ -2137,7 +2137,7 @@ A scatter plot in `ggplot` is created using the `geom_point()` layer.
 ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width, shape=Species)) + geom_point()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-146-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-147-1.png" width="672" />
 
 and the shapes are specified automatically.
 
@@ -2156,7 +2156,7 @@ ggplot( iris, aes(x=Sepal.Width, y=Sepal.Length ) ) +
   xlab("Sepal Width (cm)") + ylab("Sepal Length")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-147-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-148-1.png" width="672" />
 
 The `Species ~ .` means that the rows will be defined by the levels indicatd in `iris$Species` and all the plotting (the period part) will be done as columns.  If you have more than one factor, you can specify `RowFactor ~ ColumnFactor` and it will make the corresponding grid. 
 
@@ -2203,7 +2203,7 @@ par(mfrow=c(2,2))
 plot( lm( Sepal.Length ~ Sepal.Width, data=iris))
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-150-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-151-1.png" width="672" />
 
 
 #### 4.2. Color Palettes
@@ -2227,11 +2227,11 @@ colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
-##  [1] "bisque2"       "dodgerblue2"   "limegreen"     "chocolate3"   
-##  [5] "grey89"        "snow1"         "grey7"         "darkgreen"    
-##  [9] "grey98"        "green"         "grey27"        "gray51"       
-## [13] "lightyellow"   "gray5"         "gray24"        "lemonchiffon2"
-## [17] "hotpink2"      "sandybrown"    "skyblue2"      "peachpuff4"
+##  [1] "gray1"           "lightcyan3"      "gray62"          "coral1"         
+##  [5] "khaki1"          "moccasin"        "sienna1"         "lightcyan4"     
+##  [9] "bisque3"         "darkolivegreen1" "royalblue"       "grey11"         
+## [13] "peachpuff2"      "gray27"          "lightcoral"      "lightyellow3"   
+## [17] "gray40"          "yellow2"         "darkgoldenrod1"  "steelblue2"
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).
@@ -2245,7 +2245,7 @@ plot( Sepal.Width ~ Sepal.Length, data=iris,
       bty="n", pch=16)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-153-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-154-1.png" width="672" />
 
 
 There is a lot of colors to choose from, and you are undoubtedly able to fit any color scheme on any presentation you may encounter.
@@ -2285,7 +2285,7 @@ library(RColorBrewer)
 display.brewer.all()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-155-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-156-1.png" width="672" />
 
 In ggplot, we can use these palettes as follows.
 
@@ -2298,7 +2298,7 @@ p <- p + xlab("Sepal Length (cm)") + ylab("Sepal Width (cm)")
 p + scale_color_brewer(type="div", palette=6)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-156-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-157-1.png" width="672" />
 
 
 #### 4.4. Saving Imagery
@@ -2371,4 +2371,35 @@ There are several other libraries available for creating useful plots in R.  The
 
 
 
-# Further R Resources 
+# Further R Resources {#resources}
+
+This section contains links to external resources
+
+## Version Control with Github {#github}
+
+### 1. External Github tutorials
+
+- Excellent tutorial: [Happy Git and Github for the useR](https://happygitwithr.com/)
+- How to collaborate with Github: [The Ultimate Github Collaboration Guide](https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67)
+
+### 2. Watch course video
+
+Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
+
+- External link: [Week 0 video](http://sho.co/19EFD)
+- Transcript: [Download transcript](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/transcripts/Week0_script.pdf)
+
+<iframe width="800" height="513" src="http://sho.co/19EFD" frameborder="0" allowfullscreen></iframe>
+
+### 3. Preview slides
+
+[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week0_Slides.pdf")
+
+
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+
+
+
+
+
+

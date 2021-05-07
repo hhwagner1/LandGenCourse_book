@@ -158,6 +158,8 @@ NOTE: for some reason, chapter 8 (bonus vignette) needs to be precompiled before
 May need to run all chunks in Week 8 bonus vignette before rendering the chapter.
 
 ```{r}
+source(knitr::purl(paste0(here::here(), "/vignettes/Week8_bonus_vignette.Rmd")))
+
 bookdown::preview_chapter("08-Week08.Rmd")
 
 #bookdown::render_book(input="index.Rmd", preview=TRUE)
