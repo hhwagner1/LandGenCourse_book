@@ -24,7 +24,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2021-05-06" />
+<meta name="date" content="2021-05-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="basic-r.html"/>
-<link rel="next" href="resources.html"/>
+<link rel="next" href="github.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -959,15 +959,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#interactive-graphics"><i class="fa fa-check"></i>4.5. Interactive Graphics</a></li>
 </ul></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i>Further R Resources</a>
-<ul>
 <li class="chapter" data-level="" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i>Version Control with Github</a>
 <ul>
 <li class="chapter" data-level="" data-path="github.html"><a href="github.html#external-github-tutorials"><i class="fa fa-check"></i>1. External Github tutorials</a></li>
-<li class="chapter" data-level="" data-path="github.html"><a href="github.html#watch-course-video"><i class="fa fa-check"></i>2. Watch course video</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#watch-course-video-version-control-101"><i class="fa fa-check"></i>2. Watch course video: Version Control 101</a></li>
 <li class="chapter" data-level="" data-path="github.html"><a href="github.html#preview-slides"><i class="fa fa-check"></i>3. Preview slides</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i>Further R resources</a></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
 <li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a>
@@ -2117,11 +2115,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 657</code></pre>
 <p>different colors available for your use. Not all are distinct as some overlap. However the benefit of these colors is that they have specific names, making it easier for you to remember than RGB or hex representations. Here are a random set of 20 color names.</p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-graphics.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colors</span>()[ <span class="fu">sample.int</span>( <span class="fu">length</span>(<span class="fu">colors</span>()), <span class="at">size=</span><span class="dv">20</span>) ]</span></code></pre></div>
-<pre><code>##  [1] &quot;gray1&quot;           &quot;lightcyan3&quot;      &quot;gray62&quot;          &quot;coral1&quot;         
-##  [5] &quot;khaki1&quot;          &quot;moccasin&quot;        &quot;sienna1&quot;         &quot;lightcyan4&quot;     
-##  [9] &quot;bisque3&quot;         &quot;darkolivegreen1&quot; &quot;royalblue&quot;       &quot;grey11&quot;         
-## [13] &quot;peachpuff2&quot;      &quot;gray27&quot;          &quot;lightcoral&quot;      &quot;lightyellow3&quot;   
-## [17] &quot;gray40&quot;          &quot;yellow2&quot;         &quot;darkgoldenrod1&quot;  &quot;steelblue2&quot;</code></pre>
+<pre><code>##  [1] &quot;darkgoldenrod3&quot; &quot;gray26&quot;         &quot;grey71&quot;         &quot;deeppink&quot;      
+##  [5] &quot;slateblue4&quot;     &quot;azure4&quot;         &quot;grey69&quot;         &quot;violetred&quot;     
+##  [9] &quot;gray0&quot;          &quot;darkorchid3&quot;    &quot;springgreen&quot;    &quot;grey87&quot;        
+## [13] &quot;dimgrey&quot;        &quot;deeppink4&quot;      &quot;darkorchid1&quot;    &quot;seagreen4&quot;     
+## [17] &quot;skyblue2&quot;       &quot;tan&quot;            &quot;gray12&quot;         &quot;gray63&quot;</code></pre>
 <p>To use these colors you can call them by name in the col= option to a plot. Here is an example where I define three named colors and then coerce the <code>iris$Species</code> variable into an integer to select the color by species and plot it in a scatter plot (another version of the <code>pch=</code> example previously).</p>
 <div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="r-graphics.html#cb276-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;royalblue1&quot;</span>, <span class="st">&quot;orange1&quot;</span>, <span class="st">&quot;green3&quot;</span>)</span>
 <span id="cb276-2"><a href="r-graphics.html#cb276-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> colors[ iris<span class="sc">$</span>Species ]</span>
@@ -2204,14 +2202,13 @@ pdf(file = &quot;Rplot%03d.pdf&quot;,
 </div>
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="basic-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="resources.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="github.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

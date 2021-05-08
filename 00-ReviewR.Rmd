@@ -17,6 +17,11 @@ This part contains two optional vignettes that will help you brush up your basic
 - [Basic R Programming](#basic-r)
 - [R Graphics](#r-graphics)
 
+Optional, advanced topics are presented here:
+
+- [Version Control with Github](#github)
+- [Further R Resources](#resources)
+
 
 
 ## Basic R Programming {#basic-r}
@@ -29,10 +34,6 @@ This part contains two optional vignettes that will help you brush up your basic
 ```{r child=paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd"), echo=TRUE}
 ```
 
-# Further R Resources {#resources}
-
-This section contains links to external resources
-
 ## Version Control with Github {#github}
 
 ### 1. External Github tutorials
@@ -40,14 +41,17 @@ This section contains links to external resources
 - Excellent tutorial: [Happy Git and Github for the useR](https://happygitwithr.com/)
 - How to collaborate with Github: [The Ultimate Github Collaboration Guide](https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67)
 
-### 2. Watch course video
+### 2. Watch course video: Version Control 101
 
 Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
 
 - External link: [Week 0 video](http://sho.co/19EFD)
 - Transcript: [Download transcript](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/transcripts/Week0_script.pdf)
 
-<iframe width="800" height="513" src="http://sho.co/19EFD" frameborder="0" allowfullscreen></iframe>
+Embedded video:
+
+<iframe width="800" height="513" src="http://sho.co/embed/19EFD" frameborder="0" allowfullscreen></iframe>
+
 
 ### 3. Preview slides
 
@@ -70,6 +74,14 @@ Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale 
 
 plot_grid(plotlist=Plots, ncol=1)
 ```
+
+## Further R resources {#resources}
+
+Links to some excellent external resources:
+
+- [Applied Population Genetics](https://dyerlab.github.io/applied_population_genetics/index.html)  bz Rodney Dyer
+- [Efficient R Programming](https://csgillespie.github.io/efficientR/)  by Colin Gillespie and Robin Lovelace
+
 
 
 

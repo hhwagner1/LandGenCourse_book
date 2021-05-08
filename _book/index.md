@@ -1,7 +1,7 @@
 --- 
 title: "Landscape Genetic Data Analysis with R"
 author: "Editor: Helene Wagner (University of Toronto)"
-date: "2021-05-06"
+date: "2021-05-07"
 output:
   bookdown::gitbook:
     includes:
@@ -27,7 +27,7 @@ This is a web-interface to the teaching materials for the lab course 'Landscape 
 
 The Landscape Genetics Distributed Graduate Seminar (DGS) is an international collaboration that provides a unique opportunity for interdisciplinary graduate training. The course draws on experts from around the world to deliver an in-depth introduction and overview of the field of landscape genetics. The course caters to students in both basic and applied ecology, conservation/population genetics, landscape ecology and conservation biology. Every other year, several hundred students, post-docs and faculty from around the world participate in this course. For more information about the course, and to sign up to be notified when registration opens, please visit the course website: 
 
-['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website")
+Link to [DGS Landscape Genetics](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website")
 
 The online book compiles the teaching materials for the optional computer lab component of the DGS Landscape Genetics. The materials included in this online resource are also included in the R package `LandGenCourse` available on [Github](https://github.com/hhwagner1/LandGenCourse "github repository").   
 
@@ -53,8 +53,9 @@ This book has weekly chapters that correspond to course modules, with three part
 
 #### a) Getting Started 
   - Review of R Skills: check whether you need to build or brush up your R skills before starting the course:
-      - Basic R Programming: introduction to R objects and functions. **Prerequisite**.
-      - R Graphics: learn to create figures with base R and with `ggplot2`. Optional.
+      - [Basic R Programming](#basic-r): introduction to R objects and functions. **Prerequisite**.
+      - [R Graphics](#r-graphics): learn to create figures with base R and with `ggplot2`. Optional.
+      
       
 #### b) Basic Topics
   - These 8 weekly modules are streamlined to build the necessary R skills and brush up statistics knowledge. Best complete these in sequence.
@@ -63,6 +64,7 @@ This book has weekly chapters that correspond to course modules, with three part
       - Interactive Tutorial: swirl course to practice R programming
       - Worked Example: worked example by the weekly experts from the ['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website") course.
       - Bonus Materials: some weeks include bonus vignettes with optional advanced topics.
+      
       
 #### c) Advanced Topics
   - These weekly modules build on the skills developed in Basic Topics. You may pick and choose from the Advanced Topics according to your interests.
@@ -76,11 +78,23 @@ This book has weekly chapters that correspond to course modules, with three part
 
 Weeks 1 - 8:
 
-- **Beginners**:   watch video -> do tutorial -> read WE
-- **Intermediate**:   watch video -> tutorial? -> understand WE -> do R exercise
-- **Advanced**:   check video slides -> R exercise? -> adapt WE to own data
+- **Beginners**:   
+    - watch video 
+    - do tutorial to build basic R programming skills
+    - read worked example, focus on content
+    
+- **Intermediate**:   
+    - watch video 
+    - check weekly tutorial functions: do tutorial to brush up?
+    - understand worked example, focus on content and code
+    - do R exercise to practice coding
+    
+- **Advanced**:   
+    - check video slides: watch video to brush up on concepts?
+    - R exercise? 
+    - adapt worked example to own data
 
-**By Week 9**: you will be at least at ‘intermediate’ if not a pro!
+**By Week 9**: you will be at least at ‘intermediate’ level if not a pro!
 
 
 #### b) Check contents
@@ -136,7 +150,10 @@ This video walks through the process of installing devtools, the course package,
 
 Scroll through the list to find which R packages are used in which vignette (i.e., weekly worked example or bonus vignette). This may be helpful for finding relevant materials if you are interested in a specific type of analysis.
 
-Note: lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
+Notes: 
+
+- 'B' and 'G' refer to the [Review of R Skills](#review-of-r-skills) section (B = [Basic R](#basic-r), G =  [Graphics](#r-graphics))
+- Lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
 
 
 

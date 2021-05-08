@@ -13,6 +13,11 @@ This part contains two optional vignettes that will help you brush up your basic
 - [Basic R Programming](#basic-r)
 - [R Graphics](#r-graphics)
 
+Optional, advanced topics are presented here:
+
+- [Version Control with Github](#github)
+- [Further R Resources](#resources)
+
 
 
 ## Basic R Programming {#basic-r}
@@ -166,8 +171,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.5036823  0.2254516 -0.6955431 -0.4960175  0.6905568  1.8665223
-##  [7]  0.8911064 -0.2014828  0.1692843 -1.0751678
+##  [1]  0.90392651  0.02600506  0.58873362 -0.73455282  0.04452428 -1.48737384
+##  [7] -0.66023589  0.78556266 -0.49255924 -0.85737865
 ```
 
 from the normal distribution with designated mean and standard deviation:
@@ -178,8 +183,8 @@ rnorm(10,mean=42,sd=12)
 ```
 
 ```
-##  [1] 30.53404 42.37513 30.36483 44.38020 51.86059 40.71741 36.29278 20.71813
-##  [9] 61.56785 52.13182
+##  [1] 45.52681 23.14577 31.54623 47.44033 18.91416 48.96529 55.65329 25.44780
+##  [9] 29.30021 42.80106
 ```
 
 A poisson distribution with mean 2:
@@ -190,7 +195,7 @@ rpois(10,lambda = 2)
 ```
 
 ```
-##  [1] 1 1 1 1 1 2 3 2 5 2
+##  [1] 1 2 1 4 2 3 1 0 1 3
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
@@ -201,8 +206,8 @@ rchisq(10, df=1)
 ```
 
 ```
-##  [1] 0.57001629 0.13782593 0.04351464 0.15801173 0.19545357 1.61701776
-##  [7] 1.55007377 0.32639665 0.11908254 0.20886950
+##  [1] 1.94008955 4.58447042 1.37172656 0.49340722 0.09241377 0.55729098
+##  [7] 2.53910075 0.86840104 0.80961425 0.85861940
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -533,10 +538,10 @@ data
 ```
 
 ```
-##  [1] -0.42985069 -0.04668434  1.02308105  0.78139709  0.81921822  1.54393202
-##  [7] -2.69299804  0.27711910  0.07976353 -0.61925732  1.78731012 -0.83643786
-## [13]  0.30155195 -0.67712872  0.49869913  1.03128036  0.01525132  2.21730798
-## [19] -0.07533141 -1.12926673
+##  [1]  0.39514411 -0.20798038 -0.28953639  0.38182436  0.01170102 -1.58354510
+##  [7]  1.47065130  1.91686206  1.78750560  1.01586959  1.09439626 -0.68319857
+## [13] -0.14114289  0.52512354 -0.12315753  0.47700146 -0.81645568  0.35610764
+## [19] -0.86377033  0.36490130
 ```
 
 
@@ -548,8 +553,8 @@ data[ data > 0 ]
 ```
 
 ```
-##  [1] 1.02308105 0.78139709 0.81921822 1.54393202 0.27711910 0.07976353
-##  [7] 1.78731012 0.30155195 0.49869913 1.03128036 0.01525132 2.21730798
+##  [1] 0.39514411 0.38182436 0.01170102 1.47065130 1.91686206 1.78750560
+##  [7] 1.01586959 1.09439626 0.52512354 0.47700146 0.35610764 0.36490130
 ```
 
 If you look at the condition being passed to as the index
@@ -560,8 +565,8 @@ data > 0
 ```
 
 ```
-##  [1] FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE
-## [13]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+##  [1]  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+## [13] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -585,8 +590,8 @@ data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
-##  [1] -0.42985069  1.02308105  0.81921822 -2.69299804  0.07976353  1.78731012
-##  [7]  0.30155195  0.49869913  0.01525132 -0.07533141
+##  [1]  0.39514411 -0.28953639  0.01170102  1.47065130  1.78750560  1.09439626
+##  [7] -0.14114289 -0.12315753 -0.81645568 -0.86377033
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -1141,11 +1146,11 @@ df
 
 ```
 ##   ID Names Score
-## 1  1   Bob    91
-## 2  2 Alice    87
-## 3  3 Vicki    87
-## 4  4  John    93
-## 5  5 Sarah    92
+## 1  1   Bob    92
+## 2  2 Alice    90
+## 3  3 Vicki    90
+## 4  4  John    90
+## 5  5 Sarah    90
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
@@ -1163,13 +1168,13 @@ summary(df)
 ```
 
 ```
-##        ID       Names               Score    Passed_Class   
-##  Min.   :1   Length:5           Min.   :87   Mode :logical  
-##  1st Qu.:2   Class :character   1st Qu.:87   FALSE:1        
-##  Median :3   Mode  :character   Median :91   TRUE :4        
-##  Mean   :3                      Mean   :90                  
-##  3rd Qu.:4                      3rd Qu.:92                  
-##  Max.   :5                      Max.   :93
+##        ID       Names               Score      Passed_Class   
+##  Min.   :1   Length:5           Min.   :90.0   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:90.0   FALSE:1        
+##  Median :3   Mode  :character   Median :90.0   TRUE :4        
+##  Mean   :3                      Mean   :90.4                  
+##  3rd Qu.:4                      3rd Qu.:90.0                  
+##  Max.   :5                      Max.   :92.0
 ```
 
 
@@ -1185,7 +1190,7 @@ df[1,3]
 ```
 
 ```
-## [1] 91
+## [1] 92
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
@@ -1197,7 +1202,7 @@ df[1,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    91         TRUE
+## 1  1   Bob    92         TRUE
 ```
 
 or along columns (which give you a vector of data)
@@ -1208,7 +1213,7 @@ df[,3]
 ```
 
 ```
-## [1] 91 87 87 93 92
+## [1] 92 90 90 90 90
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
@@ -1231,9 +1236,9 @@ df[1:3,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    91         TRUE
-## 2  2 Alice    87         TRUE
-## 3  3 Vicki    87         TRUE
+## 1  1   Bob    92         TRUE
+## 2  2 Alice    90         TRUE
+## 3  3 Vicki    90         TRUE
 ```
 
 It is also possible to use logical operators as indices.  Here I select only those names in the data.frame whose score was >90 and they passed popgen.
@@ -1244,7 +1249,7 @@ df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
-## [1] "Bob"   "Sarah"
+## [1] "Bob"
 ```
 
 
@@ -2227,11 +2232,11 @@ colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
-##  [1] "gray1"           "lightcyan3"      "gray62"          "coral1"         
-##  [5] "khaki1"          "moccasin"        "sienna1"         "lightcyan4"     
-##  [9] "bisque3"         "darkolivegreen1" "royalblue"       "grey11"         
-## [13] "peachpuff2"      "gray27"          "lightcoral"      "lightyellow3"   
-## [17] "gray40"          "yellow2"         "darkgoldenrod1"  "steelblue2"
+##  [1] "grey58"        "grey49"        "mediumorchid"  "lemonchiffon" 
+##  [5] "coral3"        "lightcyan1"    "ivory4"        "gray18"       
+##  [9] "gray68"        "seagreen1"     "purple1"       "orchid4"      
+## [13] "firebrick1"    "hotpink"       "grey73"        "paleturquoise"
+## [17] "gray22"        "grey11"        "yellow1"       "gray86"
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).
@@ -2371,10 +2376,6 @@ There are several other libraries available for creating useful plots in R.  The
 
 
 
-# Further R Resources {#resources}
-
-This section contains links to external resources
-
 ## Version Control with Github {#github}
 
 ### 1. External Github tutorials
@@ -2382,14 +2383,17 @@ This section contains links to external resources
 - Excellent tutorial: [Happy Git and Github for the useR](https://happygitwithr.com/)
 - How to collaborate with Github: [The Ultimate Github Collaboration Guide](https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67)
 
-### 2. Watch course video
+### 2. Watch course video: Version Control 101
 
 Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
 
 - External link: [Week 0 video](http://sho.co/19EFD)
 - Transcript: [Download transcript](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/transcripts/Week0_script.pdf)
 
-<iframe width="800" height="513" src="http://sho.co/19EFD" frameborder="0" allowfullscreen></iframe>
+Embedded video:
+
+<iframe width="800" height="513" src="http://sho.co/embed/19EFD" frameborder="0" allowfullscreen></iframe>
+
 
 ### 3. Preview slides
 
@@ -2397,6 +2401,14 @@ Note: the video mentions a worked example. This has been replaced by the externa
 
 
 <img src="00-ReviewR_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+
+## Further R resources {#resources}
+
+Links to some excellent external resources:
+
+- [Applied Population Genetics](https://dyerlab.github.io/applied_population_genetics/index.html)  bz Rodney Dyer
+- [Efficient R Programming](https://csgillespie.github.io/efficientR/)  by Colin Gillespie and Robin Lovelace
+
 
 
 

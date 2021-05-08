@@ -29,7 +29,7 @@ This is a web-interface to the teaching materials for the lab course 'Landscape 
 
 The Landscape Genetics Distributed Graduate Seminar (DGS) is an international collaboration that provides a unique opportunity for interdisciplinary graduate training. The course draws on experts from around the world to deliver an in-depth introduction and overview of the field of landscape genetics. The course caters to students in both basic and applied ecology, conservation/population genetics, landscape ecology and conservation biology. Every other year, several hundred students, post-docs and faculty from around the world participate in this course. For more information about the course, and to sign up to be notified when registration opens, please visit the course website: 
 
-['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website")
+Link to [DGS Landscape Genetics](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website")
 
 The online book compiles the teaching materials for the optional computer lab component of the DGS Landscape Genetics. The materials included in this online resource are also included in the R package `LandGenCourse` available on [Github](https://github.com/hhwagner1/LandGenCourse "github repository").   
 
@@ -132,7 +132,10 @@ This video walks through the process of installing devtools, the course package,
 
 Scroll through the list to find which R packages are used in which vignette (i.e., weekly worked example or bonus vignette). This may be helpful for finding relevant materials if you are interested in a specific type of analysis.
 
-Note: lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
+Notes: 
+
+- 'B' and 'G' refer to the [Review of R Skills](#review-of-r-skills) section (B = [Basic R](#basic-r), G =  [Graphics](#r-graphics))
+- Lowercase letters refer to bonus vignettes. E.g., 2a is the (first) bonus vignette of Week 2. 
 
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
