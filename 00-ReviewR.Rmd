@@ -1,0 +1,90 @@
+--- 
+bookdown::gitbook:
+  includes:
+      in_header: header.html
+---
+
+# Review of R Skills 
+
+```{r setup, include=FALSE}
+# Add a common class name for every chunks
+knitr::opts_chunk$set(
+  echo = TRUE)
+```
+
+This part contains two optional vignettes that will help you brush up your basic R programming skills and get a head-start on R graphics.
+
+- [Basic R Programming](#basic-r)
+- [R Graphics](#r-graphics)
+
+Optional, advanced topics are presented here:
+
+- [Version Control with Github](#github)
+- [Further R Resources](#resources)
+
+
+
+## Basic R Programming {#basic-r}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd"), echo=TRUE}
+```
+
+## R Graphics {#r-graphics}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd"), echo=TRUE}
+```
+
+## Version Control with Github {#github}
+
+### 1. External Github tutorials
+
+- Excellent tutorial: [Happy Git and Github for the useR](https://happygitwithr.com/)
+- How to collaborate with Github: [The Ultimate Github Collaboration Guide](https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67)
+
+### 2. Watch course video: Version Control 101
+
+Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
+
+- External link: [Week 0 video](http://sho.co/19EFD)
+- Transcript: [Download transcript](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/transcripts/Week0_script.pdf)
+
+Embedded video:
+
+<iframe width="800" height="513" src="http://sho.co/embed/19EFD" frameborder="0" allowfullscreen></iframe>
+
+
+### 3. Preview slides
+
+[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week0_Slides.pdf")
+
+
+```{r echo=FALSE, fig.height=48, fig.width=8, message=FALSE}
+library(cowplot)
+library(ggplot2)
+
+Path=paste0(here::here(), "/downloads/Week0_Slides/")
+files <- list.files(Path)
+
+p1 <- ggdraw() + draw_image(paste0(Path, files)[1], scale = 0.9)
+p2 <- ggdraw() + draw_image(paste0(Path, files)[2], scale = 0.9)
+
+Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale = 0.9) +
+                  theme(plot.margin = unit(c(0,0,0,0), "cm"), 
+                        panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
+
+plot_grid(plotlist=Plots, ncol=1)
+```
+
+## Further R resources {#resources}
+
+Links to some excellent external resources:
+
+- [Applied Population Genetics](https://dyerlab.github.io/applied_population_genetics/index.html)  bz Rodney Dyer
+- [Efficient R Programming](https://csgillespie.github.io/efficientR/)  by Colin Gillespie and Robin Lovelace
+
+
+
+
+
+
+

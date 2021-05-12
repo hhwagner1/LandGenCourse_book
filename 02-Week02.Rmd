@@ -1,0 +1,115 @@
+# Week 2: Spatial Data {#Week2}
+
+
+In this second regular computer lab of the course, we will learn about how to analyze land cover with landscape metrics in R. Along the way, we will learn about how to handle spatial data in R.  
+
+- [View Course Video](#video_2)
+- [Interactive Tutorial 2](#tutorial_2)
+- [Worked Example](#WE_2)
+- [R Exercise Week 2](#r-exercise-week-2)
+- [Bonus Vignette](#bonus-2a): 'sf' package, plotting categorical maps
+
+Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
+
+
+## View Course Video{#video_2}
+
+### 1. Embedded Video
+
+- External link: [Week 2 video](https://sho.co/embed/19DCV)
+- Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week2_script.pdf)
+
+<iframe width="800" height="513" src="https://sho.co/19DA2" frameborder="0" allowfullscreen></iframe>
+
+
+### 2. Preview Slides
+
+
+[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week2_Slides.pdf")
+
+
+```{r echo=FALSE, fig.height=54, fig.width=8, message=FALSE}
+library(cowplot)
+library(ggplot2)
+
+Path=paste0(here::here(), "/downloads/Week2_Slides/")
+files <- list.files(Path)
+
+p1 <- ggdraw() + draw_image(paste0(Path, files)[1], scale = 0.9)
+p2 <- ggdraw() + draw_image(paste0(Path, files)[2], scale = 0.9)
+
+Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale = 0.9) +
+                  theme(plot.margin = unit(c(0,0,0,0), "cm"), 
+                        panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
+
+plot_grid(plotlist=Plots, ncol=1)
+```
+
+## Interactive Tutorial 2{#tutorial_2}
+
+
+### 1. List of R commands covered this week
+
+```{r echo=FALSE}
+library(kableExtra)
+Table <- readRDS(paste0(here::here(), "/output/table_list.rds"))[[2]]
+Table %>% kable() %>% 
+  kable_styling(bootstrap_options = c("bordered", "striped", "condensed", "responsive")) %>%
+  kable_styling(fixed_thead = T, full_width=F) 
+```	
+
+### 2. General Instructions
+
+#### a) How to access tutorials:
+
+Through RStudio Add-in:
+
+- Install course Addins in RStudio: `library(LandGenCourse)`
+- In RStudio, click on `Addins` (top menu bar)
+- Follow instructions in the Console:
+  - type: `require(swirl)` 
+  - type: `swirl()` 
+  - follow prompts 
+  - select course ("Landscape_Genetics_R_Course") and tutorial (Weeks 1 - 8)
+
+
+#### b) How to complete tutorial:
+
+Follow prompts in the RStudio Console.
+
+To stop and resume a tutorial: 
+
+ - to stop and exit swirl, type: `bye()` 
+ - to resume where you stopped, type: `swirl()` 
+
+To restart tutorial from beginning: 
+
+ - type:` swirl()` 
+ - use a different name 
+   (simply add a number, like this: 'MyName2')
+
+#### c) How to submit answers (participating institutions only):
+
+The last prompt will ask whether you would like to submit the log of your tutorial session to Google Forms so that your instructor may evaluate your progress. **This feature is only available for students from participating institutions.**
+
+If you choose 'yes', a form will open in your web browser. Complete and submit the form. 
+    
+You can submit multiple attempts and the best attempt will be graded. You will receive full marks as long as you answered all questions (i.e. did not use 'skip'). If you used 'skip' because you could not answer a question, please contact your instructor for advice.
+
+
+
+	
+
+
+
+## Worked Example{#WE_2}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week2_vignette.Rmd"), echo=TRUE}
+```
+
+
+
+## Bonus Vignette {#bonus_2a}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week2_bonus_vignette.Rmd"), echo=TRUE}
+```

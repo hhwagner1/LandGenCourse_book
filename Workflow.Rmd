@@ -1,0 +1,241 @@
+---
+title: "My bookdown workflow"
+output: html_notebook
+---
+
+Packages
+
+```{r}
+library(xfun)
+library(magick)
+```
+
+## Import and prepare files from `LandGenCourse`
+
+Import all Rmd and other (png) files from vignettes, replace old files
+
+```{r}
+Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" # Mac
+#Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
+#list.of.files <- list.files(Path, pattern="Rmd")
+list.of.files <- list.files(Path)
+file.copy(paste0(Path, list.of.files), paste0(here::here(), "/vignettes"), overwrite=TRUE)
+dir(paste0(here::here(), "/vignettes"))
+
+```
+
+Increase header level by 1
+
+```{r}
+gsub_ext(ext="Rmd", "# 1.", "## 1.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 2.", "## 2.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 3.", "## 3.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 4.", "## 4.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 5.", "## 5.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 6.", "## 6.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 7.", "## 7.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 8.", "## 8.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# 9.", "## 9.",  dir = paste0(here::here(), "/vignettes"))
+
+gsub_ext(ext="Rmd", "# a.", "## a.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# b.", "## b.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# c.", "## c.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# d.", "## d.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# e.", "## e.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# f.", "## f.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# g.", "## g.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# h.", "## h.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# i.", "## i.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# j.", "## j.",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "# k.", "## k.",  dir = paste0(here::here(), "/vignettes"))
+
+```
+Make R Exercises a separate sub-chapter (for Weeks 1 - 8)
+
+```{r}
+gsub_ext(ext="Rmd", "### 4. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "### 5. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "### 6. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "### 7. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "### 8. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "### 9. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
+```
+
+In some chapters (1 - 3?), put slot names in text into quotes
+```{r}
+gsub_ext(ext="Rmd", " @C", " `@C`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @E", " `@E`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @S", " `@S`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @XY", " `@XY`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @all.names", " `@all.names`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @bbox", " `@bbox`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @coords", " `@coords`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @coords.nrs", " `@coords.nrs`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @data", " `@data`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @hierarchy", " `@hierarchy`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @lines", " `@lines`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @loc.fac", " `@loc.fac`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @loc.n.all", " `@loc.n.all`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @other", " `@other`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @ploidy", " `@ploidy`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @pop", " `@pop`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @proj4string", " `@proj4string`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @strata", " `@strata`",  
+         dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @tab", " `@tab`",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", " @type", " `@type`",  dir = paste0(here::here(), "/vignettes"))
+```
+
+```{r}
+gsub_ext(ext="Rmd", "WE9_Fig1.png", paste0(here::here(), "/vignettes/WE9_Fig1.png"),  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "WE9_Fig2.png", paste0(here::here(), "/vignettes/WE9_Fig2.png"),  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "WE12_Fig1.png", paste0(here::here(), "/vignettes/WE12_Fig1.png"),  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "WE13_Fig1.PNG", paste0(here::here(), "/vignettes/WE13_Fig1.PNG"),  dir = paste0(here::here(), "/vignettes"))
+```
+
+
+Create list of functions and packages: source file "ListOfPackages.Rmd" 
+
+```{r message=FALSE, include=FALSE}
+library(knitr)
+source(purl(paste0(here::here(), "/ListOfPackages.Rmd"), output = tempfile()))
+```
+
+
+Import tables of R commands of tutorials from Word file
+
+
+```{r message=FALSE}
+library(officer)
+library(dplyr)
+
+inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+
+sample_data <- officer::read_docx(inFile)
+content <- docx_summary(sample_data)
+paragraphs <- content %>% filter(content_type == "paragraph")
+paragraphs$text
+content %>% filter(content_type == "table cell")
+table_cells <- content %>% filter(content_type == "table cell")
+table_data <- table_cells %>% filter(!is_header) %>% dplyr::select(row_id, cell_id, text)
+ 
+# split data into individual columns
+splits <- split(table_data, table_data$cell_id)
+splits <- lapply(splits, function(x) x$text)
+ 
+# combine columns back together in wide format
+table_result <- bind_cols(splits)
+
+
+table_result  <- table_result %>% mutate(Week=cumsum(table_result[,3]=="Comments"))
+table_list <- split(table_result, table_result$Week)
+
+getNames <- function(ls)
+{
+  names(ls) <- as.character(ls[1,])
+  ls <- ls[-1,] 
+  ls[,1:2]
+}
+
+table_list <- lapply(table_list, getNames)
+saveRDS(table_list, paste0(here::here(), "/output/table_list.rds"))
+```
+
+
+
+## Preview chapter
+
+NOTE: for some reason, chapter 8 (bonus vignette) needs to be precompiled before serving the entire book, may have to do with paths.
+
+May need to run all chunks in Week 8 bonus vignette before rendering the chapter.
+
+```{r}
+source(knitr::purl(paste0(here::here(), "/vignettes/Week8_bonus_vignette.Rmd")))
+
+bookdown::preview_chapter("08-Week08.Rmd")
+
+#bookdown::render_book(input="index.Rmd", preview=TRUE)
+```
+
+
+## Compile book
+
+```{r message=FALSE, include=FALSE}
+bookdown:::serve_book()
+```
+
+
+## NOT NEEDED? API for accessing RStudio Connect (first time in session)
+
+To put the information into the .Renviron file, paste the following lines into the file:
+
+CONNECT_SERVER="https://bookdown.org/"
+CONNECT_API_KEY=
+
+```{r}
+usethis::edit_r_environ()  # This will open the file
+```
+
+At the beginning of the session:
+
+```{r}
+library(httr)
+
+connectServer <- "https://bookdown.org/"
+#connectAPIKey <- 
+
+#connectServer <- Sys.getenv("CONNECT_SERVER")
+#connectAPIKey <- Sys.getenv("CONNECT_API_KEY")
+
+# The initial request in an R session will have no HTTP session cookies.
+resp <- httr::GET(connectServer, 
+  path = "/content/24/mean",
+  query = list(samples = 5),
+  add_headers(Authorization = paste("Key", connectAPIKey))
+)
+# ...
+
+# Later requests retain cookies set by the previous request.
+resp <- httr::GET(connectServer, 
+  path = "/content/24/mean",
+  query = list(samples = 10),
+  add_headers(Authorization = paste("Key", connectAPIKey))
+)
+# ...
+```
+
+
+## Push to bookdown.org
+
+```{r}
+bookdown::publish_book()
+```
+
+## Clean up
+
+Check files to be deleted
+
+```{r}
+bookdown::clean_book(FALSE)
+```
+
+Delete them
+```{r}
+bookdown::clean_book(TRUE)
+```
+
+Delete copies of Rmd files from LandGenCourse
+
+```{r}
+unlink(paste0(here::here(), "/vignettes/", list.of.files), recursive = FALSE)
+dir(paste0(here::here(), "/vignettes"))
+```
+

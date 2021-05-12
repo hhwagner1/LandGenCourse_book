@@ -1,0 +1,13 @@
+# Week 11: Detecting Adaptation {#Week11}
+
+This week's lab explores different methods for testing genotype-environment associations. 
+
+- [Worked Example](#WE_11)
+
+## Worked Example{#WE_11}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week11_vignette.Rmd"), echo=TRUE}
+```
+
+
+

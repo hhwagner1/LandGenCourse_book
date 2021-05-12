@@ -1,0 +1,15 @@
+# (PART\*) Advanced Topics {-}
+# Week 9: Population Structure {#Week9}
+
+This week's lab is the first one in the Advanced Topics section. We will explore different ways of assessing spatial genetic structure and delineating genetic populations. 
+
+- [Worked Example](#WE_9)
+
+Note: The worked examples in the Advanced Topics section require the R skills developed in the Basic Topics (Weeks 1 - 8).  
+
+
+## Worked Example{#WE_9}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week9_vignette.Rmd"), echo=TRUE}
+```
+

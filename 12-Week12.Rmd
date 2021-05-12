@@ -1,0 +1,13 @@
+# Week 12: Model Selection {#Week12}
+
+This week's lab shows how to create and analyzeg landscape genetic hypotheses using maximum likelihood population effect models and information theory.
+
+- [Worked Example](#WE_12)
+
+## Worked Example{#WE_12}
+
+```{r child=paste0(here::here(), "/vignettes/", "Week12_vignette.Rmd"), echo=TRUE}
+```
+
+
+
