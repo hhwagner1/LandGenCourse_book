@@ -6,6 +6,12 @@ This week's lab explores different methods for testing genotype-environment asso
 
 ## Worked Example{#WE_11}
 
+```{r}
+rmd_file <- paste0(here::here(), "/vignettes/", "Week11_vignette.Rmd")
+yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
+cat(yml_metadata$author)
+```
+
 ```{r child=paste0(here::here(), "/vignettes/", "Week11_vignette.Rmd"), echo=TRUE}
 ```
 
