@@ -38,7 +38,7 @@ library(LandGenCourse)
 #library(here)
 #library(readr)
 #library(data.table)
-#library(feather)
+library(feather)
 #library(rio)
 #library(devtools)
 #library(parallel)
@@ -65,14 +65,14 @@ R.home()
 ```
 **Question:** Copy-paste the commands in the chunk above directly into the Console and run them there. Do you get the same paths?
 
-- `getwd()`: If you execute the chunk, or knit the notebook, this will return the location of the R Notebook. If you copy-paste it into the console, it will return the project folder. 
-- `here::here()`: This should return the project folder in both cases. 
+- `getwd()`: If you execute the chunk, or knit the notebook, this will return the locatio of the R Notebook. If you copy-paste it into the console, it will return the project folder. 
+- `here::here`: This should return the project folder in both cases. 
 - `Sys.getenv("HOME")`: This should return your home directory on the local machine. Note: "HOME" must be in all capitals.
-- `R.home()`: This shows the location where R is installed on your computer.
+- `R.home`: This shows the location where R is installed on your computer.
 
 #### b. Accessing a system file
 
-The example data set is available in the 'extdata' folder of the 'LandGenCourse' package. This is how we import the data in the Week 11 Worked Example:
+The example data set is available in the 'extdata' folder of the 'LandGenCoures' package. This is how we import the data in the Week 11 Worked Example:
 
 ```{r gen}
 gen <- read.csv(system.file("extdata", "wolf_geno_samp_10000.csv", 
@@ -162,7 +162,7 @@ See also Chapter 5 in "Efficient R Programming": https://csgillespie.github.io/e
 
 #### a. Benchmark methods for importing csv files
 
-The file `myFile` has 2MB and thus a reasonable size to compare the speed of different import and export functions.
+The file 'myFile' has 2MB and thus a reasonable size to compare the speed of different import and export functions.
 
 Let's benchmark the function `read.csv` used in Week 11. We use the function `microbenchmark` from the package `microbenchmark` to compare the speed of four different functions that can import a 'csv' file. 
 
