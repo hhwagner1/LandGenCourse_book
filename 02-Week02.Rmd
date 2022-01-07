@@ -104,12 +104,25 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 
 ## Worked Example{#WE_2}
 
+```{r}
+rmd_file <- paste0(here::here(), "/vignettes/", "Week2_vignette.Rmd")
+yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
+cat(yml_metadata$author)
+```
+
 ```{r child=paste0(here::here(), "/vignettes/", "Week2_vignette.Rmd"), echo=TRUE}
 ```
 
 
 
 ## Bonus Vignette {#bonus_2a}
+
+```{r}
+rmd_file <- paste0(here::here(), "/vignettes/", "Week2_bonus_vignette.Rmd")
+yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
+cat(yml_metadata$author)
+```
+
 
 ```{r child=paste0(here::here(), "/vignettes/", "Week2_bonus_vignette.Rmd"), echo=TRUE}
 ```

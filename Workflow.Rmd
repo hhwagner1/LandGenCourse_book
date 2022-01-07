@@ -17,8 +17,10 @@ library(rsconnect)
 Import all Rmd and other (png) files from vignettes, replace old files
 
 ```{r}
-Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" # Mac
-#Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
+#Mac:
+#Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" 
+#Windows:
+Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
 #list.of.files <- list.files(Path, pattern="Rmd")
 list.of.files <- list.files(Path)
 file.copy(paste0(Path, list.of.files), paste0(here::here(), "/vignettes"), overwrite=TRUE)
@@ -119,7 +121,10 @@ Import tables of R commands of tutorials from Word file
 library(officer)
 library(dplyr)
 
-inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+# Mac:
+#inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+# Windows:
+inFile <- "C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx"
 
 sample_data <- officer::read_docx(inFile)
 content <- docx_summary(sample_data)
