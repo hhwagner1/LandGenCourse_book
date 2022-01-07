@@ -5,7 +5,7 @@ library(LandGenCourse)
 #library(here)
 #library(readr)
 #library(data.table)
-#library(feather)
+library(feather)
 #library(rio)
 #library(devtools)
 #library(parallel)
@@ -177,7 +177,7 @@ file.show(outFile)
 
 
 ## ----profvis3------------------------------------------------------------------------
-profvis::profvis(source(outFile), prof_output=file.path(here::here(), "output/output.prof"))
+#profvis::profvis(source(outFile), prof_output=file.path(here::here(), "output/output.prof"))
 
 
 ## ----BashScript----------------------------------------------------------------------

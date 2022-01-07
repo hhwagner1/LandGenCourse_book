@@ -107,23 +107,52 @@ Weeks 1 - 8:
 
 ### 3. Course R package `LandGenCourse`
 
-#### a) How to install (or update)
+#### a) How to install (or update) `LandGenCourse`
 ```{r}
-if (!require("devtools")) install.packages("devtools")
-devtools::install_github("hhwagner1/LandGenCourse")
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("hhwagner1/LandGenCourse")
 library(LandGenCourse)
 ```
 
+Hints:
+
+- Make sure you load the package (`library(LandGenCourse)`) after installing it!
+- Check whether the add-ins 0 - 4 are available: in the RStudio menu, click on the drop-down menu `Addins`. 
+- If the add-ins 0 - 4 don't appear, rerun the code above (install and load package `LandGenCourse`). Sometimes this seems to be necessary.
+
+#### b) How to install dependencies
+
+The previous step only installed the absolutely required dependencies (i.e., R packages that `LandGenCourse` needs so that it can be installed). However, the weekly chapters will require additional R packages. There are two ways to install them:
+
+**Option 1: Install as you go**
+
+- Newer versions of RStudio will warn you when a R notebook (`.Rmd`) that you opened requires R packages that are not installed. 
+- The warning contains a link `Install`, click on it to install the missing packages.
+
+**Option 2: Bulk install**
+
+- Use the add-in `Install Packages` to bulk install most or all packages needed to run the worked examples.
+- Simply click on the add-in `Install Packages` (alternatively, you could run this code: `installDGS()`)
+- If asked whether to install some package from source (`Do you want to install from sources the package which needs compilation? (Yes/no/cancel)`), you may enter: `no` (this is faster)
+- If the installation stops with an error `API rate limit exceeded`, the best thing to do is to wait 30 min and run the add-in `Install Packages` again. Don't worry, this won't start the installation process again, it will resume where it broke off. 
+- If you often install packages from Github, you may want to follow up on the advice printed with the error message:
+    - Use `usethis::create_github_token()` to create a Personal Access Token.
+    - Use `usethis::edit_r_environ()` and add the token as `GITHUB_PAT`.
+- If you do so, the second line above will open the file `.Renviron` in RStudio. Enter a `GITHUB_PAT="myPAT"` on the last line (replace myPAT by the PAT you generated using the first line). Make sure to include ian empty line after it! Save the file and restart R. 
+
+
+
 #### b) How to use the R package `LandGenCourse`
 
-The package installs four Add-ins in RStudio. Each will provide you with some dropdown menu choices.
+The package installs four more Add-ins in RStudio. Each will provide you with some dropdown menu choices.
 
-- **Watch Course Video**: opens a video resource from course "Landscape Genetic Data Analysis with R".
-- **Start Tutorial**: installs swirl course "Landscape_Genetics_R_Course" and prints instructions.
-- **Choose Worked Example**: opens vignette file (.html, .Rmd, or .R) with a worked example from course "Landscape Genetic Data Analysis with R".
-- **Open Cheat Sheet**: opens selected R cheat sheet.
+- **1. Watch Course Video**: opens a video resource from course "Landscape Genetic Data Analysis with R".
+- **2. Start Tutorial**: installs swirl course "Landscape_Genetics_R_Course" and prints instructions.
+- **3. Choose Worked Example**: opens vignette file (.html, .Rmd, or .R) with a worked example from course "Landscape Genetic Data Analysis with R".
+- **4. Open Cheat Sheet**: opens selected R cheat sheet.
 
 #### c) Video instructions for beginners
+
 This video walks through the process of installing devtools, the course package, and using the RStudio Add-Ins.
 <a href="https://www.dropbox.com/s/598kwim7x09m47t/Intro_LandGenCourse_small.mp4?dl=0" target="_blank">Intro_LandGenCourse_small.mp4</a>
 

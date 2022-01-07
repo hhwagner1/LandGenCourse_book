@@ -8,6 +8,8 @@ Packages
 ```{r}
 library(xfun)
 library(magick)
+library(servr)
+library(rsconnect)
 ```
 
 ## Import and prepare files from `LandGenCourse`
@@ -228,6 +230,7 @@ bookdown::clean_book(FALSE)
 ```
 
 Delete them
+
 ```{r}
 bookdown::clean_book(TRUE)
 ```

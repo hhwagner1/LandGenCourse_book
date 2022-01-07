@@ -22,7 +22,7 @@ mean(x)
 ```
 
 ```
-## [1] -0.1783167
+## [1] -0.05095916
 ```
 
 ## Histogram
@@ -32,7 +32,7 @@ mean(x)
 hist(x)
 ```
 
-<img src="08-Week08_files/figure-html/unnamed-chunk-51-1.png" width="672" />
+<img src="08-Week08_files/figure-html/unnamed-chunk-52-1.png" width="672" />
 
 ## Normal probability plot
 
@@ -41,6 +41,6 @@ hist(x)
 qqnorm(x)
 ```
 
-<img src="08-Week08_files/figure-html/unnamed-chunk-52-1.png" width="672" />
+<img src="08-Week08_files/figure-html/unnamed-chunk-53-1.png" width="672" />
 
 
