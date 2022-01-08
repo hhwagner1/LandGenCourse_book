@@ -8,7 +8,7 @@ Note: The worked examples in the Advanced Topics section require the R skills de
 
 ## Worked Example{#WE_10}
 
-```{r}
+```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week10_vignette.Rmd")
 yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)

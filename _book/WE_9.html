@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_9" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb1066"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1066-1"><a href="WE_9.html#cb1066-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week9_vignette.Rmd&quot;</span>)</span>
-<span id="cb1066-2"><a href="WE_9.html#cb1066-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb1066-3"><a href="WE_9.html#cb1066-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Sean Schoville</code></pre>
+<p>Sean Schoville</p>
 <div id="overview-of-worked-example-8" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <div id="a.-goals-10" class="section level4">
@@ -1749,24 +1010,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-6" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Note: the function ‘library’ will always load the package, even if it is already loaded, whereas ‘require’ will only load it if it is not yet loaded. Either will work.</p>
-<div class="sourceCode" id="cb1068"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1068-1"><a href="WE_9.html#cb1068-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
-<span id="cb1068-2"><a href="WE_9.html#cb1068-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(LandGenCourseData)</span></span>
-<span id="cb1068-3"><a href="WE_9.html#cb1068-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(fields)  </span></span>
-<span id="cb1068-4"><a href="WE_9.html#cb1068-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(RColorBrewer)</span></span>
-<span id="cb1068-5"><a href="WE_9.html#cb1068-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(maps)</span></span>
-<span id="cb1068-6"><a href="WE_9.html#cb1068-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(mapplots)</span></span>
-<span id="cb1068-7"><a href="WE_9.html#cb1068-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="WE_9.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb1-2"><a href="WE_9.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(LandGenCourseData)</span></span>
+<span id="cb1-3"><a href="WE_9.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(fields)  </span></span>
+<span id="cb1-4"><a href="WE_9.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(RColorBrewer)</span></span>
+<span id="cb1-5"><a href="WE_9.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(maps)</span></span>
+<span id="cb1-6"><a href="WE_9.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(mapplots)</span></span>
+<span id="cb1-7"><a href="WE_9.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span></code></pre></div>
 <p>The package ‘LEA’ is available from the ‘Bioconductor’ repository. Also, package ‘fields’ was not installed with ‘LandGenCourse’ automatically due to compatibility issues.</p>
-<div class="sourceCode" id="cb1069"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1069-1"><a href="WE_9.html#cb1069-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
-<span id="cb1069-2"><a href="WE_9.html#cb1069-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1069-3"><a href="WE_9.html#cb1069-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LEA&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  </span>
-<span id="cb1069-4"><a href="WE_9.html#cb1069-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb1069-5"><a href="WE_9.html#cb1069-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
-<span id="cb1069-6"><a href="WE_9.html#cb1069-6" aria-hidden="true" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;LEA&quot;</span>)</span>
-<span id="cb1069-7"><a href="WE_9.html#cb1069-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="WE_9.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
+<span id="cb2-2"><a href="WE_9.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-3"><a href="WE_9.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LEA&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  </span>
+<span id="cb2-4"><a href="WE_9.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb2-5"><a href="WE_9.html#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb2-6"><a href="WE_9.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;LEA&quot;</span>)</span>
+<span id="cb2-7"><a href="WE_9.html#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The data are in a data package:</p>
-<div class="sourceCode" id="cb1070"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1070-1"><a href="WE_9.html#cb1070-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LandGenCourseData&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb1070-2"><a href="WE_9.html#cb1070-2" aria-hidden="true" tabindex="-1"></a>            devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hhwagner1/LandGenCourseData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="WE_9.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LandGenCourseData&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-2"><a href="WE_9.html#cb3-2" aria-hidden="true" tabindex="-1"></a>            devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hhwagner1/LandGenCourseData&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="simulated-data-2-island-model" class="section level3">
@@ -1778,14 +1039,14 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <p>These raw data need to be converted in a format amenable to statistical analyses in R.</p>
 <div id="a.-import-data-1" class="section level4">
 <h4>a. Import data</h4>
-<div class="sourceCode" id="cb1071"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1071-1"><a href="WE_9.html#cb1071-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
-<span id="cb1071-2"><a href="WE_9.html#cb1071-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span>
-<span id="cb1071-3"><a href="WE_9.html#cb1071-3" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb1071-4"><a href="WE_9.html#cb1071-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(locus <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb1071-5"><a href="WE_9.html#cb1071-5" aria-hidden="true" tabindex="-1"></a>    res.locus <span class="ot">&lt;-</span> file[<span class="dv">4</span><span class="sc">:</span><span class="dv">203</span>]</span>
-<span id="cb1071-6"><a href="WE_9.html#cb1071-6" aria-hidden="true" tabindex="-1"></a>    file <span class="ot">&lt;-</span> file[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">203</span>)]</span>
-<span id="cb1071-7"><a href="WE_9.html#cb1071-7" aria-hidden="true" tabindex="-1"></a>    genotype <span class="ot">&lt;-</span> <span class="fu">cbind</span>(genotype, <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(res.locus)))}</span>
-<span id="cb1071-8"><a href="WE_9.html#cb1071-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(genotype)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="WE_9.html#cb4-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb4-2"><a href="WE_9.html#cb4-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="WE_9.html#cb4-3" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-4"><a href="WE_9.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(locus <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb4-5"><a href="WE_9.html#cb4-5" aria-hidden="true" tabindex="-1"></a>    res.locus <span class="ot">&lt;-</span> file[<span class="dv">4</span><span class="sc">:</span><span class="dv">203</span>]</span>
+<span id="cb4-6"><a href="WE_9.html#cb4-6" aria-hidden="true" tabindex="-1"></a>    file <span class="ot">&lt;-</span> file[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">203</span>)]</span>
+<span id="cb4-7"><a href="WE_9.html#cb4-7" aria-hidden="true" tabindex="-1"></a>    genotype <span class="ot">&lt;-</span> <span class="fu">cbind</span>(genotype, <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(res.locus)))}</span>
+<span id="cb4-8"><a href="WE_9.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(genotype)</span></code></pre></div>
 <pre><code>## [1] 200 100</code></pre>
 <p>Now we have a new data file, genotype, loaded in R. This file contains 200 rows and 100 columns. Each row corresponds to a simulated individual. The columns code for their multi-locus genotypes.</p>
 </div>
@@ -1793,10 +1054,10 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <h4>b. Perform Principal Components Analysis (PCA)</h4>
 <p>Our first objective is to use ordination (Principal components analysis, or PCA) to examine population structure for the Nm = 2 data set.</p>
 <p>The R command for PCA is fairly simple and fast:</p>
-<div class="sourceCode" id="cb1073"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1073-1"><a href="WE_9.html#cb1073-1" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">=</span> <span class="fu">prcomp</span>(genotype, <span class="at">scale =</span>T)   </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="WE_9.html#cb6-1" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">=</span> <span class="fu">prcomp</span>(genotype, <span class="at">scale =</span>T)   </span></code></pre></div>
 <p>In order to visualize how the first two eigenvectors capture genotype variation, we will color each population.</p>
-<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="WE_9.html#cb1074-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1074-2"><a href="WE_9.html#cb1074-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>, <span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="WE_9.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb7-2"><a href="WE_9.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>, <span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p><strong>Question 1:</strong></p>
 <ul>
@@ -1804,7 +1065,7 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <li>How much of the genetic variance can be explained by our first two components?</li>
 </ul>
 <p>To answer the second part of this question, use:</p>
-<div class="sourceCode" id="cb1075"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1075-1"><a href="WE_9.html#cb1075-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pc)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="WE_9.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pc)</span></code></pre></div>
 <pre><code>## Importance of components:
 ##                            PC1     PC2    PC3     PC4     PC5     PC6     PC7
 ## Standard deviation     2.77699 1.65283 1.5587 1.53452 1.48944 1.48496 1.46718
@@ -1870,15 +1131,15 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 </div>
 <div id="c.-create-synthetic-spatial-coordinates-xy-and-map-them" class="section level4">
 <h4>c. Create synthetic spatial coordinates (X,Y) and map them</h4>
-<div class="sourceCode" id="cb1077"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1077-1"><a href="WE_9.html#cb1077-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1077-2"><a href="WE_9.html#cb1077-2" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">1</span>))), <span class="fu">runif</span>(<span class="dv">200</span>))</span>
-<span id="cb1077-3"><a href="WE_9.html#cb1077-3" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(coord, pc<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span>
-<span id="cb1077-4"><a href="WE_9.html#cb1077-4" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
-<span id="cb1077-5"><a href="WE_9.html#cb1077-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(coord, <span class="at">pch=</span><span class="dv">19</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="WE_9.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb10-2"><a href="WE_9.html#cb10-2" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">1</span>))), <span class="fu">runif</span>(<span class="dv">200</span>))</span>
+<span id="cb10-3"><a href="WE_9.html#cb10-3" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(coord, pc<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="WE_9.html#cb10-4" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
+<span id="cb10-5"><a href="WE_9.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(coord, <span class="at">pch=</span><span class="dv">19</span>) </span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>This map predicts the value of the first principal component at each location in our study area. We observe that the study area is partitioned into two zones that correspond to the 2 clusters visible from PC 1. We have superimposed individual sample sites to see our species distribution.</p>
 <p>To check that the PC map is consistent with having 2 islands, we can examine the PC assignment vs the sampling location. Remember that, in the data sets, the 100 first individuals were sampled from island 1 and the last 100 were sampled from island 2. We compare these assignments to the PCA classification as follows.</p>
-<div class="sourceCode" id="cb1078"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1078-1"><a href="WE_9.html#cb1078-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>((pc<span class="sc">$</span>x[,<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">==</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span> <span class="sc">&lt;=</span> <span class="dv">100</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="WE_9.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>((pc<span class="sc">$</span>x[,<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">==</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span> <span class="sc">&lt;=</span> <span class="dv">100</span>))</span></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ##     1   199</code></pre>
@@ -1887,8 +1148,8 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <p>To answer this question, re-run the first analytical steps up to PCA for data simulated with Nm = 10 (a higher value of gene flow), which is stored in datafile “dataNm10.txt.” This was generated with the following ms command:</p>
 <p>ms 200 100 -t .5 -I 2 100 100 -ma x 10 10 x &gt; dataNm10.txt</p>
 <p>You can import the file as:</p>
-<div class="sourceCode" id="cb1080"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1080-1"><a href="WE_9.html#cb1080-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
-<span id="cb1080-2"><a href="WE_9.html#cb1080-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="WE_9.html#cb13-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb13-2"><a href="WE_9.html#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="simulated-data-2-island-model-with-admixture" class="section level3">
@@ -1901,54 +1162,54 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <p>Let’s consider a scenario where the 2 populations had been evolving for a long time under an equilibrium island model, and then their environment suddenly changed. Our 2 populations had to move to track their shifting habitat, and after these movements they come into contact in an intermediate region. This contact event resulted in an admixed population with the density of mixed individuals greater in the center of the contact zone than at the ancestral origins at the edges of the landscape.</p>
 <p>Using R and our previous simulation, a multi-locus cline that resumes this scenario can be simulated has follows. The source population data are in the file “dataNm1.str.”</p>
 <p>First we define a function for the shape of a cline:</p>
-<div class="sourceCode" id="cb1081"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1081-1"><a href="WE_9.html#cb1081-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A function for the shape of a cline</span></span>
-<span id="cb1081-2"><a href="WE_9.html#cb1081-2" aria-hidden="true" tabindex="-1"></a>sigmoid <span class="ot">&lt;-</span> <span class="cf">function</span>(x){ <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))}</span>
-<span id="cb1081-3"><a href="WE_9.html#cb1081-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">sigmoid</span>( <span class="fl">0.5</span> <span class="sc">*</span> coord[,<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="WE_9.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A function for the shape of a cline</span></span>
+<span id="cb14-2"><a href="WE_9.html#cb14-2" aria-hidden="true" tabindex="-1"></a>sigmoid <span class="ot">&lt;-</span> <span class="cf">function</span>(x){ <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))}</span>
+<span id="cb14-3"><a href="WE_9.html#cb14-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">sigmoid</span>( <span class="fl">0.5</span> <span class="sc">*</span> coord[,<span class="dv">1</span>])</span></code></pre></div>
 <p>Our admixed genotypes are built from a 2 island model with low gene flow (Nm=1)</p>
-<div class="sourceCode" id="cb1082"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1082-1"><a href="WE_9.html#cb1082-1" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">=</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm1.str&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
-<span id="cb1082-2"><a href="WE_9.html#cb1082-2" aria-hidden="true" tabindex="-1"></a>admixed.genotype <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">ncol =</span> <span class="dv">100</span>, <span class="at">nrow =</span> <span class="dv">200</span>)</span>
-<span id="cb1082-3"><a href="WE_9.html#cb1082-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb1082-4"><a href="WE_9.html#cb1082-4" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i, j],genotype[i<span class="sc">+</span><span class="dv">100</span>, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
-<span id="cb1082-5"><a href="WE_9.html#cb1082-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1082-6"><a href="WE_9.html#cb1082-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">101</span><span class="sc">:</span><span class="dv">200</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) </span>
-<span id="cb1082-7"><a href="WE_9.html#cb1082-7" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i <span class="sc">-</span> <span class="dv">100</span>, j],genotype[i, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
-<span id="cb1082-8"><a href="WE_9.html#cb1082-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(coord, admixed.genotype)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="WE_9.html#cb15-1" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">=</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm1.str&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<span id="cb15-2"><a href="WE_9.html#cb15-2" aria-hidden="true" tabindex="-1"></a>admixed.genotype <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">ncol =</span> <span class="dv">100</span>, <span class="at">nrow =</span> <span class="dv">200</span>)</span>
+<span id="cb15-3"><a href="WE_9.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb15-4"><a href="WE_9.html#cb15-4" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i, j],genotype[i<span class="sc">+</span><span class="dv">100</span>, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
+<span id="cb15-5"><a href="WE_9.html#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="WE_9.html#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">101</span><span class="sc">:</span><span class="dv">200</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) </span>
+<span id="cb15-7"><a href="WE_9.html#cb15-7" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i <span class="sc">-</span> <span class="dv">100</span>, j],genotype[i, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
+<span id="cb15-8"><a href="WE_9.html#cb15-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(coord, admixed.genotype)</span></code></pre></div>
 <p>Now our data set is the R object ‘res.’ The next exercise is to apply PCA to these data to evaluate how geographical genetic variation can be captured by this approach. In comparison with the previous example where we had two geographically discrete populations, we now have a “continuous” population in a landscape. Geographical genetic variation is thus expected to be more gradual than in the previous example. Generate and examine the PC 1 map.</p>
-<div class="sourceCode" id="cb1083"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1083-1"><a href="WE_9.html#cb1083-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1083-2"><a href="WE_9.html#cb1083-2" aria-hidden="true" tabindex="-1"></a>pcA <span class="ot">=</span> <span class="fu">prcomp</span>(admixed.genotype, <span class="at">scale =</span>T)   </span>
-<span id="cb1083-3"><a href="WE_9.html#cb1083-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcA<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>,<span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="WE_9.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb16-2"><a href="WE_9.html#cb16-2" aria-hidden="true" tabindex="-1"></a>pcA <span class="ot">=</span> <span class="fu">prcomp</span>(admixed.genotype, <span class="at">scale =</span>T)   </span>
+<span id="cb16-3"><a href="WE_9.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcA<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>,<span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>Look at the PC Map</p>
-<div class="sourceCode" id="cb1084"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1084-1"><a href="WE_9.html#cb1084-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1084-2"><a href="WE_9.html#cb1084-2" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(res, pcA<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="WE_9.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb17-2"><a href="WE_9.html#cb17-2" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(res, pcA<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## Warning: 
 ## Grid searches over lambda (nugget and sill variances) with  minima at the endpoints: 
 ##   (REML) Restricted maximum likelihood 
 ##    minimum at  right endpoint  lambda  =  0.05291003 (eff. df= 190 )</code></pre>
-<div class="sourceCode" id="cb1086"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1086-1"><a href="WE_9.html#cb1086-1" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
-<span id="cb1086-2"><a href="WE_9.html#cb1086-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(res) </span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="WE_9.html#cb19-1" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
+<span id="cb19-2"><a href="WE_9.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(res) </span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p><strong>Question 3:</strong> How does admixture change our prediction of population structure (PCA plot)? Is genomic ancestry correlated with geographical location?</p>
 <p>To answer this latter part, check the R2 and significance of statistical association between PC1 component scores and geographical position (p1):</p>
-<div class="sourceCode" id="cb1087"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1087-1"><a href="WE_9.html#cb1087-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(pcA<span class="sc">$</span>x[,<span class="dv">1</span>]<span class="sc">~</span> p1))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="WE_9.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(pcA<span class="sc">$</span>x[,<span class="dv">1</span>]<span class="sc">~</span> p1))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = pcA$x[, 1] ~ p1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.9705 -0.9445  0.0790  0.7970  4.0756 
+##      Min       1Q   Median       3Q      Max 
+## -3.01839 -0.62455  0.03736  0.65524  2.82521 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   3.7528     0.2080   18.05   &lt;2e-16 ***
-## p1           -7.3675     0.3707  -19.88   &lt;2e-16 ***
+## (Intercept)   3.9417     0.1851   21.30   &lt;2e-16 ***
+## p1           -7.9626     0.3382  -23.55   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 1.233 on 198 degrees of freedom
-## Multiple R-squared:  0.6661, Adjusted R-squared:  0.6644 
-## F-statistic:   395 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 1.115 on 198 degrees of freedom
+## Multiple R-squared:  0.7368, Adjusted R-squared:  0.7355 
+## F-statistic: 554.4 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="empirical-data-threespine-sticklebacks" class="section level3">
 <h3>4. Empirical data: Threespine sticklebacks</h3>
@@ -1960,44 +1221,44 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <p>In this tutorial, we will analyze the genetic data generated by Catchen et al. (2013) using a few exploratory methods to quantify and visualize genetic differentiation among the stickleback populations sampled. By the end of this tutorial, hopefully you will be able to make a convincing argument for the regional origin of the recently-introduced inland stickleback population.</p>
 <div id="a.-import-the-data" class="section level4">
 <h4>a. Import the data:</h4>
-<div class="sourceCode" id="cb1089"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1089-1"><a href="WE_9.html#cb1089-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_data.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
-<span id="cb1089-2"><a href="WE_9.html#cb1089-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="WE_9.html#cb22-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_data.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
+<span id="cb22-2"><a href="WE_9.html#cb22-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F)</span></code></pre></div>
 <p>Create a list of population IDs:</p>
-<div class="sourceCode" id="cb1090"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1090-1"><a href="WE_9.html#cb1090-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">rownames</span>(data),</span>
-<span id="cb1090-2"><a href="WE_9.html#cb1090-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">function</span>(x){y<span class="ot">&lt;-</span><span class="fu">c</span>();y<span class="ot">&lt;-</span><span class="fu">c</span>(y,<span class="fu">unlist</span>(<span class="fu">strsplit</span>(x,<span class="st">&quot;_&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]))})))         </span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="WE_9.html#cb23-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">rownames</span>(data),</span>
+<span id="cb23-2"><a href="WE_9.html#cb23-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">function</span>(x){y<span class="ot">&lt;-</span><span class="fu">c</span>();y<span class="ot">&lt;-</span><span class="fu">c</span>(y,<span class="fu">unlist</span>(<span class="fu">strsplit</span>(x,<span class="st">&quot;_&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]))})))         </span></code></pre></div>
 <p>To understand the experimental design a bit better, let’s look at the sample size at each site.</p>
-<div class="sourceCode" id="cb1091"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1091-1"><a href="WE_9.html#cb1091-1" aria-hidden="true" tabindex="-1"></a>sample_sites <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">nrow</span>(data))</span>
-<span id="cb1091-2"><a href="WE_9.html#cb1091-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data)){</span>
-<span id="cb1091-3"><a href="WE_9.html#cb1091-3" aria-hidden="true" tabindex="-1"></a>  sample_sites[i] <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="fu">rownames</span>(data),<span class="st">&quot;_&quot;</span>)[[i]][<span class="dv">1</span>]}</span>
-<span id="cb1091-4"><a href="WE_9.html#cb1091-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(pops,<span class="cf">function</span>(x){<span class="fu">length</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>x))}))</span>
-<span id="cb1091-5"><a href="WE_9.html#cb1091-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(N) <span class="ot">&lt;-</span> pops</span>
-<span id="cb1091-6"><a href="WE_9.html#cb1091-6" aria-hidden="true" tabindex="-1"></a>N</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="WE_9.html#cb24-1" aria-hidden="true" tabindex="-1"></a>sample_sites <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">nrow</span>(data))</span>
+<span id="cb24-2"><a href="WE_9.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data)){</span>
+<span id="cb24-3"><a href="WE_9.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  sample_sites[i] <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="fu">rownames</span>(data),<span class="st">&quot;_&quot;</span>)[[i]][<span class="dv">1</span>]}</span>
+<span id="cb24-4"><a href="WE_9.html#cb24-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(pops,<span class="cf">function</span>(x){<span class="fu">length</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>x))}))</span>
+<span id="cb24-5"><a href="WE_9.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(N) <span class="ot">&lt;-</span> pops</span>
+<span id="cb24-6"><a href="WE_9.html#cb24-6" aria-hidden="true" tabindex="-1"></a>N</span></code></pre></div>
 <pre><code>##  cr  cs pcr  pl  sj stl  wc  rb  ms 
 ##  23  97  67  20  86  50  22 138  68</code></pre>
 </div>
 <div id="b.-examine-population-structure-with-pca" class="section level4">
 <h4>b. Examine population structure with PCA</h4>
 <p>Let’s start examining population structure, first using PCA. We’ll look at the amount of variation explained in the first few components, and then we’ll plot individuals for four components, coloring them by population.</p>
-<div class="sourceCode" id="cb1093"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1093-1"><a href="WE_9.html#cb1093-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1093-2"><a href="WE_9.html#cb1093-2" aria-hidden="true" tabindex="-1"></a>pcaS <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data,<span class="at">center=</span>T)</span>
-<span id="cb1093-3"><a href="WE_9.html#cb1093-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>), <span class="at">xlab=</span><span class="st">&quot;PC&quot;</span>,</span>
-<span id="cb1093-4"><a href="WE_9.html#cb1093-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Fraction Variation Explained&quot;</span>, <span class="at">main=</span><span class="st">&quot;Scree plot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="WE_9.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="fl">0.5</span>))</span>
+<span id="cb26-2"><a href="WE_9.html#cb26-2" aria-hidden="true" tabindex="-1"></a>pcaS <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data,<span class="at">center=</span>T)</span>
+<span id="cb26-3"><a href="WE_9.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>), <span class="at">xlab=</span><span class="st">&quot;PC&quot;</span>,</span>
+<span id="cb26-4"><a href="WE_9.html#cb26-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Fraction Variation Explained&quot;</span>, <span class="at">main=</span><span class="st">&quot;Scree plot&quot;</span>)</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>Get % variance explained for first few PCs:</p>
-<div class="sourceCode" id="cb1094"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1094-1"><a href="WE_9.html#cb1094-1" aria-hidden="true" tabindex="-1"></a>perc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],<span class="dv">2</span>)</span>
-<span id="cb1094-2"><a href="WE_9.html#cb1094-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(perc) <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">array</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>)), <span class="dv">1</span>, <span class="cf">function</span>(x){<span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, x)})</span>
-<span id="cb1094-3"><a href="WE_9.html#cb1094-3" aria-hidden="true" tabindex="-1"></a>perc </span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="WE_9.html#cb27-1" aria-hidden="true" tabindex="-1"></a>perc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],<span class="dv">2</span>)</span>
+<span id="cb27-2"><a href="WE_9.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(perc) <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">array</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>)), <span class="dv">1</span>, <span class="cf">function</span>(x){<span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, x)})</span>
+<span id="cb27-3"><a href="WE_9.html#cb27-3" aria-hidden="true" tabindex="-1"></a>perc </span></code></pre></div>
 <pre><code>##   PC1   PC2   PC3   PC4   PC5   PC6   PC7   PC8   PC9  PC10 
 ## 37.47  3.78  2.55  0.88  0.76  0.44  0.44  0.39  0.37  0.32</code></pre>
 <p>Use the RColorBrewer package to select a color palette:</p>
-<div class="sourceCode" id="cb1096"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1096-1"><a href="WE_9.html#cb1096-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Paired&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="WE_9.html#cb29-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Paired&quot;</span>) </span></code></pre></div>
 <p>Plot first three PCs with colored symbols:</p>
-<div class="sourceCode" id="cb1097"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1097-1"><a href="WE_9.html#cb1097-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1097-2"><a href="WE_9.html#cb1097-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">1.2</span>)</span>
-<span id="cb1097-3"><a href="WE_9.html#cb1097-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(<span class="fu">factor</span>(sample_sites)), </span>
-<span id="cb1097-4"><a href="WE_9.html#cb1097-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span>colors, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">0.8</span>)</span>
-<span id="cb1097-5"><a href="WE_9.html#cb1097-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
-<span id="cb1097-6"><a href="WE_9.html#cb1097-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="WE_9.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb30-2"><a href="WE_9.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb30-3"><a href="WE_9.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(<span class="fu">factor</span>(sample_sites)), </span>
+<span id="cb30-4"><a href="WE_9.html#cb30-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span>colors, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb30-5"><a href="WE_9.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb30-6"><a href="WE_9.html#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p><strong>Question 4:</strong></p>
 <ul>
@@ -2011,17 +1272,17 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <p>Here, we will use sparse negative matrix factorization (SNMF) because it is fast to compute for large datasets and it approximates the results of the well-known STRUCTURE algorithm. Notably, it relaxes population genetic assumptions such as Hardy-Weinberg proportions, so it may not converge on the same results as other programs.</p>
 <p>We can use SNMF to estimate the number of genetic clusters (K) among our sampled populations. However, this may take a long time. If you want to run the analysis, un-comment the lines by removing the ‘#’ symbol at the beginning of each line.</p>
 <p>We use SNMF’s cross-entropy criterion to infer the best estimate of K. The lower the cross-entropy, the better our model accounts for population structure. Sometimes cross-entropy continues to decline, so we might choose K where cross entropy first decreases the most.</p>
-<div class="sourceCode" id="cb1098"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1098-1"><a href="WE_9.html#cb1098-1" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(paste0(here::here(), &quot;/data/stickleback.geno&quot;), </span></span>
-<span id="cb1098-2"><a href="WE_9.html#cb1098-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                   K=1:8, ploidy=2, entropy=T, alpha=100, project=&quot;new&quot;)</span></span>
-<span id="cb1098-3"><a href="WE_9.html#cb1098-3" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(&quot;stickleback.geno&quot;, K=1:8, ploidy=2, entropy=T, </span></span>
-<span id="cb1098-4"><a href="WE_9.html#cb1098-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                   alpha=100, project=&quot;new&quot;)</span></span>
-<span id="cb1098-5"><a href="WE_9.html#cb1098-5" aria-hidden="true" tabindex="-1"></a><span class="co">#par(mfrow=c(1,1))</span></span>
-<span id="cb1098-6"><a href="WE_9.html#cb1098-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(snmf2, col=&quot;blue4&quot;, cex=1.4, pch=19)</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="WE_9.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(paste0(here::here(), &quot;/data/stickleback.geno&quot;), </span></span>
+<span id="cb31-2"><a href="WE_9.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                   K=1:8, ploidy=2, entropy=T, alpha=100, project=&quot;new&quot;)</span></span>
+<span id="cb31-3"><a href="WE_9.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(&quot;stickleback.geno&quot;, K=1:8, ploidy=2, entropy=T, </span></span>
+<span id="cb31-4"><a href="WE_9.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                   alpha=100, project=&quot;new&quot;)</span></span>
+<span id="cb31-5"><a href="WE_9.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#par(mfrow=c(1,1))</span></span>
+<span id="cb31-6"><a href="WE_9.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(snmf2, col=&quot;blue4&quot;, cex=1.4, pch=19)</span></span></code></pre></div>
 <p>INSERT FIGURE WITH RESULT?</p>
 <p>The number of clusters is hard to determine, but four seems to be important and is similar to the results revealed by PCA. I will proceed assuming K=4. We will rerun SNMF using this setting.</p>
-<div class="sourceCode" id="cb1099"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1099-1"><a href="WE_9.html#cb1099-1" aria-hidden="true" tabindex="-1"></a>K<span class="ot">=</span><span class="dv">4</span></span>
-<span id="cb1099-2"><a href="WE_9.html#cb1099-2" aria-hidden="true" tabindex="-1"></a>snmf <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">snmf</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback.geno&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
-<span id="cb1099-3"><a href="WE_9.html#cb1099-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">K =</span> K, <span class="at">alpha =</span> <span class="dv">100</span>, <span class="at">project =</span> <span class="st">&quot;new&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="WE_9.html#cb32-1" aria-hidden="true" tabindex="-1"></a>K<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb32-2"><a href="WE_9.html#cb32-2" aria-hidden="true" tabindex="-1"></a>snmf <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">snmf</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback.geno&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
+<span id="cb32-3"><a href="WE_9.html#cb32-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">K =</span> K, <span class="at">alpha =</span> <span class="dv">100</span>, <span class="at">project =</span> <span class="st">&quot;new&quot;</span>)</span></code></pre></div>
 <pre><code>## The project is saved into :
 ##  nCourseData/extdata/stickleback.snmfProject 
 ## 
@@ -2044,7 +1305,7 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 ##         -g (ancestral frequencies file)        /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.G
 ##         -i (number max of iterations)          200
 ##         -a (regularization parameter)          100
-##         -s (seed random init)                  140271317765981
+##         -s (seed random init)                  4618694981498742292
 ##         -e (tolerance error)                   1E-05
 ##         -p (number of processes)               1
 ##         - diploid
@@ -2054,10 +1315,10 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 ## 
 ## Main algorithm:
 ##  [                                                                           ]
-##  [=============]
-## Number of iterations: 34
+##  [==========]
+## Number of iterations: 27
 ## 
-## Least-square error: 722698.085324
+## Least-square error: 722697.947258
 ## Write individual ancestry coefficient file /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.Q:     OK.
 ## Write ancestral allele frequency coefficient file /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.G:  OK.
 ## 
@@ -2073,55 +1334,55 @@ ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
 <div id="d.-plot-ancestry-proportions" class="section level4">
 <h4>d. Plot ancestry proportions</h4>
 <p>Create matrix of ancestry proportions:</p>
-<div class="sourceCode" id="cb1101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1101-1"><a href="WE_9.html#cb1101-1" aria-hidden="true" tabindex="-1"></a>qmatrix <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">Q</span>(snmf, <span class="at">K =</span> K)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="WE_9.html#cb34-1" aria-hidden="true" tabindex="-1"></a>qmatrix <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">Q</span>(snmf, <span class="at">K =</span> K)</span></code></pre></div>
 <p>Plot results with a barplot similar to that used to represent STRUCTURE results</p>
-<div class="sourceCode" id="cb1102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1102-1"><a href="WE_9.html#cb1102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1102-2"><a href="WE_9.html#cb1102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">t</span>(qmatrix), <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>,<span class="st">&quot;Paired&quot;</span>), </span>
-<span id="cb1102-3"><a href="WE_9.html#cb1102-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">border=</span><span class="cn">NA</span>, <span class="at">space=</span><span class="dv">0</span>, <span class="at">xlab=</span><span class="st">&quot;Individuals&quot;</span>, </span>
-<span id="cb1102-4"><a href="WE_9.html#cb1102-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;Admixture coefficients&quot;</span>)</span>
-<span id="cb1102-5"><a href="WE_9.html#cb1102-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Add population labels to the axis:</span></span>
-<span id="cb1102-6"><a href="WE_9.html#cb1102-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
-<span id="cb1102-7"><a href="WE_9.html#cb1102-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">median</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>pops[i])), <span class="at">labels=</span>pops[i])}</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="WE_9.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb35-2"><a href="WE_9.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">t</span>(qmatrix), <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>,<span class="st">&quot;Paired&quot;</span>), </span>
+<span id="cb35-3"><a href="WE_9.html#cb35-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">border=</span><span class="cn">NA</span>, <span class="at">space=</span><span class="dv">0</span>, <span class="at">xlab=</span><span class="st">&quot;Individuals&quot;</span>, </span>
+<span id="cb35-4"><a href="WE_9.html#cb35-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;Admixture coefficients&quot;</span>)</span>
+<span id="cb35-5"><a href="WE_9.html#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Add population labels to the axis:</span></span>
+<span id="cb35-6"><a href="WE_9.html#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb35-7"><a href="WE_9.html#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">median</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>pops[i])), <span class="at">labels=</span>pops[i])}</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 </div>
 <div id="e.-visualize-admixture-proportions-on-a-map" class="section level4">
 <h4>e. Visualize admixture proportions on a map</h4>
 <p>Import geographical coordinates for the populations:</p>
-<div class="sourceCode" id="cb1103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1103-1"><a href="WE_9.html#cb1103-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_coordinates.csv&quot;</span>, </span>
-<span id="cb1103-2"><a href="WE_9.html#cb1103-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), <span class="at">as.is=</span>T, <span class="at">check.names=</span>F, <span class="at">h=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="WE_9.html#cb36-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_coordinates.csv&quot;</span>, </span>
+<span id="cb36-2"><a href="WE_9.html#cb36-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), <span class="at">as.is=</span>T, <span class="at">check.names=</span>F, <span class="at">h=</span>T)</span></code></pre></div>
 <p>Calculate population average ancestry proportions and create an array with population coordinates:</p>
-<div class="sourceCode" id="cb1104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1104-1"><a href="WE_9.html#cb1104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize array for ancestry proportions:</span></span>
-<span id="cb1104-2"><a href="WE_9.html#cb1104-2" aria-hidden="true" tabindex="-1"></a>qpop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span>K) </span>
-<span id="cb1104-3"><a href="WE_9.html#cb1104-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1104-4"><a href="WE_9.html#cb1104-4" aria-hidden="true" tabindex="-1"></a><span class="co">#intialize array for coordinates:</span></span>
-<span id="cb1104-5"><a href="WE_9.html#cb1104-5" aria-hidden="true" tabindex="-1"></a>coord.pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span><span class="dv">2</span>) </span>
-<span id="cb1104-6"><a href="WE_9.html#cb1104-6" aria-hidden="true" tabindex="-1"></a>index<span class="ot">=</span><span class="dv">0</span></span>
-<span id="cb1104-7"><a href="WE_9.html#cb1104-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1104-8"><a href="WE_9.html#cb1104-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
-<span id="cb1104-9"><a href="WE_9.html#cb1104-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i<span class="sc">==</span><span class="dv">1</span>){</span>
-<span id="cb1104-10"><a href="WE_9.html#cb1104-10" aria-hidden="true" tabindex="-1"></a>    <span class="do">## i.put pop ancestry proportions for each K cluster:</span></span>
-<span id="cb1104-11"><a href="WE_9.html#cb1104-11" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[<span class="dv">1</span><span class="sc">:</span>N[i],], <span class="dv">2</span>, mean)</span>
-<span id="cb1104-12"><a href="WE_9.html#cb1104-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
-<span id="cb1104-13"><a href="WE_9.html#cb1104-13" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
-<span id="cb1104-14"><a href="WE_9.html#cb1104-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
-<span id="cb1104-15"><a href="WE_9.html#cb1104-15" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>] </span>
-<span id="cb1104-16"><a href="WE_9.html#cb1104-16" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
-<span id="cb1104-17"><a href="WE_9.html#cb1104-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb1104-18"><a href="WE_9.html#cb1104-18" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[(index<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(index<span class="sc">+</span>N[i]),], <span class="dv">2</span>, mean)</span>
-<span id="cb1104-19"><a href="WE_9.html#cb1104-19" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
-<span id="cb1104-20"><a href="WE_9.html#cb1104-20" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>]</span>
-<span id="cb1104-21"><a href="WE_9.html#cb1104-21" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
-<span id="cb1104-22"><a href="WE_9.html#cb1104-22" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1104-23"><a href="WE_9.html#cb1104-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="WE_9.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize array for ancestry proportions:</span></span>
+<span id="cb37-2"><a href="WE_9.html#cb37-2" aria-hidden="true" tabindex="-1"></a>qpop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span>K) </span>
+<span id="cb37-3"><a href="WE_9.html#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="WE_9.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">#intialize array for coordinates:</span></span>
+<span id="cb37-5"><a href="WE_9.html#cb37-5" aria-hidden="true" tabindex="-1"></a>coord.pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span><span class="dv">2</span>) </span>
+<span id="cb37-6"><a href="WE_9.html#cb37-6" aria-hidden="true" tabindex="-1"></a>index<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb37-7"><a href="WE_9.html#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="WE_9.html#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb37-9"><a href="WE_9.html#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i<span class="sc">==</span><span class="dv">1</span>){</span>
+<span id="cb37-10"><a href="WE_9.html#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="do">## i.put pop ancestry proportions for each K cluster:</span></span>
+<span id="cb37-11"><a href="WE_9.html#cb37-11" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[<span class="dv">1</span><span class="sc">:</span>N[i],], <span class="dv">2</span>, mean)</span>
+<span id="cb37-12"><a href="WE_9.html#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
+<span id="cb37-13"><a href="WE_9.html#cb37-13" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
+<span id="cb37-14"><a href="WE_9.html#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
+<span id="cb37-15"><a href="WE_9.html#cb37-15" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>] </span>
+<span id="cb37-16"><a href="WE_9.html#cb37-16" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
+<span id="cb37-17"><a href="WE_9.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb37-18"><a href="WE_9.html#cb37-18" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[(index<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(index<span class="sc">+</span>N[i]),], <span class="dv">2</span>, mean)</span>
+<span id="cb37-19"><a href="WE_9.html#cb37-19" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
+<span id="cb37-20"><a href="WE_9.html#cb37-20" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>]</span>
+<span id="cb37-21"><a href="WE_9.html#cb37-21" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
+<span id="cb37-22"><a href="WE_9.html#cb37-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb37-23"><a href="WE_9.html#cb37-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Create map with pie charts depicting ancestry proportions:</p>
-<div class="sourceCode" id="cb1105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1105-1"><a href="WE_9.html#cb1105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
-<span id="cb1105-2"><a href="WE_9.html#cb1105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord.pop, <span class="at">xlab =</span> <span class="st">&quot;Longitude&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Latitude&quot;</span>, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb1105-3"><a href="WE_9.html#cb1105-3" aria-hidden="true" tabindex="-1"></a>maps<span class="sc">::</span><span class="fu">map</span>(<span class="at">database=</span><span class="st">&#39;state&#39;</span>,<span class="at">add =</span> T, <span class="at">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1105-4"><a href="WE_9.html#cb1105-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
-<span id="cb1105-5"><a href="WE_9.html#cb1105-5" aria-hidden="true" tabindex="-1"></a>  mapplots<span class="sc">::</span><span class="fu">add.pie</span>(<span class="at">z=</span>qpop[i,], <span class="at">x=</span>coord.pop[i,<span class="dv">1</span>], </span>
-<span id="cb1105-6"><a href="WE_9.html#cb1105-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>coord.pop[i,<span class="dv">2</span>], <span class="at">labels=</span><span class="st">&quot;&quot;</span>,</span>
-<span id="cb1105-7"><a href="WE_9.html#cb1105-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(K,<span class="st">&quot;Paired&quot;</span>),<span class="at">radius=</span><span class="fl">0.1</span>)</span>
-<span id="cb1105-8"><a href="WE_9.html#cb1105-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="WE_9.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb38-2"><a href="WE_9.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord.pop, <span class="at">xlab =</span> <span class="st">&quot;Longitude&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Latitude&quot;</span>, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb38-3"><a href="WE_9.html#cb38-3" aria-hidden="true" tabindex="-1"></a>maps<span class="sc">::</span><span class="fu">map</span>(<span class="at">database=</span><span class="st">&#39;state&#39;</span>,<span class="at">add =</span> T, <span class="at">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-4"><a href="WE_9.html#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb38-5"><a href="WE_9.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  mapplots<span class="sc">::</span><span class="fu">add.pie</span>(<span class="at">z=</span>qpop[i,], <span class="at">x=</span>coord.pop[i,<span class="dv">1</span>], </span>
+<span id="cb38-6"><a href="WE_9.html#cb38-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>coord.pop[i,<span class="dv">2</span>], <span class="at">labels=</span><span class="st">&quot;&quot;</span>,</span>
+<span id="cb38-7"><a href="WE_9.html#cb38-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(K,<span class="st">&quot;Paired&quot;</span>),<span class="at">radius=</span><span class="fl">0.1</span>)</span>
+<span id="cb38-8"><a href="WE_9.html#cb38-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="09-Week09_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p><strong>Question 5:</strong></p>
 <ul>

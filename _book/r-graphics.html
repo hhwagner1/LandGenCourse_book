@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,16 +987,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="r-graphics" class="section level2">
 <h2>R Graphics</h2>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="r-graphics.html#cb230-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week0_Graphics.Rmd&quot;</span>)</span>
-<span id="cb230-2"><a href="r-graphics.html#cb230-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb230-3"><a href="r-graphics.html#cb230-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Rodney Dyer (worked example) and Helene Wagner (adaptation)</code></pre>
+<p>Rodney Dyer (worked example) and Helene Wagner (adaptation)</p>
 <div id="overview-1" class="section level3">
 <h3>1. Overview</h3>
 <p>This worked example is adapted from “Applied Population Genetics” by Rodney Dyer. The entire book is available here: <a href="http://dyerlab.github.io/applied_population_genetics/index.html" class="uri">http://dyerlab.github.io/applied_population_genetics/index.html</a></p>
 <p>One of the most critical features of data analysis is the ability to present your results in a logical and meaningful fashion. R has built-in functions that can provide you graphical output that will suffice for your understanding and interpretations. However, there are also third-party packages that make some truly beautiful output. In this section, both built-in graphics and graphical output from the ggplot2 library are explained and highlighted.</p>
 <p>We are going to use the venerable iris dataset that was used by Anderson (1935) and Fisher (1936). These data are measurements of four morphological variables (Sepal Length, Sepal Width, Petal Length, and Petal Width) measured on fifty individual iris plants from three recognized species. Here is a summary of this data set.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="r-graphics.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="r-graphics.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris)</span></code></pre></div>
 <pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
 ##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
 ##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
@@ -1761,27 +1022,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>In the normal plotting routines discussed before, configuration of these layers were specified as arguments passed to the plotting function (<code>plot()</code>, <code>boxplot()</code>, etc.). The ggplot2 library takes a different approach, allowing you to specify these components separately and literally add them together like components of a linear model.</p>
 <p>Required packages:</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="r-graphics.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb234-2"><a href="r-graphics.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="r-graphics.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb229-2"><a href="r-graphics.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span></code></pre></div>
 </div>
 <div id="univariate-plots" class="section level3">
 <h3>2. Univariate plots</h3>
 <div id="barplots-and-histograms" class="section level4">
 <h4>2.1. Barplots and histograms</h4>
 <p>Univariate data can represent either counts (e.g., integers) of items or vectors of data that have decimal components (e.g., frequency distributions, etc.). If the sampling units are discrete, then a the <code>barplot()</code> function can make a nice visual representation. Here is an example using some fictions data.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="r-graphics.html#cb235-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
-<span id="cb235-2"><a href="r-graphics.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Jane&quot;</span>, <span class="st">&quot;Fred&quot;</span>, <span class="st">&quot;Barney&quot;</span>, <span class="st">&quot;Lucy&quot;</span>)</span>
-<span id="cb235-3"><a href="r-graphics.html#cb235-3" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="r-graphics.html#cb230-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb230-2"><a href="r-graphics.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Jane&quot;</span>, <span class="st">&quot;Fred&quot;</span>, <span class="st">&quot;Barney&quot;</span>, <span class="st">&quot;Lucy&quot;</span>)</span>
+<span id="cb230-3"><a href="r-graphics.html#cb230-3" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>##    Bob  Alice   Jane   Fred Barney   Lucy 
 ##      2      3      6      3      2      4</code></pre>
 <p>From this, a barplot can be constructed where the x-axis has discrete entities for each name and the y-axis represents the magnitude of whatever it is we are measuring.</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="r-graphics.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(x, <span class="at">xlab =</span> <span class="st">&quot;People&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Thinn-A-Ma-Jigs&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="r-graphics.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(x, <span class="at">xlab =</span> <span class="st">&quot;People&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Thinn-A-Ma-Jigs&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
 <p>Notice here that I included labels for both the x- and y-axes. You do this by inserting these arguments into the parameters passed to the <code>barplot()</code> (it is the same for all built-in plotting as we will see below).</p>
 <p>To use <code>ggplot</code> for displaying this, you have to present the data in a slightly different way. There are shortcuts using the <code>qplot()</code> function but I prefer to use the more verbose approach. Here is how we would plot the same output using ggplot.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="r-graphics.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb238-2"><a href="r-graphics.html#cb238-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Thinn_A_Ma_Jigs=</span>x,<span class="at">names=</span><span class="fu">names</span>(x))</span>
-<span id="cb238-3"><a href="r-graphics.html#cb238-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>names,<span class="at">y=</span>Thinn_A_Ma_Jigs)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="r-graphics.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb233-2"><a href="r-graphics.html#cb233-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Thinn_A_Ma_Jigs=</span>x,<span class="at">names=</span><span class="fu">names</span>(x))</span>
+<span id="cb233-3"><a href="r-graphics.html#cb233-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>names,<span class="at">y=</span>Thinn_A_Ma_Jigs)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
 <p>There are a couple of things to point out about this.</p>
 <ol style="list-style-type: decimal">
@@ -1793,13 +1054,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The axis labels are taken directly from the names of the columns in the <code>data.frame</code>.</li>
 </ol>
 <p>If the data on the x-axis is not discrete but measured on a single variable, then the <code>hist()</code> function can take the data and categorize it into groups based upon the density of the underlying data.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="r-graphics.html#cb239-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="r-graphics.html#cb234-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
 <p>The <code>hist()</code> function itself returns a bit of information that may be of interest. It is not necessary that you capture these data, R will ignore it if you do not assign it to a variable. What is of interest though is that it returns a <code>list()</code> object with the following keys:</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="r-graphics.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(h)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="r-graphics.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(h)</span></code></pre></div>
 <pre><code>## [1] &quot;breaks&quot;   &quot;counts&quot;   &quot;density&quot;  &quot;mids&quot;     &quot;xname&quot;    &quot;equidist&quot;</code></pre>
 <p>The data within these keys can be accessed directly as:</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="r-graphics.html#cb242-1" aria-hidden="true" tabindex="-1"></a>h</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="r-graphics.html#cb237-1" aria-hidden="true" tabindex="-1"></a>h</span></code></pre></div>
 <pre><code>## $breaks
 ## [1] 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5 8.0
 ## 
@@ -1823,7 +1084,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] &quot;histogram&quot;</code></pre>
 <p>and provide the basic information on how to construct the histogram as shown below. The values defined for the break locations for each of the bars and the midpoints are the default ones for the <code>hist()</code> function. If you wish, you can provide the number of breaks in the data, the location of the breaks, including the lowest and highest terms, plot as a count versus a frequency, etc.</p>
 <p>The corresponding <code>ggplot</code> approach is</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="r-graphics.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="r-graphics.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
 <p>which also takes a few liberties with the default binning parameters.</p>
 <p>By default, both the R and <code>ggplot</code> approches make a stab at creating enough of the meta data around the plot to make it somewhat useful. However, it is helpful if we add a bit to that and create graphics that suck just a little bit less. There are many options that we can add to the standard plot command to make it more informative and/or appropriate for your use. The most common ones include:</p>
@@ -1837,8 +1098,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Additional options are given in tabular form in the next section.</p>
 <p>Here is another plot of the same data but spiffied up a bit.</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="r-graphics.html#cb245-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">hist</span>( iris<span class="sc">$</span>Sepal.Length,<span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, </span>
-<span id="cb245-2"><a href="r-graphics.html#cb245-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab=</span><span class="st">&quot;Count&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="r-graphics.html#cb240-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">hist</span>( iris<span class="sc">$</span>Sepal.Length,<span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, </span>
+<span id="cb240-2"><a href="r-graphics.html#cb240-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab=</span><span class="st">&quot;Count&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">col=</span><span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
 <p>A few things to notice:</p>
 <ol style="list-style-type: decimal">
@@ -1847,8 +1108,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The color parameter refers to the fill color of the bars, not the border color.</li>
 </ol>
 <p>In <code>ggplot</code> we add those additional components either to the geometry where it is defined (e.g., the color in the geom_bar) or to the overall plot (as in the addition of labels on the axes).</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="r-graphics.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb246-2"><a href="r-graphics.html#cb246-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sepal Length (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Count&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="r-graphics.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb241-2"><a href="r-graphics.html#cb241-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sepal Length (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Count&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
 </div>
 <div id="plotting-parameters" class="section level4">
@@ -1949,8 +1210,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="density-plots" class="section level4">
 <h4>2.3. Density Plots</h4>
 <p>Another way of looking at the distribution of univariate data is through the use of the <code>density()</code> function. This function takes a vector of values and creates a probability density function of it returning an object of class “density.”</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="r-graphics.html#cb247-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">density</span>( iris<span class="sc">$</span>Sepal.Length) </span>
-<span id="cb247-2"><a href="r-graphics.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(d)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="r-graphics.html#cb242-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">density</span>( iris<span class="sc">$</span>Sepal.Length) </span>
+<span id="cb242-2"><a href="r-graphics.html#cb242-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(d)</span></code></pre></div>
 <pre><code>## $names
 ## [1] &quot;x&quot;         &quot;y&quot;         &quot;bw&quot;        &quot;n&quot;         &quot;call&quot;      &quot;data.name&quot;
 ## [7] &quot;has.na&quot;   
@@ -1959,12 +1220,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] &quot;density&quot;</code></pre>
 <p>The <code>density()</code> function takes the univariate data and fits its density (internally represented by <code>d$y</code>) along the range of values (in <code>d$x</code>).</p>
 <p>A plot can be produced using d as the variables as follows (with a bit of extra plotting parameters as depicted in the previous table).</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="r-graphics.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( d, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb249-2"><a href="r-graphics.html#cb249-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">&quot;Value of X&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, </span>
-<span id="cb249-3"><a href="r-graphics.html#cb249-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Density Plot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="r-graphics.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( d, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb244-2"><a href="r-graphics.html#cb244-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">&quot;Value of X&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, </span>
+<span id="cb244-3"><a href="r-graphics.html#cb244-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Density Plot&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
 <p>The corresponding <code>ggplot</code> approach is:</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="r-graphics.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="r-graphics.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
 </div>
 </div>
@@ -1974,9 +1235,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>3.1. Overlaying Plots by grouping</h4>
 <p>The data in the previous density plot represents the sepal lengths across all three iris species. It may be more useful to plot them as the density of each species instead of combined. Overlaying plots is a pretty easy feature built into the default R plotting functionalities.</p>
 <p>Lets look at the data and see if the mean length differs across species. I do this using the <code>by()</code> command, which takes three parameters; the first parameter is the raw data you want to examine, the second one is the way you would like to partition that data, and the third one is the function you want to call on those groupings of raw data. This general form</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="r-graphics.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>( data, grouping, <span class="cf">function</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="r-graphics.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>( data, grouping, <span class="cf">function</span> )</span></code></pre></div>
 <p>mixing both data and functions to be used, is pretty common in R and you will see it over and over again. The generic call below asks to take the sepal data and partition it by species and estimate the mean.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="r-graphics.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>( iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Species, mean)</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="r-graphics.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>( iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Species, mean)</span></code></pre></div>
 <pre><code>## iris$Species: setosa
 ## [1] 5.006
 ## ------------------------------------------------------------ 
@@ -1986,37 +1247,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## iris$Species: virginica
 ## [1] 6.588</code></pre>
 <p>So there may be differences. Lets pull the data out and create density plots for each.</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="r-graphics.html#cb254-1" aria-hidden="true" tabindex="-1"></a>d.setosa <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;setosa&quot;</span> ]</span>
-<span id="cb254-2"><a href="r-graphics.html#cb254-2" aria-hidden="true" tabindex="-1"></a>d.versicolor <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;versicolor&quot;</span> ]</span>
-<span id="cb254-3"><a href="r-graphics.html#cb254-3" aria-hidden="true" tabindex="-1"></a>d.virginica <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;virginica&quot;</span> ]</span>
-<span id="cb254-4"><a href="r-graphics.html#cb254-4" aria-hidden="true" tabindex="-1"></a>d.se <span class="ot">&lt;-</span> <span class="fu">density</span>( d.setosa )</span>
-<span id="cb254-5"><a href="r-graphics.html#cb254-5" aria-hidden="true" tabindex="-1"></a>d.ve <span class="ot">&lt;-</span> <span class="fu">density</span>( d.versicolor )</span>
-<span id="cb254-6"><a href="r-graphics.html#cb254-6" aria-hidden="true" tabindex="-1"></a>d.vi <span class="ot">&lt;-</span> <span class="fu">density</span>( d.virginica )</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="r-graphics.html#cb249-1" aria-hidden="true" tabindex="-1"></a>d.setosa <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;setosa&quot;</span> ]</span>
+<span id="cb249-2"><a href="r-graphics.html#cb249-2" aria-hidden="true" tabindex="-1"></a>d.versicolor <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;versicolor&quot;</span> ]</span>
+<span id="cb249-3"><a href="r-graphics.html#cb249-3" aria-hidden="true" tabindex="-1"></a>d.virginica <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[ iris<span class="sc">$</span>Species<span class="sc">==</span><span class="st">&quot;virginica&quot;</span> ]</span>
+<span id="cb249-4"><a href="r-graphics.html#cb249-4" aria-hidden="true" tabindex="-1"></a>d.se <span class="ot">&lt;-</span> <span class="fu">density</span>( d.setosa )</span>
+<span id="cb249-5"><a href="r-graphics.html#cb249-5" aria-hidden="true" tabindex="-1"></a>d.ve <span class="ot">&lt;-</span> <span class="fu">density</span>( d.versicolor )</span>
+<span id="cb249-6"><a href="r-graphics.html#cb249-6" aria-hidden="true" tabindex="-1"></a>d.vi <span class="ot">&lt;-</span> <span class="fu">density</span>( d.virginica )</span></code></pre></div>
 <p>I can now plot the densities independently. After the first <code>plot()</code> function is called, you can add to it by using <code>lines()</code> or <code>points()</code> function calls. They will overlay the subsequent plots over the first one. One of the things you need to be careful of is that you need to make sure the x- and y-axes are properly scaled so that subsequent calls to <code>points()</code> or <code>lines()</code> does not plot stuff outside the boundaries of your initial plot.</p>
 <p>Here I plot the setosa data first, specify the <code>xlim</code> (limits of the x-axis), set the color, and labels. On subsequent plotting calls, I do not specify labels but set alternative colors. Then a nice legend is placed on the graph, the coordinates of which are specified on the values of the x- and y-axis (I also dislike the boxes around graphic so I remove them as well with <code>bty="n"</code>).</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="r-graphics.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d.se,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>),<span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
-<span id="cb255-2"><a href="r-graphics.html#cb255-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">main=</span><span class="st">&quot;Sepal Lengths&quot;</span>)</span>
-<span id="cb255-3"><a href="r-graphics.html#cb255-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( d.ve, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>), <span class="at">col=</span><span class="st">&quot;green&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span>
-<span id="cb255-4"><a href="r-graphics.html#cb255-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( d.vi, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span>
-<span id="cb255-5"><a href="r-graphics.html#cb255-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>( <span class="fl">6.5</span>,<span class="fl">1.1</span>,<span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), </span>
-<span id="cb255-6"><a href="r-graphics.html#cb255-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="at">lwd=</span><span class="dv">2</span>,<span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="r-graphics.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d.se,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>),<span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb250-2"><a href="r-graphics.html#cb250-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">main=</span><span class="st">&quot;Sepal Lengths&quot;</span>)</span>
+<span id="cb250-3"><a href="r-graphics.html#cb250-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( d.ve, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>), <span class="at">col=</span><span class="st">&quot;green&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb250-4"><a href="r-graphics.html#cb250-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( d.vi, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb250-5"><a href="r-graphics.html#cb250-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>( <span class="fl">6.5</span>,<span class="fl">1.1</span>,<span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), </span>
+<span id="cb250-6"><a href="r-graphics.html#cb250-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="at">lwd=</span><span class="dv">2</span>,<span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
 <p>A lot of that background material is unnecessary using <code>geom_density()</code> because we can specify to the plotting commands that the data are partitioned by the values contained in the <code>Species</code> column of the <code>data.frame</code>. This allows us to make this plot</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="r-graphics.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(Sepal.Length,<span class="at">color=</span>Species)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="r-graphics.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(Sepal.Length,<span class="at">color=</span>Species)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
 <p>or a correpsonding one using <code>fill=Species</code> instead (I set the alpha transparency to allow you to see the plots in the background).</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="r-graphics.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(Sepal.Length,<span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_density</span>( <span class="at">alpha=</span><span class="fl">0.8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="r-graphics.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(Sepal.Length,<span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_density</span>( <span class="at">alpha=</span><span class="fl">0.8</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
 <p>We can use the <code>barplot()</code> function here as well and either stack or stagger the density of sepal lengths using discrete bars.</p>
 <p>Here I make a matrix of bins using the <code>hist()</code> function with a specified set of breaks and then use it to plot discrete bin counts using the <code>barplot()</code> function. I include this example here because there are times when you want to produce a stacked bar plot (rarely) or a staggered barplot (more common) for some univariate data source and I always forget how to specifically do that.</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="r-graphics.html#cb258-1" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">8</span>,<span class="at">by=</span><span class="fl">0.2</span>)</span>
-<span id="cb258-2"><a href="r-graphics.html#cb258-2" aria-hidden="true" tabindex="-1"></a>h.se <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.setosa, <span class="at">breaks=</span>breaks, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb258-3"><a href="r-graphics.html#cb258-3" aria-hidden="true" tabindex="-1"></a>h.ve <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.versicolor, <span class="at">breaks=</span>breaks, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
-<span id="cb258-4"><a href="r-graphics.html#cb258-4" aria-hidden="true" tabindex="-1"></a>h.vi <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.virginica, <span class="at">breaks=</span>breaks, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
-<span id="cb258-5"><a href="r-graphics.html#cb258-5" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">rbind</span>( h.se<span class="sc">$</span>counts, h.ve<span class="sc">$</span>counts, h.vi<span class="sc">$</span>counts )</span>
-<span id="cb258-6"><a href="r-graphics.html#cb258-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vals) <span class="ot">&lt;-</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species)</span>
-<span id="cb258-7"><a href="r-graphics.html#cb258-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(vals) <span class="ot">&lt;-</span> breaks[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
-<span id="cb258-8"><a href="r-graphics.html#cb258-8" aria-hidden="true" tabindex="-1"></a>vals</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="r-graphics.html#cb253-1" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">8</span>,<span class="at">by=</span><span class="fl">0.2</span>)</span>
+<span id="cb253-2"><a href="r-graphics.html#cb253-2" aria-hidden="true" tabindex="-1"></a>h.se <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.setosa, <span class="at">breaks=</span>breaks, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb253-3"><a href="r-graphics.html#cb253-3" aria-hidden="true" tabindex="-1"></a>h.ve <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.versicolor, <span class="at">breaks=</span>breaks, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
+<span id="cb253-4"><a href="r-graphics.html#cb253-4" aria-hidden="true" tabindex="-1"></a>h.vi <span class="ot">&lt;-</span> <span class="fu">hist</span>(d.virginica, <span class="at">breaks=</span>breaks, <span class="at">plot=</span><span class="cn">FALSE</span>)</span>
+<span id="cb253-5"><a href="r-graphics.html#cb253-5" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">rbind</span>( h.se<span class="sc">$</span>counts, h.ve<span class="sc">$</span>counts, h.vi<span class="sc">$</span>counts )</span>
+<span id="cb253-6"><a href="r-graphics.html#cb253-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vals) <span class="ot">&lt;-</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species)</span>
+<span id="cb253-7"><a href="r-graphics.html#cb253-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(vals) <span class="ot">&lt;-</span> breaks[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
+<span id="cb253-8"><a href="r-graphics.html#cb253-8" aria-hidden="true" tabindex="-1"></a>vals</span></code></pre></div>
 <pre><code>##            4 4.2 4.4 4.6 4.8  5 5.2 5.4 5.6 5.8 6 6.2 6.4 6.6 6.8 7 7.2 7.4 7.6
 ## setosa     0   4   5   7  12 11   6   2   3   0 0   0   0   0   0 0   0   0   0
 ## versicolor 0   0   0   0   3  2   1  10   8   6 6   5   3   4   2 0   0   0   0
@@ -2026,19 +1287,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## versicolor   0
 ## virginica    1</code></pre>
 <p>The matrix of data</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="r-graphics.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(vals,<span class="at">xlab=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Frequency&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="r-graphics.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(vals,<span class="at">xlab=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Frequency&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
 <p>Stacked barplots may or may not be that informative, depending upon the complexity of your underlying data. It is helpful though to be able to stagger them. In the basic <code>barplot()</code> function allows you to specify the bars to be spaced beside each other as:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="r-graphics.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(vals,<span class="at">xlab=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="at">beside=</span><span class="cn">TRUE</span>)</span>
-<span id="cb261-2"><a href="r-graphics.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">60</span>, <span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="r-graphics.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(vals,<span class="at">xlab=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Frequency&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="at">beside=</span><span class="cn">TRUE</span>)</span>
+<span id="cb256-2"><a href="r-graphics.html#cb256-2" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">60</span>, <span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
 <p>For plotting onto a barplot object, the x-axis number is not based upon the labels on the x-axis. It is an integer that relates to the number of bar-widths and separations. In this example, there are three bars for each category plus one separator (e.g., the area between two categories). So I had to plot the legend at 60 units on the x-coordinate, which puts it just after the 15th category (e.g., 15*4=60).</p>
 <p>We can do the same thing with <code>geom_histogram()</code>, though again with a bit less typing involved. Here is the raw plot (which by default stacks just like in the <code>barplot()</code> example)</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="r-graphics.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="r-graphics.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
 <p>and the correspondingly staggered plot with bars positioned next to eachother.</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="r-graphics.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="r-graphics.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
 <p>Notice how we add the fill color to the <code>aes()</code> function because the categories for assigning colors will be extracted from the <code>data.frame</code>, whereas when we just wanted to set them all light blue, the color is specified outside the <code>aes()</code> function. Also notice when we specify something to the <code>aes()</code> command in this way, we do not quote the name of the column, we call it just as if it were a normal variable.</p>
@@ -2056,32 +1317,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Outlier data points.</li>
 </ul>
 <p>Here is how the sepal length can be plot as a function of the Iris species.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="r-graphics.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Sepal.Length <span class="sc">~</span> Species, <span class="at">data=</span>iris, <span class="at">notch=</span><span class="cn">TRUE</span>, </span>
-<span id="cb266-2"><a href="r-graphics.html#cb266-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Species&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, </span>
-<span id="cb266-3"><a href="r-graphics.html#cb266-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">frame.plot=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="r-graphics.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Sepal.Length <span class="sc">~</span> Species, <span class="at">data=</span>iris, <span class="at">notch=</span><span class="cn">TRUE</span>, </span>
+<span id="cb261-2"><a href="r-graphics.html#cb261-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Species&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, </span>
+<span id="cb261-3"><a href="r-graphics.html#cb261-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">frame.plot=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
 <p>A couple of things should be noted on this plot call. First, I used a ‘functional’ form for the relationship between the continuous variable (<code>Sepal.Length</code>) and the factor (<code>Species</code>) with the response variable indicated on the left side of the tilde and the predictor variables on the right side. It is just as reasonable to use <code>boxplot(Species,Sepal.Length, ...)</code> in the call as x- and y- variables in the first two positions. However, it reads a bit better to do it as a function, like a regression. Also, it should be noted that I added the optional term, <code>data=iris</code>, to the call. This allowed me to reference the columns in the iris data.frame without the dollar sign notation. Without that I would have had to write <code>boxplot( data$Sepal.Length ~ data$Species, ...)</code>, a much more verbose way of doing it but most programmers are relatively lazy and anything they can do to get more functionality out of less typing… Finally, I set <code>frame.plot=FALSE</code> to remove the box around the plot since the <code>bty="n"</code> does not work on boxplots (big shout out for consistency!). I don’t know why these are different, I just hate the box.</p>
 <p>The corresponding <code>ggplot</code> approach is the same as the <code>boxplot()</code> one, we just have to specify the <code>notch=TRUE</code> in the <code>geom_boxplot()</code> function.</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="r-graphics.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Species, <span class="at">y=</span>Sepal.Length)) <span class="sc">+</span> </span>
-<span id="cb267-2"><a href="r-graphics.html#cb267-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb267-3"><a href="r-graphics.html#cb267-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Iris Species&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="r-graphics.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Species, <span class="at">y=</span>Sepal.Length)) <span class="sc">+</span> </span>
+<span id="cb262-2"><a href="r-graphics.html#cb262-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb262-3"><a href="r-graphics.html#cb262-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Iris Species&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
 </div>
 <div id="scatter-plots" class="section level4">
 <h4>3.3. Scatter Plots</h4>
 <p>With two sets of continuous data, we can produce scatter plots. These consist of 2- (or 3-) coordinates where we can plot our data. With the addition of alternative colors (<code>col=</code>) and/or plot shapes (<code>pch=</code>) passed to the generic plot() command, we can make really informative graphical output. Here I plot two characteristics of the iris data set, sepal length and width, and use the species to indicate alternative symbols.</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="r-graphics.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Sepal.Width, </span>
-<span id="cb268-2"><a href="r-graphics.html#cb268-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">pch=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
-<span id="cb268-3"><a href="r-graphics.html#cb268-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Width (cm)&quot;</span>)</span>
-<span id="cb268-4"><a href="r-graphics.html#cb268-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>( <span class="fl">6.75</span>, <span class="fl">4.3</span>, <span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), </span>
-<span id="cb268-5"><a href="r-graphics.html#cb268-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">pch=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="r-graphics.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Sepal.Width, </span>
+<span id="cb263-2"><a href="r-graphics.html#cb263-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">pch=</span><span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb263-3"><a href="r-graphics.html#cb263-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Width (cm)&quot;</span>)</span>
+<span id="cb263-4"><a href="r-graphics.html#cb263-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>( <span class="fl">6.75</span>, <span class="fl">4.3</span>, <span class="fu">c</span>(<span class="st">&quot;I. setosa&quot;</span>, <span class="st">&quot;I. versicolor&quot;</span>, <span class="st">&quot;I. virginica&quot;</span>), </span>
+<span id="cb263-5"><a href="r-graphics.html#cb263-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">pch=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
 <p>The call to <code>pch=</code> that I used coerced a factor into a numeric data type. By default, this will create a numeric sequence (starting at 1) for all levels of the factor, including ones that may not be in the data you are doing the conversion on. The parameter passed to <code>pch</code> is an integer that determines the shape of the symbol being plot. I typically forget which numbers correspond to which symbols (there are 25 of them in total ) and have to look them up when I need them. One of the easiest ways is just to plot them as:</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="r-graphics.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>,<span class="at">pch=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;pch&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;pch&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="r-graphics.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>,<span class="at">pch=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;pch&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;pch&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
 <p>which produces the following figure where you can choose the appropriate symbols for your plotting needs.</p>
 <p>A scatter plot in <code>ggplot</code> is created using the <code>geom_point()</code> layer.</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="r-graphics.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris,<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length,<span class="at">y=</span>Sepal.Width, <span class="at">shape=</span>Species)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="r-graphics.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris,<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length,<span class="at">y=</span>Sepal.Width, <span class="at">shape=</span>Species)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
 <p>and the shapes are specified automatically.</p>
 </div>
@@ -2092,14 +1353,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>4.1. Multiple Plots</h4>
 <p>The last figure was a bit confusing. You can see a few points where the three species have the same measurements for both sepal length and width—both <em>I. versicolor</em> and <em>I. virginica</em> have examples with sepal widths of 3.0cm and lengths of 6.7cm. For some of these it would be difficult to determine using a graphical output like this if there were more overlap. In this case, it may be a more informative approach to make plots for each species rather than using different symbols.</p>
 <p>In <code>ggplot</code>, there is a facet geometry that can be added to a plot that can pull apart the individual species plots (in this case) and plot them either next to each other (if you are looking at y-axis differences), on top of each other (for x-axis comparisons), or as a grid (for both x- and y- axis comparisons). This layer is added to the plot using <code>facet_grid()</code> and take a functional argument (as I used for the boxplot example above) on which factors will define rows and columns of plots. Here is an example where I stack plots by species.</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="r-graphics.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Width, <span class="at">y=</span>Sepal.Length ) ) <span class="sc">+</span> </span>
-<span id="cb271-2"><a href="r-graphics.html#cb271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_grid</span>(Species<span class="sc">~</span>.) <span class="sc">+</span> </span>
-<span id="cb271-3"><a href="r-graphics.html#cb271-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Length&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="r-graphics.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Width, <span class="at">y=</span>Sepal.Length ) ) <span class="sc">+</span> </span>
+<span id="cb266-2"><a href="r-graphics.html#cb266-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_grid</span>(Species<span class="sc">~</span>.) <span class="sc">+</span> </span>
+<span id="cb266-3"><a href="r-graphics.html#cb266-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Length&quot;</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
 <p>The <code>Species ~ .</code> means that the rows will be defined by the levels indicatd in <code>iris$Species</code> and all the plotting (the period part) will be done as columns. If you have more than one factor, you can specify <code>RowFactor ~ ColumnFactor</code> and it will make the corresponding grid.</p>
 <p>I would argue that this is a much more intuitive display of differences in width than the previous plot.</p>
 <p>You can achieve a similar effect using built-in plotting functions as well. To do this, we need to mess around a bit with the plotting attributes. These are default parameters (hence the name <code>par</code>) for plotting that are used each time we make a new graphic. Here are all of them (consult with the previous Table for some of the meanings).</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="r-graphics.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>( <span class="fu">par</span>() )</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="r-graphics.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>( <span class="fu">par</span>() )</span></code></pre></div>
 <pre><code>##  [1] &quot;xlog&quot;      &quot;ylog&quot;      &quot;adj&quot;       &quot;ann&quot;       &quot;ask&quot;       &quot;bg&quot;       
 ##  [7] &quot;bty&quot;       &quot;cex&quot;       &quot;cex.axis&quot;  &quot;cex.lab&quot;   &quot;cex.main&quot;  &quot;cex.sub&quot;  
 ## [13] &quot;cin&quot;       &quot;col&quot;       &quot;col.axis&quot;  &quot;col.lab&quot;   &quot;col.main&quot;  &quot;col.sub&quot;  
@@ -2113,31 +1374,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [61] &quot;srt&quot;       &quot;tck&quot;       &quot;tcl&quot;       &quot;usr&quot;       &quot;xaxp&quot;      &quot;xaxs&quot;     
 ## [67] &quot;xaxt&quot;      &quot;xpd&quot;       &quot;yaxp&quot;      &quot;yaxs&quot;      &quot;yaxt&quot;      &quot;ylbias&quot;</code></pre>
 <p>To create multiple plots on one graphic, we need to modify either the mfrow or mfcol property (either will do). They represent the number of figures to plot as a 2-integer vector for rows and columns. By default, it is set to</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-graphics.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>()<span class="sc">$</span>mfrow</span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="r-graphics.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>()<span class="sc">$</span>mfrow</span></code></pre></div>
 <pre><code>## [1] 1 1</code></pre>
 <p>because there is only 1 row and 1 column in the plot. To change this, we simply pass a new value to the <code>par()</code> command and then do the plotting. In the following example, I plot the results of a linear model (<code>lm()</code>) function call. This returns four plots looking at the normality of the data, residuals, etc. This time, instead of seeing them one at a time, I’m going to plot all four into one figure.</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="r-graphics.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb276-2"><a href="r-graphics.html#cb276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( <span class="fu">lm</span>( Sepal.Length <span class="sc">~</span> Sepal.Width, <span class="at">data=</span>iris))</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="r-graphics.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb271-2"><a href="r-graphics.html#cb271-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( <span class="fu">lm</span>( Sepal.Length <span class="sc">~</span> Sepal.Width, <span class="at">data=</span>iris))</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-153-1.png" width="672" /></p>
 </div>
 <div id="color-palettes" class="section level4">
 <h4>4.2. Color Palettes</h4>
 <p>The default plotting colors in R are black and white. However, there is a rich set of colors available for your plotting needs. The easiest set are named colors. At the time of this writing, there are</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="r-graphics.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">colors</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="r-graphics.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">colors</span>())</span></code></pre></div>
 <pre><code>## [1] 657</code></pre>
 <p>different colors available for your use. Not all are distinct as some overlap. However the benefit of these colors is that they have specific names, making it easier for you to remember than RGB or hex representations. Here are a random set of 20 color names.</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="r-graphics.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colors</span>()[ <span class="fu">sample.int</span>( <span class="fu">length</span>(<span class="fu">colors</span>()), <span class="at">size=</span><span class="dv">20</span>) ]</span></code></pre></div>
-<pre><code>##  [1] &quot;antiquewhite4&quot;  &quot;seashell4&quot;      &quot;deepskyblue3&quot;   &quot;gray93&quot;        
-##  [5] &quot;indianred&quot;      &quot;tomato4&quot;        &quot;darkorchid3&quot;    &quot;lightseagreen&quot; 
-##  [9] &quot;khaki&quot;          &quot;olivedrab3&quot;     &quot;gray23&quot;         &quot;thistle3&quot;      
-## [13] &quot;grey34&quot;         &quot;darkblue&quot;       &quot;gray27&quot;         &quot;grey80&quot;        
-## [17] &quot;antiquewhite3&quot;  &quot;gray51&quot;         &quot;palevioletred2&quot; &quot;navajowhite3&quot;</code></pre>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-graphics.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colors</span>()[ <span class="fu">sample.int</span>( <span class="fu">length</span>(<span class="fu">colors</span>()), <span class="at">size=</span><span class="dv">20</span>) ]</span></code></pre></div>
+<pre><code>##  [1] &quot;gray17&quot;          &quot;gray85&quot;          &quot;lightgreen&quot;      &quot;blue4&quot;          
+##  [5] &quot;lightgoldenrod&quot;  &quot;gray61&quot;          &quot;plum3&quot;           &quot;gray21&quot;         
+##  [9] &quot;gray45&quot;          &quot;azure2&quot;          &quot;azure3&quot;          &quot;gray38&quot;         
+## [13] &quot;aliceblue&quot;       &quot;palevioletred2&quot;  &quot;indianred4&quot;      &quot;black&quot;          
+## [17] &quot;royalblue4&quot;      &quot;lightblue3&quot;      &quot;grey30&quot;          &quot;lightgoldenrod4&quot;</code></pre>
 <p>To use these colors you can call them by name in the col= option to a plot. Here is an example where I define three named colors and then coerce the <code>iris$Species</code> variable into an integer to select the color by species and plot it in a scatter plot (another version of the <code>pch=</code> example previously).</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="r-graphics.html#cb281-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;royalblue1&quot;</span>, <span class="st">&quot;orange1&quot;</span>, <span class="st">&quot;green3&quot;</span>)</span>
-<span id="cb281-2"><a href="r-graphics.html#cb281-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> colors[ iris<span class="sc">$</span>Species ]</span>
-<span id="cb281-3"><a href="r-graphics.html#cb281-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( Sepal.Width <span class="sc">~</span> Sepal.Length, <span class="at">data=</span>iris, </span>
-<span id="cb281-4"><a href="r-graphics.html#cb281-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span>cols, <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Width (cm)&quot;</span>, </span>
-<span id="cb281-5"><a href="r-graphics.html#cb281-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="r-graphics.html#cb276-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;royalblue1&quot;</span>, <span class="st">&quot;orange1&quot;</span>, <span class="st">&quot;green3&quot;</span>)</span>
+<span id="cb276-2"><a href="r-graphics.html#cb276-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> colors[ iris<span class="sc">$</span>Species ]</span>
+<span id="cb276-3"><a href="r-graphics.html#cb276-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( Sepal.Width <span class="sc">~</span> Sepal.Length, <span class="at">data=</span>iris, </span>
+<span id="cb276-4"><a href="r-graphics.html#cb276-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span>cols, <span class="at">xlab=</span><span class="st">&quot;Sepal Length (cm)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sepal Width (cm)&quot;</span>, </span>
+<span id="cb276-5"><a href="r-graphics.html#cb276-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
 <p>There is a lot of colors to choose from, and you are undoubtedly able to fit any color scheme on any presentation you may encounter.</p>
 <p>In addition to named colors, there are color palettes available for you to grab the hex value for individual color along a pre-defined gradient. These colors ramps are:</p>
@@ -2154,7 +1415,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>and are displayed in the following figure.</p>
 <p>The individual palette functions return the hex value for an equally separated number of colors along the palette, you only need to ask for the number of colors you are requesting. Here is an example from the <code>rainbow()</code> function.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="r-graphics.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rainbow</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="r-graphics.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rainbow</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;#FF0000&quot; &quot;#FF9900&quot; &quot;#CCFF00&quot; &quot;#33FF00&quot; &quot;#00FF66&quot; &quot;#00FFFF&quot; &quot;#0066FF&quot;
 ##  [8] &quot;#3300FF&quot; &quot;#CC00FF&quot; &quot;#FF0099&quot;</code></pre>
 </div>
@@ -2162,14 +1423,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>4.3. RColorBrewer</h4>
 <p>The ggplot2 library has a slightly more interesting color palette, but it too is often a bit lacking. You have total control over the colors you produce and can specify them as RGB, hex (e.g. the way the web makes colors), or CMYK. You can also define your own color palettes.</p>
 <p>To start, the RColorBrewer library provides several palettes for plotting either quantitative, qualitative, or divergent data. These three groups and the names of individual color palettes can be viewed as:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="r-graphics.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb284-2"><a href="r-graphics.html#cb284-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display.brewer.all</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="r-graphics.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb279-2"><a href="r-graphics.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display.brewer.all</span>()</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
 <p>In ggplot, we can use these palettes as follows.</p>
 <p>You can change the default palette in ggplot output adding the <code>scale_color_brewer()</code> (and <code>scale_fill_brewer()</code> if you are doing fill colors like in a barplot) to the plot. Here is an example where I change the default palette to the 6th divergent palette.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="r-graphics.html#cb285-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(iris,<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length,<span class="at">y=</span>Sepal.Width, <span class="at">color=</span>Species)) <span class="sc">+</span> <span class="fu">geom_point</span>() </span>
-<span id="cb285-2"><a href="r-graphics.html#cb285-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Sepal Length (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>)</span>
-<span id="cb285-3"><a href="r-graphics.html#cb285-3" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_color_brewer</span>(<span class="at">type=</span><span class="st">&quot;div&quot;</span>, <span class="at">palette=</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="r-graphics.html#cb280-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(iris,<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length,<span class="at">y=</span>Sepal.Width, <span class="at">color=</span>Species)) <span class="sc">+</span> <span class="fu">geom_point</span>() </span>
+<span id="cb280-2"><a href="r-graphics.html#cb280-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Sepal Length (cm)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sepal Width (cm)&quot;</span>)</span>
+<span id="cb280-3"><a href="r-graphics.html#cb280-3" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_color_brewer</span>(<span class="at">type=</span><span class="st">&quot;div&quot;</span>, <span class="at">palette=</span><span class="dv">6</span>)</span></code></pre></div>
 <p><img src="00-ReviewR_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
 </div>
 <div id="saving-imagery" class="section level4">
@@ -2192,20 +1453,20 @@ pdf(file = &quot;Rplot%03d.pdf&quot;,
     width = 6, height = 6, pointsize = 12, bg = &quot;white&quot;)</code></pre>
 <p>These are the default values. If you need a transparent background, it is easiest to use the png file and set <code>bg="transparent"</code>. If you are producing an image for a publication, you will most likely be given specific parameters about the image format in terms of DPI, pointsize, dimensions, etc. They can be set here.</p>
 <p>To create the image, call the appropriate function above, and a file will be created for your plotting. You must then call the plotting functions to create your graphic. Instead of showing up in a graphical display window, they will instead be plot to the file. When done you must tell R that your plotting is now finished and it can close the graphics file. This is done by calling dev.off(). Here is an example workflow saving an image of a scatter plot with a smoothed line through it using ggplot.</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="r-graphics.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>( <span class="at">filename =</span> <span class="st">&quot;MyCoolGraphic.png&quot;</span>, <span class="at">quality=</span><span class="dv">300</span>, <span class="at">bg=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">width=</span><span class="dv">1080</span>, <span class="at">height=</span><span class="dv">1080</span>)</span>
-<span id="cb287-2"><a href="r-graphics.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>PredictorVar, <span class="at">y=</span>ResponseVar)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
-<span id="cb287-3"><a href="r-graphics.html#cb287-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="r-graphics.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>( <span class="at">filename =</span> <span class="st">&quot;MyCoolGraphic.png&quot;</span>, <span class="at">quality=</span><span class="dv">300</span>, <span class="at">bg=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">width=</span><span class="dv">1080</span>, <span class="at">height=</span><span class="dv">1080</span>)</span>
+<span id="cb282-2"><a href="r-graphics.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>PredictorVar, <span class="at">y=</span>ResponseVar)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb282-3"><a href="r-graphics.html#cb282-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <p>This will create a file MyCoolGraphic.png saved in the same folder as the current working directory.</p>
 <p>To use <code>dev.copy()</code> instead, you first make the graphic and then copy the current graphic to a file. For this example, it would be:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="r-graphics.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>PredictorVar, <span class="at">y=</span>ResponseVar)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
-<span id="cb288-2"><a href="r-graphics.html#cb288-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.copy</span>(<span class="at">device=</span>png,<span class="at">file=</span><span class="st">&quot;MyDevCopyGraphic.png&quot;</span>)</span>
-<span id="cb288-3"><a href="r-graphics.html#cb288-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="r-graphics.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( df, <span class="fu">aes</span>(<span class="at">x=</span>PredictorVar, <span class="at">y=</span>ResponseVar)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb283-2"><a href="r-graphics.html#cb283-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.copy</span>(<span class="at">device=</span>png,<span class="at">file=</span><span class="st">&quot;MyDevCopyGraphic.png&quot;</span>)</span>
+<span id="cb283-3"><a href="r-graphics.html#cb283-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <p>In general, I prefer the first method as it allows me to specify the specifics of the file in an easier fashion than the second approach.</p>
 <p>If you are using ggplot2 graphics, there is a built-in function ggsave() that can also be used to save your currently displaying graphic (or others if you so specify) to file. Here are the specifics on that function call.</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="r-graphics.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">default_name</span>(plot), <span class="at">plot =</span> <span class="fu">last_plot</span>(),</span>
-<span id="cb289-2"><a href="r-graphics.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> <span class="fu">default_device</span>(filename), <span class="at">path =</span> <span class="cn">NULL</span>, <span class="at">scale =</span> <span class="dv">1</span>,</span>
-<span id="cb289-3"><a href="r-graphics.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="fu">par</span>(<span class="st">&quot;din&quot;</span>)[<span class="dv">1</span>], <span class="at">height =</span> <span class="fu">par</span>(<span class="st">&quot;din&quot;</span>)[<span class="dv">2</span>], <span class="at">units =</span> <span class="fu">c</span>(<span class="st">&quot;in&quot;</span>, <span class="st">&quot;cm&quot;</span>,</span>
-<span id="cb289-4"><a href="r-graphics.html#cb289-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mm&quot;</span>), <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">limitsize =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="r-graphics.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">default_name</span>(plot), <span class="at">plot =</span> <span class="fu">last_plot</span>(),</span>
+<span id="cb284-2"><a href="r-graphics.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> <span class="fu">default_device</span>(filename), <span class="at">path =</span> <span class="cn">NULL</span>, <span class="at">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb284-3"><a href="r-graphics.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="fu">par</span>(<span class="st">&quot;din&quot;</span>)[<span class="dv">1</span>], <span class="at">height =</span> <span class="fu">par</span>(<span class="st">&quot;din&quot;</span>)[<span class="dv">2</span>], <span class="at">units =</span> <span class="fu">c</span>(<span class="st">&quot;in&quot;</span>, <span class="st">&quot;cm&quot;</span>,</span>
+<span id="cb284-4"><a href="r-graphics.html#cb284-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mm&quot;</span>), <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">limitsize =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
 <p>Either approach will allow you to produce publication quality graphics.</p>
 </div>
 <div id="interactive-graphics" class="section level4">

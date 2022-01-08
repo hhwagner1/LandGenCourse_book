@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_12" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb1211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1211-1"><a href="WE_12.html#cb1211-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week12_vignette.Rmd&quot;</span>)</span>
-<span id="cb1211-2"><a href="WE_12.html#cb1211-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb1211-3"><a href="WE_12.html#cb1211-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Caren Goldberg</code></pre>
+<p>Caren Goldberg</p>
 <div id="overview-of-worked-example-11" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <div id="a.-goals-and-background" class="section level4">
@@ -1764,17 +1025,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="c.-required-packages" class="section level4">
 <h4>c. Required packages</h4>
-<div class="sourceCode" id="cb1213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1213-1"><a href="WE_12.html#cb1213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb1213-2"><a href="WE_12.html#cb1213-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1213-3"><a href="WE_12.html#cb1213-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(lme4)</span></span>
-<span id="cb1213-4"><a href="WE_12.html#cb1213-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(usdm)</span></span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="WE_12.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb160-2"><a href="WE_12.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb160-3"><a href="WE_12.html#cb160-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(lme4)</span></span>
+<span id="cb160-4"><a href="WE_12.html#cb160-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(usdm)</span></span></code></pre></div>
 </div>
 <div id="d.-import-data-1" class="section level4">
 <h4>d. Import data</h4>
 <p>First, read in the dataset. It is named CSF (Columbia spotted frog) to differentiate it from the RALU dataset you have used in previous labs (same species, very different landscapes).</p>
-<div class="sourceCode" id="cb1214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1214-1"><a href="WE_12.html#cb1214-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
-<span id="cb1214-2"><a href="WE_12.html#cb1214-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb1214-3"><a href="WE_12.html#cb1214-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="WE_12.html#cb161-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
+<span id="cb161-2"><a href="WE_12.html#cb161-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
+<span id="cb161-3"><a href="WE_12.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
 <pre><code>##   Id         Name  logDc.km   LENGTH     slope solarinso    soils         ag
 ## 1  1 CeGr to FeCr -5.664895 5449.643 11.328851  16332.75 thirteen 0.00000000
 ## 2  2 CeGr to FlCr -5.786712 8352.643 12.822890  16142.01      one 0.01351351
@@ -1790,7 +1051,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 0.05000000 0.00000000 0.3250000 0.6250000 0.00000000 0.9500000   12    4
 ## 6 0.20000000 0.21333333 0.2666667 0.3066667 0.01333333 0.5733333    5    1</code></pre>
 <p>Take a look at the column names and make sure you and R agree on what everything is called, and on the data types (e.g., factor vs. character).</p>
-<div class="sourceCode" id="cb1216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1216-1"><a href="WE_12.html#cb1216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="WE_12.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    48 obs. of  16 variables:
 ##  $ Id       : int  1 2 43 3 44 46 4 6 7 31 ...
 ##  $ Name     : chr  &quot;CeGr to FeCr&quot; &quot;CeGr to FlCr&quot; &quot;CeGr to Krum&quot; &quot;FlCr to Krum&quot; ...
@@ -1835,18 +1096,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>b. Prepare for model fitting</h4>
 <p>Because link data are not independent (i.e. the genetic diversity at node 1 influences both the node1/node2 genetic distance and that from node1/node3, etc.), we need to develop a set of random effects to account for this dependency, so that we seperate the pattern due to this covariance from the signal of landscape influence on genetic distance. We start by creating matrices from the <code>pop1</code> and <code>pop2</code> variables:</p>
 <p>Create the <code>Zl</code> and <code>ZZ</code> matrices:</p>
-<div class="sourceCode" id="cb1218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1218-1"><a href="WE_12.html#cb1218-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
-<span id="cb1218-2"><a href="WE_12.html#cb1218-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
-<span id="cb1218-3"><a href="WE_12.html#cb1218-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="WE_12.html#cb165-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
+<span id="cb165-2"><a href="WE_12.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
+<span id="cb165-3"><a href="WE_12.html#cb165-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
 <p>Note: The list ‘Zl’ contains two sparse matrices, one for the ‘from’ node in ‘pop1’ and one for the ‘to’ node in ‘pop2.’ Each sparse matrix has 20 rows (for the 20 populations) and 48 columns (for the 48 links). Each column has a single value of ‘1’ that indicates the ‘from’ or ‘to’ population of the corresponding link. The matrix ‘ZZ’ is again a sparse matrix that is the sum of the two sparse matrices in ‘Zl.’ Each column thus has two values of ‘1,’ one for the ‘from’ and one for the ‘to’ node.</p>
 <p>Now we can fit an <code>lmer</code> model (linear mixed model; see Week 6 videos) to the data.</p>
-<div class="sourceCode" id="cb1219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1219-1"><a href="WE_12.html#cb1219-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinso <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
-<span id="cb1219-2"><a href="WE_12.html#cb1219-2" aria-hidden="true" tabindex="-1"></a>                       dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="WE_12.html#cb166-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinso <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
+<span id="cb166-2"><a href="WE_12.html#cb166-2" aria-hidden="true" tabindex="-1"></a>                       dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Warning: Some predictor variables are on very different scales: consider
 ## rescaling</code></pre>
 <p>At this point an error message appears: “Warning message: Some predictor variables are on very different scales: consider rescaling.”</p>
 <p>Which variable is causing this problem? To check, get R to show you the first few rows of the dataset:</p>
-<div class="sourceCode" id="cb1221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1221-1"><a href="WE_12.html#cb1221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="WE_12.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CSFdata)</span></code></pre></div>
 <pre><code>##   Id         Name  logDc.km   LENGTH     slope solarinso    soils         ag
 ## 1  1 CeGr to FeCr -5.664895 5449.643 11.328851  16332.75 thirteen 0.00000000
 ## 2  2 CeGr to FlCr -5.786712 8352.643 12.822890  16142.01      one 0.01351351
@@ -1863,10 +1124,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 0.20000000 0.21333333 0.2666667 0.3066667 0.01333333 0.5733333    5    1</code></pre>
 <p>One of these variables is a lot larger than the others, but has a small range. This often happens with variables such as easting and can cause issues for model fit. The common solution is to z-transform (standardize) the data, which is conveniently done in R using the <code>scale</code> function.</p>
 <p>Note: we could use the scale function without specifying the arguments ‘center’ or ‘scale,’ as both are ‘TRUE’ by default. The argument ‘center=TRUE’ centers the variable by subtracting the mean, the ‘scale=TRUE’ argument rescales the variables to unit variance by dividing each value by the standard deviation. The resulting variable has a mean of zero and a standard deviation and variance of one.</p>
-<div class="sourceCode" id="cb1223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1223-1"><a href="WE_12.html#cb1223-1" aria-hidden="true" tabindex="-1"></a>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="WE_12.html#cb170-1" aria-hidden="true" tabindex="-1"></a>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>We then can attach these data back to our dataframe and check to make sure this worked:</p>
-<div class="sourceCode" id="cb1224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1224-1"><a href="WE_12.html#cb1224-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(CSFdata, solarinsoz)</span>
-<span id="cb1224-2"><a href="WE_12.html#cb1224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="WE_12.html#cb171-1" aria-hidden="true" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(CSFdata, solarinsoz)</span>
+<span id="cb171-2"><a href="WE_12.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CSFdata)</span></code></pre></div>
 <pre><code>##  [1] &quot;Id&quot;         &quot;Name&quot;       &quot;logDc.km&quot;   &quot;LENGTH&quot;     &quot;slope&quot;     
 ##  [6] &quot;solarinso&quot;  &quot;soils&quot;      &quot;ag&quot;         &quot;grass&quot;      &quot;shrub&quot;     
 ## [11] &quot;hi&quot;         &quot;lo&quot;         &quot;dev&quot;        &quot;forest&quot;     &quot;pop1&quot;      
@@ -1874,8 +1135,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If <code>solarinsoz</code> is there, you are good.</p>
 <p>While we are at it, we will make sure that these variables do not have issues with multicollinearity.</p>
 <p>Make a dataframe of just the variables to test (note, you cannot use factors here):</p>
-<div class="sourceCode" id="cb1226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1226-1"><a href="WE_12.html#cb1226-1" aria-hidden="true" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
-<span id="cb1226-2"><a href="WE_12.html#cb1226-2" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="WE_12.html#cb173-1" aria-hidden="true" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
+<span id="cb173-2"><a href="WE_12.html#cb173-2" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
 <pre><code>##    Variables      VIF
 ## 1 solarinsoz 1.479273
 ## 2     forest 3.127104
@@ -1884,7 +1145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5         ag 2.532198</code></pre>
 <p>If you get an error that there is no package called ‘usdm,’ use install.packages(“usdm”)</p>
 <p>Numbers less than 10, or 3, or 4, depending on who you ask, are considered to not be collinear enough to affect model outcomes. So we are good to go here. What would happen if we added grass to this?</p>
-<div class="sourceCode" id="cb1228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1228-1"><a href="WE_12.html#cb1228-1" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="WE_12.html#cb175-1" aria-hidden="true" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
 <pre><code>##    Variables       VIF
 ## 1 solarinsoz  1.541954
 ## 2     forest 97.167730
@@ -1895,7 +1156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Question 1</strong>: Why would adding in the last land cover cause a high amount of collinearity? Consider how these data were calculated.</p>
 <p>The variables ‘forest,’ ‘dev,’ ‘shrub,’ ‘ag’ and ‘grass’ together cover almost all land cover types in the study area. Each is measured as percent area, and together, they make up 100% or close to 100% of the land cover types along each link. Thus if we know e.g. that all ‘forest,’ ‘dev,’ ‘shrub’ and ‘ag’ together cover 80% along a link, then it is a good bet that ‘grass’ will cover the remaining 20%.</p>
 <p>With such sets of compositional data, we need to omit one variable to avoid multi-collinearity (where a variable is a linear combination of other variables), even though the pairwise correlations may be low. For example, there the variable ‘grass’ showed relatively low correlations with the other variables:</p>
-<div class="sourceCode" id="cb1230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1230-1"><a href="WE_12.html#cb1230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="WE_12.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
 <pre><code>##                   [,1]
 ## solarinsoz  0.10394523
 ## forest     -0.41341968
@@ -1906,19 +1167,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-fit-all-five-models" class="section level4">
 <h4>c. Fit all five models</h4>
 <p>Now we have to remake the modeling objects with our new and improved data frame, but referring to our z-transformed data (thanks to Martin Van Strien and Helene Wagner for the base model code):</p>
-<div class="sourceCode" id="cb1232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1232-1"><a href="WE_12.html#cb1232-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
-<span id="cb1232-2"><a href="WE_12.html#cb1232-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
-<span id="cb1232-3"><a href="WE_12.html#cb1232-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="WE_12.html#cb179-1" aria-hidden="true" tabindex="-1"></a>Zl <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>,<span class="st">&quot;pop2&quot;</span>), <span class="cf">function</span>(nm) </span>
+<span id="cb179-2"><a href="WE_12.html#cb179-2" aria-hidden="true" tabindex="-1"></a>  Matrix<span class="sc">:::</span><span class="fu">fac2sparse</span>(CSFdata[[nm]], <span class="st">&quot;d&quot;</span>, <span class="at">drop=</span><span class="cn">FALSE</span>))</span>
+<span id="cb179-3"><a href="WE_12.html#cb179-3" aria-hidden="true" tabindex="-1"></a>ZZ <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, Zl[<span class="sc">-</span><span class="dv">1</span>], Zl[[<span class="dv">1</span>]])</span></code></pre></div>
 <p>Fit an lmer model to the data:</p>
-<div class="sourceCode" id="cb1233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1233-1"><a href="WE_12.html#cb1233-1" aria-hidden="true" tabindex="-1"></a>mod_1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
-<span id="cb1233-2"><a href="WE_12.html#cb1233-2" aria-hidden="true" tabindex="-1"></a>                        dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="WE_12.html#cb180-1" aria-hidden="true" tabindex="-1"></a>mod_1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> </span>
+<span id="cb180-2"><a href="WE_12.html#cb180-2" aria-hidden="true" tabindex="-1"></a>                        dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), <span class="at">data =</span> CSFdata, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>In the fitted model replace Zt slot (matrix for the random effects generated with just pop1) with the ZZ matrix created above:</p>
-<div class="sourceCode" id="cb1234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1234-1"><a href="WE_12.html#cb1234-1" aria-hidden="true" tabindex="-1"></a>mod_1<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="WE_12.html#cb181-1" aria-hidden="true" tabindex="-1"></a>mod_1<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span></code></pre></div>
 <p>Refit the model (this involves a few steps of optimization starting from the previously fitted model <code>mod_1</code>):</p>
-<div class="sourceCode" id="cb1235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1235-1"><a href="WE_12.html#cb1235-1" aria-hidden="true" tabindex="-1"></a>dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod_1)</span>
-<span id="cb1235-2"><a href="WE_12.html#cb1235-2" aria-hidden="true" tabindex="-1"></a>opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1235-3"><a href="WE_12.html#cb1235-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod_1<span class="sc">$</span>reTrms, <span class="at">fr =</span> mod_1<span class="sc">$</span>fr)</span>
-<span id="cb1235-4"><a href="WE_12.html#cb1235-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="WE_12.html#cb182-1" aria-hidden="true" tabindex="-1"></a>dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod_1)</span>
+<span id="cb182-2"><a href="WE_12.html#cb182-2" aria-hidden="true" tabindex="-1"></a>opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
+<span id="cb182-3"><a href="WE_12.html#cb182-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod_1<span class="sc">$</span>reTrms, <span class="at">fr =</span> mod_1<span class="sc">$</span>fr)</span>
+<span id="cb182-4"><a href="WE_12.html#cb182-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## 
 ## REML criterion at convergence: 101.9
@@ -1951,61 +1212,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## dev        -0.691 -0.020  0.533  0.551  0.195</code></pre>
 <p>In this output, we focus on the estimates of fixed effects, which we will use later to examine the effect of each variable. Note that there are no p-values because of the nature of these models and the philosophy of the package writers. There are packages available that calculate these but the results may be misleading.
 This is the closest to a full model in our dataset (although our models are not completely nested), so we will take a look at the residuals:</p>
-<div class="sourceCode" id="cb1237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1237-1"><a href="WE_12.html#cb1237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod1) </span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="WE_12.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod1) </span></code></pre></div>
 <p><img src="12-Week12_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>Residuals are centered around zero and do not show large groupings or patterns, although there is some increase in variation at larger numbers (so the model is having a more difficult time predicting larger genetic distances per km). We will keep that in mind as we move on.</p>
 <p>Next we will check to make sure the residuals are normally distributed.</p>
-<div class="sourceCode" id="cb1238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1238-1"><a href="WE_12.html#cb1238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(mod1)) </span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="WE_12.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(mod1)) </span></code></pre></div>
 <p><img src="12-Week12_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>This can also be done with the <code>qqmath</code> function in package lattice if you are more used to seeing qq plots. These residuals look okay so we will move on (but if this were a publication we would do a closer examination of the shape of the data at the ends of the distribution).</p>
 <p>Now we will make a function (called MLPE) to fit the rest of our models, so that we are not typing the same code over and over (which causes errors and long code that is difficult to navigate or update):</p>
-<div class="sourceCode" id="cb1239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1239-1"><a href="WE_12.html#cb1239-1" aria-hidden="true" tabindex="-1"></a>MLPE <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
-<span id="cb1239-2"><a href="WE_12.html#cb1239-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1239-3"><a href="WE_12.html#cb1239-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1239-4"><a href="WE_12.html#cb1239-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1239-5"><a href="WE_12.html#cb1239-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1239-6"><a href="WE_12.html#cb1239-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
-<span id="cb1239-7"><a href="WE_12.html#cb1239-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1239-8"><a href="WE_12.html#cb1239-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
-<span id="cb1239-9"><a href="WE_12.html#cb1239-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1239-10"><a href="WE_12.html#cb1239-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1239-11"><a href="WE_12.html#cb1239-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1239-12"><a href="WE_12.html#cb1239-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
-<span id="cb1239-13"><a href="WE_12.html#cb1239-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="WE_12.html#cb186-1" aria-hidden="true" tabindex="-1"></a>MLPE <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
+<span id="cb186-2"><a href="WE_12.html#cb186-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb186-3"><a href="WE_12.html#cb186-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
+<span id="cb186-4"><a href="WE_12.html#cb186-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
+<span id="cb186-5"><a href="WE_12.html#cb186-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
+<span id="cb186-6"><a href="WE_12.html#cb186-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
+<span id="cb186-7"><a href="WE_12.html#cb186-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-8"><a href="WE_12.html#cb186-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
+<span id="cb186-9"><a href="WE_12.html#cb186-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
+<span id="cb186-10"><a href="WE_12.html#cb186-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
+<span id="cb186-11"><a href="WE_12.html#cb186-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
+<span id="cb186-12"><a href="WE_12.html#cb186-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
+<span id="cb186-13"><a href="WE_12.html#cb186-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>To use this function, we define variables (the model as we want it to run) and data (the object that contains our data).</p>
-<div class="sourceCode" id="cb1240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1240-1"><a href="WE_12.html#cb1240-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1240-2"><a href="WE_12.html#cb1240-2" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1240-3"><a href="WE_12.html#cb1240-3" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1240-4"><a href="WE_12.html#cb1240-4" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="WE_12.html#cb187-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb187-2"><a href="WE_12.html#cb187-2" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb187-3"><a href="WE_12.html#cb187-3" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb187-4"><a href="WE_12.html#cb187-4" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">MLPE</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
 </div>
 <div id="d.-compare-evidence-for-models" class="section level4">
 <h4>d. Compare evidence for models</h4>
 <p>First we need to refit the models with REML = FALSE to get a useable estimate of likelihood for AIC and BIC. To do this, we’ll create a new function called MLPEnoREML and use it to fit our 5 models.</p>
-<div class="sourceCode" id="cb1241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1241-1"><a href="WE_12.html#cb1241-1" aria-hidden="true" tabindex="-1"></a>MLPEnoREML <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
-<span id="cb1241-2"><a href="WE_12.html#cb1241-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1241-3"><a href="WE_12.html#cb1241-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1241-4"><a href="WE_12.html#cb1241-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1241-5"><a href="WE_12.html#cb1241-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1241-6"><a href="WE_12.html#cb1241-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
-<span id="cb1241-7"><a href="WE_12.html#cb1241-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1241-8"><a href="WE_12.html#cb1241-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
-<span id="cb1241-9"><a href="WE_12.html#cb1241-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
-<span id="cb1241-10"><a href="WE_12.html#cb1241-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
-<span id="cb1241-11"><a href="WE_12.html#cb1241-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
-<span id="cb1241-12"><a href="WE_12.html#cb1241-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
-<span id="cb1241-13"><a href="WE_12.html#cb1241-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1242-1"><a href="WE_12.html#cb1242-1" aria-hidden="true" tabindex="-1"></a>mod1noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span> (logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1242-2"><a href="WE_12.html#cb1242-2" aria-hidden="true" tabindex="-1"></a>mod2noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1242-3"><a href="WE_12.html#cb1242-3" aria-hidden="true" tabindex="-1"></a>mod3noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1242-4"><a href="WE_12.html#cb1242-4" aria-hidden="true" tabindex="-1"></a>mod4noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
-<span id="cb1242-5"><a href="WE_12.html#cb1242-5" aria-hidden="true" tabindex="-1"></a>mod5noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="WE_12.html#cb188-1" aria-hidden="true" tabindex="-1"></a>MLPEnoREML <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, data) {</span>
+<span id="cb188-2"><a href="WE_12.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  mod2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lFormula</span>(variables, <span class="at">data =</span> data, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb188-3"><a href="WE_12.html#cb188-3" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
+<span id="cb188-4"><a href="WE_12.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
+<span id="cb188-5"><a href="WE_12.html#cb188-5" aria-hidden="true" tabindex="-1"></a>  mod_2 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
+<span id="cb188-6"><a href="WE_12.html#cb188-6" aria-hidden="true" tabindex="-1"></a>  mod2<span class="sc">$</span>reTrms<span class="sc">$</span>Zt <span class="ot">&lt;-</span> ZZ</span>
+<span id="cb188-7"><a href="WE_12.html#cb188-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb188-8"><a href="WE_12.html#cb188-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the model</span></span>
+<span id="cb188-9"><a href="WE_12.html#cb188-9" aria-hidden="true" tabindex="-1"></a>  dfun <span class="ot">&lt;-</span> <span class="fu">do.call</span>(lme4<span class="sc">::</span>mkLmerDevfun, mod2)</span>
+<span id="cb188-10"><a href="WE_12.html#cb188-10" aria-hidden="true" tabindex="-1"></a>  opt <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">optimizeLmer</span>(dfun)</span>
+<span id="cb188-11"><a href="WE_12.html#cb188-11" aria-hidden="true" tabindex="-1"></a>  modelout <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">mkMerMod</span>(<span class="fu">environment</span>(dfun), opt, mod2<span class="sc">$</span>reTrms,<span class="at">fr =</span> mod2<span class="sc">$</span>fr)</span>
+<span id="cb188-12"><a href="WE_12.html#cb188-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(modelout)</span>
+<span id="cb188-13"><a href="WE_12.html#cb188-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="WE_12.html#cb189-1" aria-hidden="true" tabindex="-1"></a>mod1noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span> (logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb189-2"><a href="WE_12.html#cb189-2" aria-hidden="true" tabindex="-1"></a>mod2noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb189-3"><a href="WE_12.html#cb189-3" aria-hidden="true" tabindex="-1"></a>mod3noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> ag <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb189-4"><a href="WE_12.html#cb189-4" aria-hidden="true" tabindex="-1"></a>mod4noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span>
+<span id="cb189-5"><a href="WE_12.html#cb189-5" aria-hidden="true" tabindex="-1"></a>mod5noREML <span class="ot">&lt;-</span> <span class="fu">MLPEnoREML</span>(logDc.km <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>pop1), CSFdata)</span></code></pre></div>
 <p>In information theory, we use information criteria (AIC, BIC) to evaluate the relative distance of our hypothesis from truth. For more information, see Burnham and Anderson (2002).</p>
 <p>Note: package MuMIn will do this for you, but for this exercise it is useful to see all the pieces of what goes into your evaluation.</p>
-<div class="sourceCode" id="cb1243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1243-1"><a href="WE_12.html#cb1243-1" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1noREML, <span class="at">Landcover=</span>mod2noREML, <span class="at">HumanFootprint=</span>mod3noREML, </span>
-<span id="cb1243-2"><a href="WE_12.html#cb1243-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4noREML, <span class="at">Historical=</span>mod5noREML)</span>
-<span id="cb1243-3"><a href="WE_12.html#cb1243-3" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
-<span id="cb1243-4"><a href="WE_12.html#cb1243-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
-<span id="cb1243-5"><a href="WE_12.html#cb1243-5" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="WE_12.html#cb190-1" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1noREML, <span class="at">Landcover=</span>mod2noREML, <span class="at">HumanFootprint=</span>mod3noREML, </span>
+<span id="cb190-2"><a href="WE_12.html#cb190-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4noREML, <span class="at">Historical=</span>mod5noREML)</span>
+<span id="cb190-3"><a href="WE_12.html#cb190-3" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
+<span id="cb190-4"><a href="WE_12.html#cb190-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
+<span id="cb190-5"><a href="WE_12.html#cb190-5" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC
 ## Full               115.9620 130.9316
 ## Landcover          113.9757 127.0742
@@ -2015,8 +1276,8 @@ This is the closest to a full model in our dataset (although our models are not 
 <p>We now have some results, great!</p>
 <p>Now we will work with these a bit. First, because we do not have an infinite number of samples, we will convert AIC to AICc (which adds a small-sample correction to AIC).</p>
 <p>First, find the k parameters used in the model and add them to the table.</p>
-<div class="sourceCode" id="cb1245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1245-1"><a href="WE_12.html#cb1245-1" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
-<span id="cb1245-2"><a href="WE_12.html#cb1245-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="WE_12.html#cb192-1" aria-hidden="true" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
+<span id="cb192-2"><a href="WE_12.html#cb192-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC k
 ## Full               115.9620 130.9316 8
 ## Landcover          113.9757 127.0742 7
@@ -2025,8 +1286,8 @@ This is the closest to a full model in our dataset (although our models are not 
 ## Historical         122.4089 137.3785 8</code></pre>
 <p><strong>Question 2</strong>: How does k relate to the number of parameters in each model?</p>
 <p>Now, calculate AICc and add it to the dataframe:</p>
-<div class="sourceCode" id="cb1247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1247-1"><a href="WE_12.html#cb1247-1" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(<span class="dv">48</span><span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
-<span id="cb1247-2"><a href="WE_12.html#cb1247-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="WE_12.html#cb194-1" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(<span class="dv">48</span><span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
+<span id="cb194-2"><a href="WE_12.html#cb194-2" aria-hidden="true" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC k     AICc
 ## Full               115.9620 130.9316 8 119.6543
 ## Landcover          113.9757 127.0742 7 116.7757
@@ -2038,16 +1299,16 @@ This is the closest to a full model in our dataset (although our models are not 
 <h4>e. Calculate evidence weights</h4>
 <p>Next we calculate evidence weights for each model based on AICc and BIC. These can be interpreted as the probability that the model is the closest to truth in the candidate model set.</p>
 <p>Calculate model weights for AICc:</p>
-<div class="sourceCode" id="cb1249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1249-1"><a href="WE_12.html#cb1249-1" aria-hidden="true" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
-<span id="cb1249-2"><a href="WE_12.html#cb1249-2" aria-hidden="true" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
-<span id="cb1249-3"><a href="WE_12.html#cb1249-3" aria-hidden="true" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
-<span id="cb1249-4"><a href="WE_12.html#cb1249-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICcmin <span class="ot">&lt;-</span> RL<span class="sc">/</span>sumRL</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="WE_12.html#cb196-1" aria-hidden="true" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
+<span id="cb196-2"><a href="WE_12.html#cb196-2" aria-hidden="true" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
+<span id="cb196-3"><a href="WE_12.html#cb196-3" aria-hidden="true" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
+<span id="cb196-4"><a href="WE_12.html#cb196-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICcmin <span class="ot">&lt;-</span> RL<span class="sc">/</span>sumRL</span></code></pre></div>
 <p>Calculate model weights for BIC:</p>
-<div class="sourceCode" id="cb1250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1250-1"><a href="WE_12.html#cb1250-1" aria-hidden="true" tabindex="-1"></a>BICmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>BIC)</span>
-<span id="cb1250-2"><a href="WE_12.html#cb1250-2" aria-hidden="true" tabindex="-1"></a>RL.B <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>BIC <span class="sc">-</span> BICmin))</span>
-<span id="cb1250-3"><a href="WE_12.html#cb1250-3" aria-hidden="true" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
-<span id="cb1250-4"><a href="WE_12.html#cb1250-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
-<span id="cb1250-5"><a href="WE_12.html#cb1250-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="WE_12.html#cb197-1" aria-hidden="true" tabindex="-1"></a>BICmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>BIC)</span>
+<span id="cb197-2"><a href="WE_12.html#cb197-2" aria-hidden="true" tabindex="-1"></a>RL.B <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>BIC <span class="sc">-</span> BICmin))</span>
+<span id="cb197-3"><a href="WE_12.html#cb197-3" aria-hidden="true" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
+<span id="cb197-4"><a href="WE_12.html#cb197-4" aria-hidden="true" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
+<span id="cb197-5"><a href="WE_12.html#cb197-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##                        AIC     BIC k    AICc AICcmin BICew
 ## Full               115.962 130.932 8 119.654   0.047 0.012
 ## Landcover          113.976 127.074 7 116.776   0.200 0.085
@@ -2067,10 +1328,10 @@ This is the closest to a full model in our dataset (although our models are not 
 <div id="f.-confidence-intervals-for-predictors" class="section level4">
 <h4>f. Confidence intervals for predictors</h4>
 <p>According to Row et al. (2017), we can use the confidence interval from the variables in the models to identify those that are contributing to landscape resistance. Looking at models 2 and 3, we have some evidence that shrub and forest cover matter, but it’s not as strong as the evidence for ag and development. Let’s look at the parameter estimates to understand more. Note that for parameter estimation we use the REML estimates.</p>
-<div class="sourceCode" id="cb1252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1252-1"><a href="WE_12.html#cb1252-1" aria-hidden="true" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
-<span id="cb1252-2"><a href="WE_12.html#cb1252-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="WE_12.html#cb199-1" aria-hidden="true" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
+<span id="cb199-2"><a href="WE_12.html#cb199-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
 <p>Now we’ll estimate the 95% confidence interval for these estimates:</p>
-<div class="sourceCode" id="cb1253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1253-1"><a href="WE_12.html#cb1253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="WE_12.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                 2.5 %     97.5 %
 ## .sig01             NA         NA
 ## .sigma             NA         NA
@@ -2079,14 +1340,14 @@ This is the closest to a full model in our dataset (although our models are not 
 ## ag          -2.767849 -0.2789161
 ## shrub       -4.335188  0.4391626
 ## dev         -1.077595  1.4292392</code></pre>
-<div class="sourceCode" id="cb1255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1255-1"><a href="WE_12.html#cb1255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="WE_12.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                  2.5 %     97.5 %
 ## .sig01              NA         NA
 ## .sigma              NA         NA
 ## (Intercept) -5.3193590 -4.5159303
 ## ag          -2.0215023 -0.1997056
 ## dev         -0.6843463  1.5082812</code></pre>
-<div class="sourceCode" id="cb1257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1257-1"><a href="WE_12.html#cb1257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="WE_12.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## .sig01               NA         NA
 ## .sigma               NA         NA

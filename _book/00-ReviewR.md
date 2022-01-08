@@ -22,16 +22,7 @@ Optional, advanced topics are presented here:
 
 ## Basic R Programming {#basic-r}
 
-
-```r
-rmd_file <- paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd")
-yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
-cat(yml_metadata$author)
-```
-
-```
-## Rodney Dyer (worked example) and Helene Wagner (adaptation)
-```
+Rodney Dyer (worked example) and Helene Wagner (adaptation)
 
 
 
@@ -189,8 +180,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.3631893  0.9504794 -0.6085539  1.3628437 -0.1849439 -2.0165187
-##  [7] -0.2353688 -1.7115149 -0.1262312 -1.1496074
+##  [1] -1.1004976  0.1525153  0.2462272 -0.9466027 -0.2469184  0.6796281
+##  [7]  1.9432422 -0.8357276 -0.9888942  0.4419820
 ```
 
 from the normal distribution with designated mean and standard deviation:
@@ -201,8 +192,8 @@ rnorm(10,mean=42,sd=12)
 ```
 
 ```
-##  [1] 41.37180 39.73717 69.05786 50.47962 51.28014 42.33120 44.87326 70.16799
-##  [9] 55.25933 24.65817
+##  [1] 61.75416 20.93927 33.14975 35.83036 50.99725 42.17253 54.87826 59.17083
+##  [9] 74.91233 34.56925
 ```
 
 A poisson distribution with mean 2:
@@ -213,7 +204,7 @@ rpois(10,lambda = 2)
 ```
 
 ```
-##  [1] 2 2 4 1 2 1 2 1 1 1
+##  [1] 2 2 0 3 3 1 0 1 3 3
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
@@ -224,8 +215,8 @@ rchisq(10, df=1)
 ```
 
 ```
-##  [1] 0.0488083 0.3904222 1.4320386 0.5279041 1.6331877 0.7213349 0.5720442
-##  [8] 1.2309007 6.2222224 0.1439132
+##  [1] 1.4398890 0.4719287 0.1136631 0.4232242 2.8880269 0.2012972 0.9111348
+##  [8] 1.0840009 0.3194523 0.2548885
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -556,10 +547,10 @@ data
 ```
 
 ```
-##  [1]  0.292096524  0.961111266  0.055392467 -1.196480471 -0.226698071
-##  [6]  0.009959726  1.789948962 -1.452008342 -1.296081893  0.607251035
-## [11]  0.317400928 -0.445643605 -0.871370968  1.739195528  3.391940399
-## [16] -0.383149820 -0.634683537 -0.514242072  1.027626283  1.210760988
+##  [1]  0.07629875 -0.49658451  0.02643081 -0.09086597 -0.14672396 -0.54908861
+##  [7] -1.61728865 -0.03866926 -2.14543733  0.20940107  0.53043612  0.29026588
+## [13]  0.90477437 -0.60832532  1.36688062  1.25042638  0.35627201 -0.05233272
+## [19]  1.12260993  1.50734259
 ```
 
 
@@ -571,8 +562,8 @@ data[ data > 0 ]
 ```
 
 ```
-##  [1] 0.292096524 0.961111266 0.055392467 0.009959726 1.789948962 0.607251035
-##  [7] 0.317400928 1.739195528 3.391940399 1.027626283 1.210760988
+##  [1] 0.07629875 0.02643081 0.20940107 0.53043612 0.29026588 0.90477437
+##  [7] 1.36688062 1.25042638 0.35627201 1.12260993 1.50734259
 ```
 
 If you look at the condition being passed to as the index
@@ -583,8 +574,8 @@ data > 0
 ```
 
 ```
-##  [1]  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE
-## [13] FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE
+##  [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE
+## [13]  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -608,8 +599,8 @@ data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
-##  [1]  0.29209652  0.05539247 -0.22669807  1.78994896 -1.29608189  0.31740093
-##  [7] -0.87137097  3.39194040 -0.63468354  1.02762628
+##  [1]  0.07629875  0.02643081 -0.14672396 -1.61728865 -2.14543733  0.53043612
+##  [7]  0.90477437  1.36688062  0.35627201  1.12260993
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -1164,11 +1155,11 @@ df
 
 ```
 ##   ID Names Score
-## 1  1   Bob    88
-## 2  2 Alice    88
-## 3  3 Vicki    90
-## 4  4  John    81
-## 5  5 Sarah    89
+## 1  1   Bob    90
+## 2  2 Alice    91
+## 3  3 Vicki    91
+## 4  4  John    94
+## 5  5 Sarah    87
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
@@ -1187,12 +1178,12 @@ summary(df)
 
 ```
 ##        ID       Names               Score      Passed_Class   
-##  Min.   :1   Length:5           Min.   :81.0   Mode :logical  
-##  1st Qu.:2   Class :character   1st Qu.:88.0   FALSE:1        
-##  Median :3   Mode  :character   Median :88.0   TRUE :4        
-##  Mean   :3                      Mean   :87.2                  
-##  3rd Qu.:4                      3rd Qu.:89.0                  
-##  Max.   :5                      Max.   :90.0
+##  Min.   :1   Length:5           Min.   :87.0   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:90.0   FALSE:1        
+##  Median :3   Mode  :character   Median :91.0   TRUE :4        
+##  Mean   :3                      Mean   :90.6                  
+##  3rd Qu.:4                      3rd Qu.:91.0                  
+##  Max.   :5                      Max.   :94.0
 ```
 
 
@@ -1208,7 +1199,7 @@ df[1,3]
 ```
 
 ```
-## [1] 88
+## [1] 90
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
@@ -1220,7 +1211,7 @@ df[1,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
+## 1  1   Bob    90         TRUE
 ```
 
 or along columns (which give you a vector of data)
@@ -1231,7 +1222,7 @@ df[,3]
 ```
 
 ```
-## [1] 88 88 90 81 89
+## [1] 90 91 91 94 87
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
@@ -1254,9 +1245,9 @@ df[1:3,]
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    88         TRUE
-## 2  2 Alice    88         TRUE
-## 3  3 Vicki    90         TRUE
+## 1  1   Bob    90         TRUE
+## 2  2 Alice    91         TRUE
+## 3  3 Vicki    91         TRUE
 ```
 
 It is also possible to use logical operators as indices.  Here I select only those names in the data.frame whose score was >90 and they passed popgen.
@@ -1267,7 +1258,7 @@ df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
-## character(0)
+## [1] "Alice" "Vicki"
 ```
 
 
@@ -1654,16 +1645,7 @@ for( i in 1:10){
 
 ## R Graphics {#r-graphics}
 
-
-```r
-rmd_file <- paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd")
-yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
-cat(yml_metadata$author)
-```
-
-```
-## Rodney Dyer (worked example) and Helene Wagner (adaptation)
-```
+Rodney Dyer (worked example) and Helene Wagner (adaptation)
 
 
 
@@ -2261,11 +2243,11 @@ colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
-##  [1] "antiquewhite4"  "seashell4"      "deepskyblue3"   "gray93"        
-##  [5] "indianred"      "tomato4"        "darkorchid3"    "lightseagreen" 
-##  [9] "khaki"          "olivedrab3"     "gray23"         "thistle3"      
-## [13] "grey34"         "darkblue"       "gray27"         "grey80"        
-## [17] "antiquewhite3"  "gray51"         "palevioletred2" "navajowhite3"
+##  [1] "gray17"          "gray85"          "lightgreen"      "blue4"          
+##  [5] "lightgoldenrod"  "gray61"          "plum3"           "gray21"         
+##  [9] "gray45"          "azure2"          "azure3"          "gray38"         
+## [13] "aliceblue"       "palevioletred2"  "indianred4"      "black"          
+## [17] "royalblue4"      "lightblue3"      "grey30"          "lightgoldenrod4"
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).

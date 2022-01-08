@@ -7,7 +7,7 @@ This week's lab analyzes parent-offspring data to quantify contemporary gene flo
 
 ## Worked Example{#WE_14}
 
-```{r}
+```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week14_vignette.Rmd")
 yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)

@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_14" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb1391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1391-1"><a href="WE_14.html#cb1391-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week14_vignette.Rmd&quot;</span>)</span>
-<span id="cb1391-2"><a href="WE_14.html#cb1391-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb1391-3"><a href="WE_14.html#cb1391-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Michelle DiLeo</code></pre>
+<p>Michelle DiLeo</p>
 <div id="overview-3" class="section level3">
 <h3>1. Overview</h3>
 <div id="a.-background-and-goals" class="section level4">
@@ -1752,15 +1013,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-packages-1" class="section level4">
 <h4>c. Required packages</h4>
 <p>Install some packages needed for this worked example.</p>
-<div class="sourceCode" id="cb1393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1393-1"><a href="WE_14.html#cb1393-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;popgraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb1393-2"><a href="WE_14.html#cb1393-2" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb1393-3"><a href="WE_14.html#cb1393-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;RgoogleMaps&quot;</span>, <span class="st">&quot;geosphere&quot;</span>, <span class="st">&quot;proto&quot;</span>, <span class="st">&quot;sampling&quot;</span>, </span>
-<span id="cb1393-4"><a href="WE_14.html#cb1393-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;seqinr&quot;</span>, <span class="st">&quot;spacetime&quot;</span>, <span class="st">&quot;spdep&quot;</span>), <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1393-5"><a href="WE_14.html#cb1393-5" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/popgraph&quot;</span>)</span>
-<span id="cb1393-6"><a href="WE_14.html#cb1393-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1393-7"><a href="WE_14.html#cb1393-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;gstudio&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/gstudio&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb1394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1394-1"><a href="WE_14.html#cb1394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb1394-2"><a href="WE_14.html#cb1394-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="WE_14.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;popgraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb336-2"><a href="WE_14.html#cb336-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb336-3"><a href="WE_14.html#cb336-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;RgoogleMaps&quot;</span>, <span class="st">&quot;geosphere&quot;</span>, <span class="st">&quot;proto&quot;</span>, <span class="st">&quot;sampling&quot;</span>, </span>
+<span id="cb336-4"><a href="WE_14.html#cb336-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;seqinr&quot;</span>, <span class="st">&quot;spacetime&quot;</span>, <span class="st">&quot;spdep&quot;</span>), <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span>
+<span id="cb336-5"><a href="WE_14.html#cb336-5" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/popgraph&quot;</span>)</span>
+<span id="cb336-6"><a href="WE_14.html#cb336-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb336-7"><a href="WE_14.html#cb336-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;gstudio&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/gstudio&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="WE_14.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb337-2"><a href="WE_14.html#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;dplyr&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
@@ -1769,17 +1030,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb1398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1398-1"><a href="WE_14.html#cb1398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1398-2"><a href="WE_14.html#cb1398-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="WE_14.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb341-2"><a href="WE_14.html#cb341-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span></code></pre></div>
 <pre><code>## Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</code></pre>
 <pre><code>## Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</code></pre>
-<div class="sourceCode" id="cb1401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1401-1"><a href="WE_14.html#cb1401-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(gstudio)</span></span>
-<span id="cb1401-2"><a href="WE_14.html#cb1401-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(pegas)</span></span>
-<span id="cb1401-3"><a href="WE_14.html#cb1401-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(vegan)</span></span>
-<span id="cb1401-4"><a href="WE_14.html#cb1401-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(purrr)</span></span>
-<span id="cb1401-5"><a href="WE_14.html#cb1401-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MuMIn)</span></span>
-<span id="cb1401-6"><a href="WE_14.html#cb1401-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(lme4)</span></span>
-<span id="cb1401-7"><a href="WE_14.html#cb1401-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(cowplot)</span></span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="WE_14.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(gstudio)</span></span>
+<span id="cb344-2"><a href="WE_14.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(pegas)</span></span>
+<span id="cb344-3"><a href="WE_14.html#cb344-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(vegan)</span></span>
+<span id="cb344-4"><a href="WE_14.html#cb344-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(purrr)</span></span>
+<span id="cb344-5"><a href="WE_14.html#cb344-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MuMIn)</span></span>
+<span id="cb344-6"><a href="WE_14.html#cb344-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(lme4)</span></span>
+<span id="cb344-7"><a href="WE_14.html#cb344-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(cowplot)</span></span></code></pre></div>
 </div>
 </div>
 <div id="import-genotypes" class="section level3">
@@ -1787,12 +1048,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The package <code>gstudio</code> makes it very easy to import genotype data (see Week 1). Typically, we store our genotype data in a spreadsheet with one line per individual and two columns per locus. Using the <code>read_population</code> function, we tell <code>gstudio</code> which columns contain our loci. The argument <code>type="column"</code> indicates that our raw text file stores genotypes in two columns per locus.</p>
 <div id="a.-import-genotype-data" class="section level4">
 <h4>a. Import genotype data</h4>
-<div class="sourceCode" id="cb1402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1402-1"><a href="WE_14.html#cb1402-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">read_population</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,              </span>
-<span id="cb1402-2"><a href="WE_14.html#cb1402-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;pulsatilla_genotypes.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>), </span>
-<span id="cb1402-3"><a href="WE_14.html#cb1402-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">&quot;column&quot;</span>, <span class="at">locus.columns =</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">19</span>)</span>
-<span id="cb1402-4"><a href="WE_14.html#cb1402-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>ID)</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="WE_14.html#cb345-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">read_population</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,              </span>
+<span id="cb345-2"><a href="WE_14.html#cb345-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;pulsatilla_genotypes.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>), </span>
+<span id="cb345-3"><a href="WE_14.html#cb345-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">&quot;column&quot;</span>, <span class="at">locus.columns =</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">19</span>)</span>
+<span id="cb345-4"><a href="WE_14.html#cb345-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dat<span class="sc">$</span>ID)</span></code></pre></div>
 <p>Let’s take a look at the data:</p>
-<div class="sourceCode" id="cb1403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1403-1"><a href="WE_14.html#cb1403-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="WE_14.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div>
 <pre><code>##   ID OffID Population       X       Y  loc1_a  loc2_a  loc3_a  loc4_a  loc5_a
 ## 1 62     0        A21 4426941 5427173 340:340 422:422 413:425 446:448 121:121
 ## 2 64     0        A21 4426933 5427178 334:334 424:424 417:434 444:449 122:133
@@ -1825,15 +1086,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Download a “terrain” map from “stamen,” with zoom level 12.</li>
 <li>Add population labels with <code>geom_text</code>. We specify an offset along the x-axis,<code>nudge_x</code>, and for sites ‘A25’ and ‘A26’ also an offset along the y-axis to prevent labels from overlapping.</li>
 </ul>
-<div class="sourceCode" id="cb1405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1405-1"><a href="WE_14.html#cb1405-1" aria-hidden="true" tabindex="-1"></a>Coords <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Population) <span class="sc">%&gt;%</span> </span>
-<span id="cb1405-2"><a href="WE_14.html#cb1405-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarize</span>(<span class="at">X =</span> <span class="fu">mean</span>(X), <span class="at">Y =</span> <span class="fu">mean</span>(Y))</span>
-<span id="cb1405-3"><a href="WE_14.html#cb1405-3" aria-hidden="true" tabindex="-1"></a>Coords <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Coords, sf<span class="sc">::</span><span class="fu">sf_project</span>(<span class="at">from =</span> <span class="st">&quot;+init=epsg:31468&quot;</span>, </span>
-<span id="cb1405-4"><a href="WE_14.html#cb1405-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>, <span class="at">pts =</span> Coords[<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>)]))</span>
-<span id="cb1405-5"><a href="WE_14.html#cb1405-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Coords)[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Latitude&quot;</span>)</span>
-<span id="cb1405-6"><a href="WE_14.html#cb1405-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1405-7"><a href="WE_14.html#cb1405-7" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Coords, <span class="at">f=</span><span class="fl">0.2</span>)</span>
-<span id="cb1405-8"><a href="WE_14.html#cb1405-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1405-9"><a href="WE_14.html#cb1405-9" aria-hidden="true" tabindex="-1"></a>MyMap <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype=</span><span class="st">&quot;terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>, <span class="at">force=</span><span class="cn">TRUE</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="WE_14.html#cb348-1" aria-hidden="true" tabindex="-1"></a>Coords <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Population) <span class="sc">%&gt;%</span> </span>
+<span id="cb348-2"><a href="WE_14.html#cb348-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarize</span>(<span class="at">X =</span> <span class="fu">mean</span>(X), <span class="at">Y =</span> <span class="fu">mean</span>(Y))</span>
+<span id="cb348-3"><a href="WE_14.html#cb348-3" aria-hidden="true" tabindex="-1"></a>Coords <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Coords, sf<span class="sc">::</span><span class="fu">sf_project</span>(<span class="at">from =</span> <span class="st">&quot;+init=epsg:31468&quot;</span>, </span>
+<span id="cb348-4"><a href="WE_14.html#cb348-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>, <span class="at">pts =</span> Coords[<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>)]))</span>
+<span id="cb348-5"><a href="WE_14.html#cb348-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Coords)[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Latitude&quot;</span>)</span>
+<span id="cb348-6"><a href="WE_14.html#cb348-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-7"><a href="WE_14.html#cb348-7" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Coords, <span class="at">f=</span><span class="fl">0.2</span>)</span>
+<span id="cb348-8"><a href="WE_14.html#cb348-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-9"><a href="WE_14.html#cb348-9" aria-hidden="true" tabindex="-1"></a>MyMap <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype=</span><span class="st">&quot;terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>, <span class="at">force=</span><span class="cn">TRUE</span>)) </span></code></pre></div>
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2172/1405.png</code></pre>
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2173/1405.png</code></pre>
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2174/1405.png</code></pre>
@@ -1846,9 +1107,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2172/1408.png</code></pre>
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2173/1408.png</code></pre>
 <pre><code>## Source : http://tile.stamen.com/terrain/12/2174/1408.png</code></pre>
-<div class="sourceCode" id="cb1418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1418-1"><a href="WE_14.html#cb1418-1" aria-hidden="true" tabindex="-1"></a>MyMap <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="at">data =</span> Coords, <span class="at">mapping =</span> <span class="fu">aes</span>(Longitude, Latitude, </span>
-<span id="cb1418-2"><a href="WE_14.html#cb1418-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> Population), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, </span>
-<span id="cb1418-3"><a href="WE_14.html#cb1418-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">nudge_x =</span> <span class="fl">0.005</span>, <span class="at">nudge_y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.002</span>,<span class="sc">-</span><span class="fl">0.001</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="WE_14.html#cb361-1" aria-hidden="true" tabindex="-1"></a>MyMap <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="at">data =</span> Coords, <span class="at">mapping =</span> <span class="fu">aes</span>(Longitude, Latitude, </span>
+<span id="cb361-2"><a href="WE_14.html#cb361-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> Population), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb361-3"><a href="WE_14.html#cb361-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">nudge_x =</span> <span class="fl">0.005</span>, <span class="at">nudge_y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.002</span>,<span class="sc">-</span><span class="fl">0.001</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)) </span></code></pre></div>
 <p><img src="14-Week14_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 </div>
@@ -1857,7 +1118,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-subtract-maternal-contribution-to-offspring-genotype" class="section level4">
 <h4>a. Subtract maternal contribution to offspring genotype</h4>
 <p>Let’s look at the data for the mother with the ID=3083 and her associated offspring:</p>
-<div class="sourceCode" id="cb1419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1419-1"><a href="WE_14.html#cb1419-1" aria-hidden="true" tabindex="-1"></a>dat[dat<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="WE_14.html#cb362-1" aria-hidden="true" tabindex="-1"></a>dat[dat<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>,]</span></code></pre></div>
 <pre><code>##       ID OffID Population       X       Y  loc1_a  loc2_a  loc3_a  loc4_a
 ## 207 3083     0        A25 4422659 5425370 338:340 417:424 392:392 452:452
 ## 208 3083     1        A25 4422659 5425370 338:340 417:424 392:409 446:452
@@ -1879,8 +1140,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The first row is the mother and the subsequent rows are her offspring with OffIDs 1-8.</p>
 <p>Now, use the <code>minus_mom</code> function to remove the mother’s contribution to the offspring genotypes. You will be left with just the paternal contribution. The allele frequecies of all paternal contributions associated with a single mother is called a “pollen pool.”</p>
 <p>In some cases, the pollen contribution is ambiguous when the offspring has both alleles in common with the mother (e.g. see OffID 1, loc1_a and loc2_a). In such cases, both alleles are retained.</p>
-<div class="sourceCode" id="cb1421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1421-1"><a href="WE_14.html#cb1421-1" aria-hidden="true" tabindex="-1"></a>pollen <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">minus_mom</span>(dat, <span class="at">MomCol =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">OffCol =</span> <span class="st">&quot;OffID&quot;</span>)</span>
-<span id="cb1421-2"><a href="WE_14.html#cb1421-2" aria-hidden="true" tabindex="-1"></a>pollen[pollen<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="WE_14.html#cb364-1" aria-hidden="true" tabindex="-1"></a>pollen <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">minus_mom</span>(dat, <span class="at">MomCol =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">OffCol =</span> <span class="st">&quot;OffID&quot;</span>)</span>
+<span id="cb364-2"><a href="WE_14.html#cb364-2" aria-hidden="true" tabindex="-1"></a>pollen[pollen<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>,]</span></code></pre></div>
 <pre><code>##       ID OffID Population       X       Y  loc1_a  loc2_a loc3_a loc4_a loc5_a
 ## 208 3083     1        A25 4422659 5425370 338:340 417:424    409    446    121
 ## 209 3083     3        A25 4422659 5425370     338 417:424           452    121
@@ -1904,12 +1165,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>b. ‘TwoGener’ analysis (AMOVA of pollen pool data)</h4>
 <p>For example, we can conduct an AMOVA (see Week 4) to test if pollen pools belonging to different mothers are signficantly differentiated from one another. When an AMOVA is applied to pollen pools it is called a ‘TwoGener’ analysis (Two-generational analysis; Smouse et al. 2001, Dyer et al. 2004).</p>
 <p>Here we use the <code>amova</code> function from the <code>pegas</code> package to perform a hierarchical analysis of variance on genetic distance matrices (AMOVA), with moms nested within patches (this may take a while).</p>
-<div class="sourceCode" id="cb1423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1423-1"><a href="WE_14.html#cb1423-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">genetic_distance</span>(pollen,<span class="at">mode=</span><span class="st">&quot;amova&quot;</span>)</span>
-<span id="cb1423-2"><a href="WE_14.html#cb1423-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(D)</span>
-<span id="cb1423-3"><a href="WE_14.html#cb1423-3" aria-hidden="true" tabindex="-1"></a>Moms <span class="ot">&lt;-</span> pollen<span class="sc">$</span>ID</span>
-<span id="cb1423-4"><a href="WE_14.html#cb1423-4" aria-hidden="true" tabindex="-1"></a>Populations <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(pollen<span class="sc">$</span>Population) </span>
-<span id="cb1423-5"><a href="WE_14.html#cb1423-5" aria-hidden="true" tabindex="-1"></a>amova.result <span class="ot">&lt;-</span> pegas<span class="sc">::</span><span class="fu">amova</span>(D <span class="sc">~</span> Populations<span class="sc">/</span>Moms, <span class="at">nperm=</span><span class="dv">500</span>)</span>
-<span id="cb1423-6"><a href="WE_14.html#cb1423-6" aria-hidden="true" tabindex="-1"></a>amova.result</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="WE_14.html#cb366-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">genetic_distance</span>(pollen,<span class="at">mode=</span><span class="st">&quot;amova&quot;</span>)</span>
+<span id="cb366-2"><a href="WE_14.html#cb366-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(D)</span>
+<span id="cb366-3"><a href="WE_14.html#cb366-3" aria-hidden="true" tabindex="-1"></a>Moms <span class="ot">&lt;-</span> pollen<span class="sc">$</span>ID</span>
+<span id="cb366-4"><a href="WE_14.html#cb366-4" aria-hidden="true" tabindex="-1"></a>Populations <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(pollen<span class="sc">$</span>Population) </span>
+<span id="cb366-5"><a href="WE_14.html#cb366-5" aria-hidden="true" tabindex="-1"></a>amova.result <span class="ot">&lt;-</span> pegas<span class="sc">::</span><span class="fu">amova</span>(D <span class="sc">~</span> Populations<span class="sc">/</span>Moms, <span class="at">nperm=</span><span class="dv">500</span>)</span>
+<span id="cb366-6"><a href="WE_14.html#cb366-6" aria-hidden="true" tabindex="-1"></a>amova.result</span></code></pre></div>
 <pre><code>## 
 ##  Analysis of Molecular Variance
 ## 
@@ -1937,9 +1198,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##         a         b         c 
 ##  7.619648  7.920406 43.405291</code></pre>
 <p>Calculate phi from the variance components:</p>
-<div class="sourceCode" id="cb1425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1425-1"><a href="WE_14.html#cb1425-1" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> amova.result<span class="sc">$</span>varcomp[<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(amova.result<span class="sc">$</span>varcomp[<span class="dv">1</span>])</span>
-<span id="cb1425-2"><a href="WE_14.html#cb1425-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(phi) <span class="ot">&lt;-</span> <span class="st">&quot;phi&quot;</span></span>
-<span id="cb1425-3"><a href="WE_14.html#cb1425-3" aria-hidden="true" tabindex="-1"></a>phi</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="WE_14.html#cb368-1" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> amova.result<span class="sc">$</span>varcomp[<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(amova.result<span class="sc">$</span>varcomp[<span class="dv">1</span>])</span>
+<span id="cb368-2"><a href="WE_14.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(phi) <span class="ot">&lt;-</span> <span class="st">&quot;phi&quot;</span></span>
+<span id="cb368-3"><a href="WE_14.html#cb368-3" aria-hidden="true" tabindex="-1"></a>phi</span></code></pre></div>
 <pre><code>##                   phi
 ## Populations 0.1337729
 ## Moms        0.3137434
@@ -1956,21 +1217,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The ‘TwoGener’ analysis gives a summary statistic describing overall differentiation, but this does not tell us anything about <strong>why</strong> the pollen pools are differentiated. In order to better understand <strong>why</strong>, we can analyse the data spatially just like any other landscape genetic dataset.</p>
 <p>For example, we can test a basic hypothesis of isolation by distance by asking: are pollen pools from mothers that are geographically close more similar than those that are far? We test this by calculating pairwise genetic similarity (proportion of shared alleles) and relate this to geographic distance. For a more sophistocated analysis, the data could also be analysed as a “pollination graph” (Dyer et al. 2012), which is similar to population graphs that will be included in the Bonus Material for Week 13, but we will not do this here.</p>
 <p>First, calculate matrix of pairwise genetic similarity among pollen pools.</p>
-<div class="sourceCode" id="cb1427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1427-1"><a href="WE_14.html#cb1427-1" aria-hidden="true" tabindex="-1"></a>dps <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> gstudio<span class="sc">::</span><span class="fu">genetic_distance</span>(pollen, <span class="at">stratum =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;Dps&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="WE_14.html#cb370-1" aria-hidden="true" tabindex="-1"></a>dps <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> gstudio<span class="sc">::</span><span class="fu">genetic_distance</span>(pollen, <span class="at">stratum =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;Dps&quot;</span>)</span></code></pre></div>
 <pre><code>## Bray distance will be assumed to be entirely additive across loci.</code></pre>
 <p>Note: the proportion of shared alleles is a measure of genetic similarity, hence we expect it to decrease with geographic distance. We convert this into a measure of genetic distance by subtracting it from 1 (see Week 5).</p>
 <p>Calculate matrix of pairwise geographic distance among pollen pools:</p>
-<div class="sourceCode" id="cb1429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1429-1"><a href="WE_14.html#cb1429-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">data.frame</span>(pollen<span class="sc">$</span>X, pollen<span class="sc">$</span>Y))</span>
-<span id="cb1429-2"><a href="WE_14.html#cb1429-2" aria-hidden="true" tabindex="-1"></a>xy.dist <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(xy))</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="WE_14.html#cb372-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">data.frame</span>(pollen<span class="sc">$</span>X, pollen<span class="sc">$</span>Y))</span>
+<span id="cb372-2"><a href="WE_14.html#cb372-2" aria-hidden="true" tabindex="-1"></a>xy.dist <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(xy))</span></code></pre></div>
 <p>Plot ‘dps’ against geographic distance.</p>
-<div class="sourceCode" id="cb1430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1430-1"><a href="WE_14.html#cb1430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb1430-2"><a href="WE_14.html#cb1430-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xy.dist[<span class="fu">lower.tri</span>(xy.dist)], dps[<span class="fu">lower.tri</span>(dps)], </span>
-<span id="cb1430-3"><a href="WE_14.html#cb1430-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Geographic distance (m)&quot;</span>, </span>
-<span id="cb1430-4"><a href="WE_14.html#cb1430-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;1 - Proportion of shared alleles (dps)&quot;</span>)</span>
-<span id="cb1430-5"><a href="WE_14.html#cb1430-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(dps[<span class="fu">lower.tri</span>(dps)]<span class="sc">~</span>xy.dist[<span class="fu">lower.tri</span>(xy.dist)]))</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="WE_14.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb373-2"><a href="WE_14.html#cb373-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xy.dist[<span class="fu">lower.tri</span>(xy.dist)], dps[<span class="fu">lower.tri</span>(dps)], </span>
+<span id="cb373-3"><a href="WE_14.html#cb373-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Geographic distance (m)&quot;</span>, </span>
+<span id="cb373-4"><a href="WE_14.html#cb373-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;1 - Proportion of shared alleles (dps)&quot;</span>)</span>
+<span id="cb373-5"><a href="WE_14.html#cb373-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(dps[<span class="fu">lower.tri</span>(dps)]<span class="sc">~</span>xy.dist[<span class="fu">lower.tri</span>(xy.dist)]))</span></code></pre></div>
 <p><img src="14-Week14_files/figure-html/plot-1.png" width="672" /></p>
 <p>We see that pollen pools belonging to mothers that are spatially close are more similar. Let’s quantify the strength of this relationship using a Mantel test.</p>
-<div class="sourceCode" id="cb1431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1431-1"><a href="WE_14.html#cb1431-1" aria-hidden="true" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">mantel</span>(xy.dist, dps)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="WE_14.html#cb374-1" aria-hidden="true" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">mantel</span>(xy.dist, dps)</span></code></pre></div>
 <pre><code>## 
 ## Mantel statistic based on Pearson&#39;s product-moment correlation 
 ## 
@@ -1982,7 +1243,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Upper quantiles of permutations (null model):
 ##   90%   95% 97.5%   99% 
-## 0.115 0.148 0.184 0.225 
+## 0.107 0.144 0.175 0.208 
 ## Permutation: free
 ## Number of permutations: 999</code></pre>
 <p>Note: it seems that the <code>mantel</code> function in <code>vegan</code> automatically tests a one-sided alternative that the Mantel correlation is greater than zero. This means that if we had used ‘Dps’ as a measure of genetic similarity, the default setting would have resulted in a p-value of 0.999. Unfortunately, for now, this is not discussed in the help file and there is no option to change the alternative.</p>
@@ -1996,10 +1257,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-exclusion-probabilities" class="section level4">
 <h4>a. Exclusion probabilities</h4>
 <p>First let’s check if our genetic markers have sufficient information (genetic resolution) to discriminate among alternative fathers by calculating exclusion probabilites.</p>
-<div class="sourceCode" id="cb1433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1433-1"><a href="WE_14.html#cb1433-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.clusion probabilities</span></span>
-<span id="cb1433-2"><a href="WE_14.html#cb1433-2" aria-hidden="true" tabindex="-1"></a>pollen.freqs <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">frequencies</span>(dat)</span>
-<span id="cb1433-3"><a href="WE_14.html#cb1433-3" aria-hidden="true" tabindex="-1"></a>p.excl <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">exclusion_probability</span>( pollen.freqs )</span>
-<span id="cb1433-4"><a href="WE_14.html#cb1433-4" aria-hidden="true" tabindex="-1"></a>p.excl</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="WE_14.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.clusion probabilities</span></span>
+<span id="cb376-2"><a href="WE_14.html#cb376-2" aria-hidden="true" tabindex="-1"></a>pollen.freqs <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">frequencies</span>(dat)</span>
+<span id="cb376-3"><a href="WE_14.html#cb376-3" aria-hidden="true" tabindex="-1"></a>p.excl <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">exclusion_probability</span>( pollen.freqs )</span>
+<span id="cb376-4"><a href="WE_14.html#cb376-4" aria-hidden="true" tabindex="-1"></a>p.excl</span></code></pre></div>
 <pre><code>##    Locus     Pexcl  PexclMax  Fraction
 ## 1 loc1_a 0.6817515 0.8926727 0.7637194
 ## 2 loc2_a 0.3359125 0.7434082 0.4518547
@@ -2015,7 +1276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li><code>1 - prod()</code>: multiplies the probabilities, and take the complement to get the multilocus exculsion probability.</li>
 </ul>
-<div class="sourceCode" id="cb1435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1435-1"><a href="WE_14.html#cb1435-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span> <span class="fu">prod</span>((<span class="dv">1</span><span class="sc">-</span><span class="fu">unlist</span>(p.excl<span class="sc">$</span>Pexcl)))</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="WE_14.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span> <span class="fu">prod</span>((<span class="dv">1</span><span class="sc">-</span><span class="fu">unlist</span>(p.excl<span class="sc">$</span>Pexcl)))</span></code></pre></div>
 <pre><code>## [1] 0.9988959</code></pre>
 <p>We see that when using all seven loci, we achieve a very high exlusion probability, and that on average we should be able to exclude 99.9 of alternative fathers.</p>
 </div>
@@ -2024,15 +1285,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will use the <code>gstudio</code> function <code>paternity</code>, which conducts a fractional-allocation paternity analyis. This approach is useful when full exclusion cannot be achieved. In case multiple potential fathers cannot be exluded for a particular offspring, a likelihood of paternity is calculated for each non-excluded father based on Mendelian transition probabilites.</p>
 <p>Note that in the original paper from which these data originate, we used a more sophisticated approach implemented in the program ‘COLONY2.’ ‘COLONY2’ can account for genotyping errors, whereas the <code>gstudio</code> function <code>paternity</code> approach cannot and so we had to throw out some of our data here.</p>
 <p>Now let’s conduct a paternity analysis for the seeds from mother 3083:</p>
-<div class="sourceCode" id="cb1437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1437-1"><a href="WE_14.html#cb1437-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all offspring of mom 3083:</span></span>
-<span id="cb1437-2"><a href="WE_14.html#cb1437-2" aria-hidden="true" tabindex="-1"></a>offspring<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID<span class="sc">!=</span><span class="dv">0</span> <span class="sc">&amp;</span> ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>)</span>
-<span id="cb1437-3"><a href="WE_14.html#cb1437-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select mom 3083:</span></span>
-<span id="cb1437-4"><a href="WE_14.html#cb1437-4" aria-hidden="true" tabindex="-1"></a>mother<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span> <span class="sc">&amp;</span> dat<span class="sc">$</span>OffID <span class="sc">==</span> <span class="dv">0</span> )</span>
-<span id="cb1437-5"><a href="WE_14.html#cb1437-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all potential fathers in the same population as mom 3083:</span></span>
-<span id="cb1437-6"><a href="WE_14.html#cb1437-6" aria-hidden="true" tabindex="-1"></a>fathers<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Population <span class="sc">%in%</span> offspring<span class="fl">.3083</span><span class="sc">$</span>Population)</span>
-<span id="cb1437-7"><a href="WE_14.html#cb1437-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Paternity analysis: </span></span>
-<span id="cb1437-8"><a href="WE_14.html#cb1437-8" aria-hidden="true" tabindex="-1"></a>pat<span class="fl">.3083</span> <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">paternity</span>(offspring<span class="fl">.3083</span>, mother<span class="fl">.3083</span>, fathers<span class="fl">.3083</span> )</span>
-<span id="cb1437-9"><a href="WE_14.html#cb1437-9" aria-hidden="true" tabindex="-1"></a>pat<span class="fl">.3083</span></span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="WE_14.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all offspring of mom 3083:</span></span>
+<span id="cb380-2"><a href="WE_14.html#cb380-2" aria-hidden="true" tabindex="-1"></a>offspring<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID<span class="sc">!=</span><span class="dv">0</span> <span class="sc">&amp;</span> ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span>)</span>
+<span id="cb380-3"><a href="WE_14.html#cb380-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select mom 3083:</span></span>
+<span id="cb380-4"><a href="WE_14.html#cb380-4" aria-hidden="true" tabindex="-1"></a>mother<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, ID <span class="sc">==</span> <span class="st">&quot;3083&quot;</span> <span class="sc">&amp;</span> dat<span class="sc">$</span>OffID <span class="sc">==</span> <span class="dv">0</span> )</span>
+<span id="cb380-5"><a href="WE_14.html#cb380-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all potential fathers in the same population as mom 3083:</span></span>
+<span id="cb380-6"><a href="WE_14.html#cb380-6" aria-hidden="true" tabindex="-1"></a>fathers<span class="fl">.3083</span> <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Population <span class="sc">%in%</span> offspring<span class="fl">.3083</span><span class="sc">$</span>Population)</span>
+<span id="cb380-7"><a href="WE_14.html#cb380-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Paternity analysis: </span></span>
+<span id="cb380-8"><a href="WE_14.html#cb380-8" aria-hidden="true" tabindex="-1"></a>pat<span class="fl">.3083</span> <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">paternity</span>(offspring<span class="fl">.3083</span>, mother<span class="fl">.3083</span>, fathers<span class="fl">.3083</span> )</span>
+<span id="cb380-9"><a href="WE_14.html#cb380-9" aria-hidden="true" tabindex="-1"></a>pat<span class="fl">.3083</span></span></code></pre></div>
 <pre><code>##    MomID OffID DadID        Fij
 ## 1   3083     1   212 1.00000000
 ## 2   3083     3  3083 0.55172414
@@ -2053,44 +1314,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 17  3083     8   212 1.00000000</code></pre>
 <p>The output shows the probability of paternity (Fij) for each offspring-father pair, which is calcualted from Mendelian inheritance transition probabilities. Some offspring have multiple potential fathers and so appear in the table more than once (e.g. Offsprings 3 and 5). A higher ‘Fij’ value indcates that the Offspring-father pair is more likely.</p>
 <p>Now let’s do the paternity analysis for the entire data set. First, we define a function <code>get.parentage</code> that does the paternity analysis for the offspring of one mom (i.e., one family).</p>
-<div class="sourceCode" id="cb1439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1439-1"><a href="WE_14.html#cb1439-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a dataframe just for the offspring:</span></span>
-<span id="cb1439-2"><a href="WE_14.html#cb1439-2" aria-hidden="true" tabindex="-1"></a>offspring <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID<span class="sc">!=</span><span class="dv">0</span>)</span>
-<span id="cb1439-3"><a href="WE_14.html#cb1439-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1439-4"><a href="WE_14.html#cb1439-4" aria-hidden="true" tabindex="-1"></a><span class="do">## h.re is the function that we will apply to all mothers:</span></span>
-<span id="cb1439-5"><a href="WE_14.html#cb1439-5" aria-hidden="true" tabindex="-1"></a>get.parentage <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb1439-6"><a href="WE_14.html#cb1439-6" aria-hidden="true" tabindex="-1"></a>  tmp.offspring <span class="ot">&lt;-</span> <span class="fu">subset</span>(offspring, ID <span class="sc">==</span> x)</span>
-<span id="cb1439-7"><a href="WE_14.html#cb1439-7" aria-hidden="true" tabindex="-1"></a>  tmp.mother <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, ID <span class="sc">==</span> x <span class="sc">&amp;</span> OffID <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb1439-8"><a href="WE_14.html#cb1439-8" aria-hidden="true" tabindex="-1"></a>  tmp.fathers <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Population <span class="sc">%in%</span> tmp.offspring<span class="sc">$</span>Population)</span>
-<span id="cb1439-9"><a href="WE_14.html#cb1439-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(gstudio<span class="sc">::</span><span class="fu">paternity</span>(tmp.offspring, tmp.mother, tmp.fathers ))</span>
-<span id="cb1439-10"><a href="WE_14.html#cb1439-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="WE_14.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a dataframe just for the offspring:</span></span>
+<span id="cb382-2"><a href="WE_14.html#cb382-2" aria-hidden="true" tabindex="-1"></a>offspring <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb382-3"><a href="WE_14.html#cb382-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb382-4"><a href="WE_14.html#cb382-4" aria-hidden="true" tabindex="-1"></a><span class="do">## h.re is the function that we will apply to all mothers:</span></span>
+<span id="cb382-5"><a href="WE_14.html#cb382-5" aria-hidden="true" tabindex="-1"></a>get.parentage <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb382-6"><a href="WE_14.html#cb382-6" aria-hidden="true" tabindex="-1"></a>  tmp.offspring <span class="ot">&lt;-</span> <span class="fu">subset</span>(offspring, ID <span class="sc">==</span> x)</span>
+<span id="cb382-7"><a href="WE_14.html#cb382-7" aria-hidden="true" tabindex="-1"></a>  tmp.mother <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, ID <span class="sc">==</span> x <span class="sc">&amp;</span> OffID <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb382-8"><a href="WE_14.html#cb382-8" aria-hidden="true" tabindex="-1"></a>  tmp.fathers <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, OffID <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Population <span class="sc">%in%</span> tmp.offspring<span class="sc">$</span>Population)</span>
+<span id="cb382-9"><a href="WE_14.html#cb382-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(gstudio<span class="sc">::</span><span class="fu">paternity</span>(tmp.offspring, tmp.mother, tmp.fathers ))</span>
+<span id="cb382-10"><a href="WE_14.html#cb382-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>We could use <code>lapply</code> to apply <code>get.parentage</code> to each mom and her offspring. Here, we use an alternative function <code>map</code> from package <code>purr</code> (which is part of the new ‘tidyverse’ set of packages by Hadley Wickham). This allows us to address the following issue: Because we have not sampled all potential fathers in the larger study region, <code>paternity</code> will return an error when all offspring of a certain mother cannot be assigned to any father.</p>
 <p>To get around this, we will use the <code>possibly</code> function from the library <code>purrr</code>. When an error occurs, it will simply return <code>NA</code> instead of stopping our function. The function <code>map</code> knows how to apply a ‘purrr-ified’ function to an object.</p>
 <p>This will take about a minute to run:</p>
-<div class="sourceCode" id="cb1440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1440-1"><a href="WE_14.html#cb1440-1" aria-hidden="true" tabindex="-1"></a><span class="co"># purrr-ify the function so that NA is returned when an error pops up:</span></span>
-<span id="cb1440-2"><a href="WE_14.html#cb1440-2" aria-hidden="true" tabindex="-1"></a>possible_pat <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">possibly</span>(get.parentage, <span class="at">otherwise =</span> <span class="cn">NA_real_</span>)</span>
-<span id="cb1440-3"><a href="WE_14.html#cb1440-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1440-4"><a href="WE_14.html#cb1440-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the function and store the output:</span></span>
-<span id="cb1440-5"><a href="WE_14.html#cb1440-5" aria-hidden="true" tabindex="-1"></a><span class="co"># list of results for each mother:</span></span>
-<span id="cb1440-6"><a href="WE_14.html#cb1440-6" aria-hidden="true" tabindex="-1"></a>pat.all <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="fu">unique</span>(offspring<span class="sc">$</span>ID), possible_pat)</span>
-<span id="cb1440-7"><a href="WE_14.html#cb1440-7" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nvert the list to a dataframe:</span></span>
-<span id="cb1440-8"><a href="WE_14.html#cb1440-8" aria-hidden="true" tabindex="-1"></a>pat.all <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, pat.all[<span class="sc">!</span><span class="fu">is.na</span>(pat.all)]) </span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="WE_14.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="co"># purrr-ify the function so that NA is returned when an error pops up:</span></span>
+<span id="cb383-2"><a href="WE_14.html#cb383-2" aria-hidden="true" tabindex="-1"></a>possible_pat <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">possibly</span>(get.parentage, <span class="at">otherwise =</span> <span class="cn">NA_real_</span>)</span>
+<span id="cb383-3"><a href="WE_14.html#cb383-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb383-4"><a href="WE_14.html#cb383-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the function and store the output:</span></span>
+<span id="cb383-5"><a href="WE_14.html#cb383-5" aria-hidden="true" tabindex="-1"></a><span class="co"># list of results for each mother:</span></span>
+<span id="cb383-6"><a href="WE_14.html#cb383-6" aria-hidden="true" tabindex="-1"></a>pat.all <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="fu">unique</span>(offspring<span class="sc">$</span>ID), possible_pat)</span>
+<span id="cb383-7"><a href="WE_14.html#cb383-7" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nvert the list to a dataframe:</span></span>
+<span id="cb383-8"><a href="WE_14.html#cb383-8" aria-hidden="true" tabindex="-1"></a>pat.all <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, pat.all[<span class="sc">!</span><span class="fu">is.na</span>(pat.all)]) </span></code></pre></div>
 <p>For the purposes of this tutorial, we will keep only the highest-probability father for each offspring. With your own data, you should choose some sort of threshold (e.g. keep only those with probability &gt; 0.9) or you can conduct analyses using the probability as weights.</p>
-<div class="sourceCode" id="cb1441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1441-1"><a href="WE_14.html#cb1441-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.eate a temporary ID that combines the MomID and the OffID</span></span>
-<span id="cb1441-2"><a href="WE_14.html#cb1441-2" aria-hidden="true" tabindex="-1"></a>pat.all<span class="sc">$</span>tmpID <span class="ot">&lt;-</span> <span class="fu">paste</span>(pat.all<span class="sc">$</span>MomID, pat.all<span class="sc">$</span>OffID, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
-<span id="cb1441-3"><a href="WE_14.html#cb1441-3" aria-hidden="true" tabindex="-1"></a><span class="do">## g.t rid of all rows with duplicated tmpIDs, leaving just the first entry for each</span></span>
-<span id="cb1441-4"><a href="WE_14.html#cb1441-4" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> pat.all[<span class="sc">!</span><span class="fu">duplicated</span>(pat.all<span class="sc">$</span>tmpID),]</span>
-<span id="cb1441-5"><a href="WE_14.html#cb1441-5" aria-hidden="true" tabindex="-1"></a><span class="do">## g.t rid of the tmpID column</span></span>
-<span id="cb1441-6"><a href="WE_14.html#cb1441-6" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> pat.sub[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="do">## g.t rid of the tmp_ID column</span></span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="WE_14.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.eate a temporary ID that combines the MomID and the OffID</span></span>
+<span id="cb384-2"><a href="WE_14.html#cb384-2" aria-hidden="true" tabindex="-1"></a>pat.all<span class="sc">$</span>tmpID <span class="ot">&lt;-</span> <span class="fu">paste</span>(pat.all<span class="sc">$</span>MomID, pat.all<span class="sc">$</span>OffID, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb384-3"><a href="WE_14.html#cb384-3" aria-hidden="true" tabindex="-1"></a><span class="do">## g.t rid of all rows with duplicated tmpIDs, leaving just the first entry for each</span></span>
+<span id="cb384-4"><a href="WE_14.html#cb384-4" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> pat.all[<span class="sc">!</span><span class="fu">duplicated</span>(pat.all<span class="sc">$</span>tmpID),]</span>
+<span id="cb384-5"><a href="WE_14.html#cb384-5" aria-hidden="true" tabindex="-1"></a><span class="do">## g.t rid of the tmpID column</span></span>
+<span id="cb384-6"><a href="WE_14.html#cb384-6" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> pat.sub[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="do">## g.t rid of the tmp_ID column</span></span></code></pre></div>
 </div>
 <div id="c.-visualize-reconstructed-pollen-flow-events-in-space" class="section level4">
 <h4>c. Visualize reconstructed pollen flow events in space</h4>
 <p>We can use the <code>spiderplot_data</code> function from <code>gstudio</code> to visualize the paternity assignments. <code>spiderplot_data</code> takes the output from <code>paternity</code> and combines it with spatial XY coordinate information. The output includes the coordinates of both mother (X, Y) and father (Xend, Yend) for each offspring. Here we will also add in the population IDs so that we can visualize each of the seven populations separately. Note that the function asks for “longitude” and “latitude” but any form of spatial XY coordinates will do.</p>
-<div class="sourceCode" id="cb1442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1442-1"><a href="WE_14.html#cb1442-1" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">spiderplot_data</span>(pat.sub, dat, <span class="at">longitude =</span> <span class="st">&quot;X&quot;</span>, <span class="at">latitude =</span> <span class="st">&quot;Y&quot;</span>)</span>
-<span id="cb1442-2"><a href="WE_14.html#cb1442-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Join data to add population IDs</span></span>
-<span id="cb1442-3"><a href="WE_14.html#cb1442-3" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> <span class="fu">merge</span>(pat.sub, dat[, <span class="fu">c</span>(<span class="st">&quot;Population&quot;</span>, <span class="st">&quot;ID&quot;</span> ,<span class="st">&quot;OffID&quot;</span>)],</span>
-<span id="cb1442-4"><a href="WE_14.html#cb1442-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;MomID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">all.x=</span>T)</span>
-<span id="cb1442-5"><a href="WE_14.html#cb1442-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1442-6"><a href="WE_14.html#cb1442-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pat.sub)</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="WE_14.html#cb385-1" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> gstudio<span class="sc">::</span><span class="fu">spiderplot_data</span>(pat.sub, dat, <span class="at">longitude =</span> <span class="st">&quot;X&quot;</span>, <span class="at">latitude =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb385-2"><a href="WE_14.html#cb385-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Join data to add population IDs</span></span>
+<span id="cb385-3"><a href="WE_14.html#cb385-3" aria-hidden="true" tabindex="-1"></a>pat.sub <span class="ot">&lt;-</span> <span class="fu">merge</span>(pat.sub, dat[, <span class="fu">c</span>(<span class="st">&quot;Population&quot;</span>, <span class="st">&quot;ID&quot;</span> ,<span class="st">&quot;OffID&quot;</span>)],</span>
+<span id="cb385-4"><a href="WE_14.html#cb385-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;MomID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">all.x=</span>T)</span>
+<span id="cb385-5"><a href="WE_14.html#cb385-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb385-6"><a href="WE_14.html#cb385-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pat.sub)</span></code></pre></div>
 <pre><code>##   MomID OffID DadID Fij       X    Xend       Y    Yend Population
 ## 1  3080     1   211   1 4422657 4422658 5425371 5425371        A25
 ## 2  3080    10   211   1 4422657 4422658 5425371 5425371        A25
@@ -2099,14 +1360,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5  3080     4   211   1 4422657 4422658 5425371 5425371        A25
 ## 6  3080     5   211   1 4422657 4422658 5425371 5425371        A25</code></pre>
 <p>Use <code>ggplot2</code> to visualize the reconstructed pollen flow events. Let’s look at population ‘A25’ first. The arrows point to mothers, and arrows without lines indicate selfing events. The darkness of the lines is proportional to the number of pollen flow events between a particular mother and father.</p>
-<div class="sourceCode" id="cb1444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1444-1"><a href="WE_14.html#cb1444-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">&quot;A25&quot;</span></span>
-<span id="cb1444-2"><a href="WE_14.html#cb1444-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb1444-3"><a href="WE_14.html#cb1444-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>dat[dat<span class="sc">$</span>Population<span class="sc">==</span>pop,], </span>
-<span id="cb1444-4"><a href="WE_14.html#cb1444-4" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(X,Y),<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1444-5"><a href="WE_14.html#cb1444-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>pat.sub[pat.sub<span class="sc">$</span>Population<span class="sc">==</span>pop,], </span>
-<span id="cb1444-6"><a href="WE_14.html#cb1444-6" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>X, <span class="at">y=</span>Y, <span class="at">xend=</span>Xend, <span class="at">yend=</span>Yend), <span class="at">size=</span><span class="fl">0.5</span>, <span class="at">alpha=</span><span class="fl">0.2</span>, </span>
-<span id="cb1444-7"><a href="WE_14.html#cb1444-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">ends =</span> <span class="st">&quot;first&quot;</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">&quot;cm&quot;</span>))) <span class="sc">+</span></span>
-<span id="cb1444-8"><a href="WE_14.html#cb1444-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="WE_14.html#cb387-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">&quot;A25&quot;</span></span>
+<span id="cb387-2"><a href="WE_14.html#cb387-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb387-3"><a href="WE_14.html#cb387-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>dat[dat<span class="sc">$</span>Population<span class="sc">==</span>pop,], </span>
+<span id="cb387-4"><a href="WE_14.html#cb387-4" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(X,Y),<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb387-5"><a href="WE_14.html#cb387-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>pat.sub[pat.sub<span class="sc">$</span>Population<span class="sc">==</span>pop,], </span>
+<span id="cb387-6"><a href="WE_14.html#cb387-6" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>X, <span class="at">y=</span>Y, <span class="at">xend=</span>Xend, <span class="at">yend=</span>Yend), <span class="at">size=</span><span class="fl">0.5</span>, <span class="at">alpha=</span><span class="fl">0.2</span>, </span>
+<span id="cb387-7"><a href="WE_14.html#cb387-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">ends =</span> <span class="st">&quot;first&quot;</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">&quot;cm&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb387-8"><a href="WE_14.html#cb387-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="14-Week14_files/figure-html/plot_pollenFlow-1.png" width="672" /></p>
 <p>Try modifying the code to look at patterns from other populations.</p>
 <p><strong>Questions:</strong></p>
@@ -2119,14 +1380,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>d. Visualize dispersal kernel</h4>
 <p>We can calculate the distance of each pollen flow event, and then plot the distribution to visualize the dispersal kernel.</p>
 <p>Calculate distance for each event:</p>
-<div class="sourceCode" id="cb1445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1445-1"><a href="WE_14.html#cb1445-1" aria-hidden="true" tabindex="-1"></a>pat.sub<span class="sc">$</span>pollen.dist <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pat.sub),</span>
-<span id="cb1445-2"><a href="WE_14.html#cb1445-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(x) <span class="fu">dist</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(pat.sub<span class="sc">$</span>X[x], pat.sub<span class="sc">$</span>Y[x]), </span>
-<span id="cb1445-3"><a href="WE_14.html#cb1445-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>(pat.sub<span class="sc">$</span>Xend[x], pat.sub<span class="sc">$</span>Yend[x]))) ))</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="WE_14.html#cb388-1" aria-hidden="true" tabindex="-1"></a>pat.sub<span class="sc">$</span>pollen.dist <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pat.sub),</span>
+<span id="cb388-2"><a href="WE_14.html#cb388-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(x) <span class="fu">dist</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(pat.sub<span class="sc">$</span>X[x], pat.sub<span class="sc">$</span>Y[x]), </span>
+<span id="cb388-3"><a href="WE_14.html#cb388-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>(pat.sub<span class="sc">$</span>Xend[x], pat.sub<span class="sc">$</span>Yend[x]))) ))</span></code></pre></div>
 <p>Plot the distribution of pollination events that are greater than 0 m (i.e. excluding selfing):</p>
-<div class="sourceCode" id="cb1446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1446-1"><a href="WE_14.html#cb1446-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pat.sub[pat.sub<span class="sc">$</span>pollen.dist <span class="sc">&gt;</span><span class="dv">0</span>,]) <span class="sc">+</span></span>
-<span id="cb1446-2"><a href="WE_14.html#cb1446-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="fu">aes</span>(<span class="at">x=</span>pollen.dist),  <span class="at">bins=</span><span class="dv">20</span>) <span class="sc">+</span></span>
-<span id="cb1446-3"><a href="WE_14.html#cb1446-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distance from pollen source (m)&quot;</span>)  <span class="sc">+</span></span>
-<span id="cb1446-4"><a href="WE_14.html#cb1446-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Number of pollen flow events&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="WE_14.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pat.sub[pat.sub<span class="sc">$</span>pollen.dist <span class="sc">&gt;</span><span class="dv">0</span>,]) <span class="sc">+</span></span>
+<span id="cb389-2"><a href="WE_14.html#cb389-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="fu">aes</span>(<span class="at">x=</span>pollen.dist),  <span class="at">bins=</span><span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb389-3"><a href="WE_14.html#cb389-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distance from pollen source (m)&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb389-4"><a href="WE_14.html#cb389-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Number of pollen flow events&quot;</span>)</span></code></pre></div>
 <p><img src="14-Week14_files/figure-html/dispersal_kernel-1.png" width="672" /></p>
 </div>
 </div>
@@ -2145,17 +1406,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Local floral density</strong>: how many flowers are within 2 m of mother plants.</li>
 </ul>
 <p>We are only interested in outcrossed pollen events, so we make a new data frame that excludes selfing.</p>
-<div class="sourceCode" id="cb1447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1447-1"><a href="WE_14.html#cb1447-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the data</span></span>
-<span id="cb1447-2"><a href="WE_14.html#cb1447-2" aria-hidden="true" tabindex="-1"></a>mom.vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,                 </span>
-<span id="cb1447-3"><a href="WE_14.html#cb1447-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&quot;pulsatilla_momVariables.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb1447-4"><a href="WE_14.html#cb1447-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1447-5"><a href="WE_14.html#cb1447-5" aria-hidden="true" tabindex="-1"></a><span class="do">## e.clude selfing</span></span>
-<span id="cb1447-6"><a href="WE_14.html#cb1447-6" aria-hidden="true" tabindex="-1"></a>pat.outcrossed <span class="ot">&lt;-</span> <span class="fu">subset</span>(pat.sub, MomID <span class="sc">!=</span> DadID)</span>
-<span id="cb1447-7"><a href="WE_14.html#cb1447-7" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d mom variables to pat.outcrossed</span></span>
-<span id="cb1447-8"><a href="WE_14.html#cb1447-8" aria-hidden="true" tabindex="-1"></a>pat.outcrossed <span class="ot">&lt;-</span> <span class="fu">merge</span>(pat.outcrossed, mom.vars, <span class="at">by.x =</span> <span class="st">&quot;MomID&quot;</span>, </span>
-<span id="cb1447-9"><a href="WE_14.html#cb1447-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">by.y =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span>T)</span>
-<span id="cb1447-10"><a href="WE_14.html#cb1447-10" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the data</span></span>
-<span id="cb1447-11"><a href="WE_14.html#cb1447-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pat.outcrossed)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="WE_14.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the data</span></span>
+<span id="cb390-2"><a href="WE_14.html#cb390-2" aria-hidden="true" tabindex="-1"></a>mom.vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,                 </span>
+<span id="cb390-3"><a href="WE_14.html#cb390-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&quot;pulsatilla_momVariables.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>))</span>
+<span id="cb390-4"><a href="WE_14.html#cb390-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb390-5"><a href="WE_14.html#cb390-5" aria-hidden="true" tabindex="-1"></a><span class="do">## e.clude selfing</span></span>
+<span id="cb390-6"><a href="WE_14.html#cb390-6" aria-hidden="true" tabindex="-1"></a>pat.outcrossed <span class="ot">&lt;-</span> <span class="fu">subset</span>(pat.sub, MomID <span class="sc">!=</span> DadID)</span>
+<span id="cb390-7"><a href="WE_14.html#cb390-7" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d mom variables to pat.outcrossed</span></span>
+<span id="cb390-8"><a href="WE_14.html#cb390-8" aria-hidden="true" tabindex="-1"></a>pat.outcrossed <span class="ot">&lt;-</span> <span class="fu">merge</span>(pat.outcrossed, mom.vars, <span class="at">by.x =</span> <span class="st">&quot;MomID&quot;</span>, </span>
+<span id="cb390-9"><a href="WE_14.html#cb390-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">by.y =</span> <span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span>T)</span>
+<span id="cb390-10"><a href="WE_14.html#cb390-10" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the data</span></span>
+<span id="cb390-11"><a href="WE_14.html#cb390-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pat.outcrossed)</span></code></pre></div>
 <pre><code>##   MomID OffID DadID Fij       X    Xend       Y    Yend Population pollen.dist
 ## 1  3080     1   211   1 4422657 4422658 5425371 5425371        A25   0.8632989
 ## 2  3080    10   211   1 4422657 4422658 5425371 5425371        A25   0.8632989
@@ -2172,13 +1433,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6      10.97917             11</code></pre>
 <p>Let’s run some models to test if <code>mom.isolation</code> or <code>flower.density</code> explain pollen flow distances. We used mixed models with population and mother ID as random effects to control for multiple sampling from the same mom and populations (see Week 6 videos for linear mixed models).</p>
 <p>Note: for model selection with varying fixed effects and constant random effects, we fit the models with maximum likelihood ML, hence we set <code>REML=F</code> (see Week 12).</p>
-<div class="sourceCode" id="cb1449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1449-1"><a href="WE_14.html#cb1449-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model</span></span>
-<span id="cb1449-2"><a href="WE_14.html#cb1449-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(<span class="fu">log</span>(pollen.dist) <span class="sc">~</span> <span class="fu">scale</span>(<span class="fu">log</span>(flower.density)) <span class="sc">+</span> </span>
-<span id="cb1449-3"><a href="WE_14.html#cb1449-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale</span>(<span class="fu">log</span>(mom.isolation)) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Population<span class="sc">/</span>MomID),</span>
-<span id="cb1449-4"><a href="WE_14.html#cb1449-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>pat.outcrossed, <span class="at">na.action =</span> <span class="st">&quot;na.fail&quot;</span>, <span class="at">REML=</span>F)</span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="WE_14.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model</span></span>
+<span id="cb392-2"><a href="WE_14.html#cb392-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(<span class="fu">log</span>(pollen.dist) <span class="sc">~</span> <span class="fu">scale</span>(<span class="fu">log</span>(flower.density)) <span class="sc">+</span> </span>
+<span id="cb392-3"><a href="WE_14.html#cb392-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale</span>(<span class="fu">log</span>(mom.isolation)) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Population<span class="sc">/</span>MomID),</span>
+<span id="cb392-4"><a href="WE_14.html#cb392-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>pat.outcrossed, <span class="at">na.action =</span> <span class="st">&quot;na.fail&quot;</span>, <span class="at">REML=</span>F)</span></code></pre></div>
 <pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
 <p>Here we use the function <code>dredge</code> from package <code>MuMIn</code> to compare all nested submodels and select the ‘best’ model. This is not generally recommended (see Week 12), as submodels may not be biologically meaningful. In this case, there is good reason to hypothesize that either mom isolation or local flower density, or both, would affect pollination distance.</p>
-<div class="sourceCode" id="cb1451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1451-1"><a href="WE_14.html#cb1451-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">dredge</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="WE_14.html#cb394-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">dredge</span>(mod)</span></code></pre></div>
 <pre><code>## Fixed term is &quot;(Intercept)&quot;</code></pre>
 <pre><code>## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
@@ -2199,21 +1460,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We see that the best model includes both flower density and mom isolation (for model selection, see Week 12 worked example and Week 7 video).</p>
 <p>Note: we should follow up with residual analysis etc., which we’ll skip here to keep it short.</p>
 <p>Let’s plot the relationships:</p>
-<div class="sourceCode" id="cb1455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1455-1"><a href="WE_14.html#cb1455-1" aria-hidden="true" tabindex="-1"></a>Mom.isolation.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pat.outcrossed, </span>
-<span id="cb1455-2"><a href="WE_14.html#cb1455-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(mom.isolation), <span class="at">y=</span><span class="fu">log</span>(pollen.dist))) <span class="sc">+</span> </span>
-<span id="cb1455-3"><a href="WE_14.html#cb1455-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span>F) <span class="sc">+</span> </span>
-<span id="cb1455-4"><a href="WE_14.html#cb1455-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlab</span>(<span class="st">&quot;Log(mom isolation)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1455-5"><a href="WE_14.html#cb1455-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">ylab</span>(<span class="st">&quot;Log(pollen flow distance)&quot;</span>)</span>
-<span id="cb1455-6"><a href="WE_14.html#cb1455-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1455-7"><a href="WE_14.html#cb1455-7" aria-hidden="true" tabindex="-1"></a>Flower.density.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pat.outcrossed, </span>
-<span id="cb1455-8"><a href="WE_14.html#cb1455-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(flower.density), </span>
-<span id="cb1455-9"><a href="WE_14.html#cb1455-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">log</span>(pollen.dist))) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb1455-10"><a href="WE_14.html#cb1455-10" aria-hidden="true" tabindex="-1"></a>       <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span>F) <span class="sc">+</span> </span>
-<span id="cb1455-11"><a href="WE_14.html#cb1455-11" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlab</span>(<span class="st">&quot;Log(flower density)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1455-12"><a href="WE_14.html#cb1455-12" aria-hidden="true" tabindex="-1"></a>       <span class="fu">ylab</span>(<span class="st">&quot;Log(pollen flow distance)&quot;</span>)</span>
-<span id="cb1455-13"><a href="WE_14.html#cb1455-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1455-14"><a href="WE_14.html#cb1455-14" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(Mom.isolation.plot, Flower.density.plot, </span>
-<span id="cb1455-15"><a href="WE_14.html#cb1455-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="WE_14.html#cb398-1" aria-hidden="true" tabindex="-1"></a>Mom.isolation.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pat.outcrossed, </span>
+<span id="cb398-2"><a href="WE_14.html#cb398-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(mom.isolation), <span class="at">y=</span><span class="fu">log</span>(pollen.dist))) <span class="sc">+</span> </span>
+<span id="cb398-3"><a href="WE_14.html#cb398-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span>F) <span class="sc">+</span> </span>
+<span id="cb398-4"><a href="WE_14.html#cb398-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlab</span>(<span class="st">&quot;Log(mom isolation)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb398-5"><a href="WE_14.html#cb398-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">ylab</span>(<span class="st">&quot;Log(pollen flow distance)&quot;</span>)</span>
+<span id="cb398-6"><a href="WE_14.html#cb398-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb398-7"><a href="WE_14.html#cb398-7" aria-hidden="true" tabindex="-1"></a>Flower.density.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pat.outcrossed, </span>
+<span id="cb398-8"><a href="WE_14.html#cb398-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(flower.density), </span>
+<span id="cb398-9"><a href="WE_14.html#cb398-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="fu">log</span>(pollen.dist))) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb398-10"><a href="WE_14.html#cb398-10" aria-hidden="true" tabindex="-1"></a>       <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span>F) <span class="sc">+</span> </span>
+<span id="cb398-11"><a href="WE_14.html#cb398-11" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlab</span>(<span class="st">&quot;Log(flower density)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb398-12"><a href="WE_14.html#cb398-12" aria-hidden="true" tabindex="-1"></a>       <span class="fu">ylab</span>(<span class="st">&quot;Log(pollen flow distance)&quot;</span>)</span>
+<span id="cb398-13"><a href="WE_14.html#cb398-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb398-14"><a href="WE_14.html#cb398-14" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(Mom.isolation.plot, Flower.density.plot, </span>
+<span id="cb398-15"><a href="WE_14.html#cb398-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
 ## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="14-Week14_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
@@ -2226,9 +1487,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-explain-pollen-flow-at-the-population-level" class="section level4">
 <h4>b. Explain pollen flow at the population level</h4>
 <p>Now let’s look at the population level. First we need to calculate how many offspring were unable to be assigned a father. We do this by adding the first four columns of the paternity analysis output (which contains only successful assignments) to the offspring dataframe (which includes all offspring, regardless of assignment). If there is no assigment, ‘Fij’ will be NA in the newly merged data frame.</p>
-<div class="sourceCode" id="cb1457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1457-1"><a href="WE_14.html#cb1457-1" aria-hidden="true" tabindex="-1"></a>offspring <span class="ot">&lt;-</span> <span class="fu">merge</span>(offspring, pat.sub[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), </span>
-<span id="cb1457-2"><a href="WE_14.html#cb1457-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;MomID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">all.x=</span>T)</span>
-<span id="cb1457-3"><a href="WE_14.html#cb1457-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(offspring)</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="WE_14.html#cb400-1" aria-hidden="true" tabindex="-1"></a>offspring <span class="ot">&lt;-</span> <span class="fu">merge</span>(offspring, pat.sub[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), </span>
+<span id="cb400-2"><a href="WE_14.html#cb400-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;MomID&quot;</span>, <span class="st">&quot;OffID&quot;</span>), <span class="at">all.x=</span>T)</span>
+<span id="cb400-3"><a href="WE_14.html#cb400-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(offspring)</span></code></pre></div>
 <pre><code>##     ID OffID Population       X       Y  loc1_a  loc2_a  loc3_a  loc4_a  loc5_a
 ## 1 3080     1        A25 4422657 5425371 334:358 417:424 392:411 446:448 121:121
 ## 2 3080     2        A25 4422657 5425371 334:358 422:424 392:434 442:446 121:121
@@ -2244,23 +1505,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 157:165 240:258   211   1
 ## 6 153:157 240:256   211   1</code></pre>
 <p>Calculate the number of outside pollination events per population by counting the number of NAs in the ‘Fij’ column:</p>
-<div class="sourceCode" id="cb1459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1459-1"><a href="WE_14.html#cb1459-1" aria-hidden="true" tabindex="-1"></a>num.out <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">split</span>(offspring<span class="sc">$</span>Fij, offspring<span class="sc">$</span>Population),</span>
-<span id="cb1459-2"><a href="WE_14.html#cb1459-2" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="WE_14.html#cb402-1" aria-hidden="true" tabindex="-1"></a>num.out <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">split</span>(offspring<span class="sc">$</span>Fij, offspring<span class="sc">$</span>Population),</span>
+<span id="cb402-2"><a href="WE_14.html#cb402-2" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span></code></pre></div>
 <p>Total number of pollination events per population (should be same as the number of seeds sampled):</p>
-<div class="sourceCode" id="cb1460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1460-1"><a href="WE_14.html#cb1460-1" aria-hidden="true" tabindex="-1"></a>num.tot <span class="ot">&lt;-</span> <span class="fu">table</span>(offspring<span class="sc">$</span>Population)</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="WE_14.html#cb403-1" aria-hidden="true" tabindex="-1"></a>num.tot <span class="ot">&lt;-</span> <span class="fu">table</span>(offspring<span class="sc">$</span>Population)</span></code></pre></div>
 <p>Let’s put this information into a data frame and add ecological information that we have gathered about each population.</p>
 <p>Specifically we have measured the proportion of forest cover within radii of 50, 100, 250, 500, and 1000 metres from population centroids, and have measured population size as the total number of flowering <em>P. vulgaris</em> plants per population.</p>
-<div class="sourceCode" id="cb1461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1461-1"><a href="WE_14.html#cb1461-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn it into a dataframe:</span></span>
-<span id="cb1461-2"><a href="WE_14.html#cb1461-2" aria-hidden="true" tabindex="-1"></a>pop.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Population=</span><span class="fu">names</span>(num.out), </span>
-<span id="cb1461-3"><a href="WE_14.html#cb1461-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">num.out=</span><span class="fu">as.vector</span>(num.out), <span class="at">num.tot=</span><span class="fu">as.vector</span>(num.tot))</span>
-<span id="cb1461-4"><a href="WE_14.html#cb1461-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1461-5"><a href="WE_14.html#cb1461-5" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the population variable data:</span></span>
-<span id="cb1461-6"><a href="WE_14.html#cb1461-6" aria-hidden="true" tabindex="-1"></a>pop.vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
-<span id="cb1461-7"><a href="WE_14.html#cb1461-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;pulsatilla_population.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb1461-8"><a href="WE_14.html#cb1461-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1461-9"><a href="WE_14.html#cb1461-9" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d the population variables to our outside pollination data:</span></span>
-<span id="cb1461-10"><a href="WE_14.html#cb1461-10" aria-hidden="true" tabindex="-1"></a>pop.df <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop.df, pop.vars, <span class="at">by=</span><span class="st">&quot;Population&quot;</span>)</span>
-<span id="cb1461-11"><a href="WE_14.html#cb1461-11" aria-hidden="true" tabindex="-1"></a>pop.df</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="WE_14.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn it into a dataframe:</span></span>
+<span id="cb404-2"><a href="WE_14.html#cb404-2" aria-hidden="true" tabindex="-1"></a>pop.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Population=</span><span class="fu">names</span>(num.out), </span>
+<span id="cb404-3"><a href="WE_14.html#cb404-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">num.out=</span><span class="fu">as.vector</span>(num.out), <span class="at">num.tot=</span><span class="fu">as.vector</span>(num.tot))</span>
+<span id="cb404-4"><a href="WE_14.html#cb404-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb404-5"><a href="WE_14.html#cb404-5" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the population variable data:</span></span>
+<span id="cb404-6"><a href="WE_14.html#cb404-6" aria-hidden="true" tabindex="-1"></a>pop.vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
+<span id="cb404-7"><a href="WE_14.html#cb404-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;pulsatilla_population.csv&quot;</span>, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>))</span>
+<span id="cb404-8"><a href="WE_14.html#cb404-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb404-9"><a href="WE_14.html#cb404-9" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d the population variables to our outside pollination data:</span></span>
+<span id="cb404-10"><a href="WE_14.html#cb404-10" aria-hidden="true" tabindex="-1"></a>pop.df <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop.df, pop.vars, <span class="at">by=</span><span class="st">&quot;Population&quot;</span>)</span>
+<span id="cb404-11"><a href="WE_14.html#cb404-11" aria-hidden="true" tabindex="-1"></a>pop.df</span></code></pre></div>
 <pre><code>##   Population num.out num.tot forest.50 forest.100 forest.250 forest.500
 ## 1        A03       2      13 0.3531695  0.5305529  0.8116160  0.8809752
 ## 2        A21      17      48 0.6036269  0.5291262  0.5581914  0.6131979
@@ -2280,13 +1541,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now we can run a model to see which variables best explain the proportion of immigrated pollen per population. Because we only have n=7 populations, we limit the models to a single explanatory variable.</p>
 <p>Our response variable is a proportion, so we use a glm (generalized linear model) with binomial error distribution. This model does not include any random effects.</p>
 <p>To automatize this, we first fit a ‘full’ model with all six potential predictors. We won’t interpret this model as it would be overfitted, but we’ll use it as input for the next step.</p>
-<div class="sourceCode" id="cb1463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1463-1"><a href="WE_14.html#cb1463-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model</span></span>
-<span id="cb1463-2"><a href="WE_14.html#cb1463-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(num.out, num.tot<span class="sc">-</span>num.out) <span class="sc">~</span> forest<span class="fl">.50</span> <span class="sc">+</span> forest<span class="fl">.100</span> <span class="sc">+</span></span>
-<span id="cb1463-3"><a href="WE_14.html#cb1463-3" aria-hidden="true" tabindex="-1"></a>              forest<span class="fl">.250</span> <span class="sc">+</span> forest<span class="fl">.500</span> <span class="sc">+</span> forest<span class="fl">.1000</span> <span class="sc">+</span> population.size,</span>
-<span id="cb1463-4"><a href="WE_14.html#cb1463-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> pop.df, </span>
-<span id="cb1463-5"><a href="WE_14.html#cb1463-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> <span class="st">&quot;na.fail&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="WE_14.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify the model</span></span>
+<span id="cb406-2"><a href="WE_14.html#cb406-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(num.out, num.tot<span class="sc">-</span>num.out) <span class="sc">~</span> forest<span class="fl">.50</span> <span class="sc">+</span> forest<span class="fl">.100</span> <span class="sc">+</span></span>
+<span id="cb406-3"><a href="WE_14.html#cb406-3" aria-hidden="true" tabindex="-1"></a>              forest<span class="fl">.250</span> <span class="sc">+</span> forest<span class="fl">.500</span> <span class="sc">+</span> forest<span class="fl">.1000</span> <span class="sc">+</span> population.size,</span>
+<span id="cb406-4"><a href="WE_14.html#cb406-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> pop.df, </span>
+<span id="cb406-5"><a href="WE_14.html#cb406-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> <span class="st">&quot;na.fail&quot;</span>)</span></code></pre></div>
 <p>We use the function <code>dredge</code> again to select the best model among those with only a single predictors (plus the intercept-only model). This is specified with the argument <code>m.lim=c(0,1)</code>.</p>
-<div class="sourceCode" id="cb1464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1464-1"><a href="WE_14.html#cb1464-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">dredge</span>(mod2,<span class="at">m.lim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="WE_14.html#cb407-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">dredge</span>(mod2,<span class="at">m.lim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## Fixed term is &quot;(Intercept)&quot;</code></pre>
 <pre><code>## Global model call: glm(formula = cbind(num.out, num.tot - num.out) ~ forest.50 + 
 ##     forest.100 + forest.250 + forest.500 + forest.1000 + population.size, 
@@ -2313,13 +1574,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We see that the best model is the intercept-only (null) model, suggesting that none of the predictors fit the data very well. However, the next-best model includes ‘forest.250’ with a delta AICc of less than 2, and we take this model to be equally likely.</p>
 <p>Note: Interestingly, in our original paper with found that forest.500 was the best predictor, followed by population size. This suggests that the choice of paternity analysis method really can make a difference.</p>
 <p>Let’s plot the model including forest.250:</p>
-<div class="sourceCode" id="cb1467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1467-1"><a href="WE_14.html#cb1467-1" aria-hidden="true" tabindex="-1"></a>forest.<span class="fl">250.</span>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(num.out, num.tot<span class="sc">-</span>num.out) <span class="sc">~</span> forest<span class="fl">.250</span>,</span>
-<span id="cb1467-2"><a href="WE_14.html#cb1467-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">family=</span><span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;logit&quot;</span>), <span class="at">data=</span>pop.df)</span>
-<span id="cb1467-3"><a href="WE_14.html#cb1467-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1467-4"><a href="WE_14.html#cb1467-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pop.df, <span class="fu">aes</span>(<span class="at">x=</span>forest<span class="fl">.250</span>, <span class="at">y=</span>num.out<span class="sc">/</span>num.tot)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb1467-5"><a href="WE_14.html#cb1467-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>forest<span class="fl">.250</span>, <span class="at">y=</span><span class="fu">predict</span>(forest.<span class="fl">250.</span>mod, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))) <span class="sc">+</span></span>
-<span id="cb1467-6"><a href="WE_14.html#cb1467-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Proportion of forest at 250 m&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1467-7"><a href="WE_14.html#cb1467-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of immigrant pollen&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="WE_14.html#cb410-1" aria-hidden="true" tabindex="-1"></a>forest.<span class="fl">250.</span>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(num.out, num.tot<span class="sc">-</span>num.out) <span class="sc">~</span> forest<span class="fl">.250</span>,</span>
+<span id="cb410-2"><a href="WE_14.html#cb410-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">family=</span><span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;logit&quot;</span>), <span class="at">data=</span>pop.df)</span>
+<span id="cb410-3"><a href="WE_14.html#cb410-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb410-4"><a href="WE_14.html#cb410-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pop.df, <span class="fu">aes</span>(<span class="at">x=</span>forest<span class="fl">.250</span>, <span class="at">y=</span>num.out<span class="sc">/</span>num.tot)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb410-5"><a href="WE_14.html#cb410-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>forest<span class="fl">.250</span>, <span class="at">y=</span><span class="fu">predict</span>(forest.<span class="fl">250.</span>mod, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb410-6"><a href="WE_14.html#cb410-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Proportion of forest at 250 m&quot;</span>) <span class="sc">+</span></span>
+<span id="cb410-7"><a href="WE_14.html#cb410-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of immigrant pollen&quot;</span>)</span></code></pre></div>
 <p><img src="14-Week14_files/figure-html/plot_forest.250-1.png" width="672" /></p>
 <p>We see that populations surrounded by more forest receive less outside pollen, although it is apparent that there is one outlier (population A21) with a high proportion of immigration pollen but intermediate levels of surrounding forest. This is likely also a product of our choice of paternity anlaysis - in our original paper (DiLeo et al. in press) we were able to assign a much higher proportion of fathers in popualtion A21, giving us lower pollen immigration rates.</p>
 </div>
@@ -2336,12 +1597,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <!-- </div> -->
-
-
-
-
-
-
             </section>
 
           </div>

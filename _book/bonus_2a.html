@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bonus_2a" class="section level2">
 <h2>Bonus Vignette</h2>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="bonus_2a.html#cb449-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week2_bonus_vignette.Rmd&quot;</span>)</span>
-<span id="cb449-2"><a href="bonus_2a.html#cb449-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb449-3"><a href="bonus_2a.html#cb449-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Helene Wagner</code></pre>
+<p>Helene Wagner</p>
 <div id="overview-2" class="section level3">
 <h3>1. Overview</h3>
 <div id="a.-goals-2" class="section level4">
@@ -1742,30 +1003,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="b.-required-r-libraries" class="section level4">
 <h4>b. Required R libraries</h4>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="bonus_2a.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
-<span id="cb451-2"><a href="bonus_2a.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sp)</span>
-<span id="cb451-3"><a href="bonus_2a.html#cb451-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sf)</span>
-<span id="cb451-4"><a href="bonus_2a.html#cb451-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(raster)</span>
-<span id="cb451-5"><a href="bonus_2a.html#cb451-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(GeNetIt)</span>
-<span id="cb451-6"><a href="bonus_2a.html#cb451-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(terra)</span>
-<span id="cb451-7"><a href="bonus_2a.html#cb451-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
-<span id="cb451-8"><a href="bonus_2a.html#cb451-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bonus_2a.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb156-2"><a href="bonus_2a.html#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sp)</span>
+<span id="cb156-3"><a href="bonus_2a.html#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sf)</span>
+<span id="cb156-4"><a href="bonus_2a.html#cb156-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(raster)</span>
+<span id="cb156-5"><a href="bonus_2a.html#cb156-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(GeNetIt)</span>
+<span id="cb156-6"><a href="bonus_2a.html#cb156-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(terra)</span>
+<span id="cb156-7"><a href="bonus_2a.html#cb156-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb156-8"><a href="bonus_2a.html#cb156-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 </div>
 </div>
 <div id="convert-spatialpointsdataframe-to-sf-object" class="section level3">
 <h3>2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object</h3>
 <p>While ‘sp’ was a major achievement, it is being replaced now by ‘sf,’ which is short for “simple feature.” The conversion is easy. The resulting S3 object is a data frame and also an ‘sf’ object.</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="bonus_2a.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
-<span id="cb452-2"><a href="bonus_2a.html#cb452-2" aria-hidden="true" tabindex="-1"></a>Sites.sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ralu.site)</span>
-<span id="cb452-3"><a href="bonus_2a.html#cb452-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites.sf)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="bonus_2a.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb157-2"><a href="bonus_2a.html#cb157-2" aria-hidden="true" tabindex="-1"></a>Sites.sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ralu.site)</span>
+<span id="cb157-3"><a href="bonus_2a.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites.sf)</span></code></pre></div>
 <pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 </div>
 <div id="plot-variables-first-10-in-data-set" class="section level3">
 <h3>3. Plot variables (first 10 in data set)</h3>
 <p>If we use ‘plot’ on this ‘sf’ object, it will plot site attribute data in space! Here we set the point character ‘pch’ to a filled circle, which is symbol #16.</p>
 <p>For an overview of ‘pch’ symbol numbers, and colors, check: <a href="http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/" class="uri">http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/</a></p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="bonus_2a.html#cb454-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb454-2"><a href="bonus_2a.html#cb454-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="bonus_2a.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb159-2"><a href="bonus_2a.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <pre><code>## Warning: plotting the first 10 out of 17 attributes; use max.plot = 17 to plot
 ## all</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
@@ -1775,27 +1036,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Variables ‘AREA_m2’ and ‘Depth_m’ (right): these are quantitative variables, and R automatically uses a color ramp (from blue to pink to orange) to indicate variation in the values.</li>
 </ul>
 <p>Note: To learn about options for the ‘plot’ function for ‘sf’ objects, access the help file by typing ‘?plot’ and select ‘Plot sf object.’</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="bonus_2a.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;Drainage&quot;</span>, <span class="st">&quot;Basin&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb456-2"><a href="bonus_2a.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;AREA_m2&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="bonus_2a.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;Drainage&quot;</span>, <span class="st">&quot;Basin&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb161-2"><a href="bonus_2a.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf[,<span class="fu">c</span>(<span class="st">&quot;AREA_m2&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-59-1.png" width="672" /><img src="02-Week02_files/figure-html/unnamed-chunk-59-2.png" width="672" /></p>
 </div>
 <div id="export-site-data-as-esri-shapefile" class="section level3">
 <h3>4. Export site data as ESRI shapefile</h3>
 <p>Just in case you want to know how you could get your results into a GIS. This is really easy with the ‘sf’ package. The following code may produce a warning that column names were abbreviated, and writes the component files for the ESRI shapefile into the pre-existing folder ‘output’ (the first line will create it if does not exist yet). Remember to remove the hashtags ‘#’ to uncomment the code before running it.</p>
 <p>The argument ‘delete_dsn’ specifies whether any existing file with the same name should be deleted first (i.e., overwritten).</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="bonus_2a.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
-<span id="cb457-2"><a href="bonus_2a.html#cb457-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
-<span id="cb457-3"><a href="bonus_2a.html#cb457-3" aria-hidden="true" tabindex="-1"></a><span class="co">#st_write(Sites.sf, paste0(here(),&quot;/output/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="bonus_2a.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb162-2"><a href="bonus_2a.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb162-3"><a href="bonus_2a.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="co">#st_write(Sites.sf, paste0(here(),&quot;/output/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
 </div>
 <div id="usterra-and-tmap-to-display-categorical-map-with-color-scheme" class="section level3">
 <h3>5. Us’terra’ and ‘tmap’ to display categorical map with color scheme</h3>
 <p>Now to a more tricky topic. Recall that the last raster layer in the Worked Example, ‘nlcd,’ contains categorial land cover data that are coded numerically. The ‘raster’ package actually misinterpreted them as numeric data.</p>
 <p>Similarly to <code>sp</code> being replaced by <code>sf</code>, <code>raster</code> is being replaced by <code>terra</code>. The conversion is easy, using the function <code>rast</code>.</p>
 <p>Let’s again extract the categorical raster layer into a new object ‘NLCD.’ We use as.factor to tell R that this is this is a categorical map. This is necessary because the values are coded numerically with values between 11 - 95.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="bonus_2a.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
-<span id="cb458-2"><a href="bonus_2a.html#cb458-2" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">raster</span>(rasters[<span class="dv">6</span>]))</span>
-<span id="cb458-3"><a href="bonus_2a.html#cb458-3" aria-hidden="true" tabindex="-1"></a>NLCD.terra <span class="ot">&lt;-</span> <span class="fu">rast</span>(NLCD)</span>
-<span id="cb458-4"><a href="bonus_2a.html#cb458-4" aria-hidden="true" tabindex="-1"></a>NLCD.terra</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="bonus_2a.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
+<span id="cb163-2"><a href="bonus_2a.html#cb163-2" aria-hidden="true" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">raster</span>(rasters[<span class="dv">6</span>]))</span>
+<span id="cb163-3"><a href="bonus_2a.html#cb163-3" aria-hidden="true" tabindex="-1"></a>NLCD.terra <span class="ot">&lt;-</span> <span class="fu">rast</span>(NLCD)</span>
+<span id="cb163-4"><a href="bonus_2a.html#cb163-4" aria-hidden="true" tabindex="-1"></a>NLCD.terra</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
 ## dimensions  : 426, 358, 1  (nrow, ncol, nlyr)
 ## resolution  : 30, 30  (x, y)
@@ -1808,7 +1069,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>NLCD.terra</code> is an object of type <code>SpatRaster</code>.</p>
 <p>Here is a description of the cover types: <a href="https://www.mrlc.gov/data/legends/national-land-cover-database-2019-nlcd2019-legend" class="uri">https://www.mrlc.gov/data/legends/national-land-cover-database-2019-nlcd2019-legend</a></p>
 <p>So far, we only have the codes in the raster attribute table (RAT). We can display that table with the function <code>cats</code> (for categories).</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="bonus_2a.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cats</span>(NLCD.terra)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="bonus_2a.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cats</span>(NLCD.terra)</span></code></pre></div>
 <pre><code>## [[1]]
 ##   ID ID.1
 ## 1  0   NA
@@ -1822,11 +1083,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 9  8   95</code></pre>
 <p>Let’s add some columns with labels and predefined colors (using hex color code). A color table (“Colortable_LULC.csv”) is already in the data folder.</p>
 <p>It has more rows than we need, because not all US land cover classes occur in the study area. We need to make sure the colors and cover types are stored as ‘character,’ because the missing factor levels would later create problems.</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="bonus_2a.html#cb462-1" aria-hidden="true" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
-<span id="cb462-2"><a href="bonus_2a.html#cb462-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb462-3"><a href="bonus_2a.html#cb462-3" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>color)</span>
-<span id="cb462-4"><a href="bonus_2a.html#cb462-4" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>attribute <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>attribute)</span>
-<span id="cb462-5"><a href="bonus_2a.html#cb462-5" aria-hidden="true" tabindex="-1"></a>ColTab</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="bonus_2a.html#cb167-1" aria-hidden="true" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
+<span id="cb167-2"><a href="bonus_2a.html#cb167-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb167-3"><a href="bonus_2a.html#cb167-3" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>color)</span>
+<span id="cb167-4"><a href="bonus_2a.html#cb167-4" aria-hidden="true" tabindex="-1"></a>ColTab<span class="sc">$</span>attribute <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ColTab<span class="sc">$</span>attribute)</span>
+<span id="cb167-5"><a href="bonus_2a.html#cb167-5" aria-hidden="true" tabindex="-1"></a>ColTab</span></code></pre></div>
 <pre><code>##    value   color                    attribute
 ## 1     11 #456DA8                   Open Water
 ## 2     12 #E6EEF9           Perennial Ice/Snow
@@ -1850,10 +1111,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 20    95 #6EA5C4 Emergent Herbaceous Wetlands</code></pre>
 <p>Now we need to match the codes in <code>NLCD.terra</code> and <code>ColTab</code> and extract the additional variables for the land use categories that occur in <code>NLCD.terra</code>. We can use the function <code>merge</code> to do this.Then we reorder the rows by ID.</p>
 <p>Note: a SpatRaster object could have more than one layer. Hence we specify the layer with <code>layer=1</code>.</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="bonus_2a.html#cb464-1" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">merge</span>(terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>), ColTab, </span>
-<span id="cb464-2"><a href="bonus_2a.html#cb464-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">by.x=</span><span class="st">&quot;ID.1&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;value&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>, <span class="at">sort=</span><span class="cn">TRUE</span>)</span>
-<span id="cb464-3"><a href="bonus_2a.html#cb464-3" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> RAT[<span class="fu">order</span>(RAT<span class="sc">$</span>ID),]</span>
-<span id="cb464-4"><a href="bonus_2a.html#cb464-4" aria-hidden="true" tabindex="-1"></a>RAT</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="bonus_2a.html#cb169-1" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">merge</span>(terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>), ColTab, </span>
+<span id="cb169-2"><a href="bonus_2a.html#cb169-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">by.x=</span><span class="st">&quot;ID.1&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;value&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>, <span class="at">sort=</span><span class="cn">TRUE</span>)</span>
+<span id="cb169-3"><a href="bonus_2a.html#cb169-3" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> RAT[<span class="fu">order</span>(RAT<span class="sc">$</span>ID),]</span>
+<span id="cb169-4"><a href="bonus_2a.html#cb169-4" aria-hidden="true" tabindex="-1"></a>RAT</span></code></pre></div>
 <pre><code>##   ID.1 ID   color                    attribute
 ## 9   NA  0    &lt;NA&gt;                         &lt;NA&gt;
 ## 1   11  1 #456DA8                   Open Water
@@ -1865,8 +1126,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 7   90  7 #BED8F6               Woody Wetlands
 ## 8   95  8 #6EA5C4 Emergent Herbaceous Wetlands</code></pre>
 <p>Finally, we add the RAT to NLCD.terra using the function <code>setCats</code>. attribute column from RAT to define the levels of <code>NLCD.terra</code>.</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="bonus_2a.html#cb466-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">setCats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>, <span class="at">value=</span>RAT[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>)], <span class="at">index=</span><span class="dv">2</span>) </span>
-<span id="cb466-2"><a href="bonus_2a.html#cb466-2" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="bonus_2a.html#cb171-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">setCats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>, <span class="at">value=</span>RAT[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>)], <span class="at">index=</span><span class="dv">2</span>) </span>
+<span id="cb171-2"><a href="bonus_2a.html#cb171-2" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>)</span></code></pre></div>
 <pre><code>##   ID ID.1   color                    attribute
 ## 1  0   NA    &lt;NA&gt;                         &lt;NA&gt;
 ## 2  1   11 #456DA8                   Open Water
@@ -1878,25 +1139,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8  7   90 #BED8F6               Woody Wetlands
 ## 9  8   95 #6EA5C4 Emergent Herbaceous Wetlands</code></pre>
 <p>Note that color has a special meaning as it is not a true attribute but defines the color scheme used for plotting. A <code>SpatRaster</code> object in <code>terra</code> has a dedicated slot <code>coltab</code> for this. Again, we need to specify the layer, here we use <code>layer=1</code>.</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="bonus_2a.html#cb468-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">coltab</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>) <span class="ot">&lt;-</span> RAT<span class="sc">$</span>color</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="bonus_2a.html#cb173-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">coltab</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>) <span class="ot">&lt;-</span> RAT<span class="sc">$</span>color</span></code></pre></div>
 <p>FIX THIS: does not plot! Workaround: use 95 levels.</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="bonus_2a.html#cb469-1" aria-hidden="true" tabindex="-1"></a>NLCD.terra <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.factor</span>(terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">raster</span>(rasters[<span class="dv">6</span>])))</span>
-<span id="cb469-2"><a href="bonus_2a.html#cb469-2" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">left_join</span>(terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra)[[<span class="dv">1</span>]], ColTab, </span>
-<span id="cb469-3"><a href="bonus_2a.html#cb469-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span><span class="ot">=</span><span class="st">&quot;value&quot;</span>))</span>
-<span id="cb469-4"><a href="bonus_2a.html#cb469-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(NLCD.terra) <span class="ot">&lt;-</span> RAT</span>
-<span id="cb469-5"><a href="bonus_2a.html#cb469-5" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">coltab</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>)<span class="ot">&lt;-</span>RAT<span class="sc">$</span>color</span></code></pre></div>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="bonus_2a.html#cb470-1" aria-hidden="true" tabindex="-1"></a>Map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(NLCD.terra) <span class="sc">+</span> </span>
-<span id="cb470-2"><a href="bonus_2a.html#cb470-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">labels=</span><span class="fu">cats</span>(NLCD.terra)[[<span class="dv">1</span>]]<span class="sc">$</span>attribute,</span>
-<span id="cb470-3"><a href="bonus_2a.html#cb470-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">title=</span><span class="st">&quot;Land cover&quot;</span>) <span class="sc">+</span></span>
-<span id="cb470-4"><a href="bonus_2a.html#cb470-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) <span class="sc">+</span></span>
-<span id="cb470-5"><a href="bonus_2a.html#cb470-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_grid</span>(<span class="at">lines=</span><span class="cn">FALSE</span>)</span>
-<span id="cb470-6"><a href="bonus_2a.html#cb470-6" aria-hidden="true" tabindex="-1"></a>Map</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="bonus_2a.html#cb174-1" aria-hidden="true" tabindex="-1"></a>NLCD.terra <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.factor</span>(terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">raster</span>(rasters[<span class="dv">6</span>])))</span>
+<span id="cb174-2"><a href="bonus_2a.html#cb174-2" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">left_join</span>(terra<span class="sc">::</span><span class="fu">cats</span>(NLCD.terra)[[<span class="dv">1</span>]], ColTab, </span>
+<span id="cb174-3"><a href="bonus_2a.html#cb174-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span><span class="ot">=</span><span class="st">&quot;value&quot;</span>))</span>
+<span id="cb174-4"><a href="bonus_2a.html#cb174-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(NLCD.terra) <span class="ot">&lt;-</span> RAT</span>
+<span id="cb174-5"><a href="bonus_2a.html#cb174-5" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">coltab</span>(NLCD.terra, <span class="at">layer=</span><span class="dv">1</span>)<span class="ot">&lt;-</span>RAT<span class="sc">$</span>color</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="bonus_2a.html#cb175-1" aria-hidden="true" tabindex="-1"></a>Map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(NLCD.terra) <span class="sc">+</span> </span>
+<span id="cb175-2"><a href="bonus_2a.html#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">labels=</span><span class="fu">cats</span>(NLCD.terra)[[<span class="dv">1</span>]]<span class="sc">$</span>attribute,</span>
+<span id="cb175-3"><a href="bonus_2a.html#cb175-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">title=</span><span class="st">&quot;Land cover&quot;</span>) <span class="sc">+</span></span>
+<span id="cb175-4"><a href="bonus_2a.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) <span class="sc">+</span></span>
+<span id="cb175-5"><a href="bonus_2a.html#cb175-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_grid</span>(<span class="at">lines=</span><span class="cn">FALSE</span>)</span>
+<span id="cb175-6"><a href="bonus_2a.html#cb175-6" aria-hidden="true" tabindex="-1"></a>Map</span></code></pre></div>
 <pre><code>## Warning: Duplicated levels found. They have been omitted</code></pre>
 <pre><code>## Some legend labels were too wide. These labels have been resized to 0.65. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>To add an additional layer to the map, we first need to define the data for the layer with <code>tm_shape</code> and then define how they points should be symbolized with <code>tm_symbols</code>.</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="bonus_2a.html#cb473-1" aria-hidden="true" tabindex="-1"></a>Map <span class="sc">+</span> <span class="fu">tm_shape</span>(ralu.site) <span class="sc">+</span></span>
-<span id="cb473-2"><a href="bonus_2a.html#cb473-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">size=</span><span class="fl">0.4</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">border.col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="bonus_2a.html#cb178-1" aria-hidden="true" tabindex="-1"></a>Map <span class="sc">+</span> <span class="fu">tm_shape</span>(ralu.site) <span class="sc">+</span></span>
+<span id="cb178-2"><a href="bonus_2a.html#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">size=</span><span class="fl">0.4</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">border.col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <pre><code>## Some legend labels were too wide. These labels have been resized to 0.65. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
 

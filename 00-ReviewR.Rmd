@@ -26,7 +26,7 @@ Optional, advanced topics are presented here:
 
 ## Basic R Programming {#basic-r}
 
-```{r}
+```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week0_BasicR.Rmd")
 yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)
@@ -38,7 +38,7 @@ cat(yml_metadata$author)
 
 ## R Graphics {#r-graphics}
 
-```{r}
+```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week0_Graphics.Rmd")
 yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)
