@@ -18,9 +18,9 @@ Import all Rmd and other (png) files from vignettes, replace old files
 
 ```{r}
 #Mac:
-#Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" 
+Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" 
 #Windows:
-Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
+#Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
 #list.of.files <- list.files(Path, pattern="Rmd")
 list.of.files <- list.files(Path)
 file.copy(paste0(Path, list.of.files), paste0(here::here(), "/vignettes"), overwrite=TRUE)
@@ -122,9 +122,9 @@ library(officer)
 library(dplyr)
 
 # Mac:
-#inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
 # Windows:
-inFile <- "C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx"
+#inFile <- "C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx"
 
 sample_data <- officer::read_docx(inFile)
 content <- docx_summary(sample_data)
