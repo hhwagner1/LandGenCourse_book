@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bonus_8a" class="section level2">
 <h2>Bonus Vignette</h2>
-<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="bonus_8a.html#cb979-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week8_bonus_vignette.Rmd&quot;</span>)</span>
-<span id="cb979-2"><a href="bonus_8a.html#cb979-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb979-3"><a href="bonus_8a.html#cb979-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Helene Wagner</code></pre>
+<p>Helene Wagner</p>
 <div id="overview-of-bonus-material" class="section level3">
 <h3>1. Overview of Bonus Material</h3>
 <div id="a.-goals-9" class="section level4">
@@ -1746,19 +1007,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="c.-required-r-libraries-5" class="section level4">
 <h4>c. Required R libraries</h4>
-<div class="sourceCode" id="cb981"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb981-1"><a href="bonus_8a.html#cb981-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb981-2"><a href="bonus_8a.html#cb981-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(microbenchmark)</span></span>
-<span id="cb981-3"><a href="bonus_8a.html#cb981-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(profvis)</span></span>
-<span id="cb981-4"><a href="bonus_8a.html#cb981-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(here)</span></span>
-<span id="cb981-5"><a href="bonus_8a.html#cb981-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(readr)</span></span>
-<span id="cb981-6"><a href="bonus_8a.html#cb981-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(data.table)</span></span>
-<span id="cb981-7"><a href="bonus_8a.html#cb981-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feather)</span>
-<span id="cb981-8"><a href="bonus_8a.html#cb981-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rio)</span></span>
-<span id="cb981-9"><a href="bonus_8a.html#cb981-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(devtools)</span></span>
-<span id="cb981-10"><a href="bonus_8a.html#cb981-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(parallel)</span></span>
-<span id="cb981-11"><a href="bonus_8a.html#cb981-11" aria-hidden="true" tabindex="-1"></a><span class="co">#library(doParallel)</span></span>
-<span id="cb981-12"><a href="bonus_8a.html#cb981-12" aria-hidden="true" tabindex="-1"></a><span class="co">#library(knitr)</span></span>
-<span id="cb981-13"><a href="bonus_8a.html#cb981-13" aria-hidden="true" tabindex="-1"></a><span class="co">#library(compiler)</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="bonus_8a.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb75-2"><a href="bonus_8a.html#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(microbenchmark)</span></span>
+<span id="cb75-3"><a href="bonus_8a.html#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(profvis)</span></span>
+<span id="cb75-4"><a href="bonus_8a.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(here)</span></span>
+<span id="cb75-5"><a href="bonus_8a.html#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(readr)</span></span>
+<span id="cb75-6"><a href="bonus_8a.html#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(data.table)</span></span>
+<span id="cb75-7"><a href="bonus_8a.html#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feather)</span>
+<span id="cb75-8"><a href="bonus_8a.html#cb75-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rio)</span></span>
+<span id="cb75-9"><a href="bonus_8a.html#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(devtools)</span></span>
+<span id="cb75-10"><a href="bonus_8a.html#cb75-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(parallel)</span></span>
+<span id="cb75-11"><a href="bonus_8a.html#cb75-11" aria-hidden="true" tabindex="-1"></a><span class="co">#library(doParallel)</span></span>
+<span id="cb75-12"><a href="bonus_8a.html#cb75-12" aria-hidden="true" tabindex="-1"></a><span class="co">#library(knitr)</span></span>
+<span id="cb75-13"><a href="bonus_8a.html#cb75-13" aria-hidden="true" tabindex="-1"></a><span class="co">#library(compiler)</span></span></code></pre></div>
 </div>
 </div>
 <div id="navigating-the-file-system" class="section level3">
@@ -1768,13 +1029,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-where-am-i" class="section level4">
 <h4>a. Where am I?</h4>
 <p>Let’s see where we are.</p>
-<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb982-1"><a href="bonus_8a.html#cb982-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="bonus_8a.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Users/helene/Desktop/R_Github_projects/LandGenCourse_book/vignettes&quot;</code></pre>
-<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb984-1"><a href="bonus_8a.html#cb984-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="bonus_8a.html#cb78-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Users/helene/Desktop/R_Github_projects/LandGenCourse_book&quot;</code></pre>
-<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="bonus_8a.html#cb986-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="bonus_8a.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;/Users/helene&quot;</code></pre>
-<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb988-1"><a href="bonus_8a.html#cb988-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="bonus_8a.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Library/Frameworks/R.framework/Resources&quot;</code></pre>
 <p><strong>Question:</strong> Copy-paste the commands in the chunk above directly into the Console and run them there. Do you get the same paths?</p>
 <ul>
@@ -1787,21 +1048,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-accessing-a-system-file" class="section level4">
 <h4>b. Accessing a system file</h4>
 <p>The example data set is available in the ‘extdata’ folder of the ‘LandGenCoures’ package. This is how we import the data in the Week 11 Worked Example:</p>
-<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb990-1"><a href="bonus_8a.html#cb990-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
-<span id="cb990-2"><a href="bonus_8a.html#cb990-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb990-3"><a href="bonus_8a.html#cb990-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gen)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="bonus_8a.html#cb84-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb84-2"><a href="bonus_8a.html#cb84-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb84-3"><a href="bonus_8a.html#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gen)</span></code></pre></div>
 <pre><code>## [1]    94 10000</code></pre>
 <p>Let’s unpack this code. What does the function <code>system.file</code> do? Let’s compare it to <code>R.home</code>.</p>
-<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="bonus_8a.html#cb992-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="bonus_8a.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R.home</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Library/Frameworks/R.framework/Resources&quot;</code></pre>
-<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="bonus_8a.html#cb994-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="bonus_8a.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Library/Frameworks/R.framework/Resources/library/base&quot;</code></pre>
 <p>So, <code>system.file</code> goes to the R home and, without additional arguments, locates the folder ‘library’ with the subfolder ‘base.’</p>
 <p>What happens when we add the arguments?</p>
-<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="bonus_8a.html#cb996-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="bonus_8a.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;/Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourse&quot;</code></pre>
-<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="bonus_8a.html#cb998-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
-<span id="cb998-2"><a href="bonus_8a.html#cb998-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="bonus_8a.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb92-2"><a href="bonus_8a.html#cb92-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;/Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourse/extdata/wolf_geno_samp_10000.csv&quot;</code></pre>
 <p>Compare the paths to those from the previous chunk!</p>
 <ul>
@@ -1813,11 +1074,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-file-manipulation" class="section level4">
 <h4>c. File manipulation</h4>
 <p>We can use R’s file manipulation functions to do things with the file before even importing the data. Let’s check the file size:</p>
-<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="bonus_8a.html#cb1000-1" aria-hidden="true" tabindex="-1"></a>myFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
-<span id="cb1000-2"><a href="bonus_8a.html#cb1000-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
-<span id="cb1000-3"><a href="bonus_8a.html#cb1000-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.size</span>(myFile)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="bonus_8a.html#cb94-1" aria-hidden="true" tabindex="-1"></a>myFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, </span>
+<span id="cb94-2"><a href="bonus_8a.html#cb94-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb94-3"><a href="bonus_8a.html#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.size</span>(myFile)</span></code></pre></div>
 <pre><code>## [1] 2078748</code></pre>
-<div class="sourceCode" id="cb1002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1002-1"><a href="bonus_8a.html#cb1002-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;File size: &quot;</span>, <span class="fu">file.size</span>(myFile) <span class="sc">/</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">&quot; MB&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="bonus_8a.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;File size: &quot;</span>, <span class="fu">file.size</span>(myFile) <span class="sc">/</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">&quot; MB&quot;</span>)</span></code></pre></div>
 <pre><code>## File size:  2.078748  MB</code></pre>
 <p>The number returned is in byte, hence we divide by 1 million (10^6) to get megabyte (MB).</p>
 <p>Other useful functions include (see help file: ‘?files’):</p>
@@ -1844,7 +1105,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>dir(myFile)</li>
 </ul>
 <p>Give it a try:</p>
-<div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="bonus_8a.html#cb1004-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="bonus_8a.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div>
 <pre><code>##  [1] &quot;WE12_Fig1.PNG&quot;            &quot;WE13_Fig1.png&quot;           
 ##  [3] &quot;WE9_Fig1.png&quot;             &quot;WE9_Fig2.png&quot;            
 ##  [5] &quot;Week0_BasicR.Rmd&quot;         &quot;Week0_Graphics.Rmd&quot;      
@@ -1856,51 +1117,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [17] &quot;Week5_vignette.Rmd&quot;       &quot;Week6_vignette.Rmd&quot;      
 ## [19] &quot;Week7_vignette.Rmd&quot;       &quot;Week8_bonus_vignette.Rmd&quot;
 ## [21] &quot;Week8_vignette.Rmd&quot;       &quot;Week9_vignette.Rmd&quot;</code></pre>
-<div class="sourceCode" id="cb1006"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1006-1"><a href="bonus_8a.html#cb1006-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(here<span class="sc">::</span><span class="fu">here</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="bonus_8a.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(here<span class="sc">::</span><span class="fu">here</span>())</span></code></pre></div>
 <pre><code>##  [1] &quot;_book&quot;                    &quot;_bookdown_files&quot;         
 ##  [3] &quot;_bookdown.yml&quot;            &quot;_output.yml&quot;             
-##  [5] &quot;00-ReviewR_files&quot;         &quot;00-ReviewR.md&quot;           
-##  [7] &quot;00-ReviewR.Rmd&quot;           &quot;01-Week01_files&quot;         
-##  [9] &quot;01-Week01.md&quot;             &quot;01-Week01.Rmd&quot;           
-## [11] &quot;02-Week02_files&quot;          &quot;02-Week02.md&quot;            
-## [13] &quot;02-Week02.Rmd&quot;            &quot;03-Week03_files&quot;         
-## [15] &quot;03-Week03.md&quot;             &quot;03-Week03.Rmd&quot;           
-## [17] &quot;04-Week04_files&quot;          &quot;04-Week04.md&quot;            
-## [19] &quot;04-Week04.Rmd&quot;            &quot;05-Week05_files&quot;         
-## [21] &quot;05-Week05.md&quot;             &quot;05-Week05.Rmd&quot;           
-## [23] &quot;06-Week06_files&quot;          &quot;06-Week06.md&quot;            
-## [25] &quot;06-Week06.Rmd&quot;            &quot;07-Week07_files&quot;         
-## [27] &quot;07-Week07.md&quot;             &quot;07-Week07.Rmd&quot;           
-## [29] &quot;08-Week08_files&quot;          &quot;08-Week08.Rmd&quot;           
-## [31] &quot;09-Week09_files&quot;          &quot;09-Week09.Rmd&quot;           
-## [33] &quot;10-Week10_files&quot;          &quot;10-Week10.Rmd&quot;           
-## [35] &quot;11-Week11_files&quot;          &quot;11-Week11.Rmd&quot;           
-## [37] &quot;12-Week12_files&quot;          &quot;12-Week12.Rmd&quot;           
-## [39] &quot;13-Week13_files&quot;          &quot;13-Week13.Rmd&quot;           
-## [41] &quot;14-Week14_files&quot;          &quot;14-Week14.Rmd&quot;           
-## [43] &quot;book.bib&quot;                 &quot;ChapterDepot.R&quot;          
-## [45] &quot;downloads&quot;                &quot;header.html&quot;             
-## [47] &quot;index.md&quot;                 &quot;index.Rmd&quot;               
-## [49] &quot;js&quot;                       &quot;LandGenCourse_book.rds&quot;  
-## [51] &quot;LandGenCourse_book.Rproj&quot; &quot;LICENSE&quot;                 
-## [53] &quot;ListOfPackages.nb.html&quot;   &quot;ListOfPackages.Rmd&quot;      
-## [55] &quot;my_plot.png&quot;              &quot;output&quot;                  
-## [57] &quot;README.md&quot;                &quot;render10f73563f2c4.rds&quot;  
-## [59] &quot;render1b7c27bb24ce.rds&quot;   &quot;render1e541582584a.rds&quot;  
-## [61] &quot;render23ec66f4ddd.rds&quot;    &quot;render2fbc1ad7f46.rds&quot;   
-## [63] &quot;render2fd81ad75275.rds&quot;   &quot;render33ed6170c2e4.rds&quot;  
-## [65] &quot;render363c1997640c.rds&quot;   &quot;render3894c561f3.rds&quot;    
-## [67] &quot;render3b305196d38.rds&quot;    &quot;rendera1ac36509ec1.rds&quot;  
-## [69] &quot;renderf9011b67ac.rds&quot;     &quot;rsconnect&quot;               
-## [71] &quot;style.css&quot;                &quot;toc.css&quot;                 
-## [73] &quot;tutorials&quot;                &quot;vignettes&quot;               
-## [75] &quot;Week8_bonus_vignette.R&quot;   &quot;Workflow.nb.html&quot;        
-## [77] &quot;Workflow.Rmd&quot;</code></pre>
-<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="bonus_8a.html#cb1008-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+##  [5] &quot;00-ReviewR_files&quot;         &quot;00-ReviewR.Rmd&quot;          
+##  [7] &quot;01-Week01_files&quot;          &quot;01-Week01.Rmd&quot;           
+##  [9] &quot;02-Week02_files&quot;          &quot;02-Week02.Rmd&quot;           
+## [11] &quot;03-Week03_files&quot;          &quot;03-Week03.Rmd&quot;           
+## [13] &quot;04-Week04_files&quot;          &quot;04-Week04.Rmd&quot;           
+## [15] &quot;05-Week05_files&quot;          &quot;05-Week05.Rmd&quot;           
+## [17] &quot;06-Week06_files&quot;          &quot;06-Week06.Rmd&quot;           
+## [19] &quot;07-Week07_files&quot;          &quot;07-Week07.Rmd&quot;           
+## [21] &quot;08-Week08_files&quot;          &quot;08-Week08.Rmd&quot;           
+## [23] &quot;09-Week09_files&quot;          &quot;09-Week09.Rmd&quot;           
+## [25] &quot;10-Week10_files&quot;          &quot;10-Week10.Rmd&quot;           
+## [27] &quot;11-Week11_files&quot;          &quot;11-Week11.Rmd&quot;           
+## [29] &quot;12-Week12_files&quot;          &quot;12-Week12.Rmd&quot;           
+## [31] &quot;13-Week13_files&quot;          &quot;13-Week13.Rmd&quot;           
+## [33] &quot;14-Week14_files&quot;          &quot;14-Week14.Rmd&quot;           
+## [35] &quot;book.bib&quot;                 &quot;ChapterDepot.R&quot;          
+## [37] &quot;downloads&quot;                &quot;header.html&quot;             
+## [39] &quot;index.Rmd&quot;                &quot;js&quot;                      
+## [41] &quot;LandGenCourse_book.rds&quot;   &quot;LandGenCourse_book.Rproj&quot;
+## [43] &quot;LICENSE&quot;                  &quot;ListOfPackages.nb.html&quot;  
+## [45] &quot;ListOfPackages.Rmd&quot;       &quot;my_plot.png&quot;             
+## [47] &quot;output&quot;                   &quot;README.md&quot;               
+## [49] &quot;render10f735b71bde3.rds&quot;  &quot;render1b7c27bb24ce.rds&quot;  
+## [51] &quot;render1e541582584a.rds&quot;   &quot;render23ec66f4ddd.rds&quot;   
+## [53] &quot;render2fbc1ad7f46.rds&quot;    &quot;render2fd81ad75275.rds&quot;  
+## [55] &quot;render33ed6170c2e4.rds&quot;   &quot;render363c1997640c.rds&quot;  
+## [57] &quot;render3894c561f3.rds&quot;     &quot;render3b305196d38.rds&quot;   
+## [59] &quot;rendera1ac36509ec1.rds&quot;   &quot;renderf9011b67ac.rds&quot;    
+## [61] &quot;rsconnect&quot;                &quot;style.css&quot;               
+## [63] &quot;toc.css&quot;                  &quot;tutorials&quot;               
+## [65] &quot;vignettes&quot;                &quot;Week8_bonus_vignette.R&quot;  
+## [67] &quot;Workflow.nb.html&quot;         &quot;Workflow.Rmd&quot;</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="bonus_8a.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
 <pre><code>##  [1] &quot;data&quot;        &quot;DESCRIPTION&quot; &quot;doc&quot;         &quot;extdata&quot;     &quot;help&quot;       
 ##  [6] &quot;html&quot;        &quot;INDEX&quot;       &quot;Meta&quot;        &quot;NAMESPACE&quot;   &quot;R&quot;          
 ## [11] &quot;rstudio&quot;</code></pre>
-<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="bonus_8a.html#cb1010-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="bonus_8a.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
 <pre><code>##  [1] &quot;BashExample.sh&quot;                   &quot;Colortable_LULC.csv&quot;             
 ##  [3] &quot;CSF_network.csv&quot;                  &quot;dataNm1.str&quot;                     
 ##  [5] &quot;dataNm10.txt&quot;                     &quot;dataNm2.txt&quot;                     
@@ -1918,7 +1174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [29] &quot;Wetlands.csv&quot;                     &quot;wolf_geno_samp_10000.csv&quot;        
 ## [31] &quot;WWP_environmental_data.txt&quot;       &quot;WWP_phenotype_data.txt&quot;          
 ## [33] &quot;WWP_SNP_genotypes.txt&quot;</code></pre>
-<div class="sourceCode" id="cb1012"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1012-1"><a href="bonus_8a.html#cb1012-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(myFile)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="bonus_8a.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(myFile)</span></code></pre></div>
 <pre><code>## character(0)</code></pre>
 <ul>
 <li><code>dir()</code>: the content of the last folder to which you navigated.</li>
@@ -1937,33 +1193,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The file ‘myFile’ has 2MB and thus a reasonable size to compare the speed of different import and export functions.</p>
 <p>Let’s benchmark the function <code>read.csv</code> used in Week 11. We use the function <code>microbenchmark</code> from the package <code>microbenchmark</code> to compare the speed of four different functions that can import a ‘csv’ file.</p>
 <p>Note: Here we execute each function only once to save time, typically you would set <code>times = 10</code> or so. Also, <code>read_csv</code> will print a warning about a missing column name. This is because the first column here contains the row names and does not have a column name. We’ll ignore this here, as we can use the first column as an example to compare how character data are being imported.</p>
-<div class="sourceCode" id="cb1014"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1014-1"><a href="bonus_8a.html#cb1014-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> myFile</span>
-<span id="cb1014-2"><a href="bonus_8a.html#cb1014-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
-<span id="cb1014-3"><a href="bonus_8a.html#cb1014-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), readr<span class="sc">::</span><span class="fu">read_csv</span>(x), data.table<span class="sc">::</span><span class="fu">fread</span>(x),</span>
-<span id="cb1014-4"><a href="bonus_8a.html#cb1014-4" aria-hidden="true" tabindex="-1"></a>          rio<span class="sc">::</span><span class="fu">import</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="bonus_8a.html#cb108-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> myFile</span>
+<span id="cb108-2"><a href="bonus_8a.html#cb108-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb108-3"><a href="bonus_8a.html#cb108-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), readr<span class="sc">::</span><span class="fu">read_csv</span>(x), data.table<span class="sc">::</span><span class="fu">fread</span>(x),</span>
+<span id="cb108-4"><a href="bonus_8a.html#cb108-4" aria-hidden="true" tabindex="-1"></a>          rio<span class="sc">::</span><span class="fu">import</span>(x))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##                  expr        min         lq       mean     median         uq
-##           read.csv(x) 1781.33761 1781.33761 1781.33761 1781.33761 1781.33761
-##    readr::read_csv(x) 3235.75486 3235.75486 3235.75486 3235.75486 3235.75486
-##  data.table::fread(x)   78.47931   78.47931   78.47931   78.47931   78.47931
-##        rio::import(x)  192.72112  192.72112  192.72112  192.72112  192.72112
+##           read.csv(x) 1765.96793 1765.96793 1765.96793 1765.96793 1765.96793
+##    readr::read_csv(x) 3235.71278 3235.71278 3235.71278 3235.71278 3235.71278
+##  data.table::fread(x)   78.53579   78.53579   78.53579   78.53579   78.53579
+##        rio::import(x)  182.88932  182.88932  182.88932  182.88932  182.88932
 ##         max neval
-##  1781.33761     1
-##  3235.75486     1
-##    78.47931     1
-##   192.72112     1</code></pre>
+##  1765.96793     1
+##  3235.71278     1
+##    78.53579     1
+##   182.88932     1</code></pre>
 <p>Would it be faster if we first loaded the packages so that we could call the functions directly?</p>
 <p>Note: you can list several independent commands on the same line by separating the with a semi-colon ‘;’ Also, the chunk setting <code>message=FALSE</code> here suppresses the warning message from <code>read_csv</code>.</p>
-<div class="sourceCode" id="cb1016"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1016-1"><a href="bonus_8a.html#cb1016-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(data.table); <span class="fu">library</span>(rio); <span class="fu">library</span>(microbenchmark)</span>
-<span id="cb1016-2"><a href="bonus_8a.html#cb1016-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1016-3"><a href="bonus_8a.html#cb1016-3" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
-<span id="cb1016-4"><a href="bonus_8a.html#cb1016-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), <span class="fu">read_csv</span>(x), <span class="fu">fread</span>(x), <span class="fu">import</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="bonus_8a.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(data.table); <span class="fu">library</span>(rio); <span class="fu">library</span>(microbenchmark)</span>
+<span id="cb110-2"><a href="bonus_8a.html#cb110-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-3"><a href="bonus_8a.html#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">1</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb110-4"><a href="bonus_8a.html#cb110-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), <span class="fu">read_csv</span>(x), <span class="fu">fread</span>(x), <span class="fu">import</span>(x))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##         expr        min         lq       mean     median         uq        max
-##  read.csv(x) 1755.71045 1755.71045 1755.71045 1755.71045 1755.71045 1755.71045
-##  read_csv(x) 3000.06501 3000.06501 3000.06501 3000.06501 3000.06501 3000.06501
-##     fread(x)   77.21096   77.21096   77.21096   77.21096   77.21096   77.21096
-##    import(x)   78.64731   78.64731   78.64731   78.64731   78.64731   78.64731
+##  read.csv(x) 1778.27004 1778.27004 1778.27004 1778.27004 1778.27004 1778.27004
+##  read_csv(x) 3022.34716 3022.34716 3022.34716 3022.34716 3022.34716 3022.34716
+##     fread(x)   78.63585   78.63585   78.63585   78.63585   78.63585   78.63585
+##    import(x)   77.97189   77.97189   77.97189   77.97189   77.97189   77.97189
 ##  neval
 ##      1
 ##      1
@@ -1979,13 +1235,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The functions differ not only in their speed but also in how they handle text data (character or factor?), missing values etc.</p>
 <p>The first column in ‘myFile’ is an ID variable that should be used as row names. Let’s compare what the four methods did with this. The following code determines, for each import method, the class of the first column (IDs), and the class (or classes) of the resulting object.</p>
 <p>Note: here we use double square brackets to subset the first column. Strictly speaking, we interpret ‘gen’ as a list of vectors. With a data.frame, we could also access the first column by gen[,1]. However, this would not return what we want for ‘tbl’ of ‘data.table’ objects. Always double check.</p>
-<div class="sourceCode" id="cb1018"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1018-1"><a href="bonus_8a.html#cb1018-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="bonus_8a.html#cb112-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;  &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb1020"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1020-1"><a href="bonus_8a.html#cb1020-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="bonus_8a.html#cb114-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;   &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="bonus_8a.html#cb1022-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">fread</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="bonus_8a.html#cb116-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">fread</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;  &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="bonus_8a.html#cb1024-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="bonus_8a.html#cb118-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(x); <span class="fu">c</span>(<span class="fu">class</span>(gen[[<span class="dv">1</span>]]), <span class="fu">class</span>(gen))</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;  &quot;data.frame&quot;</code></pre>
 <ul>
 <li>The function <code>read.csv</code> interprets any text as ‘factor,’ the other functions use ‘character’ as default. Always double check!<br />
@@ -1998,18 +1254,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>c. Binary files</h4>
 <p>Binary files are not readable by users (or other software) but provide an efficient way of storing data. Let’s compare file size and input/output speed between text files (csv) and different types of binary files (RData, rds, feather). We’ll also export the ‘csv’ file so that we have it in the same location.</p>
 <p>First we make sure an <code>output</code> folder exists in the R project:</p>
-<div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="bonus_8a.html#cb1026-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb1027"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1027-1"><a href="bonus_8a.html#cb1027-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(myFile)</span>
-<span id="cb1027-2"><a href="bonus_8a.html#cb1027-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1027-3"><a href="bonus_8a.html#cb1027-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>))</span>
-<span id="cb1027-4"><a href="bonus_8a.html#cb1027-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>))</span>
-<span id="cb1027-5"><a href="bonus_8a.html#cb1027-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
-<span id="cb1027-6"><a href="bonus_8a.html#cb1027-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>))</span>
-<span id="cb1027-7"><a href="bonus_8a.html#cb1027-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1027-8"><a href="bonus_8a.html#cb1027-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">csv=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
-<span id="cb1027-9"><a href="bonus_8a.html#cb1027-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">RData=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
-<span id="cb1027-10"><a href="bonus_8a.html#cb1027-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">rds=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
-<span id="cb1027-11"><a href="bonus_8a.html#cb1027-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">feather=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="bonus_8a.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="bonus_8a.html#cb121-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">import</span>(myFile)</span>
+<span id="cb121-2"><a href="bonus_8a.html#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="bonus_8a.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>))</span>
+<span id="cb121-4"><a href="bonus_8a.html#cb121-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>))</span>
+<span id="cb121-5"><a href="bonus_8a.html#cb121-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
+<span id="cb121-6"><a href="bonus_8a.html#cb121-6" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>))</span>
+<span id="cb121-7"><a href="bonus_8a.html#cb121-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-8"><a href="bonus_8a.html#cb121-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">csv=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
+<span id="cb121-9"><a href="bonus_8a.html#cb121-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">RData=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
+<span id="cb121-10"><a href="bonus_8a.html#cb121-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">rds=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
+<span id="cb121-11"><a href="bonus_8a.html#cb121-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">feather=</span><span class="fu">file.size</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
 <pre><code>##      csv    RData      rds  feather 
 ## 2.002491 0.351647 0.351619 4.759960</code></pre>
 <ul>
@@ -2018,17 +1274,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>In contrast, the ‘feather’ file (last row) is twice as large here than the ‘csv’ file, and more than 10 times larger than ‘rds!’</li>
 </ul>
 <p>Let’s benchmark the import again. We can use the function <code>import</code> for all of them. This is so fast that we can actually do it 10 times.</p>
-<div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="bonus_8a.html#cb1029-1" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
-<span id="cb1029-2"><a href="bonus_8a.html#cb1029-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">csv=</span> <span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
-<span id="cb1029-3"><a href="bonus_8a.html#cb1029-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">RData=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
-<span id="cb1029-4"><a href="bonus_8a.html#cb1029-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">rds=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
-<span id="cb1029-5"><a href="bonus_8a.html#cb1029-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">feather=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="bonus_8a.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>, </span>
+<span id="cb123-2"><a href="bonus_8a.html#cb123-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">csv=</span> <span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.csv&quot;</span>)),</span>
+<span id="cb123-3"><a href="bonus_8a.html#cb123-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">RData=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)),</span>
+<span id="cb123-4"><a href="bonus_8a.html#cb123-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">rds=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>)),</span>
+<span id="cb123-5"><a href="bonus_8a.html#cb123-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">feather=</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##     expr        min         lq       mean     median         uq        max
-##      csv   78.28294   78.41846   79.97623   80.05495   80.72077   82.91287
-##    RData   18.55504   18.93576   19.27244   19.12412   19.46949   20.80897
-##      rds   18.83608   18.86954   19.57321   19.76608   20.07080   20.33760
-##  feather 1651.11281 1760.73035 1871.53387 1846.44940 2011.53263 2114.75027
+##      csv   79.96586   80.37806   81.35550   80.90029   82.24544   83.61364
+##    RData   19.40190   19.64103   22.60774   19.90984   22.66456   39.38390
+##      rds   19.47589   19.67126   20.77461   20.36577   20.55381   26.28909
+##  feather 1803.91336 2010.53063 2044.79974 2044.35830 2138.64084 2292.74247
 ##  neval cld
 ##     10  a 
 ##     10  a 
@@ -2048,29 +1304,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>with ‘readRDS,’ you can directly assign the imported data to an object, and thus choose the object name.</li>
 <li>with ‘load,’ you have to do this in two steps. When using ‘load,’ the loaded object will inherit the name from the object that was stored.</li>
 </ul>
-<div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="bonus_8a.html#cb1031-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s delete any copy of &#39;gen&#39; from the workspace:</span></span>
-<span id="cb1031-2"><a href="bonus_8a.html#cb1031-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
-<span id="cb1031-3"><a href="bonus_8a.html#cb1031-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-4"><a href="bonus_8a.html#cb1031-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create object &#39;myData&#39; in a single step from &#39;rds&#39; file:</span></span>
-<span id="cb1031-5"><a href="bonus_8a.html#cb1031-5" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
-<span id="cb1031-6"><a href="bonus_8a.html#cb1031-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-7"><a href="bonus_8a.html#cb1031-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Two steps when importing &#39;RData&#39;: first, load the stored object:</span></span>
-<span id="cb1031-8"><a href="bonus_8a.html#cb1031-8" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)) </span>
-<span id="cb1031-9"><a href="bonus_8a.html#cb1031-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then assign to the new object &#39;myData&#39;:</span></span>
-<span id="cb1031-10"><a href="bonus_8a.html#cb1031-10" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> gen</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="bonus_8a.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s delete any copy of &#39;gen&#39; from the workspace:</span></span>
+<span id="cb125-2"><a href="bonus_8a.html#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
+<span id="cb125-3"><a href="bonus_8a.html#cb125-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-4"><a href="bonus_8a.html#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create object &#39;myData&#39; in a single step from &#39;rds&#39; file:</span></span>
+<span id="cb125-5"><a href="bonus_8a.html#cb125-5" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.rds&quot;</span>))</span>
+<span id="cb125-6"><a href="bonus_8a.html#cb125-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-7"><a href="bonus_8a.html#cb125-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Two steps when importing &#39;RData&#39;: first, load the stored object:</span></span>
+<span id="cb125-8"><a href="bonus_8a.html#cb125-8" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.RData&quot;</span>)) </span>
+<span id="cb125-9"><a href="bonus_8a.html#cb125-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then assign to the new object &#39;myData&#39;:</span></span>
+<span id="cb125-10"><a href="bonus_8a.html#cb125-10" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> gen</span></code></pre></div>
 <p>Note that when you use <code>load</code>, the object name is NOT taken from the file name! This means that you may not know what object you are loading, if the object and file names are different.</p>
 <p>Let’s test this. Here we save the object ‘gen’ in file ‘gen2.RData,’ then load it.</p>
-<div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="bonus_8a.html#cb1032-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export &#39;gen&#39; to a file with a different name &#39;gen2.RData&#39;:</span></span>
-<span id="cb1032-2"><a href="bonus_8a.html#cb1032-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>))</span>
-<span id="cb1032-3"><a href="bonus_8a.html#cb1032-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
-<span id="cb1032-4"><a href="bonus_8a.html#cb1032-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1032-5"><a href="bonus_8a.html#cb1032-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load:</span></span>
-<span id="cb1032-6"><a href="bonus_8a.html#cb1032-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>)) </span>
-<span id="cb1032-7"><a href="bonus_8a.html#cb1032-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1032-8"><a href="bonus_8a.html#cb1032-8" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the name of the loaded object?</span></span>
-<span id="cb1032-9"><a href="bonus_8a.html#cb1032-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="bonus_8a.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export &#39;gen&#39; to a file with a different name &#39;gen2.RData&#39;:</span></span>
+<span id="cb126-2"><a href="bonus_8a.html#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(gen, <span class="at">file=</span><span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>))</span>
+<span id="cb126-3"><a href="bonus_8a.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gen)</span>
+<span id="cb126-4"><a href="bonus_8a.html#cb126-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-5"><a href="bonus_8a.html#cb126-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load:</span></span>
+<span id="cb126-6"><a href="bonus_8a.html#cb126-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen2.RData&quot;</span>)) </span>
+<span id="cb126-7"><a href="bonus_8a.html#cb126-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-8"><a href="bonus_8a.html#cb126-8" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the name of the loaded object?</span></span>
+<span id="cb126-9"><a href="bonus_8a.html#cb126-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb1034"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1034-1"><a href="bonus_8a.html#cb1034-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="bonus_8a.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;gen2&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>We see that an object ‘gen’ exists (TRUE), but an object ‘gen2’ does not exist (FALSE). The name of the loaded object is thus ‘gen.’</p>
 </div>
@@ -2105,16 +1361,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use some kind of version control for your functions file so that you can go back to an older version, and you always know which is the current version.</li>
 </ul>
 <p>To further speed up your code, you can compile your function with ‘cmpfun’:</p>
-<div class="sourceCode" id="cb1036"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1036-1"><a href="bonus_8a.html#cb1036-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb1036-2"><a href="bonus_8a.html#cb1036-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>))<span class="sc">/</span><span class="dv">1000</span></span>
-<span id="cb1036-3"><a href="bonus_8a.html#cb1036-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1036-4"><a href="bonus_8a.html#cb1036-4" aria-hidden="true" tabindex="-1"></a>myFunction.cmp <span class="ot">&lt;-</span> compiler<span class="sc">::</span><span class="fu">cmpfun</span>(myFunction)</span>
-<span id="cb1036-5"><a href="bonus_8a.html#cb1036-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1036-6"><a href="bonus_8a.html#cb1036-6" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">myFunction</span>(), <span class="fu">myFunction.cmp</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="bonus_8a.html#cb130-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb130-2"><a href="bonus_8a.html#cb130-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>))<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb130-3"><a href="bonus_8a.html#cb130-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb130-4"><a href="bonus_8a.html#cb130-4" aria-hidden="true" tabindex="-1"></a>myFunction.cmp <span class="ot">&lt;-</span> compiler<span class="sc">::</span><span class="fu">cmpfun</span>(myFunction)</span>
+<span id="cb130-5"><a href="bonus_8a.html#cb130-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-6"><a href="bonus_8a.html#cb130-6" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">myFunction</span>(), <span class="fu">myFunction.cmp</span>())</span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##              expr    min      lq     mean  median     uq      max neval cld
-##      myFunction() 58.662 59.2935 73.18352 59.5665 59.945 1412.038   100   a
-##  myFunction.cmp() 58.625 59.2495 59.72302 59.5535 59.900   77.116   100   a</code></pre>
+##      myFunction() 58.810 59.4785 74.33293 59.9785 60.532 1461.387   100   a
+##  myFunction.cmp() 58.359 59.5085 62.02179 60.0705 60.921  102.473   100   a</code></pre>
 <p><strong>Question</strong>: Which of the following times are most different between the uncompiled and the compiled versions of this simple function?</p>
 <ul>
 <li><strong>min</strong>: minimum time across ‘neval’ replicates</li>
@@ -2167,20 +1423,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Finally, we use <code>file.show</code> to show the file in a tab.</li>
 </ul>
 <p>Note: An ‘output’ folder should have been created already when you accessed this worked example with the Addin. We are not creating the folder with ‘dir.create’ because this would not work when knitting the R Notebook.</p>
-<div class="sourceCode" id="cb1038"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1038-1"><a href="bonus_8a.html#cb1038-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myScript.R&quot;</span>)</span>
-<span id="cb1038-2"><a href="bonus_8a.html#cb1038-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
-<span id="cb1038-3"><a href="bonus_8a.html#cb1038-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
-<span id="cb1038-4"><a href="bonus_8a.html#cb1038-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
-<span id="cb1038-5"><a href="bonus_8a.html#cb1038-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>,</span>
-<span id="cb1038-6"><a href="bonus_8a.html#cb1038-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>), fileConn)</span>
-<span id="cb1038-7"><a href="bonus_8a.html#cb1038-7" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
-<span id="cb1038-8"><a href="bonus_8a.html#cb1038-8" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="bonus_8a.html#cb132-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myScript.R&quot;</span>)</span>
+<span id="cb132-2"><a href="bonus_8a.html#cb132-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
+<span id="cb132-3"><a href="bonus_8a.html#cb132-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
+<span id="cb132-4"><a href="bonus_8a.html#cb132-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
+<span id="cb132-5"><a href="bonus_8a.html#cb132-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>,</span>
+<span id="cb132-6"><a href="bonus_8a.html#cb132-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>), fileConn)</span>
+<span id="cb132-7"><a href="bonus_8a.html#cb132-7" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
+<span id="cb132-8"><a href="bonus_8a.html#cb132-8" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
 <p>Check the tab ‘R Information,’ which should now display the content of the file ‘myScript.R.’ Are the quotes still there?</p>
 <p>Now we can pass the file to <code>profvis</code>:</p>
-<div class="sourceCode" id="cb1039"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1039-1"><a href="bonus_8a.html#cb1039-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>(<span class="fu">source</span>(myPath))</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="bonus_8a.html#cb133-1" aria-hidden="true" tabindex="-1"></a>profvis<span class="sc">::</span><span class="fu">profvis</span>(<span class="fu">source</span>(myPath))</span></code></pre></div>
 <p><img src="08-Week08_files/figure-html/profvis2-1.png" width="672" /><img src="08-Week08_files/figure-html/profvis2-2.png" width="672" /></p>
 <div id="htmlwidget-481c752b57be26a4a63f" style="width:100%;height:600px;" class="profvis html-widget"></div>
-<script type="application/json" data-for="htmlwidget-481c752b57be26a4a63f">{"x":{"message":{"prof":{"time":[1,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],"depth":[2,1,2,1,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1],"label":[".External2","local",".External2","local","axis","Axis.default","localAxis","plot.default","qqnorm.default","eval","eval","evaluate_call","evaluate::evaluate","evaluate","eng_r","block_exec","call_block","process_group.block","process_file","knit","FUN","lapply","call_block","process_group.block","process_file","knitr::knit","<Anonymous>","local"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[146.761085510254,146.761085510254,146.761085510254,146.761085510254,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324,146.762382507324],"meminc":[0,0,0,0,0.0012969970703125,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/kz/fv8pzy0d3cl_mp3md294cvbh0000gn/T//RtmpQuRHjW/file113dcccfddc4.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-481c752b57be26a4a63f">{"x":{"message":{"prof":{"time":[1,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],"depth":[2,1,2,1,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1],"label":[".External2","local",".External2","local","axis","Axis.default","localAxis","plot.default","qqnorm.default","eval","eval","evaluate_call","evaluate::evaluate","evaluate","eng_r","block_exec","call_block","process_group.block","process_file","knit","FUN","lapply","call_block","process_group.block","process_file","knitr::knit","<Anonymous>","local"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[146.760696411133,146.760696411133,146.760696411133,146.760696411133,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113,146.762397766113],"meminc":[0,0,0,0,0.00170135498046875,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/kz/fv8pzy0d3cl_mp3md294cvbh0000gn/T//RtmpzRFqCa/file17b7975b17c21.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>The ‘Flame Graph’ should look the same as before.</li>
 <li>The content of the ‘Data’ tab is different. Click on the triangle before ‘source’ to navigate to: ‘source’ &gt; ‘withVisible’ &gt; ‘eval’ &gt; ‘eval.’</li>
@@ -2192,14 +1448,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Unfortunately, we can’t profile an entire R Notebook (as far as I know). However, we can extract the R code as a script file, then profile the script file.</p>
 <p>The file ‘myNotebook.Rmd’ contains the same R code as our file ‘myScript.R,’ but in the format of an R Notebook, with R markdown text (e.g. titles) and several chunks of code.</p>
 <p>Note: With ‘file.show,’ the Notebook is opened with a simple text editor (without the coloring etc.). Alternatively, you could run ‘file.edit’ to open it with the familiar RStudio editor.</p>
-<div class="sourceCode" id="cb1040"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1040-1"><a href="bonus_8a.html#cb1040-1" aria-hidden="true" tabindex="-1"></a>inFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myNotebook.Rmd&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
-<span id="cb1040-2"><a href="bonus_8a.html#cb1040-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(inFile)</span>
-<span id="cb1040-3"><a href="bonus_8a.html#cb1040-3" aria-hidden="true" tabindex="-1"></a><span class="co">#file.edit(inFile)</span></span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="bonus_8a.html#cb134-1" aria-hidden="true" tabindex="-1"></a>inFile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myNotebook.Rmd&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb134-2"><a href="bonus_8a.html#cb134-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(inFile)</span>
+<span id="cb134-3"><a href="bonus_8a.html#cb134-3" aria-hidden="true" tabindex="-1"></a><span class="co">#file.edit(inFile)</span></span></code></pre></div>
 <p>We can use the function ‘purl’ from the ‘knitr’ package to extract the R code from the R Notebook file ‘myNotebook.Rmd’:</p>
-<div class="sourceCode" id="cb1041"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1041-1"><a href="bonus_8a.html#cb1041-1" aria-hidden="true" tabindex="-1"></a>outFile <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myNotebook.R&quot;</span>)</span>
-<span id="cb1041-2"><a href="bonus_8a.html#cb1041-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(inFile, <span class="at">output=</span>outFile, <span class="at">quiet=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="bonus_8a.html#cb135-1" aria-hidden="true" tabindex="-1"></a>outFile <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myNotebook.R&quot;</span>)</span>
+<span id="cb135-2"><a href="bonus_8a.html#cb135-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(inFile, <span class="at">output=</span>outFile, <span class="at">quiet=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;/Users/helene/Desktop/R_Github_projects/LandGenCourse_book/output/myNotebook.R&quot;</code></pre>
-<div class="sourceCode" id="cb1043"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1043-1"><a href="bonus_8a.html#cb1043-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(outFile)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="bonus_8a.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(outFile)</span></code></pre></div>
 <p><strong>Question</strong>: Compare the two files (they should be open, check the tabs of the source pane).</p>
 <ul>
 <li>How are the chunks from the Notebook file divided in the new script file?</li>
@@ -2207,7 +1463,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>What about the header information?</li>
 </ul>
 <p>Now we can pass the file to <code>profvis</code> (uncomment by removing hashtag <code>#</code> to run code):</p>
-<div class="sourceCode" id="cb1044"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1044-1"><a href="bonus_8a.html#cb1044-1" aria-hidden="true" tabindex="-1"></a><span class="co">#profvis::profvis(source(outFile), prof_output=file.path(here::here(), &quot;output/output.prof&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="bonus_8a.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co">#profvis::profvis(source(outFile), prof_output=file.path(here::here(), &quot;output/output.prof&quot;))</span></span></code></pre></div>
 <p><strong>Question</strong>: Which lines of code took the longest to run in this example?</p>
 </div>
 </div>
@@ -2239,20 +1495,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We close the graphics device (png file) with <code>dev.off</code>.</li>
 </ul>
 <p>Note: We use single quotes for the file name here, ‘my_plot.png,’ as they are nested within a set of double quotes. R pretty much considers single and double quotes as synonyms, which allows us to nest them either way: ‘"“’ or”’’".</p>
-<div class="sourceCode" id="cb1045"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1045-1"><a href="bonus_8a.html#cb1045-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myBashScript.sh&quot;</span>)</span>
-<span id="cb1045-2"><a href="bonus_8a.html#cb1045-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
-<span id="cb1045-3"><a href="bonus_8a.html#cb1045-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;#!/bin/bash&quot;</span>,</span>
-<span id="cb1045-4"><a href="bonus_8a.html#cb1045-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;R --slave &lt;&lt; EOF&quot;</span>,</span>
-<span id="cb1045-5"><a href="bonus_8a.html#cb1045-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
-<span id="cb1045-6"><a href="bonus_8a.html#cb1045-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
-<span id="cb1045-7"><a href="bonus_8a.html#cb1045-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;png(&#39;my_plot.png&#39;, height = 400, width = 800)&quot;</span>,</span>
-<span id="cb1045-8"><a href="bonus_8a.html#cb1045-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;par(mfrow=c(1,2))&quot;</span>, </span>
-<span id="cb1045-9"><a href="bonus_8a.html#cb1045-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>, </span>
-<span id="cb1045-10"><a href="bonus_8a.html#cb1045-10" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>,</span>
-<span id="cb1045-11"><a href="bonus_8a.html#cb1045-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;dev.off()&quot;</span>,</span>
-<span id="cb1045-12"><a href="bonus_8a.html#cb1045-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;EOF&quot;</span>), fileConn)</span>
-<span id="cb1045-13"><a href="bonus_8a.html#cb1045-13" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
-<span id="cb1045-14"><a href="bonus_8a.html#cb1045-14" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="bonus_8a.html#cb139-1" aria-hidden="true" tabindex="-1"></a>myPath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/myBashScript.sh&quot;</span>)</span>
+<span id="cb139-2"><a href="bonus_8a.html#cb139-2" aria-hidden="true" tabindex="-1"></a>fileConn <span class="ot">&lt;-</span> <span class="fu">file</span>(myPath)</span>
+<span id="cb139-3"><a href="bonus_8a.html#cb139-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">c</span>(<span class="st">&quot;#!/bin/bash&quot;</span>,</span>
+<span id="cb139-4"><a href="bonus_8a.html#cb139-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;R --slave &lt;&lt; EOF&quot;</span>,</span>
+<span id="cb139-5"><a href="bonus_8a.html#cb139-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;x &lt;- rnorm(100)&quot;</span>,</span>
+<span id="cb139-6"><a href="bonus_8a.html#cb139-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;mean(x)&quot;</span>,</span>
+<span id="cb139-7"><a href="bonus_8a.html#cb139-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;png(&#39;my_plot.png&#39;, height = 400, width = 800)&quot;</span>,</span>
+<span id="cb139-8"><a href="bonus_8a.html#cb139-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;par(mfrow=c(1,2))&quot;</span>, </span>
+<span id="cb139-9"><a href="bonus_8a.html#cb139-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;hist(x)&quot;</span>, </span>
+<span id="cb139-10"><a href="bonus_8a.html#cb139-10" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;qqnorm(x)&quot;</span>,</span>
+<span id="cb139-11"><a href="bonus_8a.html#cb139-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;dev.off()&quot;</span>,</span>
+<span id="cb139-12"><a href="bonus_8a.html#cb139-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;EOF&quot;</span>), fileConn)</span>
+<span id="cb139-13"><a href="bonus_8a.html#cb139-13" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(fileConn)</span>
+<span id="cb139-14"><a href="bonus_8a.html#cb139-14" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(myPath)</span></code></pre></div>
 </div>
 <div id="c.-executing-a-bash-r-script" class="section level4">
 <h4>c. Executing a Bash R script</h4>
@@ -2282,18 +1538,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ol>
 <p>Use R again to open the graphics file (the code here first checks whether the file exists):</p>
-<div class="sourceCode" id="cb1046"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1046-1"><a href="bonus_8a.html#cb1046-1" aria-hidden="true" tabindex="-1"></a>myPNG <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/my_plot.png&quot;</span>)</span>
-<span id="cb1046-2"><a href="bonus_8a.html#cb1046-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(myPNG))</span>
-<span id="cb1046-3"><a href="bonus_8a.html#cb1046-3" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb1046-4"><a href="bonus_8a.html#cb1046-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.show</span>(myPNG)</span>
-<span id="cb1046-5"><a href="bonus_8a.html#cb1046-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="bonus_8a.html#cb140-1" aria-hidden="true" tabindex="-1"></a>myPNG <span class="ot">&lt;-</span> <span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output/my_plot.png&quot;</span>)</span>
+<span id="cb140-2"><a href="bonus_8a.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(myPNG))</span>
+<span id="cb140-3"><a href="bonus_8a.html#cb140-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb140-4"><a href="bonus_8a.html#cb140-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.show</span>(myPNG)</span>
+<span id="cb140-5"><a href="bonus_8a.html#cb140-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="d.-moving-to-a-node-or-cluster" class="section level4">
 <h4>d. Moving to a node or cluster?</h4>
 <p>The example bash file and advice in this section have been provided by Hossam Abdel Moniem, thanks!</p>
 <p>Here’s an annotated example of a bash file that contains instructions for submitting a job to a single node (a single machine with multiple/many cores).</p>
 <p>Note: A copy of the file ‘BashExample.sh’ should also have been copied into the downloads folder inside your project folder.</p>
-<div class="sourceCode" id="cb1047"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1047-1"><a href="bonus_8a.html#cb1047-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;BashExample.sh&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="bonus_8a.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;BashExample.sh&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
 <pre><code>## #!/bin/bash 
 ## 
 ## #SBATCH --nodes=1                                 # Number of Nodes 
@@ -2331,8 +1587,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>packages</strong>: List of all packages, including their version, installation date and repository (CRAN, Github etc.). All packages that are currently loaded will be marked with an asterisk.</li>
 </ul>
 <p>Platform:</p>
-<div class="sourceCode" id="cb1049"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1049-1"><a href="bonus_8a.html#cb1049-1" aria-hidden="true" tabindex="-1"></a>Session <span class="ot">&lt;-</span> devtools<span class="sc">::</span><span class="fu">session_info</span>()</span>
-<span id="cb1049-2"><a href="bonus_8a.html#cb1049-2" aria-hidden="true" tabindex="-1"></a>Session<span class="sc">$</span>platform</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="bonus_8a.html#cb143-1" aria-hidden="true" tabindex="-1"></a>Session <span class="ot">&lt;-</span> devtools<span class="sc">::</span><span class="fu">session_info</span>()</span>
+<span id="cb143-2"><a href="bonus_8a.html#cb143-2" aria-hidden="true" tabindex="-1"></a>Session<span class="sc">$</span>platform</span></code></pre></div>
 <pre><code>##  setting  value
 ##  version  R version 4.1.2 (2021-11-01)
 ##  os       macOS Big Sur 10.16
@@ -2345,7 +1601,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  date     2022-01-08
 ##  pandoc   2.13 @ /usr/local/bin/ (via rmarkdown)</code></pre>
 <p>Packages: here we display only the first six lines, as the list may be long.</p>
-<div class="sourceCode" id="cb1051"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1051-1"><a href="bonus_8a.html#cb1051-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Session<span class="sc">$</span>packages)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="bonus_8a.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Session<span class="sc">$</span>packages)</span></code></pre></div>
 <pre><code>##  package    * version date (UTC) lib source
 ##  abind        1.4-5   2016-07-21 [1] CRAN (R 4.1.0)
 ##  ade4         1.7-18  2021-09-16 [1] CRAN (R 4.1.0)
@@ -2398,24 +1654,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Replace ‘lapply’ by ‘mclapply’ with package ‘parallel’</h4>
 <p>Note: while this will run on a Windows without causing an error, it will only be faster on Mac / Unix.</p>
 <p>With the package ‘parallel,’ it is really easy to use all cores of your local machine (as long as you are on a Mac / Unix / Linux system). Let’s check the number of cores available:</p>
-<div class="sourceCode" id="cb1053"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1053-1"><a href="bonus_8a.html#cb1053-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
-<span id="cb1053-2"><a href="bonus_8a.html#cb1053-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="bonus_8a.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb147-2"><a href="bonus_8a.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p><strong>Question</strong>: How many cores does your machine have?</p>
 <p>Note: Here we check whether the operating system is ‘Windows,’ in which case we set <code>nCores = 1</code>. This means that we will use all cores on Mac or Linux, but only one core on Windows. This is to avoid problems on Windows machines.</p>
-<div class="sourceCode" id="cb1055"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1055-1"><a href="bonus_8a.html#cb1055-1" aria-hidden="true" tabindex="-1"></a>nCores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
-<span id="cb1055-2"><a href="bonus_8a.html#cb1055-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[[<span class="st">&#39;sysname&#39;</span>]]<span class="sc">==</span><span class="st">&quot;Windows&quot;</span>) nCores <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb1055-3"><a href="bonus_8a.html#cb1055-3" aria-hidden="true" tabindex="-1"></a>nCores</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="bonus_8a.html#cb149-1" aria-hidden="true" tabindex="-1"></a>nCores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb149-2"><a href="bonus_8a.html#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[[<span class="st">&#39;sysname&#39;</span>]]<span class="sc">==</span><span class="st">&quot;Windows&quot;</span>) nCores <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb149-3"><a href="bonus_8a.html#cb149-3" aria-hidden="true" tabindex="-1"></a>nCores</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <ul>
 <li>Code your analysis with <code>lapply</code> (and related functions).</li>
 <li>Replace <code>lapply</code> by <code>mclapply</code> (and related functions). Use the argument <code>mc.cores=detectCores()</code> to automatically detect the number of cores in your machine.</li>
 </ul>
 <p>NOTE: April 2021: package build does not work with multiple cores, changing nCores to 1.</p>
-<div class="sourceCode" id="cb1057"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1057-1"><a href="bonus_8a.html#cb1057-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> gen[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb1057-2"><a href="bonus_8a.html#cb1057-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1057-3"><a href="bonus_8a.html#cb1057-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m2 &lt;- mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)  # Use this line when running the code yourself</span></span>
-<span id="cb1057-4"><a href="bonus_8a.html#cb1057-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)        <span class="co"># Replace this line with the previous line</span></span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="bonus_8a.html#cb151-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> gen[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb151-2"><a href="bonus_8a.html#cb151-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb151-3"><a href="bonus_8a.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m2 &lt;- mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)  # Use this line when running the code yourself</span></span>
+<span id="cb151-4"><a href="bonus_8a.html#cb151-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)        <span class="co"># Replace this line with the previous line</span></span></code></pre></div>
 <p>Let’s benchmark four ways of calculating the mean of each column in our example data set ‘gen’ with 94 rows and 10,000 columns (SNPs):</p>
 <ul>
 <li><strong>Method 1</strong>: The dedicated function <code>colMeans</code> from base R.</li>
@@ -2423,20 +1679,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Method 3</strong>: Vectorization with <code>lapply</code></li>
 <li><strong>Method 4</strong>: Multi-core with <code>mclapply</code>.</li>
 </ul>
-<div class="sourceCode" id="cb1058"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1058-1"><a href="bonus_8a.html#cb1058-1" aria-hidden="true" tabindex="-1"></a>method1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">colMeans</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
-<span id="cb1058-2"><a href="bonus_8a.html#cb1058-2" aria-hidden="true" tabindex="-1"></a>method2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
-<span id="cb1058-3"><a href="bonus_8a.html#cb1058-3" aria-hidden="true" tabindex="-1"></a>method3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
-<span id="cb1058-4"><a href="bonus_8a.html#cb1058-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)} # Use this line when running the code yourself</span></span>
-<span id="cb1058-5"><a href="bonus_8a.html#cb1058-5" aria-hidden="true" tabindex="-1"></a>method4 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)}  <span class="co"># Replace this line with the previous line</span></span>
-<span id="cb1058-6"><a href="bonus_8a.html#cb1058-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1058-7"><a href="bonus_8a.html#cb1058-7" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>,</span>
-<span id="cb1058-8"><a href="bonus_8a.html#cb1058-8" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">method1</span>(x), <span class="fu">method2</span>(x), <span class="fu">method3</span>(x), <span class="fu">method4</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="bonus_8a.html#cb152-1" aria-hidden="true" tabindex="-1"></a>method1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">colMeans</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb152-2"><a href="bonus_8a.html#cb152-2" aria-hidden="true" tabindex="-1"></a>method2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb152-3"><a href="bonus_8a.html#cb152-3" aria-hidden="true" tabindex="-1"></a>method3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">lapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)}</span>
+<span id="cb152-4"><a href="bonus_8a.html#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)} # Use this line when running the code yourself</span></span>
+<span id="cb152-5"><a href="bonus_8a.html#cb152-5" aria-hidden="true" tabindex="-1"></a>method4 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="fu">mclapply</span>(x, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">mc.cores=</span><span class="dv">1</span>)}  <span class="co"># Replace this line with the previous line</span></span>
+<span id="cb152-6"><a href="bonus_8a.html#cb152-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb152-7"><a href="bonus_8a.html#cb152-7" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;ms&quot;</span>,</span>
+<span id="cb152-8"><a href="bonus_8a.html#cb152-8" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">method1</span>(x), <span class="fu">method2</span>(x), <span class="fu">method3</span>(x), <span class="fu">method4</span>(x))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##        expr       min        lq      mean    median        uq       max neval
-##  method1(x)  34.18460  34.53128  38.73430  34.67827  35.81088  73.23039    10
-##  method2(x) 180.20973 188.23462 201.93669 188.86148 228.83929 250.03198    10
-##  method3(x)  36.55512  41.14100  45.79732  44.23611  44.53368  76.67935    10
-##  method4(x)  36.85614  38.10120  50.85323  40.41224  44.94869 104.59318    10
+##  method1(x)  34.63537  35.08771  39.80857  35.64962  36.24955  78.22550    10
+##  method2(x) 182.57699 191.85305 211.84647 199.65240 238.54384 255.01831    10
+##  method3(x)  38.50172  42.72658  48.67235  45.80123  46.80891  85.38512    10
+##  method4(x)  37.94984  40.79885  52.46896  43.52229  47.31745 101.29758    10
 ##  cld
 ##   a 
 ##    b
@@ -2459,30 +1715,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Register the cluster with <code>registerDoParallel</code>. If you omit this step, the code will not use parallel computing.</li>
 </ul>
 <p>The following code is commented out to avoid problems when knitting the Notebook. You may uncomment and run it.</p>
-<div class="sourceCode" id="cb1060"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1060-1"><a href="bonus_8a.html#cb1060-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bonus_8a.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span></code></pre></div>
 <pre><code>## Loading required package: foreach</code></pre>
 <pre><code>## Loading required package: iterators</code></pre>
-<div class="sourceCode" id="cb1063"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1063-1"><a href="bonus_8a.html#cb1063-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cl &lt;- makeCluster(2)</span></span>
-<span id="cb1063-2"><a href="bonus_8a.html#cb1063-2" aria-hidden="true" tabindex="-1"></a><span class="co">#cl</span></span>
-<span id="cb1063-3"><a href="bonus_8a.html#cb1063-3" aria-hidden="true" tabindex="-1"></a><span class="co">#registerDoParallel(cl)</span></span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="bonus_8a.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cl &lt;- makeCluster(2)</span></span>
+<span id="cb157-2"><a href="bonus_8a.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="co">#cl</span></span>
+<span id="cb157-3"><a href="bonus_8a.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="co">#registerDoParallel(cl)</span></span></code></pre></div>
 <p>Now we adapt the code in two steps:</p>
 <ul>
 <li>The code is a little different with <code>foreach</code> than with <code>for</code>, as we use a pipe-like syntax with <code>%do%</code>, which means, for each value of <em>i</em>, do the following.</li>
 <li>Thus, <code>%do%</code> is only a pipe operator, it does not result in parallelisation yet.</li>
 <li>To make this parallel, replace <code>%do%</code> by <code>%dopar%</code>.</li>
 </ul>
-<div class="sourceCode" id="cb1064"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1064-1"><a href="bonus_8a.html#cb1064-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1064-2"><a href="bonus_8a.html#cb1064-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="sc">%do%</span> (<span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
-<span id="cb1064-3"><a href="bonus_8a.html#cb1064-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m3 &lt;- foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))</span></span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="bonus_8a.html#cb158-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb158-2"><a href="bonus_8a.html#cb158-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)) <span class="sc">%do%</span> (<span class="fu">mean</span>(x[,i], <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb158-3"><a href="bonus_8a.html#cb158-3" aria-hidden="true" tabindex="-1"></a><span class="co">#m3 &lt;- foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))</span></span></code></pre></div>
 <p>Let’s benchmark this again. We’ll only do 3 replicates this time (uncomment before running this code).</p>
-<div class="sourceCode" id="cb1065"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1065-1"><a href="bonus_8a.html#cb1065-1" aria-hidden="true" tabindex="-1"></a><span class="co">#method1 &lt;- function(x) {colMeans(x, na.rm=TRUE)}</span></span>
-<span id="cb1065-2"><a href="bonus_8a.html#cb1065-2" aria-hidden="true" tabindex="-1"></a><span class="co">#method2 &lt;- function(x) {for(i in 1:ncol(x)) mean(x[,i], na.rm=TRUE)}</span></span>
-<span id="cb1065-3"><a href="bonus_8a.html#cb1065-3" aria-hidden="true" tabindex="-1"></a><span class="co">#method3 &lt;- function(x) {lapply(x, mean, na.rm=TRUE)}</span></span>
-<span id="cb1065-4"><a href="bonus_8a.html#cb1065-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)}</span></span>
-<span id="cb1065-5"><a href="bonus_8a.html#cb1065-5" aria-hidden="true" tabindex="-1"></a><span class="co">#method5 &lt;- function(x) {foreach(i = 1:ncol(x)) %do% (mean(x[,i], na.rm=TRUE))}</span></span>
-<span id="cb1065-6"><a href="bonus_8a.html#cb1065-6" aria-hidden="true" tabindex="-1"></a><span class="co">#method6 &lt;- function(x) {foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))}</span></span>
-<span id="cb1065-7"><a href="bonus_8a.html#cb1065-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1065-8"><a href="bonus_8a.html#cb1065-8" aria-hidden="true" tabindex="-1"></a><span class="co">#microbenchmark::microbenchmark(times = 3, unit = &quot;ms&quot;,method1(x), method2(x), method3(x), method4(x), method5(x), method6(x))</span></span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="bonus_8a.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="co">#method1 &lt;- function(x) {colMeans(x, na.rm=TRUE)}</span></span>
+<span id="cb159-2"><a href="bonus_8a.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="co">#method2 &lt;- function(x) {for(i in 1:ncol(x)) mean(x[,i], na.rm=TRUE)}</span></span>
+<span id="cb159-3"><a href="bonus_8a.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="co">#method3 &lt;- function(x) {lapply(x, mean, na.rm=TRUE)}</span></span>
+<span id="cb159-4"><a href="bonus_8a.html#cb159-4" aria-hidden="true" tabindex="-1"></a><span class="co">#method4 &lt;- function(x) {mclapply(x, mean, na.rm=TRUE, mc.cores=nCores)}</span></span>
+<span id="cb159-5"><a href="bonus_8a.html#cb159-5" aria-hidden="true" tabindex="-1"></a><span class="co">#method5 &lt;- function(x) {foreach(i = 1:ncol(x)) %do% (mean(x[,i], na.rm=TRUE))}</span></span>
+<span id="cb159-6"><a href="bonus_8a.html#cb159-6" aria-hidden="true" tabindex="-1"></a><span class="co">#method6 &lt;- function(x) {foreach(i = 1:ncol(x)) %dopar% (mean(x[,i], na.rm=TRUE))}</span></span>
+<span id="cb159-7"><a href="bonus_8a.html#cb159-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-8"><a href="bonus_8a.html#cb159-8" aria-hidden="true" tabindex="-1"></a><span class="co">#microbenchmark::microbenchmark(times = 3, unit = &quot;ms&quot;,method1(x), method2(x), method3(x), method4(x), method5(x), method6(x))</span></span></code></pre></div>
 <p>Whether parallelisation is faster depends on the type of task and on your system. In this case, both versions that used parallelisation were actually slower than the sequential code (at least on my system).</p>
 <p>Of course, this will not always be the case, it may depend on:</p>
 <ul>

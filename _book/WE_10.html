@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_10" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb1106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1106-1"><a href="WE_10.html#cb1106-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week10_vignette.Rmd&quot;</span>)</span>
-<span id="cb1106-2"><a href="WE_10.html#cb1106-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb1106-3"><a href="WE_10.html#cb1106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Melanie Murphy, Jeff Bowman, Robby Marrotte and Helene Wagner</code></pre>
+<p>Melanie Murphy, Jeff Bowman, Robby Marrotte and Helene Wagner</p>
 <div id="overview-of-worked-example-9" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <div id="a.-goals-11" class="section level4">
@@ -1754,23 +1015,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-7" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
-<div class="sourceCode" id="cb1108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1108-1"><a href="WE_10.html#cb1108-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb1109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1109-1"><a href="WE_10.html#cb1109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
-<span id="cb1109-2"><a href="WE_10.html#cb1109-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(GeNetIt)</span></span>
-<span id="cb1109-3"><a href="WE_10.html#cb1109-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(raster)</span></span>
-<span id="cb1109-4"><a href="WE_10.html#cb1109-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(gdistance)</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="WE_10.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="WE_10.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb40-2"><a href="WE_10.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(GeNetIt)</span></span>
+<span id="cb40-3"><a href="WE_10.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(raster)</span></span>
+<span id="cb40-4"><a href="WE_10.html#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(gdistance)</span></span></code></pre></div>
 </div>
 <div id="d.-import-rasters-gsp-err-cti-and-ffp." class="section level4">
 <h4>d. Import rasters (gsp, err, cti, and ffp).</h4>
 <p>Here we load the raster data as a SpatialPixelsDataFrame and convert them in to a raster stack.</p>
-<div class="sourceCode" id="cb1110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1110-1"><a href="WE_10.html#cb1110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
-<span id="cb1110-2"><a href="WE_10.html#cb1110-2" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(rasters)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="WE_10.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
+<span id="cb41-2"><a href="WE_10.html#cb41-2" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(rasters)</span></code></pre></div>
 </div>
 <div id="e.-import-site-data-with-sampling-locations" class="section level4">
 <h4>e. Import site data with sampling locations</h4>
 <p>In addition to spatial data, sample locations are also needed. Sample locations are located in the data folder (RALU_UTM.csv). Read in site locations (wetlands with Columbia spotted frogs).</p>
-<div class="sourceCode" id="cb1111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1111-1"><a href="WE_10.html#cb1111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
-<span id="cb1111-2"><a href="WE_10.html#cb1111-2" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="WE_10.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
+<span id="cb42-2"><a href="WE_10.html#cb42-2" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
 <p><strong>Question 1</strong>: What are UTMs and why might it be important to work in UTMs (as opposed to latitude and longitude)?</p>
 </div>
 </div>
@@ -1779,15 +1040,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Explore these rasters by plotting them. As you go through this exercise, use the plot function at each step to make sure your outputs “make sense.”</p>
 <div id="a.-plot-all-rasters" class="section level4">
 <h4>a. Plot all rasters</h4>
-<div class="sourceCode" id="cb1112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1112-1"><a href="WE_10.html#cb1112-1" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="WE_10.html#cb43-1" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 </div>
 <div id="b.-plot-spatial-points-over-ffp-raster" class="section level4">
 <h4>b. Plot spatial points over ffp raster</h4>
 <p>These are the locations of the ponds where Columbia spotted frogs were sampled within the study area.</p>
-<div class="sourceCode" id="cb1113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1113-1"><a href="WE_10.html#cb1113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb1113-2"><a href="WE_10.html#cb1113-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps<span class="sc">$</span>ffp)</span>
-<span id="cb1113-3"><a href="WE_10.html#cb1113-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites, <span class="at">pch=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="WE_10.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb44-2"><a href="WE_10.html#cb44-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(RasterMaps<span class="sc">$</span>ffp)</span>
+<span id="cb44-3"><a href="WE_10.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites, <span class="at">pch=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 </div>
@@ -1814,7 +1075,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note: this step is not needed here as all rasters do already have the same resolution.</p>
 <p>Originally, the topographic variables were calculated off a 10 m DEM. The climate variables are at a 30 m resolution. In order to calculate costs, all of the rasters need to have exactly the same resolution, dimensions, and co-ordinate locations (i.e., the cells need to match up perfectly. The method of resampling (bilinear vs nearest-neighbor) depends on the type of data. Nearest-neighbor is for categorical data whereas bilinear interpolation is for continuous data.</p>
 <p>Here is some sample code to show how you would resample a raster ‘cti’ (assumed to have 10 m resolution) to the dimensions of a raster ‘gsp’ (with 30 m resolution):</p>
-<div class="sourceCode" id="cb1116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1116-1"><a href="WE_10.html#cb1116-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cti &lt;- raster::resample(cti, gsp, method= &quot;bilinear&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="WE_10.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cti &lt;- raster::resample(cti, gsp, method= &quot;bilinear&quot;)</span></span></code></pre></div>
 </div>
 <div id="c.-calculate-conductance-values" class="section level4">
 <h4>c. Calculate conductance values</h4>
@@ -1822,7 +1083,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 The err function is inverted compared to the other variables because the raw err data have low values relative to the other variables (&lt; 1).</p>
 <p>To use the below tools, conductance values must be calculated. First, look at the range of the variable in a given raster. Then apply a function to get the desired
 relative conductance values. Make sure to use the plot function and visually inspect your conductance surfaces.</p>
-<div class="sourceCode" id="cb1117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1117-1"><a href="WE_10.html#cb1117-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>err27</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="WE_10.html#cb48-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>err27</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1833,8 +1094,8 @@ relative conductance values. Make sure to use the plot function and visually ins
 ## values     : 0.03906551, 0.7637643  (min, max)</code></pre>
 <p>Elevation relief ratio (‘err27’) is identifying major topographic features. In this first case, the goal is for ‘err27’ to have the lowest conductance values compared to our other landscape variables. Greater ‘err27’ means more change in topography in a given area. So, the higher the value, the more resistance to a Columbian spotted frog.
 Note that the function below gives a linear relationship between the raw value and the cost. Any type of functional relationship could be used however.</p>
-<div class="sourceCode" id="cb1119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1119-1"><a href="WE_10.html#cb1119-1" aria-hidden="true" tabindex="-1"></a>err.cost <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span>RasterMaps<span class="sc">$</span>err27)</span>
-<span id="cb1119-2"><a href="WE_10.html#cb1119-2" aria-hidden="true" tabindex="-1"></a>err.cost</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="WE_10.html#cb50-1" aria-hidden="true" tabindex="-1"></a>err.cost <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span>RasterMaps<span class="sc">$</span>err27)</span>
+<span id="cb50-2"><a href="WE_10.html#cb50-2" aria-hidden="true" tabindex="-1"></a>err.cost</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1843,7 +1104,7 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : err27 
 ## values     : 1.309305, 25.59803  (min, max)</code></pre>
-<div class="sourceCode" id="cb1121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1121-1"><a href="WE_10.html#cb1121-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>ffp</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="WE_10.html#cb52-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>ffp</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1852,8 +1113,8 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : ffp 
 ## values     : 0, 51  (min, max)</code></pre>
-<div class="sourceCode" id="cb1123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1123-1"><a href="WE_10.html#cb1123-1" aria-hidden="true" tabindex="-1"></a>ffp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>ffp<span class="sc">/</span><span class="dv">5</span>)</span>
-<span id="cb1123-2"><a href="WE_10.html#cb1123-2" aria-hidden="true" tabindex="-1"></a>ffp.cost</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="WE_10.html#cb54-1" aria-hidden="true" tabindex="-1"></a>ffp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>ffp<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb54-2"><a href="WE_10.html#cb54-2" aria-hidden="true" tabindex="-1"></a>ffp.cost</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1862,7 +1123,7 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : ffp 
 ## values     : 0, 10.2  (min, max)</code></pre>
-<div class="sourceCode" id="cb1125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1125-1"><a href="WE_10.html#cb1125-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>gsp</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="WE_10.html#cb56-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>gsp</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1871,8 +1132,8 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : gsp 
 ## values     : 227, 338.0697  (min, max)</code></pre>
-<div class="sourceCode" id="cb1127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1127-1"><a href="WE_10.html#cb1127-1" aria-hidden="true" tabindex="-1"></a>gsp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>gsp<span class="dv">-196</span>)<span class="sc">/</span><span class="dv">15</span></span>
-<span id="cb1127-2"><a href="WE_10.html#cb1127-2" aria-hidden="true" tabindex="-1"></a>gsp.cost</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="WE_10.html#cb58-1" aria-hidden="true" tabindex="-1"></a>gsp.cost <span class="ot">&lt;-</span> (RasterMaps<span class="sc">$</span>gsp<span class="dv">-196</span>)<span class="sc">/</span><span class="dv">15</span></span>
+<span id="cb58-2"><a href="WE_10.html#cb58-2" aria-hidden="true" tabindex="-1"></a>gsp.cost</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1881,7 +1142,7 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : gsp 
 ## values     : 2.066667, 9.471311  (min, max)</code></pre>
-<div class="sourceCode" id="cb1129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1129-1"><a href="WE_10.html#cb1129-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>cti</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="WE_10.html#cb60-1" aria-hidden="true" tabindex="-1"></a>RasterMaps<span class="sc">$</span>cti</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1890,8 +1151,8 @@ Note that the function below gives a linear relationship between the raw value a
 ## source     : memory
 ## names      : cti 
 ## values     : 0.8429851, 23.71476  (min, max)</code></pre>
-<div class="sourceCode" id="cb1131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1131-1"><a href="WE_10.html#cb1131-1" aria-hidden="true" tabindex="-1"></a>cti.cost <span class="ot">&lt;-</span> RasterMaps<span class="sc">$</span>cti<span class="sc">/</span><span class="dv">5</span></span>
-<span id="cb1131-2"><a href="WE_10.html#cb1131-2" aria-hidden="true" tabindex="-1"></a>cti.cost</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="WE_10.html#cb62-1" aria-hidden="true" tabindex="-1"></a>cti.cost <span class="ot">&lt;-</span> RasterMaps<span class="sc">$</span>cti<span class="sc">/</span><span class="dv">5</span></span>
+<span id="cb62-2"><a href="WE_10.html#cb62-2" aria-hidden="true" tabindex="-1"></a>cti.cost</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1904,8 +1165,8 @@ Note that the function below gives a linear relationship between the raw value a
 <div id="d.-create-a-single-landscape-conductance-raster" class="section level4">
 <h4>d. Create a single landscape conductance raster</h4>
 <p>Testing variables independently may be more appropriate depending on the research question but for the purposes of today’s lab, a single conductance raster will be employed.</p>
-<div class="sourceCode" id="cb1133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1133-1"><a href="WE_10.html#cb1133-1" aria-hidden="true" tabindex="-1"></a>cost1 <span class="ot">&lt;-</span> (gsp.cost <span class="sc">+</span> cti.cost <span class="sc">+</span> err.cost <span class="sc">+</span> ffp.cost)</span>
-<span id="cb1133-2"><a href="WE_10.html#cb1133-2" aria-hidden="true" tabindex="-1"></a>cost1</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="WE_10.html#cb64-1" aria-hidden="true" tabindex="-1"></a>cost1 <span class="ot">&lt;-</span> (gsp.cost <span class="sc">+</span> cti.cost <span class="sc">+</span> err.cost <span class="sc">+</span> ffp.cost)</span>
+<span id="cb64-2"><a href="WE_10.html#cb64-2" aria-hidden="true" tabindex="-1"></a>cost1</span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1925,8 +1186,8 @@ Note that the function below gives a linear relationship between the raw value a
 <p>Transition layers are constructed from a raster, and they take the geographic references (projection, resolution, extent) from the original raster object. They also contain a matrix of probability of movement between cells which can be interpreted as “conductance.” Each cell in the matrix represents a cell in the original raster object.</p>
 <p>The first step is to construct a transition object based on ‘cost1’ (which is a conductance layer as calculated). This step is computationally intensive and make take a few minutes to run.</p>
 <p>Connections can be set based on 4, 8, or 16 neighbor rules. A value of 8 connects all adjacent cells in 8 directions.</p>
-<div class="sourceCode" id="cb1135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1135-1"><a href="WE_10.html#cb1135-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1, <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>) </span>
-<span id="cb1135-2"><a href="WE_10.html#cb1135-2" aria-hidden="true" tabindex="-1"></a>tr.cost1</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="WE_10.html#cb66-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1, <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>) </span>
+<span id="cb66-2"><a href="WE_10.html#cb66-2" aria-hidden="true" tabindex="-1"></a>tr.cost1</span></code></pre></div>
 <pre><code>## class      : TransitionLayer 
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
 ## resolution : 30, 30  (x, y)
@@ -1937,8 +1198,8 @@ Note that the function below gives a linear relationship between the raw value a
 </div>
 <div id="b.-visually-inspect-the-raster" class="section level4">
 <h4>b. Visually inspect the raster</h4>
-<div class="sourceCode" id="cb1137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1137-1"><a href="WE_10.html#cb1137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb1137-2"><a href="WE_10.html#cb1137-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1))</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="WE_10.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb68-2"><a href="WE_10.html#cb68-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1))</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="c.-correct-for-geometric-distortion" class="section level4">
@@ -1946,7 +1207,7 @@ Note that the function below gives a linear relationship between the raw value a
 <p>Transition values are calculated based on values of adjacent cells in the cost raster. However, we used an 8 neighbor rule and the center of diagonally connected
 raster cells are farther apart from each other than the orthogonally connected cells. We are using UTM co-ordinates; however, in lat-long projections, cell sizes become smaller as you move poleward.</p>
 <p>Values of the matrix have to be corrected for the first type of distortion for our analysis (and we would need to correct for the second type of distortion if we were using lat-longs).</p>
-<div class="sourceCode" id="cb1138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1138-1"><a href="WE_10.html#cb1138-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost1,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="WE_10.html#cb69-1" aria-hidden="true" tabindex="-1"></a>tr.cost1 <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost1,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="d.-plot-shortest-paths-in-space" class="section level4">
 <h4>d. Plot shortest paths in space</h4>
@@ -1957,13 +1218,13 @@ raster cells are farther apart from each other than the orthogonally connected c
 <li>Plot the shortest path onto the map</li>
 </ul>
 <p>Note: the path is stored as a ‘SpatialLines’ object (package ‘spdep’). A path is a sequence of coordinate pairs, which is stored in the <code>@lines</code> slot. Like a ‘SpatialPointsDataFrame,’ a ‘SpatialLines’ object has a ‘proje4string’ attribute that stores the projection information. This means that we can easily plot it on top of a raster map.</p>
-<div class="sourceCode" id="cb1139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1139-1"><a href="WE_10.html#cb1139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb1139-2"><a href="WE_10.html#cb1139-2" aria-hidden="true" tabindex="-1"></a>AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[<span class="dv">1</span>,], </span>
-<span id="cb1139-3"><a href="WE_10.html#cb1139-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[<span class="dv">2</span>,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
-<span id="cb1139-4"><a href="WE_10.html#cb1139-4" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
-<span id="cb1139-5"><a href="WE_10.html#cb1139-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>,<span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
-<span id="cb1139-6"><a href="WE_10.html#cb1139-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb1139-7"><a href="WE_10.html#cb1139-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,])</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="WE_10.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb70-2"><a href="WE_10.html#cb70-2" aria-hidden="true" tabindex="-1"></a>AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[<span class="dv">1</span>,], </span>
+<span id="cb70-3"><a href="WE_10.html#cb70-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[<span class="dv">2</span>,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
+<span id="cb70-4"><a href="WE_10.html#cb70-4" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
+<span id="cb70-5"><a href="WE_10.html#cb70-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>,<span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
+<span id="cb70-6"><a href="WE_10.html#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb70-7"><a href="WE_10.html#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,])</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>That’s nice, but it shows only the shortest path between sites 1 and 2. It would not be very useful to plot all pairwise shortest paths. Here we do the following:</p>
 <ul>
@@ -1975,23 +1236,23 @@ raster cells are farther apart from each other than the orthogonally connected c
 <li>Plot the shortest paths onto the map in red</li>
 </ul>
 <p>Note: this may take a while. If it does not show up nicely in the notebook, copy and paste the code to the console and watch how the plot is evolving in the Plots tab (nothing beats being able to actually watch R do the work for you).</p>
-<div class="sourceCode" id="cb1140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1140-1"><a href="WE_10.html#cb1140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb1140-2"><a href="WE_10.html#cb1140-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
-<span id="cb1140-3"><a href="WE_10.html#cb1140-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>, <span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
-<span id="cb1140-4"><a href="WE_10.html#cb1140-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites)</span>
-<span id="cb1140-5"><a href="WE_10.html#cb1140-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1140-6"><a href="WE_10.html#cb1140-6" aria-hidden="true" tabindex="-1"></a>Neighbours <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">tri2nb</span>(sites<span class="sc">@</span>coords, <span class="at">row.names =</span> sites<span class="sc">$</span>SiteName)</span>
-<span id="cb1140-7"><a href="WE_10.html#cb1140-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1140-8"><a href="WE_10.html#cb1140-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Neighbours, sites<span class="sc">@</span>coords, <span class="at">col=</span><span class="st">&quot;darkgrey&quot;</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1140-9"><a href="WE_10.html#cb1140-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Neighbours))</span>
-<span id="cb1140-10"><a href="WE_10.html#cb1140-10" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb1140-11"><a href="WE_10.html#cb1140-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> Neighbours[[i]][Neighbours[[i]] <span class="sc">&gt;</span> i])</span>
-<span id="cb1140-12"><a href="WE_10.html#cb1140-12" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb1140-13"><a href="WE_10.html#cb1140-13" aria-hidden="true" tabindex="-1"></a>    AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[i,], </span>
-<span id="cb1140-14"><a href="WE_10.html#cb1140-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[j,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
-<span id="cb1140-15"><a href="WE_10.html#cb1140-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb1140-16"><a href="WE_10.html#cb1140-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1140-17"><a href="WE_10.html#cb1140-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="WE_10.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb71-2"><a href="WE_10.html#cb71-2" aria-hidden="true" tabindex="-1"></a>raster<span class="sc">::</span><span class="fu">plot</span>(raster<span class="sc">::</span><span class="fu">raster</span>(tr.cost1), <span class="at">xlab=</span><span class="st">&quot;x coordinate (m)&quot;</span>, </span>
+<span id="cb71-3"><a href="WE_10.html#cb71-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab=</span><span class="st">&quot;y coordinate (m)&quot;</span>, <span class="at">legend.lab=</span><span class="st">&quot;Conductance&quot;</span>)</span>
+<span id="cb71-4"><a href="WE_10.html#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites)</span>
+<span id="cb71-5"><a href="WE_10.html#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-6"><a href="WE_10.html#cb71-6" aria-hidden="true" tabindex="-1"></a>Neighbours <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">tri2nb</span>(sites<span class="sc">@</span>coords, <span class="at">row.names =</span> sites<span class="sc">$</span>SiteName)</span>
+<span id="cb71-7"><a href="WE_10.html#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-8"><a href="WE_10.html#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Neighbours, sites<span class="sc">@</span>coords, <span class="at">col=</span><span class="st">&quot;darkgrey&quot;</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb71-9"><a href="WE_10.html#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Neighbours))</span>
+<span id="cb71-10"><a href="WE_10.html#cb71-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb71-11"><a href="WE_10.html#cb71-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> Neighbours[[i]][Neighbours[[i]] <span class="sc">&gt;</span> i])</span>
+<span id="cb71-12"><a href="WE_10.html#cb71-12" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb71-13"><a href="WE_10.html#cb71-13" aria-hidden="true" tabindex="-1"></a>    AtoB <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">shortestPath</span>(tr.cost1, <span class="at">origin=</span>sites[i,], </span>
+<span id="cb71-14"><a href="WE_10.html#cb71-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">goal=</span>sites[j,], <span class="at">output=</span><span class="st">&quot;SpatialLines&quot;</span>)</span>
+<span id="cb71-15"><a href="WE_10.html#cb71-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(AtoB, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb71-16"><a href="WE_10.html#cb71-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb71-17"><a href="WE_10.html#cb71-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p><strong>Question 3</strong>: Do the shortest paths (red) deviate from the Euclidean distances (grey)? Why?</p>
 <p><strong>Question 4</strong>: Are there paths that merge? How would you explain this?</p>
@@ -2003,23 +1264,23 @@ raster cells are farther apart from each other than the orthogonally connected c
 <h4>a. Least cost distance</h4>
 <p>The cost-distance matrix is based on the corrected transition layer and the site locations (here we supply a ‘SpatialPointsDataFrame’ object). The ‘costDistance’ function requires conductance values, even though cost distance will be 1/conductance (i.e., resistance). The cost distance is a function of the transition (tr.cost1, a transition object) and spatial locations (sites, a spatial object).
 This is a single least-cost path (accumulated cost units as opposed to length units) between each pair of sites..</p>
-<div class="sourceCode" id="cb1141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1141-1"><a href="WE_10.html#cb1141-1" aria-hidden="true" tabindex="-1"></a>cost1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost1,sites)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="WE_10.html#cb72-1" aria-hidden="true" tabindex="-1"></a>cost1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost1,sites)</span></code></pre></div>
 </div>
 <div id="b.-cost-distance-matrix-based-on-random-paths-similar-to-circuitscape" class="section level4">
 <h4>b. Cost-distance matrix based on random paths (similar to Circuitscape)</h4>
 <p>Commute-time distance is an alternative to effective resistance from circuit theory. Commute-time is the expected time it takes for a random walk between nodes, and has been shown to correlate highly with effective resistance (Marrotte and Bowman 2017).</p>
-<div class="sourceCode" id="cb1142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1142-1"><a href="WE_10.html#cb1142-1" aria-hidden="true" tabindex="-1"></a>comm1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost1, <span class="at">coords =</span> sites)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="WE_10.html#cb73-1" aria-hidden="true" tabindex="-1"></a>comm1.dist <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost1, <span class="at">coords =</span> sites)</span></code></pre></div>
 </div>
 <div id="c.-compare-cost-distances" class="section level4">
 <h4>c. Compare cost distances</h4>
 <p>Create a distance table to compare different cost distance estimates:</p>
-<div class="sourceCode" id="cb1143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1143-1"><a href="WE_10.html#cb1143-1" aria-hidden="true" tabindex="-1"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;cost1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(cost1.dist),</span>
-<span id="cb1143-2"><a href="WE_10.html#cb1143-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;comm1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(comm1.dist))</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="WE_10.html#cb74-1" aria-hidden="true" tabindex="-1"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;cost1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(cost1.dist),</span>
+<span id="cb74-2"><a href="WE_10.html#cb74-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;comm1.dist&quot;</span><span class="ot">=</span><span class="fu">as.numeric</span>(comm1.dist))</span></code></pre></div>
 <p>Look at the correlation between the two different cost distances:</p>
-<div class="sourceCode" id="cb1144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1144-1"><a href="WE_10.html#cb1144-1" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, dist_df<span class="sc">$</span>comm1.dist, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
-<span id="cb1144-2"><a href="WE_10.html#cb1144-2" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="WE_10.html#cb75-1" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, dist_df<span class="sc">$</span>comm1.dist, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb75-2"><a href="WE_10.html#cb75-2" aria-hidden="true" tabindex="-1"></a>corr.LCD.comm</span></code></pre></div>
 <pre><code>## [1] 0.9519704</code></pre>
-<div class="sourceCode" id="cb1146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1146-1"><a href="WE_10.html#cb1146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cost1.dist<span class="sc">~</span>comm1.dist)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="WE_10.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cost1.dist<span class="sc">~</span>comm1.dist)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p><strong>Question 5</strong>: Are the distance measures similar or different? Why?</p>
 <p><strong>Question 6</strong>: What is the major difference? What are the implications of this difference? When might you use one or other of the methods?</p>
@@ -2031,32 +1292,32 @@ This is a single least-cost path (accumulated cost units as opposed to length un
 these metrics and compare them to the finer resolution raster metric using a Spearman correlation. The loop will take a few minutes to run.</p>
 <div id="a.-create-loop" class="section level4">
 <h4>a. Create loop</h4>
-<div class="sourceCode" id="cb1147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1147-1"><a href="WE_10.html#cb1147-1" aria-hidden="true" tabindex="-1"></a>cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1147-2"><a href="WE_10.html#cb1147-2" aria-hidden="true" tabindex="-1"></a>cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1147-3"><a href="WE_10.html#cb1147-3" aria-hidden="true" tabindex="-1"></a>res_fact <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</span>
-<span id="cb1147-4"><a href="WE_10.html#cb1147-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(fac <span class="cf">in</span> res_fact){</span>
-<span id="cb1147-5"><a href="WE_10.html#cb1147-5" aria-hidden="true" tabindex="-1"></a>  cost1_agg <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">aggregate</span>(cost1, <span class="at">fact =</span> fac)</span>
-<span id="cb1147-6"><a href="WE_10.html#cb1147-6" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1_agg, </span>
-<span id="cb1147-7"><a href="WE_10.html#cb1147-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>)</span>
-<span id="cb1147-8"><a href="WE_10.html#cb1147-8" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost_agg,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span>
-<span id="cb1147-9"><a href="WE_10.html#cb1147-9" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost_agg,sites)</span>
-<span id="cb1147-10"><a href="WE_10.html#cb1147-10" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost_agg, <span class="at">coords =</span> sites)</span>
-<span id="cb1147-11"><a href="WE_10.html#cb1147-11" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(cost.dist_agg)</span>
-<span id="cb1147-12"><a href="WE_10.html#cb1147-12" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(comm.dist_agg)</span>
-<span id="cb1147-13"><a href="WE_10.html#cb1147-13" aria-hidden="true" tabindex="-1"></a>  cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_cost,<span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, cost.dist_agg, </span>
-<span id="cb1147-14"><a href="WE_10.html#cb1147-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
-<span id="cb1147-15"><a href="WE_10.html#cb1147-15" aria-hidden="true" tabindex="-1"></a>  cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_comm,<span class="fu">cor</span>(dist_df<span class="sc">$</span>comm1.dist, comm.dist_agg, </span>
-<span id="cb1147-16"><a href="WE_10.html#cb1147-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
-<span id="cb1147-17"><a href="WE_10.html#cb1147-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="WE_10.html#cb78-1" aria-hidden="true" tabindex="-1"></a>cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb78-2"><a href="WE_10.html#cb78-2" aria-hidden="true" tabindex="-1"></a>cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb78-3"><a href="WE_10.html#cb78-3" aria-hidden="true" tabindex="-1"></a>res_fact <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</span>
+<span id="cb78-4"><a href="WE_10.html#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(fac <span class="cf">in</span> res_fact){</span>
+<span id="cb78-5"><a href="WE_10.html#cb78-5" aria-hidden="true" tabindex="-1"></a>  cost1_agg <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">aggregate</span>(cost1, <span class="at">fact =</span> fac)</span>
+<span id="cb78-6"><a href="WE_10.html#cb78-6" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">transition</span>(cost1_agg, </span>
+<span id="cb78-7"><a href="WE_10.html#cb78-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">transitionFunction=</span>mean, <span class="at">directions=</span><span class="dv">8</span>)</span>
+<span id="cb78-8"><a href="WE_10.html#cb78-8" aria-hidden="true" tabindex="-1"></a>  tr.cost_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">geoCorrection</span>(tr.cost_agg,<span class="at">type =</span> <span class="st">&quot;c&quot;</span>,<span class="at">multpl=</span><span class="cn">FALSE</span>)</span>
+<span id="cb78-9"><a href="WE_10.html#cb78-9" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">costDistance</span>(tr.cost_agg,sites)</span>
+<span id="cb78-10"><a href="WE_10.html#cb78-10" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> gdistance<span class="sc">::</span><span class="fu">commuteDistance</span>(<span class="at">x =</span> tr.cost_agg, <span class="at">coords =</span> sites)</span>
+<span id="cb78-11"><a href="WE_10.html#cb78-11" aria-hidden="true" tabindex="-1"></a>  cost.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(cost.dist_agg)</span>
+<span id="cb78-12"><a href="WE_10.html#cb78-12" aria-hidden="true" tabindex="-1"></a>  comm.dist_agg <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(comm.dist_agg)</span>
+<span id="cb78-13"><a href="WE_10.html#cb78-13" aria-hidden="true" tabindex="-1"></a>  cor_cost <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_cost,<span class="fu">cor</span>(dist_df<span class="sc">$</span>cost1.dist, cost.dist_agg, </span>
+<span id="cb78-14"><a href="WE_10.html#cb78-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
+<span id="cb78-15"><a href="WE_10.html#cb78-15" aria-hidden="true" tabindex="-1"></a>  cor_comm <span class="ot">&lt;-</span> <span class="fu">c</span>(cor_comm,<span class="fu">cor</span>(dist_df<span class="sc">$</span>comm1.dist, comm.dist_agg, </span>
+<span id="cb78-16"><a href="WE_10.html#cb78-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>))</span>
+<span id="cb78-17"><a href="WE_10.html#cb78-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="b.-plot-the-results" class="section level4">
 <h4>b. Plot the results</h4>
-<div class="sourceCode" id="cb1148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1148-1"><a href="WE_10.html#cb1148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb1148-2"><a href="WE_10.html#cb1148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> cor_cost, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, </span>
-<span id="cb1148-3"><a href="WE_10.html#cb1148-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="dv">1</span>), <span class="at">xlab =</span> <span class="st">&quot;Aggregation factor&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spearman correlation&quot;</span>)</span>
-<span id="cb1148-4"><a href="WE_10.html#cb1148-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> cor_comm, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb1148-5"><a href="WE_10.html#cb1148-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Costdist&quot;</span>,<span class="st">&quot;Commdist&quot;</span>), </span>
-<span id="cb1148-6"><a href="WE_10.html#cb1148-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="WE_10.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb79-2"><a href="WE_10.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> cor_cost, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, </span>
+<span id="cb79-3"><a href="WE_10.html#cb79-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="dv">1</span>), <span class="at">xlab =</span> <span class="st">&quot;Aggregation factor&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spearman correlation&quot;</span>)</span>
+<span id="cb79-4"><a href="WE_10.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> cor_comm, <span class="at">x =</span> res_fact, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb79-5"><a href="WE_10.html#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Costdist&quot;</span>,<span class="st">&quot;Commdist&quot;</span>), </span>
+<span id="cb79-6"><a href="WE_10.html#cb79-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p><strong>Question 7</strong>: What effect does changing resolution have on these metrics?</p>
 </div>

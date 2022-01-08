@@ -5,7 +5,6 @@ date: "2022-01-08"
 output:
   bookdown::gitbook:
     includes:
-      in_header: header.html
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
@@ -40,12 +39,6 @@ Next sections:
 
 
 ## How to use this Book
-
-Hint:
-
-- **Code visibility**: use the `Code` button to show or hide all R code, either globally or by chunk.
-- **Table of contents**: in the left-side navigation bar, click on any entry to expand or collapse it.
-
 
 ### 1. Book Structure
 

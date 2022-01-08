@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_13" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb1259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1259-1"><a href="WE_13.html#cb1259-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week13_vignette.Rmd&quot;</span>)</span>
-<span id="cb1259-2"><a href="WE_13.html#cb1259-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb1259-3"><a href="WE_13.html#cb1259-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Melanie Murphy</code></pre>
+<p>Melanie Murphy</p>
 <div id="overview-of-worked-example-12" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <div id="a.-background" class="section level4">
@@ -1741,18 +1002,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-9" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
-<div class="sourceCode" id="cb1261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1261-1"><a href="WE_13.html#cb1261-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span>
-<span id="cb1261-2"><a href="WE_13.html#cb1261-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;spatialEco&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/spatialEco&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb1262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1262-1"><a href="WE_13.html#cb1262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb1262-2"><a href="WE_13.html#cb1262-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
-<span id="cb1262-3"><a href="WE_13.html#cb1262-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(landscapemetrics)</span></span>
-<span id="cb1262-4"><a href="WE_13.html#cb1262-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(raster)</span></span>
-<span id="cb1262-5"><a href="WE_13.html#cb1262-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rgdal)</span></span>
-<span id="cb1262-6"><a href="WE_13.html#cb1262-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(GeNetIt)</span></span>
-<span id="cb1262-7"><a href="WE_13.html#cb1262-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(spatialEco)</span></span>
-<span id="cb1262-8"><a href="WE_13.html#cb1262-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(GeNetIt)</span></span>
-<span id="cb1262-9"><a href="WE_13.html#cb1262-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(igraph)</span></span>
-<span id="cb1262-10"><a href="WE_13.html#cb1262-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(deldir)</span></span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="WE_13.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span>
+<span id="cb206-2"><a href="WE_13.html#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;spatialEco&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/spatialEco&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="WE_13.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb207-2"><a href="WE_13.html#cb207-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb207-3"><a href="WE_13.html#cb207-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(landscapemetrics)</span></span>
+<span id="cb207-4"><a href="WE_13.html#cb207-4" aria-hidden="true" tabindex="-1"></a><span class="co">#library(raster)</span></span>
+<span id="cb207-5"><a href="WE_13.html#cb207-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rgdal)</span></span>
+<span id="cb207-6"><a href="WE_13.html#cb207-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(GeNetIt)</span></span>
+<span id="cb207-7"><a href="WE_13.html#cb207-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(spatialEco)</span></span>
+<span id="cb207-8"><a href="WE_13.html#cb207-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(GeNetIt)</span></span>
+<span id="cb207-9"><a href="WE_13.html#cb207-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(igraph)</span></span>
+<span id="cb207-10"><a href="WE_13.html#cb207-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(deldir)</span></span></code></pre></div>
 </div>
 <div id="set-working-and-data-directories---needs-to-be-removed" class="section level4">
 <h4>Set working and data directories - NEEDS TO BE REMOVED</h4>
@@ -1766,9 +1027,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-read-in-make-a-spatial-object-and-plot-wetlands-wetlands.csv." class="section level4">
 <h4>a. Read in, make a spatial object and plot wetlands (Wetlands.csv).</h4>
 <p>Read in the wetland csv file.</p>
-<div class="sourceCode" id="cb1263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1263-1"><a href="WE_13.html#cb1263-1" aria-hidden="true" tabindex="-1"></a>wetlands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Wetlands.csv&quot;</span>, </span>
-<span id="cb1263-2"><a href="WE_13.html#cb1263-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb1263-3"><a href="WE_13.html#cb1263-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wetlands)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="WE_13.html#cb208-1" aria-hidden="true" tabindex="-1"></a>wetlands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Wetlands.csv&quot;</span>, </span>
+<span id="cb208-2"><a href="WE_13.html#cb208-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb208-3"><a href="WE_13.html#cb208-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wetlands)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    121 obs. of  5 variables:
 ##  $ ID      : int  1 2 3 4 5 6 7 8 9 10 ...
 ##  $ X       : int  688835 687460 687507 687637 688850 688500 687944 687872 687150 690888 ...
@@ -1776,12 +1037,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  $ RALU    : chr  &quot;y&quot; &quot;n&quot; &quot;n&quot; &quot;n&quot; ...
 ##  $ SiteName: chr  &quot;AirplaneLake&quot; &quot;AlpineInletCreek&quot; &quot;AlpineInletMeadow&quot; &quot;AlpineLake&quot; ...</code></pre>
 <p>Coerce to a SpatialPointsDataFrame and look at the structure of the related dataframe.</p>
-<div class="sourceCode" id="cb1265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1265-1"><a href="WE_13.html#cb1265-1" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">coordinates</span>(wetlands) <span class="ot">&lt;-</span> <span class="er">~</span>X<span class="sc">+</span>Y</span>
-<span id="cb1265-2"><a href="WE_13.html#cb1265-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wetlands)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="WE_13.html#cb210-1" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">coordinates</span>(wetlands) <span class="ot">&lt;-</span> <span class="er">~</span>X<span class="sc">+</span>Y</span>
+<span id="cb210-2"><a href="WE_13.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wetlands)</span></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
-<div class="sourceCode" id="cb1267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1267-1"><a href="WE_13.html#cb1267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wetlands)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="WE_13.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wetlands)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
 ##   ..@ data       :&#39;data.frame&#39;:  121 obs. of  3 variables:
 ##   .. ..$ ID      : int [1:121] 1 2 3 4 5 6 7 8 9 10 ...
@@ -1799,24 +1060,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
 ##   .. .. ..@ projargs: chr NA</code></pre>
 <p>Plot the wetlands</p>
-<div class="sourceCode" id="cb1269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1269-1"><a href="WE_13.html#cb1269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlands, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;All Wetlands&quot;</span>)</span>
-<span id="cb1269-2"><a href="WE_13.html#cb1269-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(wetlands, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.75</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="WE_13.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlands, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;All Wetlands&quot;</span>)</span>
+<span id="cb214-2"><a href="WE_13.html#cb214-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(wetlands, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.75</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="13-Week13_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="b.-create-a-graph-from-the-wetlands" class="section level4">
 <h4>b. Create a graph from the wetlands</h4>
 <p>We’ll create a graph that could represent connectivity using Delaunay triangulation, then plot the result.</p>
 <p>Delaunay triangulation, create delaunay graph</p>
-<div class="sourceCode" id="cb1270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1270-1"><a href="WE_13.html#cb1270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb1270-2"><a href="WE_13.html#cb1270-2" aria-hidden="true" tabindex="-1"></a>wetlandgraph <span class="ot">&lt;-</span> deldir<span class="sc">::</span><span class="fu">deldir</span>(<span class="fu">coordinates</span>(wetlands)[,<span class="dv">1</span>], </span>
-<span id="cb1270-3"><a href="WE_13.html#cb1270-3" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">coordinates</span>(wetlands)[,<span class="dv">2</span>], </span>
-<span id="cb1270-4"><a href="WE_13.html#cb1270-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">z =</span> wetlands<span class="sc">$</span>SiteName) </span>
-<span id="cb1270-5"><a href="WE_13.html#cb1270-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn=</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="WE_13.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb215-2"><a href="WE_13.html#cb215-2" aria-hidden="true" tabindex="-1"></a>wetlandgraph <span class="ot">&lt;-</span> deldir<span class="sc">::</span><span class="fu">deldir</span>(<span class="fu">coordinates</span>(wetlands)[,<span class="dv">1</span>], </span>
+<span id="cb215-3"><a href="WE_13.html#cb215-3" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">coordinates</span>(wetlands)[,<span class="dv">2</span>], </span>
+<span id="cb215-4"><a href="WE_13.html#cb215-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">z =</span> wetlands<span class="sc">$</span>SiteName) </span>
+<span id="cb215-5"><a href="WE_13.html#cb215-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn=</span><span class="dv">0</span>)</span></code></pre></div>
 <p>Plot the graph with the wetlands</p>
-<div class="sourceCode" id="cb1271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1271-1"><a href="WE_13.html#cb1271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlands, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;All Wetlands&quot;</span>)</span>
-<span id="cb1271-2"><a href="WE_13.html#cb1271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(wetlands, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.75</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb1271-3"><a href="WE_13.html#cb1271-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlandgraph, <span class="at">wlines =</span> <span class="st">&quot;triang&quot;</span>, <span class="at">wpoints=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb1271-4"><a href="WE_13.html#cb1271-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">number=</span><span class="cn">FALSE</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">lty=</span><span class="dv">1</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="WE_13.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlands, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;All Wetlands&quot;</span>)</span>
+<span id="cb216-2"><a href="WE_13.html#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(wetlands, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.75</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb216-3"><a href="WE_13.html#cb216-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlandgraph, <span class="at">wlines =</span> <span class="st">&quot;triang&quot;</span>, <span class="at">wpoints=</span><span class="st">&quot;none&quot;</span>,</span>
+<span id="cb216-4"><a href="WE_13.html#cb216-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">number=</span><span class="cn">FALSE</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">lty=</span><span class="dv">1</span>) </span></code></pre></div>
 <pre><code>## Warning in (function (x0, y0, x1 = x0, y1 = y0, col = par(&quot;fg&quot;), lty =
 ## par(&quot;lty&quot;), : &quot;wpoints&quot; is not a graphical parameter</code></pre>
 <pre><code>## Warning in plot.xy(xy.coords(x, y), type = type, ...): &quot;wpoints&quot; is not a
@@ -1832,12 +1093,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-create-adjacency-matrix" class="section level4">
 <h4>c. Create adjacency matrix</h4>
 <p>What wetlands are connected to each other based on the Delaunay triangulation? Create an adjacency matrix from the graph object and make an adjacency matrix.</p>
-<div class="sourceCode" id="cb1274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1274-1"><a href="WE_13.html#cb1274-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> wetlandgraph<span class="sc">$</span>delsgs[,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>] <span class="co">#pull out individual nodes</span></span>
-<span id="cb1274-2"><a href="WE_13.html#cb1274-2" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(wetlands<span class="sc">$</span>X), <span class="fu">length</span>(wetlands<span class="sc">$</span>Y)) </span>
-<span id="cb1274-3"><a href="WE_13.html#cb1274-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(ind)){ </span>
-<span id="cb1274-4"><a href="WE_13.html#cb1274-4" aria-hidden="true" tabindex="-1"></a>    adj[ind[i,<span class="dv">1</span>], ind[i,<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
-<span id="cb1274-5"><a href="WE_13.html#cb1274-5" aria-hidden="true" tabindex="-1"></a>    adj[ind[i,<span class="dv">2</span>], ind[i,<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
-<span id="cb1274-6"><a href="WE_13.html#cb1274-6" aria-hidden="true" tabindex="-1"></a>  } </span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="WE_13.html#cb219-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> wetlandgraph<span class="sc">$</span>delsgs[,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>] <span class="co">#pull out individual nodes</span></span>
+<span id="cb219-2"><a href="WE_13.html#cb219-2" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(wetlands<span class="sc">$</span>X), <span class="fu">length</span>(wetlands<span class="sc">$</span>Y)) </span>
+<span id="cb219-3"><a href="WE_13.html#cb219-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(ind)){ </span>
+<span id="cb219-4"><a href="WE_13.html#cb219-4" aria-hidden="true" tabindex="-1"></a>    adj[ind[i,<span class="dv">1</span>], ind[i,<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
+<span id="cb219-5"><a href="WE_13.html#cb219-5" aria-hidden="true" tabindex="-1"></a>    adj[ind[i,<span class="dv">2</span>], ind[i,<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
+<span id="cb219-6"><a href="WE_13.html#cb219-6" aria-hidden="true" tabindex="-1"></a>  } </span></code></pre></div>
 </div>
 <div id="d.-calculate-graph-metrics" class="section level4">
 <h4>d. Calculate graph metrics</h4>
@@ -1849,15 +1110,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>How might it not be ecologically or biologically meaningful?</li>
 </ul>
 <p>Make an igraph network from the matrix we just made</p>
-<div class="sourceCode" id="cb1275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1275-1"><a href="WE_13.html#cb1275-1" aria-hidden="true" tabindex="-1"></a>wetnet <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_adjacency_matrix</span>(adj, <span class="at">weighted =</span> <span class="cn">NULL</span>, <span class="at">mode=</span><span class="st">&quot;undirected&quot;</span>) </span>
-<span id="cb1275-2"><a href="WE_13.html#cb1275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetnet)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="WE_13.html#cb220-1" aria-hidden="true" tabindex="-1"></a>wetnet <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_adjacency_matrix</span>(adj, <span class="at">weighted =</span> <span class="cn">NULL</span>, <span class="at">mode=</span><span class="st">&quot;undirected&quot;</span>) </span>
+<span id="cb220-2"><a href="WE_13.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetnet)</span></code></pre></div>
 <p><img src="13-Week13_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="e.-add-graph-metrics-to-data.frame" class="section level4">
 <h4>e. Add graph metrics to data.frame</h4>
 <p>Calculate degree- the number of connections a node has</p>
-<div class="sourceCode" id="cb1276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1276-1"><a href="WE_13.html#cb1276-1" aria-hidden="true" tabindex="-1"></a>wetlands<span class="sc">@</span>data<span class="sc">$</span>degree <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">degree</span>(wetnet)</span>
-<span id="cb1276-2"><a href="WE_13.html#cb1276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wetlands<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="WE_13.html#cb221-1" aria-hidden="true" tabindex="-1"></a>wetlands<span class="sc">@</span>data<span class="sc">$</span>degree <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">degree</span>(wetnet)</span>
+<span id="cb221-2"><a href="WE_13.html#cb221-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wetlands<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##   ID RALU          SiteName degree
 ## 1  1    y      AirplaneLake      8
 ## 2  2    n  AlpineInletCreek      6
@@ -1866,8 +1127,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5  5    n   AxeHandleMeadow      9
 ## 6  6    y    BachelorMeadow      7</code></pre>
 <p>Calculate betweenness- the number of shortest paths going through a node</p>
-<div class="sourceCode" id="cb1278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1278-1"><a href="WE_13.html#cb1278-1" aria-hidden="true" tabindex="-1"></a>wetlands<span class="sc">@</span>data<span class="sc">$</span>betweenness <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">betweenness</span>(wetnet) </span>
-<span id="cb1278-2"><a href="WE_13.html#cb1278-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wetlands<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="WE_13.html#cb223-1" aria-hidden="true" tabindex="-1"></a>wetlands<span class="sc">@</span>data<span class="sc">$</span>betweenness <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">betweenness</span>(wetnet) </span>
+<span id="cb223-2"><a href="WE_13.html#cb223-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wetlands<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##   ID RALU          SiteName degree betweenness
 ## 1  1    y      AirplaneLake      8   279.58405
 ## 2  2    n  AlpineInletCreek      6    87.97683
@@ -1893,9 +1154,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>What data are included?</li>
 </ul>
 <p>Import site data</p>
-<div class="sourceCode" id="cb1280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1280-1"><a href="WE_13.html#cb1280-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;RALU_Site.csv&quot;</span>, </span>
-<span id="cb1280-2"><a href="WE_13.html#cb1280-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb1280-3"><a href="WE_13.html#cb1280-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="WE_13.html#cb225-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;RALU_Site.csv&quot;</span>, </span>
+<span id="cb225-2"><a href="WE_13.html#cb225-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb225-3"><a href="WE_13.html#cb225-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites)</span></code></pre></div>
 <pre><code>##   SiteID     Elev Length    Area Perim Depth  pH Dforest Drock Dshrub
 ## 1      1 2473.719    101  6856.1 335.7  5.70 7.2   0.000 0.900  0.100
 ## 2      2 2609.068    350 36915.0 916.7 12.70 6.7   0.131 0.036  0.000
@@ -1911,9 +1172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5  Mt.WilsonLake 687645 4995325
 ## 6      MooseLake 688549 4995538</code></pre>
 <p>Extract degree and betweenness from graph data</p>
-<div class="sourceCode" id="cb1282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1282-1"><a href="WE_13.html#cb1282-1" aria-hidden="true" tabindex="-1"></a>nodestats <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(wetlands<span class="sc">@</span>data[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb1282-2"><a href="WE_13.html#cb1282-2" aria-hidden="true" tabindex="-1"></a>degree.betweenness <span class="ot">&lt;-</span> nodestats[<span class="fu">which</span>(nodestats<span class="sc">$</span>SiteName <span class="sc">%in%</span> sites<span class="sc">$</span>SiteName),]</span>
-<span id="cb1282-3"><a href="WE_13.html#cb1282-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(degree.betweenness)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="WE_13.html#cb227-1" aria-hidden="true" tabindex="-1"></a>nodestats <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(wetlands<span class="sc">@</span>data[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb227-2"><a href="WE_13.html#cb227-2" aria-hidden="true" tabindex="-1"></a>degree.betweenness <span class="ot">&lt;-</span> nodestats[<span class="fu">which</span>(nodestats<span class="sc">$</span>SiteName <span class="sc">%in%</span> sites<span class="sc">$</span>SiteName),]</span>
+<span id="cb227-3"><a href="WE_13.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(degree.betweenness)</span></code></pre></div>
 <pre><code>##          SiteName degree betweenness
 ## 1    AirplaneLake      8   279.58405
 ## 6  BachelorMeadow      7   292.32533
@@ -1922,8 +1183,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 16      CacheLake      4    11.57913
 ## 25        DoeLake      5    31.48064</code></pre>
 <p>Add to site data</p>
-<div class="sourceCode" id="cb1284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1284-1"><a href="WE_13.html#cb1284-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">merge</span>(degree.betweenness, sites, <span class="at">by=</span> <span class="st">&quot;SiteName&quot;</span> )</span>
-<span id="cb1284-2"><a href="WE_13.html#cb1284-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="WE_13.html#cb229-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">merge</span>(degree.betweenness, sites, <span class="at">by=</span> <span class="st">&quot;SiteName&quot;</span> )</span>
+<span id="cb229-2"><a href="WE_13.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites)</span></code></pre></div>
 <pre><code>##         SiteName degree betweenness SiteID     Elev Length    Area  Perim Depth
 ## 1   AirplaneLake      8   279.58405     27 2564.381    390 62582.2 1142.8 21.64
 ## 2 BachelorMeadow      7   292.32533     15 2591.781      0   225.0   60.0  0.40
@@ -1939,8 +1200,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 6.5   0.508 0.000   0.00 688777 4997264
 ## 6 7.6   0.254 0.000   0.00 688968 4996458</code></pre>
 <p>Note: Using names is dangerous as, small changes in names can result in non-matches. In this case, the ID fields are not consistent (data were collected at different times for different purposes originally). However, names are standardized in a drop-down list of a database. So they are a matching field. My preference is do to this type of operation on a numeric field.</p>
-<div class="sourceCode" id="cb1286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1286-1"><a href="WE_13.html#cb1286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(sites) <span class="ot">&lt;-</span> <span class="er">~</span>X<span class="sc">+</span>Y</span>
-<span id="cb1286-2"><a href="WE_13.html#cb1286-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sites)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="WE_13.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(sites) <span class="ot">&lt;-</span> <span class="er">~</span>X<span class="sc">+</span>Y</span>
+<span id="cb231-2"><a href="WE_13.html#cb231-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sites)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
 ##   ..@ data       :&#39;data.frame&#39;:  29 obs. of  13 variables:
 ##   .. ..$ SiteName   : chr [1:29] &quot;AirplaneLake&quot; &quot;BachelorMeadow&quot; &quot;BarkingFoxLake&quot; &quot;BobLake&quot; ...
@@ -1971,7 +1232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-check-data-types" class="section level4">
 <h4>b. Check data types</h4>
 <p>Get data as proper type. Are all of the data fields reading as the correct type?</p>
-<div class="sourceCode" id="cb1288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1288-1"><a href="WE_13.html#cb1288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="WE_13.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##    SiteName             degree       betweenness         SiteID     
 ##  Length:29          Min.   :3.000   Min.   :  0.00   Min.   : 1.00  
 ##  Class :character   1st Qu.:4.000   1st Qu.: 11.58   1st Qu.: 8.00  
@@ -2000,11 +1261,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Mean   :0.01859  
 ##  3rd Qu.:0.00000  
 ##  Max.   :0.20000</code></pre>
-<div class="sourceCode" id="cb1290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1290-1"><a href="WE_13.html#cb1290-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>SiteName <span class="ot">&lt;-</span> <span class="fu">as.character</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteName)</span>
-<span id="cb1290-2"><a href="WE_13.html#cb1290-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteName)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="WE_13.html#cb235-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>SiteName <span class="ot">&lt;-</span> <span class="fu">as.character</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteName)</span>
+<span id="cb235-2"><a href="WE_13.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteName)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb1292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1292-1"><a href="WE_13.html#cb1292-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>SiteID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span>
-<span id="cb1292-2"><a href="WE_13.html#cb1292-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="WE_13.html#cb237-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>SiteID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span>
+<span id="cb237-2"><a href="WE_13.html#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span></code></pre></div>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
 </div>
 </div>
@@ -2015,20 +1276,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Build graph from occupied sites</h4>
 <p>To assess connectivity using a gravity model, we need to build a graph from the occupied frog sites. This could be any type of graph, but I generally use saturated or pruned by some maximum distance.</p>
 <p>Note: make sure to use correct field here:</p>
-<div class="sourceCode" id="cb1294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1294-1"><a href="WE_13.html#cb1294-1" aria-hidden="true" tabindex="-1"></a>dist.graph <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">knn.graph</span>(sites, <span class="at">row.names =</span> sites<span class="sc">@</span>data[,<span class="st">&quot;SiteID&quot;</span>])</span>
-<span id="cb1294-2"><a href="WE_13.html#cb1294-2" aria-hidden="true" tabindex="-1"></a><span class="co">#dist.graph@proj4string@projargs &lt;- &quot;+proj=utm +zone=11 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs &quot;</span></span>
-<span id="cb1294-3"><a href="WE_13.html#cb1294-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dist.graph &lt;- GeNetIt::knn.graph(sites, row.names = sites@data[,&quot;SiteName&quot;], max.dist=5000)</span></span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="WE_13.html#cb239-1" aria-hidden="true" tabindex="-1"></a>dist.graph <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">knn.graph</span>(sites, <span class="at">row.names =</span> sites<span class="sc">@</span>data[,<span class="st">&quot;SiteID&quot;</span>])</span>
+<span id="cb239-2"><a href="WE_13.html#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="co">#dist.graph@proj4string@projargs &lt;- &quot;+proj=utm +zone=11 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs &quot;</span></span>
+<span id="cb239-3"><a href="WE_13.html#cb239-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dist.graph &lt;- GeNetIt::knn.graph(sites, row.names = sites@data[,&quot;SiteName&quot;], max.dist=5000)</span></span></code></pre></div>
 <p>The “k greater than one-third of the number of data points” is a warning issued by the k nearest neighbor function. In our case, this is not a problem as we want a graph that k is equal to 1-n, that is a saturated graph.</p>
 </div>
 <div id="b.-merge-graph-with-genetic-distance" class="section level4">
 <h4>b. Merge graph with genetic distance</h4>
 <p>This involves: reading in RALU_Dps genetic distance. Read in genetic distance file (RALU_Dps), convert to flow (1-distance) and unfold into a dataframe. Then merge graph with genetic distances.</p>
 <p>Read in the genetic distance matrix</p>
-<div class="sourceCode" id="cb1295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1295-1"><a href="WE_13.html#cb1295-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;RALU_Dps.csv&quot;</span>, </span>
-<span id="cb1295-2"><a href="WE_13.html#cb1295-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1295-3"><a href="WE_13.html#cb1295-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(gdist) <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">names</span>(gdist))</span>
-<span id="cb1295-4"><a href="WE_13.html#cb1295-4" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">as.matrix</span> (gdist)</span>
-<span id="cb1295-5"><a href="WE_13.html#cb1295-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="WE_13.html#cb240-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;RALU_Dps.csv&quot;</span>, </span>
+<span id="cb240-2"><a href="WE_13.html#cb240-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb240-3"><a href="WE_13.html#cb240-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(gdist) <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">names</span>(gdist))</span>
+<span id="cb240-4"><a href="WE_13.html#cb240-4" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">as.matrix</span> (gdist)</span>
+<span id="cb240-5"><a href="WE_13.html#cb240-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
 <pre><code>##         X1      X2      X3      X4      X5      X6      X7      X8      X9
 ## X1 0.00000 0.13106 0.24000 0.10717 0.11773 0.11482 0.11978 0.22386 0.31478
 ## X2 0.13106 0.00000 0.15344 0.10157 0.16524 0.14467 0.13044 0.25668 0.27293
@@ -2058,8 +1319,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## X5 0.44777 0.34762
 ## X6 0.46864 0.37533</code></pre>
 <p>Convert genetic distance to flow</p>
-<div class="sourceCode" id="cb1297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1297-1"><a href="WE_13.html#cb1297-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">flow</span>(gdist)</span>
-<span id="cb1297-2"><a href="WE_13.html#cb1297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="WE_13.html#cb242-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">flow</span>(gdist)</span>
+<span id="cb242-2"><a href="WE_13.html#cb242-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
 <pre><code>##         X1      X2      X3      X4      X5      X6      X7      X8      X9
 ## X1      NA 0.86894 0.76000 0.89283 0.88227 0.88518 0.88022 0.77614 0.68522
 ## X2 0.86894      NA 0.84656 0.89843 0.83476 0.85533 0.86956 0.74332 0.72707
@@ -2089,13 +1350,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## X5 0.55223 0.65238
 ## X6 0.53136 0.62467</code></pre>
 <p>Convert genetid “flow” matrix into an unfolded dataframe with site IDs</p>
-<div class="sourceCode" id="cb1299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1299-1"><a href="WE_13.html#cb1299-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">dmatrix.df</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="WE_13.html#cb244-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">dmatrix.df</span>(gdist)</span></code></pre></div>
 <pre><code>## Warning in type.convert.default(X[[i]], ...): &#39;as.is&#39; should be specified by the
 ## caller; using TRUE
 
 ## Warning in type.convert.default(X[[i]], ...): &#39;as.is&#39; should be specified by the
 ## caller; using TRUE</code></pre>
-<div class="sourceCode" id="cb1301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1301-1"><a href="WE_13.html#cb1301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="WE_13.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gdist)</span></code></pre></div>
 <pre><code>##   X1 X2 distance
 ## 2 X2 X1  0.86894
 ## 3 X3 X1  0.76000
@@ -2104,21 +1365,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 X6 X1  0.88518
 ## 7 X7 X1  0.88022</code></pre>
 <p>The default column name is “distance” as this matrix could represent multiple type of distances. We are renaming here to avoid confusion as to the type of distance here.</p>
-<div class="sourceCode" id="cb1303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1303-1"><a href="WE_13.html#cb1303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;GDIST&quot;</span></span>
-<span id="cb1303-2"><a href="WE_13.html#cb1303-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="WE_13.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;GDIST&quot;</span></span>
+<span id="cb248-2"><a href="WE_13.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)</span></code></pre></div>
 <pre><code>## [1] &quot;X1&quot;    &quot;X2&quot;    &quot;GDIST&quot;</code></pre>
 <p>Some housekeeping here to rename colums to from, to nodes and remove “X”s added in conversion from matrix.</p>
-<div class="sourceCode" id="cb1305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1305-1"><a href="WE_13.html#cb1305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;FROM&quot;</span></span>
-<span id="cb1305-2"><a href="WE_13.html#cb1305-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;TO&quot;</span></span>
-<span id="cb1305-3"><a href="WE_13.html#cb1305-3" aria-hidden="true" tabindex="-1"></a>gdist[,<span class="dv">1</span>] <span class="ot">&lt;-</span><span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, gdist[,<span class="dv">1</span>])</span>
-<span id="cb1305-4"><a href="WE_13.html#cb1305-4" aria-hidden="true" tabindex="-1"></a>gdist[,<span class="dv">2</span>] <span class="ot">&lt;-</span><span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, gdist[,<span class="dv">2</span>])</span>
-<span id="cb1305-5"><a href="WE_13.html#cb1305-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="WE_13.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;FROM&quot;</span></span>
+<span id="cb250-2"><a href="WE_13.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;TO&quot;</span></span>
+<span id="cb250-3"><a href="WE_13.html#cb250-3" aria-hidden="true" tabindex="-1"></a>gdist[,<span class="dv">1</span>] <span class="ot">&lt;-</span><span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, gdist[,<span class="dv">1</span>])</span>
+<span id="cb250-4"><a href="WE_13.html#cb250-4" aria-hidden="true" tabindex="-1"></a>gdist[,<span class="dv">2</span>] <span class="ot">&lt;-</span><span class="fu">sub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, gdist[,<span class="dv">2</span>])</span>
+<span id="cb250-5"><a href="WE_13.html#cb250-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gdist)</span></code></pre></div>
 <pre><code>## [1] &quot;FROM&quot;  &quot;TO&quot;    &quot;GDIST&quot;</code></pre>
 <p>Create an identifier of to from nodes to connect back to the graph and link gdist data to knn graph.</p>
-<div class="sourceCode" id="cb1307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1307-1"><a href="WE_13.html#cb1307-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">from.to=</span><span class="fu">paste</span>(gdist[,<span class="dv">1</span>], gdist[,<span class="dv">2</span>], <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), gdist)</span>
-<span id="cb1307-2"><a href="WE_13.html#cb1307-2" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>data<span class="sc">$</span>from.to <span class="ot">&lt;-</span> <span class="fu">paste</span>(dist.graph<span class="sc">$</span>from_ID, dist.graph<span class="sc">$</span>to_ID, <span class="at">sep=</span><span class="st">&quot;.&quot;</span>)</span>
-<span id="cb1307-3"><a href="WE_13.html#cb1307-3" aria-hidden="true" tabindex="-1"></a>dist.graph <span class="ot">&lt;-</span> <span class="fu">merge</span>(dist.graph, gdist, <span class="at">by =</span> <span class="st">&quot;from.to&quot;</span>) </span>
-<span id="cb1307-4"><a href="WE_13.html#cb1307-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="WE_13.html#cb252-1" aria-hidden="true" tabindex="-1"></a>gdist <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">from.to=</span><span class="fu">paste</span>(gdist[,<span class="dv">1</span>], gdist[,<span class="dv">2</span>], <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), gdist)</span>
+<span id="cb252-2"><a href="WE_13.html#cb252-2" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>data<span class="sc">$</span>from.to <span class="ot">&lt;-</span> <span class="fu">paste</span>(dist.graph<span class="sc">$</span>from_ID, dist.graph<span class="sc">$</span>to_ID, <span class="at">sep=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb252-3"><a href="WE_13.html#cb252-3" aria-hidden="true" tabindex="-1"></a>dist.graph <span class="ot">&lt;-</span> <span class="fu">merge</span>(dist.graph, gdist, <span class="at">by =</span> <span class="st">&quot;from.to&quot;</span>) </span>
+<span id="cb252-4"><a href="WE_13.html#cb252-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##     from.to i j from_ID to_ID   length FROM TO   GDIST
 ## 483   27.15 1 2      27    15 4052.869   27 15 0.47934
 ## 486   27.19 1 3      27    19 3065.350   27 19 0.61603
@@ -2130,12 +1391,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-write-out-results-ascii-csv-and-lines-shapefile." class="section level4">
 <h4>c. Write out results (ASCII csv and lines shapefile).</h4>
 <p>Saving the results (as ASCII csv and lines shapefile) is is a really useful operation for your own data, especially if you have a large graph, so you don’t have to recreate this object.</p>
-<div class="sourceCode" id="cb1309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1309-1"><a href="WE_13.html#cb1309-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
-<span id="cb1309-2"><a href="WE_13.html#cb1309-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
-<span id="cb1309-3"><a href="WE_13.html#cb1309-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(gdist, <span class="at">file=</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/gdist.csv&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="WE_13.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
+<span id="cb254-2"><a href="WE_13.html#cb254-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
+<span id="cb254-3"><a href="WE_13.html#cb254-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(gdist, <span class="at">file=</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/gdist.csv&quot;</span>))</span></code></pre></div>
 <p>Uncheck the following lines to write out a shapefile. This is commented out as rgdal may not work properly, depending on your computer configuration.</p>
-<div class="sourceCode" id="cb1310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1310-1"><a href="WE_13.html#cb1310-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rgdal::writeOGR(dist.graph, paste0(here::here(),&quot;/output&quot;), &quot;DistGraph&quot;, </span></span>
-<span id="cb1310-2"><a href="WE_13.html#cb1310-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                driver=&quot;ESRI Shapefile&quot;, check_exists=TRUE, overwrite_layer=TRUE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="WE_13.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rgdal::writeOGR(dist.graph, paste0(here::here(),&quot;/output&quot;), &quot;DistGraph&quot;, </span></span>
+<span id="cb255-2"><a href="WE_13.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                driver=&quot;ESRI Shapefile&quot;, check_exists=TRUE, overwrite_layer=TRUE)</span></span></code></pre></div>
 </div>
 </div>
 <div id="preparing-raster-based-covariates" class="section level3">
@@ -2143,8 +1404,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-import-raster-data-as-stack" class="section level4">
 <h4>a. Import raster data as stack</h4>
 <p>This function will import a raster stack with nine raster maps of the study area.</p>
-<div class="sourceCode" id="cb1311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1311-1"><a href="WE_13.html#cb1311-1" aria-hidden="true" tabindex="-1"></a>xvars <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">&quot;https://www.dropbox.com/s/xjl9zpgqplwg1us/ralu.rasters.rds?dl=1&quot;</span>)</span>
-<span id="cb1311-2"><a href="WE_13.html#cb1311-2" aria-hidden="true" tabindex="-1"></a>xvars</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="WE_13.html#cb256-1" aria-hidden="true" tabindex="-1"></a>xvars <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">&quot;https://www.dropbox.com/s/xjl9zpgqplwg1us/ralu.rasters.rds?dl=1&quot;</span>)</span>
+<span id="cb256-2"><a href="WE_13.html#cb256-2" aria-hidden="true" tabindex="-1"></a>xvars</span></code></pre></div>
 <pre><code>## class      : RasterStack 
 ## dimensions : 2237, 2347, 5250239, 9  (nrow, ncol, ncell, nlayers)
 ## resolution : 10, 10  (x, y)
@@ -2153,7 +1414,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## names      :          cti,          dd5,          ffp,          gsp,          hli,         nlcd,       pratio,      rough27,          srr 
 ## min values : 6.269518e-01, 2.864937e+02, 0.000000e+00, 1.966725e+02, 1.014000e+03, 1.100000e+01, 4.276079e-01, 5.816957e-04, 3.869545e-02 
 ## max values : 2.605896e+01, 2.143000e+03, 1.170000e+02, 3.380697e+02, 1.000000e+04, 9.500000e+01, 5.329815e-01, 1.859006e+04, 7.725910e-01</code></pre>
-<div class="sourceCode" id="cb1313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1313-1"><a href="WE_13.html#cb1313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(xvars)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="WE_13.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(xvars)</span></code></pre></div>
 <pre><code>## [1] &quot;cti&quot;     &quot;dd5&quot;     &quot;ffp&quot;     &quot;gsp&quot;     &quot;hli&quot;     &quot;nlcd&quot;    &quot;pratio&quot; 
 ## [8] &quot;rough27&quot; &quot;srr&quot;</code></pre>
 </div>
@@ -2162,16 +1423,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You want to know if areas of dense wetlands produce more frogs. Calculate the proportion of the landscape around each site that is wetland. What buffer distance will you use?</p>
 <p>We can create a wetland raster from the NLCD data. Wetland classes are 11 (open water), 90 and 95.</p>
 <p>Create a vector of reclassification where non-wetland is a 0, wetland is a 1.</p>
-<div class="sourceCode" id="cb1315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1315-1"><a href="WE_13.html#cb1315-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">10.8</span>, <span class="dv">0</span>,<span class="fl">10.9</span>,<span class="fl">12.1</span>,<span class="dv">1</span>,<span class="fl">12.9</span>,<span class="fl">89.1</span>,<span class="dv">0</span>, <span class="fl">89.5</span>,<span class="fl">95.1</span>,<span class="dv">1</span>)</span>
-<span id="cb1315-2"><a href="WE_13.html#cb1315-2" aria-hidden="true" tabindex="-1"></a>  reclass <span class="ot">&lt;-</span> <span class="fu">matrix</span>(m, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="WE_13.html#cb260-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">10.8</span>, <span class="dv">0</span>,<span class="fl">10.9</span>,<span class="fl">12.1</span>,<span class="dv">1</span>,<span class="fl">12.9</span>,<span class="fl">89.1</span>,<span class="dv">0</span>, <span class="fl">89.5</span>,<span class="fl">95.1</span>,<span class="dv">1</span>)</span>
+<span id="cb260-2"><a href="WE_13.html#cb260-2" aria-hidden="true" tabindex="-1"></a>  reclass <span class="ot">&lt;-</span> <span class="fu">matrix</span>(m, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Reclassifying nlcd by the reclass matrix</p>
-<div class="sourceCode" id="cb1316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1316-1"><a href="WE_13.html#cb1316-1" aria-hidden="true" tabindex="-1"></a>wetlnd <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">reclassify</span>(xvars<span class="sc">$</span>nlcd, reclass) </span></code></pre></div>
-<div class="sourceCode" id="cb1317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1317-1"><a href="WE_13.html#cb1317-1" aria-hidden="true" tabindex="-1"></a>  wetlnd<span class="sc">@</span>data<span class="sc">@</span>names <span class="ot">&lt;-</span> <span class="st">&quot;wetlnd&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb1318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1318-1"><a href="WE_13.html#cb1318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlnd)</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="WE_13.html#cb261-1" aria-hidden="true" tabindex="-1"></a>wetlnd <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">reclassify</span>(xvars<span class="sc">$</span>nlcd, reclass) </span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="WE_13.html#cb262-1" aria-hidden="true" tabindex="-1"></a>  wetlnd<span class="sc">@</span>data<span class="sc">@</span>names <span class="ot">&lt;-</span> <span class="st">&quot;wetlnd&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="WE_13.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wetlnd)</span></code></pre></div>
 <p><img src="13-Week13_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Adding this new parameter to our raster stack</p>
-<div class="sourceCode" id="cb1319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1319-1"><a href="WE_13.html#cb1319-1" aria-hidden="true" tabindex="-1"></a>xvars <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(xvars, wetlnd)</span>
-<span id="cb1319-2"><a href="WE_13.html#cb1319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(xvars)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="WE_13.html#cb264-1" aria-hidden="true" tabindex="-1"></a>xvars <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(xvars, wetlnd)</span>
+<span id="cb264-2"><a href="WE_13.html#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(xvars)</span></code></pre></div>
 <pre><code>##  [1] &quot;cti&quot;     &quot;dd5&quot;     &quot;ffp&quot;     &quot;gsp&quot;     &quot;hli&quot;     &quot;nlcd&quot;    &quot;pratio&quot; 
 ##  [8] &quot;rough27&quot; &quot;srr&quot;     &quot;wetlnd&quot;</code></pre>
 </div>
@@ -2185,18 +1446,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>What radius do you think makes the most sense ecologically?</li>
 </ul>
 <p>Here we adapt code from Week 2 Worked Example.</p>
-<div class="sourceCode" id="cb1321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1321-1"><a href="WE_13.html#cb1321-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> xvars[[<span class="st">&quot;wetlnd&quot;</span>]], </span>
-<span id="cb1321-2"><a href="WE_13.html#cb1321-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">what =</span> <span class="st">&quot;lsm_c_pland&quot;</span>,</span>
-<span id="cb1321-3"><a href="WE_13.html#cb1321-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">shape =</span> <span class="st">&quot;circle&quot;</span>,</span>
-<span id="cb1321-4"><a href="WE_13.html#cb1321-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">y =</span> sites, </span>
-<span id="cb1321-5"><a href="WE_13.html#cb1321-5" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">size =</span> <span class="dv">300</span>, </span>
-<span id="cb1321-6"><a href="WE_13.html#cb1321-6" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1321-7"><a href="WE_13.html#cb1321-7" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">plot_id=</span>sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span>
-<span id="cb1321-8"><a href="WE_13.html#cb1321-8" aria-hidden="true" tabindex="-1"></a>pwetland <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, class <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb1321-9"><a href="WE_13.html#cb1321-9" aria-hidden="true" tabindex="-1"></a>                                        metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), plot_id, value)  </span>
-<span id="cb1321-10"><a href="WE_13.html#cb1321-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pwetland) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SiteID&quot;</span>, <span class="st">&quot;pwetland&quot;</span>)</span>
-<span id="cb1321-11"><a href="WE_13.html#cb1321-11" aria-hidden="true" tabindex="-1"></a>pwetland<span class="sc">$</span>pwetland <span class="ot">&lt;-</span> pwetland<span class="sc">$</span>pwetland<span class="sc">/</span><span class="dv">100</span></span>
-<span id="cb1321-12"><a href="WE_13.html#cb1321-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pwetland)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="WE_13.html#cb266-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> xvars[[<span class="st">&quot;wetlnd&quot;</span>]], </span>
+<span id="cb266-2"><a href="WE_13.html#cb266-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">what =</span> <span class="st">&quot;lsm_c_pland&quot;</span>,</span>
+<span id="cb266-3"><a href="WE_13.html#cb266-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">shape =</span> <span class="st">&quot;circle&quot;</span>,</span>
+<span id="cb266-4"><a href="WE_13.html#cb266-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">y =</span> sites, </span>
+<span id="cb266-5"><a href="WE_13.html#cb266-5" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">size =</span> <span class="dv">300</span>, </span>
+<span id="cb266-6"><a href="WE_13.html#cb266-6" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb266-7"><a href="WE_13.html#cb266-7" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">plot_id=</span>sites<span class="sc">@</span>data<span class="sc">$</span>SiteID)</span>
+<span id="cb266-8"><a href="WE_13.html#cb266-8" aria-hidden="true" tabindex="-1"></a>pwetland <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, class <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb266-9"><a href="WE_13.html#cb266-9" aria-hidden="true" tabindex="-1"></a>                                        metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), plot_id, value)  </span>
+<span id="cb266-10"><a href="WE_13.html#cb266-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pwetland) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SiteID&quot;</span>, <span class="st">&quot;pwetland&quot;</span>)</span>
+<span id="cb266-11"><a href="WE_13.html#cb266-11" aria-hidden="true" tabindex="-1"></a>pwetland<span class="sc">$</span>pwetland <span class="ot">&lt;-</span> pwetland<span class="sc">$</span>pwetland<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb266-12"><a href="WE_13.html#cb266-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pwetland)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
 ##   SiteID pwetland
 ##   &lt;fct&gt;     &lt;dbl&gt;
@@ -2207,10 +1468,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 7        0.0516
 ## 6 8        0.108</code></pre>
 <p>Important: there could be cases with no wetlands (where prop.landscape should be zero), which will result in missing rows in <code>pwetland</code>. Here we use <code>left_join</code> to join rows withi <code>sites</code> by <code>SiteID</code>, then replace missing values by 0.</p>
-<div class="sourceCode" id="cb1323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1323-1"><a href="WE_13.html#cb1323-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(sites<span class="sc">@</span>data, pwetland)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="WE_13.html#cb268-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(sites<span class="sc">@</span>data, pwetland)</span></code></pre></div>
 <pre><code>## Joining, by = &quot;SiteID&quot;</code></pre>
-<div class="sourceCode" id="cb1325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1325-1"><a href="WE_13.html#cb1325-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>pwetland[<span class="fu">is.na</span>(sites<span class="sc">@</span>data<span class="sc">$</span>pwetland)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb1325-2"><a href="WE_13.html#cb1325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="WE_13.html#cb270-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data<span class="sc">$</span>pwetland[<span class="fu">is.na</span>(sites<span class="sc">@</span>data<span class="sc">$</span>pwetland)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb270-2"><a href="WE_13.html#cb270-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##         SiteName degree betweenness SiteID     Elev Length    Area  Perim Depth
 ## 1   AirplaneLake      8   279.58405     27 2564.381    390 62582.2 1142.8 21.64
 ## 2 BachelorMeadow      7   292.32533     15 2591.781      0   225.0   60.0  0.40
@@ -2236,8 +1497,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-extract-at-site-variables-from-rasters" class="section level4">
 <h4>a. Extract at-site variables from rasters</h4>
 <p>Add characteristics of sample sites from your rasters as potential at site variables. Here we are extracting the raster values that intersect our wetlands (point data). What raster is not included in this step? Why? What at-site characteristics may impact the production of potential migrants?</p>
-<div class="sourceCode" id="cb1327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1327-1"><a href="WE_13.html#cb1327-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sites<span class="sc">@</span>data, raster<span class="sc">::</span><span class="fu">extract</span>(xvars, sites))</span></code></pre></div>
-<div class="sourceCode" id="cb1328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1328-1"><a href="WE_13.html#cb1328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="WE_13.html#cb272-1" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sites<span class="sc">@</span>data, raster<span class="sc">::</span><span class="fu">extract</span>(xvars, sites))</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="WE_13.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sites<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##  [1] &quot;SiteName&quot;    &quot;degree&quot;      &quot;betweenness&quot; &quot;SiteID&quot;      &quot;Elev&quot;       
 ##  [6] &quot;Length&quot;      &quot;Area&quot;        &quot;Perim&quot;       &quot;Depth&quot;       &quot;pH&quot;         
 ## [11] &quot;Dforest&quot;     &quot;Drock&quot;       &quot;Dshrub&quot;      &quot;pwetland&quot;    &quot;cti&quot;        
@@ -2247,19 +1508,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-add-covariates-to-graph-edges." class="section level4">
 <h4>b. Add covariates to graph edges.</h4>
 <p>Calculating statistical moments (e.g., mean, sdev) for categorical variables makes no sense. We we will remove them here.</p>
-<div class="sourceCode" id="cb1330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1330-1"><a href="WE_13.html#cb1330-1" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">names</span>(xvars) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;nlcd&quot;</span>,<span class="st">&quot;wetlnd&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="WE_13.html#cb275-1" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">names</span>(xvars) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;nlcd&quot;</span>,<span class="st">&quot;wetlnd&quot;</span>))</span></code></pre></div>
 </div>
 <div id="c.-calculating-stats-along-edges" class="section level4">
 <h4>c. Calculating stats along edges</h4>
 <p>Here we define the projection of the distance graph and then calculate statistics</p>
 <p>You can calculate any statistical moment you wish from your sample of the landscape between nodes. Make sure that these moments are ecologically/biologically meaningful.</p>
-<div class="sourceCode" id="cb1331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1331-1"><a href="WE_13.html#cb1331-1" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>proj4string<span class="sc">@</span>projargs <span class="ot">&lt;-</span> <span class="st">&quot;+proj=utm +zone=11 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs &quot;</span></span>
-<span id="cb1331-2"><a href="WE_13.html#cb1331-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1331-3"><a href="WE_13.html#cb1331-3" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">graph.statistics</span>(dist.graph, <span class="at">r =</span> xvars[[<span class="sc">-</span>idx]], <span class="at">buffer=</span> <span class="cn">NULL</span>, </span>
-<span id="cb1331-4"><a href="WE_13.html#cb1331-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;max&quot;</span>, <span class="st">&quot;var&quot;</span>, <span class="st">&quot;median&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="WE_13.html#cb276-1" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>proj4string<span class="sc">@</span>projargs <span class="ot">&lt;-</span> <span class="st">&quot;+proj=utm +zone=11 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs &quot;</span></span>
+<span id="cb276-2"><a href="WE_13.html#cb276-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb276-3"><a href="WE_13.html#cb276-3" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">graph.statistics</span>(dist.graph, <span class="at">r =</span> xvars[[<span class="sc">-</span>idx]], <span class="at">buffer=</span> <span class="cn">NULL</span>, </span>
+<span id="cb276-4"><a href="WE_13.html#cb276-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;max&quot;</span>, <span class="st">&quot;var&quot;</span>, <span class="st">&quot;median&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
-<div class="sourceCode" id="cb1333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1333-1"><a href="WE_13.html#cb1333-1" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dist.graph<span class="sc">@</span>data, stats)</span>
-<span id="cb1333-2"><a href="WE_13.html#cb1333-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="WE_13.html#cb278-1" aria-hidden="true" tabindex="-1"></a>dist.graph<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dist.graph<span class="sc">@</span>data, stats)</span>
+<span id="cb278-2"><a href="WE_13.html#cb278-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##  [1] &quot;from.to&quot;        &quot;i&quot;              &quot;j&quot;              &quot;from_ID&quot;       
 ##  [5] &quot;to_ID&quot;          &quot;length&quot;         &quot;FROM&quot;           &quot;TO&quot;            
 ##  [9] &quot;GDIST&quot;          &quot;min.cti&quot;        &quot;min.dd5&quot;        &quot;min.ffp&quot;       
@@ -2292,16 +1553,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Then use this function to calculate an additional statistic, and then add it to the graph.</li>
 <li>Are there other categorical variables that you think may be ecologically important?</li>
 </ul>
-<div class="sourceCode" id="cb1335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1335-1"><a href="WE_13.html#cb1335-1" aria-hidden="true" tabindex="-1"></a>wet.pct <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { </span>
-<span id="cb1335-2"><a href="WE_13.html#cb1335-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( x <span class="sc">==</span> <span class="dv">11</span> <span class="sc">|</span> x <span class="sc">==</span> <span class="dv">90</span> <span class="sc">|</span> x <span class="sc">==</span> <span class="dv">95</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb1335-3"><a href="WE_13.html#cb1335-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(<span class="fu">table</span>(x))[<span class="dv">2</span>] </span>
-<span id="cb1335-4"><a href="WE_13.html#cb1335-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1336-1"><a href="WE_13.html#cb1336-1" aria-hidden="true" tabindex="-1"></a>wetstats <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">graph.statistics</span>(dist.graph, <span class="at">r=</span>xvars<span class="sc">$</span>nlcd, <span class="at">buffer=</span> <span class="cn">NULL</span>, </span>
-<span id="cb1336-2"><a href="WE_13.html#cb1336-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">&quot;wet.pct&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="WE_13.html#cb280-1" aria-hidden="true" tabindex="-1"></a>wet.pct <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { </span>
+<span id="cb280-2"><a href="WE_13.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( x <span class="sc">==</span> <span class="dv">11</span> <span class="sc">|</span> x <span class="sc">==</span> <span class="dv">90</span> <span class="sc">|</span> x <span class="sc">==</span> <span class="dv">95</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb280-3"><a href="WE_13.html#cb280-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(<span class="fu">table</span>(x))[<span class="dv">2</span>] </span>
+<span id="cb280-4"><a href="WE_13.html#cb280-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="WE_13.html#cb281-1" aria-hidden="true" tabindex="-1"></a>wetstats <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">graph.statistics</span>(dist.graph, <span class="at">r=</span>xvars<span class="sc">$</span>nlcd, <span class="at">buffer=</span> <span class="cn">NULL</span>, </span>
+<span id="cb281-2"><a href="WE_13.html#cb281-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">&quot;wet.pct&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
-<div class="sourceCode" id="cb1338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1338-1"><a href="WE_13.html#cb1338-1" aria-hidden="true" tabindex="-1"></a>  wetstats[<span class="fu">is.na</span>(wetstats)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb1338-2"><a href="WE_13.html#cb1338-2" aria-hidden="true" tabindex="-1"></a>  dist.graph<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dist.graph<span class="sc">@</span>data, wetstats)</span>
-<span id="cb1338-3"><a href="WE_13.html#cb1338-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="WE_13.html#cb283-1" aria-hidden="true" tabindex="-1"></a>  wetstats[<span class="fu">is.na</span>(wetstats)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb283-2"><a href="WE_13.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  dist.graph<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dist.graph<span class="sc">@</span>data, wetstats)</span>
+<span id="cb283-3"><a href="WE_13.html#cb283-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(dist.graph<span class="sc">@</span>data)</span></code></pre></div>
 <pre><code>##  [1] &quot;from.to&quot;        &quot;i&quot;              &quot;j&quot;              &quot;from_ID&quot;       
 ##  [5] &quot;to_ID&quot;          &quot;length&quot;         &quot;FROM&quot;           &quot;TO&quot;            
 ##  [9] &quot;GDIST&quot;          &quot;min.cti&quot;        &quot;min.dd5&quot;        &quot;min.ffp&quot;       
@@ -2323,9 +1584,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="e.-add-node-data-to-graph" class="section level4">
 <h4>e. Add node data to graph</h4>
 <p>First create a list of names for the node data</p>
-<div class="sourceCode" id="cb1340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1340-1"><a href="WE_13.html#cb1340-1" aria-hidden="true" tabindex="-1"></a>node.var <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;degree&quot;</span>, <span class="st">&quot;betweenness&quot;</span>, <span class="st">&quot;Elev&quot;</span>, <span class="st">&quot;Length&quot;</span>, <span class="st">&quot;Area&quot;</span>, <span class="st">&quot;Perim&quot;</span>, </span>
-<span id="cb1340-2"><a href="WE_13.html#cb1340-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Depth&quot;</span>, <span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Dforest&quot;</span>,<span class="st">&quot;Drock&quot;</span>, <span class="st">&quot;Dshrub&quot;</span>, <span class="st">&quot;pwetland&quot;</span>, <span class="st">&quot;cti&quot;</span>,</span>
-<span id="cb1340-3"><a href="WE_13.html#cb1340-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;dd5&quot;</span>, <span class="st">&quot;ffp&quot;</span>,<span class="st">&quot;gsp&quot;</span>,<span class="st">&quot;pratio&quot;</span>,<span class="st">&quot;hli&quot;</span>,<span class="st">&quot;rough27&quot;</span>,<span class="st">&quot;srr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="WE_13.html#cb285-1" aria-hidden="true" tabindex="-1"></a>node.var <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;degree&quot;</span>, <span class="st">&quot;betweenness&quot;</span>, <span class="st">&quot;Elev&quot;</span>, <span class="st">&quot;Length&quot;</span>, <span class="st">&quot;Area&quot;</span>, <span class="st">&quot;Perim&quot;</span>, </span>
+<span id="cb285-2"><a href="WE_13.html#cb285-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Depth&quot;</span>, <span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Dforest&quot;</span>,<span class="st">&quot;Drock&quot;</span>, <span class="st">&quot;Dshrub&quot;</span>, <span class="st">&quot;pwetland&quot;</span>, <span class="st">&quot;cti&quot;</span>,</span>
+<span id="cb285-3"><a href="WE_13.html#cb285-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;dd5&quot;</span>, <span class="st">&quot;ffp&quot;</span>,<span class="st">&quot;gsp&quot;</span>,<span class="st">&quot;pratio&quot;</span>,<span class="st">&quot;hli&quot;</span>,<span class="st">&quot;rough27&quot;</span>,<span class="st">&quot;srr&quot;</span>)</span></code></pre></div>
 <p>These are all at site variables. Remember that we pulled all raster varibles. We want to critically think about hypotheses and not use all of these parameters.</p>
 <ul>
 <li>degree - graph degree</li>
@@ -2352,8 +1613,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>NOTE: we are adding elevation here as a covariate. HOWEVER - elevation does not represent
 ecological processes in and of itself. I strongly encourage using the components (temp, moisture, rainfall, vegetation, accessibility, etc.) directly and not elevation as a surrogate parameter.</p>
 <p>Add the node data. Remember that we will calculate the value for both the from node and the to node. in a singly constained model, we will only use one of these (constrain (“group”) by from (produciton) or to (attraction))</p>
-<div class="sourceCode" id="cb1341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1341-1"><a href="WE_13.html#cb1341-1" aria-hidden="true" tabindex="-1"></a>node <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">build.node.data</span>(sites<span class="sc">@</span>data, <span class="at">group.ids =</span> <span class="st">&quot;SiteID&quot;</span>, <span class="at">from.parms =</span> node.var)</span>
-<span id="cb1341-2"><a href="WE_13.html#cb1341-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(node)</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="WE_13.html#cb286-1" aria-hidden="true" tabindex="-1"></a>node <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">build.node.data</span>(sites<span class="sc">@</span>data, <span class="at">group.ids =</span> <span class="st">&quot;SiteID&quot;</span>, <span class="at">from.parms =</span> node.var)</span>
+<span id="cb286-2"><a href="WE_13.html#cb286-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(node)</span></code></pre></div>
 <pre><code>##   SiteID from.degree from.betweenness from.Elev from.Length from.Area
 ## 1     27           8        279.58405  2564.381         390   62582.2
 ## 2     15           7        292.32533  2591.781           0     225.0
@@ -2404,9 +1665,9 @@ ecological processes in and of itself. I strongly encourage using the components
 <div id="a.-merge-distance-and-site-data" class="section level4">
 <h4>a. Merge distance and site data</h4>
 <p>Merge edge (distance graph) and edge (site) data.</p>
-<div class="sourceCode" id="cb1343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1343-1"><a href="WE_13.html#cb1343-1" aria-hidden="true" tabindex="-1"></a>gdata <span class="ot">&lt;-</span> <span class="fu">merge</span>(dist.graph, node, <span class="at">by.x=</span><span class="st">&quot;from_ID&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;SiteID&quot;</span>) </span>
-<span id="cb1343-2"><a href="WE_13.html#cb1343-2" aria-hidden="true" tabindex="-1"></a>  gdata <span class="ot">&lt;-</span> gdata<span class="sc">@</span>data</span>
-<span id="cb1343-3"><a href="WE_13.html#cb1343-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(gdata)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="WE_13.html#cb288-1" aria-hidden="true" tabindex="-1"></a>gdata <span class="ot">&lt;-</span> <span class="fu">merge</span>(dist.graph, node, <span class="at">by.x=</span><span class="st">&quot;from_ID&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;SiteID&quot;</span>) </span>
+<span id="cb288-2"><a href="WE_13.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  gdata <span class="ot">&lt;-</span> gdata<span class="sc">@</span>data</span>
+<span id="cb288-3"><a href="WE_13.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(gdata)</span></code></pre></div>
 <pre><code>##  [1] &quot;from_ID&quot;          &quot;from.to&quot;          &quot;i&quot;                &quot;j&quot;               
 ##  [5] &quot;to_ID&quot;            &quot;length&quot;           &quot;FROM&quot;             &quot;TO&quot;              
 ##  [9] &quot;GDIST&quot;            &quot;min.cti&quot;          &quot;min.dd5&quot;          &quot;min.ffp&quot;         
@@ -2438,14 +1699,14 @@ ecological processes in and of itself. I strongly encourage using the components
 <div id="c.-check-for-correlations" class="section level4">
 <h4>c. Check for correlations</h4>
 <p>You will need to do nodes and edges separately, remember that data have to be ln transformed. For zero values, a common approach is ln(x - (min(x) - 1))</p>
-<div class="sourceCode" id="cb1345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1345-1"><a href="WE_13.html#cb1345-1" aria-hidden="true" tabindex="-1"></a>nodeln <span class="ot">&lt;-</span> node[,<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">21</span>)]</span>
-<span id="cb1345-2"><a href="WE_13.html#cb1345-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(nodeln)) {</span>
-<span id="cb1345-3"><a href="WE_13.html#cb1345-3" aria-hidden="true" tabindex="-1"></a>    nodeln[,i] <span class="ot">&lt;-</span> <span class="fu">log</span>(nodeln[,i] <span class="sc">-</span> (<span class="fu">min</span>(nodeln[,i]) <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb1345-4"><a href="WE_13.html#cb1345-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1345-5"><a href="WE_13.html#cb1345-5" aria-hidden="true" tabindex="-1"></a>nodecor.ln <span class="ot">&lt;-</span> <span class="fu">cor</span>(nodeln, <span class="at">y =</span> <span class="cn">NULL</span>, </span>
-<span id="cb1345-6"><a href="WE_13.html#cb1345-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, </span>
-<span id="cb1345-7"><a href="WE_13.html#cb1345-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
-<span id="cb1345-8"><a href="WE_13.html#cb1345-8" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(nodecor.ln, <span class="dv">3</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="WE_13.html#cb290-1" aria-hidden="true" tabindex="-1"></a>nodeln <span class="ot">&lt;-</span> node[,<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">21</span>)]</span>
+<span id="cb290-2"><a href="WE_13.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(nodeln)) {</span>
+<span id="cb290-3"><a href="WE_13.html#cb290-3" aria-hidden="true" tabindex="-1"></a>    nodeln[,i] <span class="ot">&lt;-</span> <span class="fu">log</span>(nodeln[,i] <span class="sc">-</span> (<span class="fu">min</span>(nodeln[,i]) <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb290-4"><a href="WE_13.html#cb290-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb290-5"><a href="WE_13.html#cb290-5" aria-hidden="true" tabindex="-1"></a>nodecor.ln <span class="ot">&lt;-</span> <span class="fu">cor</span>(nodeln, <span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb290-6"><a href="WE_13.html#cb290-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, </span>
+<span id="cb290-7"><a href="WE_13.html#cb290-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb290-8"><a href="WE_13.html#cb290-8" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(nodecor.ln, <span class="dv">3</span>) </span></code></pre></div>
 <pre><code>##                  from.degree from.betweenness from.Elev from.Length from.Area
 ## from.degree            1.000            0.912     0.062      -0.156    -0.078
 ## from.betweenness       0.912            1.000    -0.140      -0.152    -0.090
@@ -2530,15 +1791,15 @@ ecological processes in and of itself. I strongly encourage using the components
 ## from.hli              -0.015    1.000       -0.302   -0.227
 ## from.rough27           0.693   -0.302        1.000    0.273
 ## from.srr               0.330   -0.227        0.273    1.000</code></pre>
-<div class="sourceCode" id="cb1347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1347-1"><a href="WE_13.html#cb1347-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pairs(nodecor.ln, pch=19, cex=0.50) </span></span></code></pre></div>
-<div class="sourceCode" id="cb1348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1348-1"><a href="WE_13.html#cb1348-1" aria-hidden="true" tabindex="-1"></a>edge.ln <span class="ot">&lt;-</span> dist.graph<span class="sc">@</span>data[,<span class="dv">10</span><span class="sc">:</span><span class="fu">length</span>(dist.graph<span class="sc">@</span>data)]</span>
-<span id="cb1348-2"><a href="WE_13.html#cb1348-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(edge.ln)) {</span>
-<span id="cb1348-3"><a href="WE_13.html#cb1348-3" aria-hidden="true" tabindex="-1"></a>    edge.ln[,i] <span class="ot">&lt;-</span> <span class="fu">log</span>(edge.ln[,i] <span class="sc">-</span> (<span class="fu">min</span>(edge.ln[,i]) <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb1348-4"><a href="WE_13.html#cb1348-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1348-5"><a href="WE_13.html#cb1348-5" aria-hidden="true" tabindex="-1"></a>edgecor.ln <span class="ot">&lt;-</span> <span class="fu">cor</span>(edge.ln, <span class="at">y =</span> <span class="cn">NULL</span>, </span>
-<span id="cb1348-6"><a href="WE_13.html#cb1348-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, </span>
-<span id="cb1348-7"><a href="WE_13.html#cb1348-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
-<span id="cb1348-8"><a href="WE_13.html#cb1348-8" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(edgecor.ln, <span class="dv">3</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="WE_13.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pairs(nodecor.ln, pch=19, cex=0.50) </span></span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="WE_13.html#cb293-1" aria-hidden="true" tabindex="-1"></a>edge.ln <span class="ot">&lt;-</span> dist.graph<span class="sc">@</span>data[,<span class="dv">10</span><span class="sc">:</span><span class="fu">length</span>(dist.graph<span class="sc">@</span>data)]</span>
+<span id="cb293-2"><a href="WE_13.html#cb293-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(edge.ln)) {</span>
+<span id="cb293-3"><a href="WE_13.html#cb293-3" aria-hidden="true" tabindex="-1"></a>    edge.ln[,i] <span class="ot">&lt;-</span> <span class="fu">log</span>(edge.ln[,i] <span class="sc">-</span> (<span class="fu">min</span>(edge.ln[,i]) <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb293-4"><a href="WE_13.html#cb293-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb293-5"><a href="WE_13.html#cb293-5" aria-hidden="true" tabindex="-1"></a>edgecor.ln <span class="ot">&lt;-</span> <span class="fu">cor</span>(edge.ln, <span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb293-6"><a href="WE_13.html#cb293-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, </span>
+<span id="cb293-7"><a href="WE_13.html#cb293-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb293-8"><a href="WE_13.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(edgecor.ln, <span class="dv">3</span>) </span></code></pre></div>
 <pre><code>##                min.cti min.dd5 min.ffp min.gsp min.hli min.pratio min.rough27
 ## min.cti          1.000   0.523   0.606   0.114   0.233      0.594       0.102
 ## min.dd5          0.523   1.000   0.915  -0.301   0.502      0.868       0.177
@@ -2837,23 +2098,23 @@ ecological processes in and of itself. I strongly encourage using the components
 <div id="c.-write-out-resultss" class="section level4">
 <h4>c. Write out resultss</h4>
 <p>Figure as pdf file:</p>
-<div class="sourceCode" id="cb1350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1350-1"><a href="WE_13.html#cb1350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file=</span><span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/node.cor.pdf&quot;</span>), <span class="at">width=</span><span class="dv">20</span>, <span class="at">height=</span><span class="dv">20</span>)</span>
-<span id="cb1350-2"><a href="WE_13.html#cb1350-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pairs</span>(nodecor.ln, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.50</span>)</span>
-<span id="cb1350-3"><a href="WE_13.html#cb1350-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="WE_13.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file=</span><span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/node.cor.pdf&quot;</span>), <span class="at">width=</span><span class="dv">20</span>, <span class="at">height=</span><span class="dv">20</span>)</span>
+<span id="cb295-2"><a href="WE_13.html#cb295-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pairs</span>(nodecor.ln, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.50</span>)</span>
+<span id="cb295-3"><a href="WE_13.html#cb295-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
 <p>Correlation data:</p>
-<div class="sourceCode" id="cb1352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1352-1"><a href="WE_13.html#cb1352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">round</span>(edgecor.ln, <span class="dv">4</span>), </span>
-<span id="cb1352-2"><a href="WE_13.html#cb1352-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/EdgeCorrelationsLn.csv&quot;</span>))</span>
-<span id="cb1352-3"><a href="WE_13.html#cb1352-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">round</span>(nodecor.ln, <span class="dv">4</span>), </span>
-<span id="cb1352-4"><a href="WE_13.html#cb1352-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/NodeCorrelationsLn.csv&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="WE_13.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">round</span>(edgecor.ln, <span class="dv">4</span>), </span>
+<span id="cb297-2"><a href="WE_13.html#cb297-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/EdgeCorrelationsLn.csv&quot;</span>))</span>
+<span id="cb297-3"><a href="WE_13.html#cb297-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">round</span>(nodecor.ln, <span class="dv">4</span>), </span>
+<span id="cb297-4"><a href="WE_13.html#cb297-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/NodeCorrelationsLn.csv&quot;</span>))</span></code></pre></div>
 </div>
 <div id="e.-compare-models" class="section level4">
 <h4>e. Compare models</h4>
 <p>Run and compare models representing your hypotheses. Remember - we compete models using ML but use REML for final fit. Also remember that the null model contains distance (and all models must contain distance).</p>
 <p>Null model:</p>
-<div class="sourceCode" id="cb1353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1353-1"><a href="WE_13.html#cb1353-1" aria-hidden="true" tabindex="-1"></a>( null <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, </span>
-<span id="cb1353-2"><a href="WE_13.html#cb1353-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="WE_13.html#cb298-1" aria-hidden="true" tabindex="-1"></a>( null <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, </span>
+<span id="cb298-2"><a href="WE_13.html#cb298-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <pre><code>## Gravity model
@@ -2883,13 +2144,13 @@ ecological processes in and of itself. I strongly encourage using the components
 ## Number of Observations: 812
 ## Number of Groups: 29</code></pre>
 <p>Global model (this was based on my hypotheses):</p>
-<div class="sourceCode" id="cb1357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1357-1"><a href="WE_13.html#cb1357-1" aria-hidden="true" tabindex="-1"></a>  ( global <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, </span>
-<span id="cb1357-2"><a href="WE_13.html#cb1357-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
-<span id="cb1357-3"><a href="WE_13.html#cb1357-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;from.pratio&quot;</span>, </span>
-<span id="cb1357-4"><a href="WE_13.html#cb1357-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.degree&quot;</span>, <span class="st">&quot;from.betweenness&quot;</span>, </span>
-<span id="cb1357-5"><a href="WE_13.html#cb1357-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, </span>
-<span id="cb1357-6"><a href="WE_13.html#cb1357-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.rough27&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
-<span id="cb1357-7"><a href="WE_13.html#cb1357-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="WE_13.html#cb302-1" aria-hidden="true" tabindex="-1"></a>  ( global <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, </span>
+<span id="cb302-2"><a href="WE_13.html#cb302-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
+<span id="cb302-3"><a href="WE_13.html#cb302-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;from.pratio&quot;</span>, </span>
+<span id="cb302-4"><a href="WE_13.html#cb302-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.degree&quot;</span>, <span class="st">&quot;from.betweenness&quot;</span>, </span>
+<span id="cb302-5"><a href="WE_13.html#cb302-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, </span>
+<span id="cb302-6"><a href="WE_13.html#cb302-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.rough27&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb302-7"><a href="WE_13.html#cb302-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <pre><code>## Gravity model
@@ -2954,9 +2215,9 @@ ecological processes in and of itself. I strongly encourage using the components
 ## Number of Observations: 812
 ## Number of Groups: 29</code></pre>
 <p>Published model:</p>
-<div class="sourceCode" id="cb1361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1361-1"><a href="WE_13.html#cb1361-1" aria-hidden="true" tabindex="-1"></a>( published <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
-<span id="cb1361-2"><a href="WE_13.html#cb1361-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;median.cti&quot;</span>, <span class="st">&quot;median.srr&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
-<span id="cb1361-3"><a href="WE_13.html#cb1361-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="WE_13.html#cb306-1" aria-hidden="true" tabindex="-1"></a>( published <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
+<span id="cb306-2"><a href="WE_13.html#cb306-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;median.cti&quot;</span>, <span class="st">&quot;median.srr&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb306-3"><a href="WE_13.html#cb306-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <pre><code>## Gravity model
@@ -2996,8 +2257,8 @@ ecological processes in and of itself. I strongly encourage using the components
 ## Number of Observations: 812
 ## Number of Groups: 29</code></pre>
 <p>Habitat hypothesis</p>
-<div class="sourceCode" id="cb1365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1365-1"><a href="WE_13.html#cb1365-1" aria-hidden="true" tabindex="-1"></a>( habitat <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
-<span id="cb1365-2"><a href="WE_13.html#cb1365-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="WE_13.html#cb310-1" aria-hidden="true" tabindex="-1"></a>( habitat <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb310-2"><a href="WE_13.html#cb310-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <pre><code>## Gravity model
@@ -3031,9 +2292,9 @@ ecological processes in and of itself. I strongly encourage using the components
 ## Number of Observations: 812
 ## Number of Groups: 29</code></pre>
 <p>Compare models: these are the names of the hypotheses (models) I tested.</p>
-<div class="sourceCode" id="cb1369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1369-1"><a href="WE_13.html#cb1369-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compare.models(null, depth, product, climate, wetlands, topo, habitat, global)</span></span>
-<span id="cb1369-2"><a href="WE_13.html#cb1369-2" aria-hidden="true" tabindex="-1"></a><span class="co">#compare.models(depth, product, climate, wetlands, topo, habitat, published, global, null) </span></span>
-<span id="cb1369-3"><a href="WE_13.html#cb1369-3" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">compare.models</span>(null, habitat, global, published) <span class="co">#NOTE - global will need to be edited to match your paramters</span></span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="WE_13.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compare.models(null, depth, product, climate, wetlands, topo, habitat, global)</span></span>
+<span id="cb314-2"><a href="WE_13.html#cb314-2" aria-hidden="true" tabindex="-1"></a><span class="co">#compare.models(depth, product, climate, wetlands, topo, habitat, published, global, null) </span></span>
+<span id="cb314-3"><a href="WE_13.html#cb314-3" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">compare.models</span>(null, habitat, global, published) <span class="co">#NOTE - global will need to be edited to match your paramters</span></span></code></pre></div>
 <pre><code>##       model        AIC       BIC log.likelihood   RMSE nparms   deltaAIC
 ## 1      null  -913.6676 -894.8696       460.8338 0.1415      0 99.3983240
 ## 2   habitat -1013.0659 -984.8689       512.5330 0.1314      3  0.0000000
@@ -3047,8 +2308,8 @@ ecological processes in and of itself. I strongly encourage using the components
 </div>
 <div id="f.-diagnostic-plots" class="section level4">
 <h4>f. Diagnostic plots</h4>
-<div class="sourceCode" id="cb1371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1371-1"><a href="WE_13.html#cb1371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
-<span id="cb1371-2"><a href="WE_13.html#cb1371-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) { <span class="fu">plot</span>(global, <span class="at">type=</span>i) } </span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="WE_13.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb316-2"><a href="WE_13.html#cb316-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) { <span class="fu">plot</span>(global, <span class="at">type=</span>i) } </span></code></pre></div>
 <pre><code>## Warning in (function (z, notch = FALSE, width = NULL, varwidth = FALSE, : some
 ## notches went outside hinges (&#39;box&#39;): maybe set notch=FALSE</code></pre>
 <p><img src="13-Week13_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
@@ -3056,27 +2317,27 @@ ecological processes in and of itself. I strongly encourage using the components
 <div id="g.-fit-final-models" class="section level4">
 <h4>g. Fit final model(s)</h4>
 <p>Habitat:</p>
-<div class="sourceCode" id="cb1373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1373-1"><a href="WE_13.html#cb1373-1" aria-hidden="true" tabindex="-1"></a>habitat_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>), </span>
-<span id="cb1373-2"><a href="WE_13.html#cb1373-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="WE_13.html#cb318-1" aria-hidden="true" tabindex="-1"></a>habitat_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>), </span>
+<span id="cb318-2"><a href="WE_13.html#cb318-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <p>Global:</p>
-<div class="sourceCode" id="cb1376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1376-1"><a href="WE_13.html#cb1376-1" aria-hidden="true" tabindex="-1"></a>global_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, </span>
-<span id="cb1376-2"><a href="WE_13.html#cb1376-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.Depth&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>, </span>
-<span id="cb1376-3"><a href="WE_13.html#cb1376-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.pratio&quot;</span>, <span class="st">&quot;from.degree&quot;</span>,  </span>
-<span id="cb1376-4"><a href="WE_13.html#cb1376-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.betweenness&quot;</span>, <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, </span>
-<span id="cb1376-5"><a href="WE_13.html#cb1376-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.rough27&quot;</span>), </span>
-<span id="cb1376-6"><a href="WE_13.html#cb1376-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="WE_13.html#cb321-1" aria-hidden="true" tabindex="-1"></a>global_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, </span>
+<span id="cb321-2"><a href="WE_13.html#cb321-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.Depth&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>, </span>
+<span id="cb321-3"><a href="WE_13.html#cb321-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.pratio&quot;</span>, <span class="st">&quot;from.degree&quot;</span>,  </span>
+<span id="cb321-4"><a href="WE_13.html#cb321-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;from.betweenness&quot;</span>, <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, </span>
+<span id="cb321-5"><a href="WE_13.html#cb321-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;median.rough27&quot;</span>), </span>
+<span id="cb321-6"><a href="WE_13.html#cb321-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <p>Published:</p>
-<div class="sourceCode" id="cb1379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1379-1"><a href="WE_13.html#cb1379-1" aria-hidden="true" tabindex="-1"></a>published_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
-<span id="cb1379-2"><a href="WE_13.html#cb1379-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;median.cti&quot;</span>, <span class="st">&quot;median.srr&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
-<span id="cb1379-3"><a href="WE_13.html#cb1379-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="WE_13.html#cb324-1" aria-hidden="true" tabindex="-1"></a>published_fit <span class="ot">&lt;-</span> GeNetIt<span class="sc">::</span><span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, </span>
+<span id="cb324-2"><a href="WE_13.html#cb324-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;median.cti&quot;</span>, <span class="st">&quot;median.srr&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb324-3"><a href="WE_13.html#cb324-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>) </span></code></pre></div>
 <pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
 <pre><code>## Warning: invalid formula &quot;random = ~1 | from_ID&quot;: assignment is deprecated</code></pre>
 <p>Compare models</p>
-<div class="sourceCode" id="cb1382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1382-1"><a href="WE_13.html#cb1382-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">compare.models</span>(global_fit, habitat_fit, published_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="WE_13.html#cb327-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">compare.models</span>(global_fit, habitat_fit, published_fit)</span></code></pre></div>
 <pre><code>## Warning in GeNetIt::compare.models(global_fit, habitat_fit, published_fit): AIC/
 ## BIC not valid under REML and will not be reported</code></pre>
 <pre><code>##           model log.likelihood   RMSE nparms
@@ -3087,12 +2348,12 @@ ecological processes in and of itself. I strongly encourage using the components
 <div id="h.-effect-size" class="section level4">
 <h4>h. Effect size</h4>
 <p>This effect size is NOT backwards transformed. We are working on effect sizes for backwards transformed data.</p>
-<div class="sourceCode" id="cb1385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1385-1"><a href="WE_13.html#cb1385-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(habitat_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="WE_13.html#cb330-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(habitat_fit)</span></code></pre></div>
 <pre><code>##                  t.value  df    cohen.d  p.value      low.ci     up.ci
 ## length       -20.7995890 780 -1.4894895 0.000000 -1.60183164 -1.377147
 ## wet.pct.nlcd   0.8787948 780  0.0629318 0.379783 -0.03648035  0.162344
 ## median.gsp   -10.4619997 780 -0.7491994 0.000000 -0.85201875 -0.646380</code></pre>
-<div class="sourceCode" id="cb1387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1387-1"><a href="WE_13.html#cb1387-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(global_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="WE_13.html#cb332-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(global_fit)</span></code></pre></div>
 <pre><code>##                      t.value  df     cohen.d  p.value      low.ci       up.ci
 ## length           -19.1893863 778 -1.37594566 0.000000 -1.48662548 -1.26526585
 ## wet.pct.nlcd       0.8679313 778  0.06223369 0.385700 -0.03730598  0.16177336
@@ -3106,7 +2367,7 @@ ecological processes in and of itself. I strongly encourage using the components
 ## from.pwetland     -0.4765597  21 -0.20798770 0.638597 -0.84891966  0.43294427
 ## median.srr         2.6715256 778  0.19155767 0.007709  0.09181385  0.29130148
 ## median.rough27    -1.8697707 778 -0.13406905 0.061891 -0.23369648 -0.03444162</code></pre>
-<div class="sourceCode" id="cb1389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1389-1"><a href="WE_13.html#cb1389-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(published_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="WE_13.html#cb334-1" aria-hidden="true" tabindex="-1"></a>GeNetIt<span class="sc">::</span><span class="fu">gravity.es</span>(published_fit)</span></code></pre></div>
 <pre><code>##                 t.value  df      cohen.d  p.value      low.ci      up.ci
 ## length     -23.98326001 779 -1.718578929 0.000000 -1.83496961 -1.6021882
 ## median.gsp -10.08366298 779 -0.722569439 0.000000 -0.82521894 -0.6199199

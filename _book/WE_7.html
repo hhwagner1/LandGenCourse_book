@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_7" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb762-1"><a href="WE_7.html#cb762-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week7_vignette.Rmd&quot;</span>)</span>
-<span id="cb762-2"><a href="WE_7.html#cb762-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb762-3"><a href="WE_7.html#cb762-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Helene Wagner and Yessica Rico</code></pre>
+<p>Helene Wagner and Yessica Rico</p>
 <div id="overview-of-worked-example-6" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <div id="a.-goals-7" class="section level4">
@@ -1750,22 +1011,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-packages-2" class="section level4">
 <h4>c. Required R packages</h4>
 <p>Note: the function ‘library’ will always load the package, even if it is already loaded, whereas ‘require’ will only load it if it is not yet loaded. Either will work.</p>
-<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb764-1"><a href="WE_7.html#cb764-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb764-2"><a href="WE_7.html#cb764-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(here)</span></span>
-<span id="cb764-3"><a href="WE_7.html#cb764-3" aria-hidden="true" tabindex="-1"></a><span class="co">#libraryspdep)</span></span>
-<span id="cb764-4"><a href="WE_7.html#cb764-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb764-5"><a href="WE_7.html#cb764-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(lattice)</span></span>
-<span id="cb764-6"><a href="WE_7.html#cb764-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MuMIn)</span></span>
-<span id="cb764-7"><a href="WE_7.html#cb764-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(gridExtra)</span></span>
-<span id="cb764-8"><a href="WE_7.html#cb764-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb764-9"><a href="WE_7.html#cb764-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatialreg)</span>
-<span id="cb764-10"><a href="WE_7.html#cb764-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb764-11"><a href="WE_7.html#cb764-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
-<span id="cb764-12"><a href="WE_7.html#cb764-12" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;panel.cor.r&quot;</span>, </span>
-<span id="cb764-13"><a href="WE_7.html#cb764-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="WE_7.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb152-2"><a href="WE_7.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(here)</span></span>
+<span id="cb152-3"><a href="WE_7.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="co">#libraryspdep)</span></span>
+<span id="cb152-4"><a href="WE_7.html#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb152-5"><a href="WE_7.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(lattice)</span></span>
+<span id="cb152-6"><a href="WE_7.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MuMIn)</span></span>
+<span id="cb152-7"><a href="WE_7.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(gridExtra)</span></span>
+<span id="cb152-8"><a href="WE_7.html#cb152-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb152-9"><a href="WE_7.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatialreg)</span>
+<span id="cb152-10"><a href="WE_7.html#cb152-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb152-11"><a href="WE_7.html#cb152-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb152-12"><a href="WE_7.html#cb152-12" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;panel.cor.r&quot;</span>, </span>
+<span id="cb152-13"><a href="WE_7.html#cb152-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
 <p>Package ‘spmoran’ not automatically installed with ‘LandGenCourse’:</p>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="WE_7.html#cb765-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(spmoran)) <span class="fu">install.packages</span>(<span class="st">&quot;spmoran&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
-<span id="cb765-2"><a href="WE_7.html#cb765-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(spmoran)</span></span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="WE_7.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(spmoran)) <span class="fu">install.packages</span>(<span class="st">&quot;spmoran&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
+<span id="cb153-2"><a href="WE_7.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(spmoran)</span></span></code></pre></div>
 </div>
 </div>
 <div id="explore-data-set" class="section level3">
@@ -1779,14 +1040,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The connectivity indices Si were calculated for each focal patch i, integrating over all other patches j where the species was present (potential source patches) using Hanski’s incidence function.</p>
 <div id="a.-import-data" class="section level4">
 <h4>a. Import data</h4>
-<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb766-1"><a href="WE_7.html#cb766-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Dianthus)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="WE_7.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Dianthus)</span></code></pre></div>
 <p>Allelic richness ‘A’ was not calculate for populations with &lt; 5 individuals. Here we extract only the patches with ‘A’ values, and the variables needed, and store them in a data frame ‘Dianthus.df.’</p>
 </div>
 <div id="b.-create-a-map" class="section level4">
 <h4>b. Create a map</h4>
 <p>The functions in package ‘ggmap’ expect the projection to be Longitude/Latitude. We could start by transforming the projection of the Dianthus dataset (ignore the warning about CRS object having no comment):</p>
-<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb767-1"><a href="WE_7.html#cb767-1" aria-hidden="true" tabindex="-1"></a>Dianthus.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Dianthus, </span>
-<span id="cb767-2"><a href="WE_7.html#cb767-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">CRSobj =</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:4326&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="WE_7.html#cb155-1" aria-hidden="true" tabindex="-1"></a>Dianthus.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Dianthus, </span>
+<span id="cb155-2"><a href="WE_7.html#cb155-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">CRSobj =</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:4326&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in spTransform(xSP, CRSobj, ...): NULL source CRS comment, falling back
 ## to PROJ string</code></pre>
 <pre><code>## Warning in spTransform(xSP, CRSobj, ...): +init dropped in PROJ string</code></pre>
@@ -1795,23 +1056,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Warning in wkt(obj): CRS object has no comment</code></pre>
 <pre><code>## Warning in showSRID(uprojargs, format = &quot;PROJ&quot;, multiline = &quot;NO&quot;, prefer_proj = prefer_proj): Discarded datum Deutsches_Hauptdreiecksnetz in Proj4 definition,
 ##  but +towgs84= values preserved</code></pre>
-<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="WE_7.html#cb772-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Dianthus<span class="sc">@</span>data, <span class="at">f =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="WE_7.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Dianthus<span class="sc">@</span>data, <span class="at">f =</span> <span class="fl">0.2</span>)</span></code></pre></div>
 <pre><code>##     left   bottom    right      top 
 ## 10.91051 48.90282 11.08951 49.07073</code></pre>
 <p>Here, however, we use a shortcut as the ‘<a href="mailto:Dianthus@data" class="email">Dianthus@data</a>’ dataframe already contains variables with Longitude and Latitude. We use these to define the bounding box for the map, extending the map extent by 20% (‘f=0.2’).</p>
-<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="WE_7.html#cb774-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Dianthus<span class="sc">@</span>data, <span class="at">f =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="WE_7.html#cb162-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> Dianthus<span class="sc">@</span>data, <span class="at">f =</span> <span class="fl">0.2</span>)</span></code></pre></div>
 <p>Now we can obtain a stamen map for the study area from the internet and add points for the sampling sites. Here we use a terrain map.</p>
 <p>Note: here we use two types of maps from the source ‘stamen,’ which is freely available: a <code>terrain</code> map and a <code>toner</code> map. Starting in mid 2018, accessing maps from Google with ‘source = google’ requires an API key.</p>
 <p>To plot the maps side-by-side, we first write each map into an object, then use the function <code>gridExtra::grid.arrange</code> to plot them on the same row. This works for a wide range of figures, including <code>ggplot2</code> or <code>trellis</code>-type plots.</p>
-<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb775-1"><a href="WE_7.html#cb775-1" aria-hidden="true" tabindex="-1"></a>StamenMap.terrain <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>)) <span class="sc">+</span> </span>
-<span id="cb775-2"><a href="WE_7.html#cb775-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude), <span class="at">data =</span> Dianthus.longlat<span class="sc">@</span>data, </span>
-<span id="cb775-3"><a href="WE_7.html#cb775-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb775-4"><a href="WE_7.html#cb775-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb775-5"><a href="WE_7.html#cb775-5" aria-hidden="true" tabindex="-1"></a>StamenMap.toner <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;toner&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>, <span class="at">force =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
-<span id="cb775-6"><a href="WE_7.html#cb775-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude), <span class="at">data =</span> Dianthus.longlat<span class="sc">@</span>data, </span>
-<span id="cb775-7"><a href="WE_7.html#cb775-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) </span>
-<span id="cb775-8"><a href="WE_7.html#cb775-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb775-9"><a href="WE_7.html#cb775-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(StamenMap.terrain, StamenMap.toner, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="WE_7.html#cb163-1" aria-hidden="true" tabindex="-1"></a>StamenMap.terrain <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb163-2"><a href="WE_7.html#cb163-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude), <span class="at">data =</span> Dianthus.longlat<span class="sc">@</span>data, </span>
+<span id="cb163-3"><a href="WE_7.html#cb163-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb163-4"><a href="WE_7.html#cb163-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-5"><a href="WE_7.html#cb163-5" aria-hidden="true" tabindex="-1"></a>StamenMap.toner <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;toner&quot;</span>, <span class="at">zoom=</span><span class="dv">12</span>, <span class="at">force =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
+<span id="cb163-6"><a href="WE_7.html#cb163-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude), <span class="at">data =</span> Dianthus.longlat<span class="sc">@</span>data, </span>
+<span id="cb163-7"><a href="WE_7.html#cb163-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) </span>
+<span id="cb163-8"><a href="WE_7.html#cb163-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-9"><a href="WE_7.html#cb163-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(StamenMap.terrain, StamenMap.toner, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>As you can see from the terrain map, most sites lie on the steep slopes between an upper and a lower Jurassic plateau. A few sites lie at the forest edge on the upper plateau, typically in areas where the soil is too shallow to allow crop farming. With in the study area, all known sites were sampled. Additional sites are expected to be found mainly in the valley system in the Southwest.</p>
 <p>There are three types of stamen maps: terrain, toner (black and white), and watercolor. Terrain and toner maps have three components each (background, labels, lines), which can be downloaded individually if needed. Hence, the argument ‘maptype’ has the following options:</p>
@@ -1833,26 +1094,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-explore-correlations" class="section level4">
 <h4>c. Explore correlations</h4>
 <p>When fitting linear models, it is always a good idea to look at the correlations first.</p>
-<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="WE_7.html#cb776-1" aria-hidden="true" tabindex="-1"></a>Dianthus.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>A, <span class="at">IBD=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Eu_pj, </span>
-<span id="cb776-2"><a href="WE_7.html#cb776-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">IBR=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Sheint_pj,</span>
-<span id="cb776-3"><a href="WE_7.html#cb776-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">PatchSize=</span><span class="fu">log</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>Ha),</span>
-<span id="cb776-4"><a href="WE_7.html#cb776-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">System=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>System,</span>
-<span id="cb776-5"><a href="WE_7.html#cb776-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Longitude=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Longitude,</span>
-<span id="cb776-6"><a href="WE_7.html#cb776-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Latitude=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Latitude,</span>
-<span id="cb776-7"><a href="WE_7.html#cb776-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">x=</span>Dianthus<span class="sc">@</span>coords[,<span class="dv">1</span>], <span class="at">y=</span>Dianthus<span class="sc">@</span>coords[,<span class="dv">2</span>])</span>
-<span id="cb776-8"><a href="WE_7.html#cb776-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb776-9"><a href="WE_7.html#cb776-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define &#39;System&#39; for ungrazed patches</span></span>
-<span id="cb776-10"><a href="WE_7.html#cb776-10" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System<span class="ot">=</span><span class="fu">as.character</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>System)</span>
-<span id="cb776-11"><a href="WE_7.html#cb776-11" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System[<span class="fu">is.na</span>(Dianthus.df<span class="sc">$</span>System)] <span class="ot">&lt;-</span> <span class="st">&quot;Ungrazed&quot;</span></span>
-<span id="cb776-12"><a href="WE_7.html#cb776-12" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System <span class="ot">&lt;-</span> <span class="fu">factor</span>(Dianthus.df<span class="sc">$</span>System, </span>
-<span id="cb776-13"><a href="WE_7.html#cb776-13" aria-hidden="true" tabindex="-1"></a>                             <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Ungrazed&quot;</span>, <span class="st">&quot;East&quot;</span>, <span class="st">&quot;South&quot;</span>, <span class="st">&quot;West&quot;</span>))</span>
-<span id="cb776-14"><a href="WE_7.html#cb776-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb776-15"><a href="WE_7.html#cb776-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove patches with missing values for A</span></span>
-<span id="cb776-16"><a href="WE_7.html#cb776-16" aria-hidden="true" tabindex="-1"></a>Dianthus.df <span class="ot">&lt;-</span> Dianthus.df[<span class="sc">!</span><span class="fu">is.na</span>(Dianthus.df<span class="sc">$</span>A),]</span>
-<span id="cb776-17"><a href="WE_7.html#cb776-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Dianthus.df)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="WE_7.html#cb164-1" aria-hidden="true" tabindex="-1"></a>Dianthus.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>A, <span class="at">IBD=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Eu_pj, </span>
+<span id="cb164-2"><a href="WE_7.html#cb164-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">IBR=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Sheint_pj,</span>
+<span id="cb164-3"><a href="WE_7.html#cb164-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">PatchSize=</span><span class="fu">log</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>Ha),</span>
+<span id="cb164-4"><a href="WE_7.html#cb164-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">System=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>System,</span>
+<span id="cb164-5"><a href="WE_7.html#cb164-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Longitude=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Longitude,</span>
+<span id="cb164-6"><a href="WE_7.html#cb164-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Latitude=</span>Dianthus<span class="sc">@</span>data<span class="sc">$</span>Latitude,</span>
+<span id="cb164-7"><a href="WE_7.html#cb164-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">x=</span>Dianthus<span class="sc">@</span>coords[,<span class="dv">1</span>], <span class="at">y=</span>Dianthus<span class="sc">@</span>coords[,<span class="dv">2</span>])</span>
+<span id="cb164-8"><a href="WE_7.html#cb164-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-9"><a href="WE_7.html#cb164-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define &#39;System&#39; for ungrazed patches</span></span>
+<span id="cb164-10"><a href="WE_7.html#cb164-10" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System<span class="ot">=</span><span class="fu">as.character</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>System)</span>
+<span id="cb164-11"><a href="WE_7.html#cb164-11" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System[<span class="fu">is.na</span>(Dianthus.df<span class="sc">$</span>System)] <span class="ot">&lt;-</span> <span class="st">&quot;Ungrazed&quot;</span></span>
+<span id="cb164-12"><a href="WE_7.html#cb164-12" aria-hidden="true" tabindex="-1"></a>Dianthus.df<span class="sc">$</span>System <span class="ot">&lt;-</span> <span class="fu">factor</span>(Dianthus.df<span class="sc">$</span>System, </span>
+<span id="cb164-13"><a href="WE_7.html#cb164-13" aria-hidden="true" tabindex="-1"></a>                             <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Ungrazed&quot;</span>, <span class="st">&quot;East&quot;</span>, <span class="st">&quot;South&quot;</span>, <span class="st">&quot;West&quot;</span>))</span>
+<span id="cb164-14"><a href="WE_7.html#cb164-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-15"><a href="WE_7.html#cb164-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove patches with missing values for A</span></span>
+<span id="cb164-16"><a href="WE_7.html#cb164-16" aria-hidden="true" tabindex="-1"></a>Dianthus.df <span class="ot">&lt;-</span> Dianthus.df[<span class="sc">!</span><span class="fu">is.na</span>(Dianthus.df<span class="sc">$</span>A),]</span>
+<span id="cb164-17"><a href="WE_7.html#cb164-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Dianthus.df)</span></code></pre></div>
 <pre><code>## [1] 59  9</code></pre>
-<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="WE_7.html#cb778-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Dianthus.df[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>)], <span class="at">lower.panel=</span>panel.smooth, </span>
-<span id="cb778-2"><a href="WE_7.html#cb778-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">upper.panel=</span>panel.cor, <span class="at">diag.panel=</span>panel.hist)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="WE_7.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Dianthus.df[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>)], <span class="at">lower.panel=</span>panel.smooth, </span>
+<span id="cb166-2"><a href="WE_7.html#cb166-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">upper.panel=</span>panel.cor, <span class="at">diag.panel=</span>panel.hist)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p><strong>Questions:</strong></p>
 <ul>
@@ -1863,23 +1124,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Are any of the variables correlated with the spatial coordinates x and y?</li>
 </ul>
 <p>Do the three grazing systems, and the ungrazed patches, differ in allelic richness A? Also, let’s check the association between patch size and population size. Here we create boxplots that show the individual values as dots. We add a horizontal jitter to avoid overlapping points.</p>
-<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb779-1"><a href="WE_7.html#cb779-1" aria-hidden="true" tabindex="-1"></a>Boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Dianthus.df, <span class="fu">aes</span>(<span class="at">x=</span>System, <span class="at">y=</span>A)) <span class="sc">+</span> </span>
-<span id="cb779-2"><a href="WE_7.html#cb779-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Grazing system&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Allelic richness (A)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb779-3"><a href="WE_7.html#cb779-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">1</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.1</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb779-4"><a href="WE_7.html#cb779-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb779-5"><a href="WE_7.html#cb779-5" aria-hidden="true" tabindex="-1"></a>Boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Dianthus<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">factor</span>(pop09), <span class="at">y=</span><span class="fu">log</span>(Ha))) <span class="sc">+</span> </span>
-<span id="cb779-6"><a href="WE_7.html#cb779-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Population size class&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;PatchSize (log(Ha))&quot;</span>) <span class="sc">+</span></span>
-<span id="cb779-7"><a href="WE_7.html#cb779-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">1</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.1</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb779-8"><a href="WE_7.html#cb779-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb779-9"><a href="WE_7.html#cb779-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(Boxplot1, Boxplot2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="WE_7.html#cb167-1" aria-hidden="true" tabindex="-1"></a>Boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Dianthus.df, <span class="fu">aes</span>(<span class="at">x=</span>System, <span class="at">y=</span>A)) <span class="sc">+</span> </span>
+<span id="cb167-2"><a href="WE_7.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Grazing system&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Allelic richness (A)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb167-3"><a href="WE_7.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">1</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.1</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb167-4"><a href="WE_7.html#cb167-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-5"><a href="WE_7.html#cb167-5" aria-hidden="true" tabindex="-1"></a>Boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Dianthus<span class="sc">@</span>data, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">factor</span>(pop09), <span class="at">y=</span><span class="fu">log</span>(Ha))) <span class="sc">+</span> </span>
+<span id="cb167-6"><a href="WE_7.html#cb167-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Population size class&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;PatchSize (log(Ha))&quot;</span>) <span class="sc">+</span></span>
+<span id="cb167-7"><a href="WE_7.html#cb167-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">1</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.1</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb167-8"><a href="WE_7.html#cb167-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-9"><a href="WE_7.html#cb167-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(Boxplot1, Boxplot2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Even though the population size categories were very broad, there appears to be a strong relationship between populations size (category) and (the logarithm of) patch size.</p>
 <p>Despite this relationship, connectivity models Si that only considered <em>Dianthus carthusianorum</em> presence/absence (‘pj’) in source patches ‘j’ were better supported than those Si models that took into account source patch area (‘Aj’) or population size (‘Nj’).</p>
 <p>We can check this by calculating the correlation of allelelic richness ‘A’ with each of the 15 connectivity models ‘Si’ in the data set.</p>
-<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="WE_7.html#cb780-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">matrix</span>(<span class="fu">cor</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>A, Dianthus<span class="sc">@</span>data[,<span class="dv">15</span><span class="sc">:</span><span class="dv">29</span>], </span>
-<span id="cb780-2"><a href="WE_7.html#cb780-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>), <span class="dv">5</span>, <span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, </span>
-<span id="cb780-3"><a href="WE_7.html#cb780-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">dimnames=</span><span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Eu&quot;</span>, <span class="st">&quot;Shecte&quot;</span>, <span class="st">&quot;Sheint&quot;</span>, <span class="st">&quot;Shenu&quot;</span>, <span class="st">&quot;Forest&quot;</span>), </span>
-<span id="cb780-4"><a href="WE_7.html#cb780-4" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="st">&quot;pj&quot;</span>, <span class="st">&quot;Aj&quot;</span>, <span class="st">&quot;Nj&quot;</span>))),<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="WE_7.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">matrix</span>(<span class="fu">cor</span>(Dianthus<span class="sc">@</span>data<span class="sc">$</span>A, Dianthus<span class="sc">@</span>data[,<span class="dv">15</span><span class="sc">:</span><span class="dv">29</span>], </span>
+<span id="cb168-2"><a href="WE_7.html#cb168-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>), <span class="dv">5</span>, <span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, </span>
+<span id="cb168-3"><a href="WE_7.html#cb168-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">dimnames=</span><span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Eu&quot;</span>, <span class="st">&quot;Shecte&quot;</span>, <span class="st">&quot;Sheint&quot;</span>, <span class="st">&quot;Shenu&quot;</span>, <span class="st">&quot;Forest&quot;</span>), </span>
+<span id="cb168-4"><a href="WE_7.html#cb168-4" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="st">&quot;pj&quot;</span>, <span class="st">&quot;Aj&quot;</span>, <span class="st">&quot;Nj&quot;</span>))),<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##           pj     Aj    Nj
 ## Eu     0.024  0.207 0.098
 ## Shecte 0.375  0.273 0.369
@@ -1902,8 +1163,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>mod.lm.IBR</strong>: IBR model shepherding connectivity ‘Sheint_pj.’</li>
 <li><strong>mod.lm.PatchSize</strong>: log patch size and IBR model.</li>
 </ul>
-<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="WE_7.html#cb782-1" aria-hidden="true" tabindex="-1"></a>mod.lm.IBD <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> IBD, <span class="at">data =</span> Dianthus.df)</span>
-<span id="cb782-2"><a href="WE_7.html#cb782-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.IBD)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="WE_7.html#cb170-1" aria-hidden="true" tabindex="-1"></a>mod.lm.IBD <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> IBD, <span class="at">data =</span> Dianthus.df)</span>
+<span id="cb170-2"><a href="WE_7.html#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.IBD)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = A ~ IBD, data = Dianthus.df)
@@ -1923,8 +1184,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.0005563,  Adjusted R-squared:  -0.01698 
 ## F-statistic: 0.03173 on 1 and 57 DF,  p-value: 0.8593</code></pre>
 <p>This model does not fit the data at all!</p>
-<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="WE_7.html#cb784-1" aria-hidden="true" tabindex="-1"></a>mod.lm.IBR <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> IBR, <span class="at">data =</span> Dianthus.df)</span>
-<span id="cb784-2"><a href="WE_7.html#cb784-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.IBR)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="WE_7.html#cb172-1" aria-hidden="true" tabindex="-1"></a>mod.lm.IBR <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> IBR, <span class="at">data =</span> Dianthus.df)</span>
+<span id="cb172-2"><a href="WE_7.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.IBR)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = A ~ IBR, data = Dianthus.df)
@@ -1944,13 +1205,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.1625, Adjusted R-squared:  0.1478 
 ## F-statistic: 11.06 on 1 and 57 DF,  p-value: 0.001547</code></pre>
 <p>This model fits much better. Let’s check the residuals plots.</p>
-<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="WE_7.html#cb786-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb786-2"><a href="WE_7.html#cb786-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.lm.IBR)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="WE_7.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb174-2"><a href="WE_7.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.lm.IBR)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="WE_7.html#cb787-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="WE_7.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>The residuals show some deviation from a normal distribution. Specifically, the lowest values are lower than expected.</p>
-<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb788-1"><a href="WE_7.html#cb788-1" aria-hidden="true" tabindex="-1"></a>mod.lm.PatchSize <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df)</span>
-<span id="cb788-2"><a href="WE_7.html#cb788-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.PatchSize)</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="WE_7.html#cb176-1" aria-hidden="true" tabindex="-1"></a>mod.lm.PatchSize <span class="ot">&lt;-</span> <span class="fu">lm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df)</span>
+<span id="cb176-2"><a href="WE_7.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.PatchSize)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = A ~ PatchSize + IBR, data = Dianthus.df)
@@ -1972,10 +1233,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## F-statistic: 8.482 on 2 and 56 DF,  p-value: 0.0006058</code></pre>
 <p>This combinde model explains more variation in allelic richness than the IBR model alone. Moreover, after adding PatchSizes, the IBR term is no longer statistically significant!</p>
 <p>Has the distribution of residuals improved as well?</p>
-<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb790-1"><a href="WE_7.html#cb790-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb790-2"><a href="WE_7.html#cb790-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.lm.PatchSize)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="WE_7.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb178-2"><a href="WE_7.html#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.lm.PatchSize)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="WE_7.html#cb791-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="WE_7.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>Not really!</p>
 </div>
 <div id="b.-test-for-spatial-autocorrelation-morans-i" class="section level4">
@@ -1990,20 +1251,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>In each case, we row-standardize the weights with the option ‘style = “W”.’</p>
 <p>Note: when using ‘graph2nb,’ make sure to use the argument ‘sym=TRUE.’ This means that if A is a neighbour of B, B is also a neighbour of A. The default is ‘sym=FALSE,’ which may result in some sites not having any neighbours assigned (though this would not be evident from the figure!).</p>
-<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb792-1"><a href="WE_7.html#cb792-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)])</span>
-<span id="cb792-2"><a href="WE_7.html#cb792-2" aria-hidden="true" tabindex="-1"></a>nb.gab <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">graph2nb</span>(spdep<span class="sc">::</span><span class="fu">gabrielneigh</span>(xy), <span class="at">sym=</span><span class="cn">TRUE</span>)</span>
-<span id="cb792-3"><a href="WE_7.html#cb792-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb792-4"><a href="WE_7.html#cb792-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nb.gab, xy)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="WE_7.html#cb180-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)])</span>
+<span id="cb180-2"><a href="WE_7.html#cb180-2" aria-hidden="true" tabindex="-1"></a>nb.gab <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">graph2nb</span>(spdep<span class="sc">::</span><span class="fu">gabrielneigh</span>(xy), <span class="at">sym=</span><span class="cn">TRUE</span>)</span>
+<span id="cb180-3"><a href="WE_7.html#cb180-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb180-4"><a href="WE_7.html#cb180-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nb.gab, xy)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="WE_7.html#cb793-1" aria-hidden="true" tabindex="-1"></a>listw.gab <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab)</span>
-<span id="cb793-2"><a href="WE_7.html#cb793-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb793-3"><a href="WE_7.html#cb793-3" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nbdists</span>(nb.gab, xy)</span>
-<span id="cb793-4"><a href="WE_7.html#cb793-4" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dlist, <span class="cf">function</span>(x) <span class="dv">1</span><span class="sc">/</span>x)</span>
-<span id="cb793-5"><a href="WE_7.html#cb793-5" aria-hidden="true" tabindex="-1"></a>listw.d1 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab, <span class="at">style =</span> <span class="st">&quot;W&quot;</span>, <span class="at">glist=</span>dlist)</span>
-<span id="cb793-6"><a href="WE_7.html#cb793-6" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dlist, <span class="cf">function</span>(x) <span class="dv">1</span><span class="sc">/</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb793-7"><a href="WE_7.html#cb793-7" aria-hidden="true" tabindex="-1"></a>listw.d2 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab, <span class="at">style =</span> <span class="st">&quot;W&quot;</span>, <span class="at">glist=</span>dlist)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="WE_7.html#cb181-1" aria-hidden="true" tabindex="-1"></a>listw.gab <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab)</span>
+<span id="cb181-2"><a href="WE_7.html#cb181-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-3"><a href="WE_7.html#cb181-3" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nbdists</span>(nb.gab, xy)</span>
+<span id="cb181-4"><a href="WE_7.html#cb181-4" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dlist, <span class="cf">function</span>(x) <span class="dv">1</span><span class="sc">/</span>x)</span>
+<span id="cb181-5"><a href="WE_7.html#cb181-5" aria-hidden="true" tabindex="-1"></a>listw.d1 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab, <span class="at">style =</span> <span class="st">&quot;W&quot;</span>, <span class="at">glist=</span>dlist)</span>
+<span id="cb181-6"><a href="WE_7.html#cb181-6" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dlist, <span class="cf">function</span>(x) <span class="dv">1</span><span class="sc">/</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb181-7"><a href="WE_7.html#cb181-7" aria-hidden="true" tabindex="-1"></a>listw.d2 <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">nb2listw</span>(nb.gab, <span class="at">style =</span> <span class="st">&quot;W&quot;</span>, <span class="at">glist=</span>dlist)</span></code></pre></div>
 <p>Now we can quantify and test Moran’s I for each variable to test for spatial autocorrelation in response and predictor variables. For now, we’ll take the simple weights ‘listw.gab.’</p>
-<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb794-1"><a href="WE_7.html#cb794-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>A, listw.gab)             </span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="WE_7.html#cb182-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>A, listw.gab)             </span></code></pre></div>
 <pre><code>## 
 ##  Moran I test under randomisation
 ## 
@@ -2015,7 +1276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Moran I statistic       Expectation          Variance 
 ##        0.29180913       -0.01724138        0.01150691</code></pre>
-<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb796-1"><a href="WE_7.html#cb796-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>IBD, listw.gab)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="WE_7.html#cb184-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>IBD, listw.gab)</span></code></pre></div>
 <pre><code>## 
 ##  Moran I test under randomisation
 ## 
@@ -2027,7 +1288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Moran I statistic       Expectation          Variance 
 ##        0.62709841       -0.01724138        0.01165320</code></pre>
-<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="WE_7.html#cb798-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>IBR, listw.gab) </span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="WE_7.html#cb186-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>IBR, listw.gab) </span></code></pre></div>
 <pre><code>## 
 ##  Moran I test under randomisation
 ## 
@@ -2039,7 +1300,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Moran I statistic       Expectation          Variance 
 ##        0.30918167       -0.01724138        0.01177588</code></pre>
-<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb800-1"><a href="WE_7.html#cb800-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>PatchSize, listw.gab) </span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="WE_7.html#cb188-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">moran.test</span>(Dianthus.df<span class="sc">$</span>PatchSize, listw.gab) </span></code></pre></div>
 <pre><code>## 
 ##  Moran I test under randomisation
 ## 
@@ -2057,7 +1318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Which variables showed the strongest autocorrelation? Is this surprising?</li>
 </ul>
 <p>Next, let’s test each model for autocorrelation in the residuals:</p>
-<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb802-1"><a href="WE_7.html#cb802-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.IBD, listw.gab) </span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="WE_7.html#cb190-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.IBD, listw.gab) </span></code></pre></div>
 <pre><code>## 
 ##  Global Moran I for regression residuals
 ## 
@@ -2070,7 +1331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Observed Moran I      Expectation         Variance 
 ##       0.28889983      -0.02854559       0.01162751</code></pre>
-<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb804-1"><a href="WE_7.html#cb804-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.IBR, listw.gab)          </span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="WE_7.html#cb192-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.IBR, listw.gab)          </span></code></pre></div>
 <pre><code>## 
 ##  Global Moran I for regression residuals
 ## 
@@ -2083,7 +1344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Observed Moran I      Expectation         Variance 
 ##       0.18032443      -0.02296810       0.01165614</code></pre>
-<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb806-1"><a href="WE_7.html#cb806-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.PatchSize, listw.gab)       </span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="WE_7.html#cb194-1" aria-hidden="true" tabindex="-1"></a>spdep<span class="sc">::</span><span class="fu">lm.morantest</span>(mod.lm.PatchSize, listw.gab)       </span></code></pre></div>
 <pre><code>## 
 ##  Global Moran I for regression residuals
 ## 
@@ -2107,11 +1368,11 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <h4>a. Plot empirical variogram</h4>
 <p>The error structure in a GLS is defined in a geostatistical framework, based on a variogram and as a function of distance between observations. Hence we start with plotting an empirical variogram of the residuals, with a smooth line. Here we specify ’resType = “normalized,” which means that the variogram will be fitted to the normalized residuals of the model.</p>
 <p>The expected value of the semivariance will be 1. Hence it would make sense to add a horizontal line at 1. However, this is cumbersome with the trellis graphics (using package ‘lattice’) used by ‘nlme.’</p>
-<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb808-1"><a href="WE_7.html#cb808-1" aria-hidden="true" tabindex="-1"></a>model.lm <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(A <span class="sc">~</span> IBR <span class="sc">+</span> PatchSize, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb808-2"><a href="WE_7.html#cb808-2" aria-hidden="true" tabindex="-1"></a>semivario <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(model.lm, <span class="at">form =</span> <span class="sc">~</span>x  <span class="sc">+</span> y, <span class="at">resType =</span> <span class="st">&quot;normalized&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="WE_7.html#cb196-1" aria-hidden="true" tabindex="-1"></a>model.lm <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(A <span class="sc">~</span> IBR <span class="sc">+</span> PatchSize, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb196-2"><a href="WE_7.html#cb196-2" aria-hidden="true" tabindex="-1"></a>semivario <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(model.lm, <span class="at">form =</span> <span class="sc">~</span>x  <span class="sc">+</span> y, <span class="at">resType =</span> <span class="st">&quot;normalized&quot;</span>)</span></code></pre></div>
 <p>If you want to create your own figure, e.g. with ‘ggplot2,’ you can access the values stores in the data frame ‘semivario’ to plot the points, and add a smooth line yourself. Then we can add a horizontal line with ‘geom_hline.’</p>
-<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="WE_7.html#cb809-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>semivario, <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb809-2"><a href="WE_7.html#cb809-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.3</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Distance&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Semivariance&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="WE_7.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>semivario, <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb197-2"><a href="WE_7.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.3</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Distance&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Semivariance&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p><strong>Question:</strong></p>
@@ -2130,18 +1391,18 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <li>Here with <code>nlme::gls</code>, we set <code>method="REML"</code> for REML and <code>method="ML"</code> for ML.</li>
 <li>For update to work here, you’ll need to load the library <code>nlme</code>(or use this, with three coons to access a function ‘update,’ for ‘lme’ objects, that is not ‘exported’ from the package: <code>nlme:::update.lme</code>)</li>
 </ul>
-<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="WE_7.html#cb811-1" aria-hidden="true" tabindex="-1"></a>model.lm <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(A <span class="sc">~</span> IBR <span class="sc">+</span> PatchSize, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb811-2"><a href="WE_7.html#cb811-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb811-3"><a href="WE_7.html#cb811-3" aria-hidden="true" tabindex="-1"></a>mod.corExp <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
-<span id="cb811-4"><a href="WE_7.html#cb811-4" aria-hidden="true" tabindex="-1"></a>mod.corGaus <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corGaus</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
-<span id="cb811-5"><a href="WE_7.html#cb811-5" aria-hidden="true" tabindex="-1"></a>mod.corSpher <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corSpher</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
-<span id="cb811-6"><a href="WE_7.html#cb811-6" aria-hidden="true" tabindex="-1"></a>mod.corRatio <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corRatio</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
-<span id="cb811-7"><a href="WE_7.html#cb811-7" aria-hidden="true" tabindex="-1"></a><span class="co">#mod.corLin &lt;- update(model.lm, correlation = nlme::corLin(form = ~ x + y, nugget=T))</span></span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="WE_7.html#cb199-1" aria-hidden="true" tabindex="-1"></a>model.lm <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(A <span class="sc">~</span> IBR <span class="sc">+</span> PatchSize, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb199-2"><a href="WE_7.html#cb199-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb199-3"><a href="WE_7.html#cb199-3" aria-hidden="true" tabindex="-1"></a>mod.corExp <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
+<span id="cb199-4"><a href="WE_7.html#cb199-4" aria-hidden="true" tabindex="-1"></a>mod.corGaus <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corGaus</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
+<span id="cb199-5"><a href="WE_7.html#cb199-5" aria-hidden="true" tabindex="-1"></a>mod.corSpher <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corSpher</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
+<span id="cb199-6"><a href="WE_7.html#cb199-6" aria-hidden="true" tabindex="-1"></a>mod.corRatio <span class="ot">&lt;-</span> <span class="fu">update</span>(model.lm, <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corRatio</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
+<span id="cb199-7"><a href="WE_7.html#cb199-7" aria-hidden="true" tabindex="-1"></a><span class="co">#mod.corLin &lt;- update(model.lm, correlation = nlme::corLin(form = ~ x + y, nugget=T))</span></span></code></pre></div>
 </div>
 <div id="c.-select-best-fitting-model" class="section level4">
 <h4>c. Select best-fitting model</h4>
 <p>Now we compare all models for which we did not get an error message:</p>
-<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb812-1"><a href="WE_7.html#cb812-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">model.sel</span>(model.lm, mod.corExp, mod.corGaus, mod.corSpher, mod.corRatio)     </span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="WE_7.html#cb200-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">model.sel</span>(model.lm, mod.corExp, mod.corGaus, mod.corSpher, mod.corRatio)     </span></code></pre></div>
 <pre><code>## Model selection table 
 ##              (Intrc)     IBR   PtchS             family            correlation
 ## mod.corExp     4.044 0.08468 0.04269 gaussian(identity)   nlme::corExp(~x+y,T)
@@ -2158,9 +1419,9 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## Models ranked by AICc(x)</code></pre>
 <p>The list sorts the models, with the best model on top. The last column ‘weight’ contains the model weight, which indicate how much support there is for each model, given all other models in the set (see Week 12). Here, the exponential model fitted best, though the ratio model and the model without a spatially correlated error structure fitted the data almost equally well. The top three models have delta values within 2 (in fact, close to 0).</p>
 <p>We refit the best model with maximum likelihood to test the fixed effects.</p>
-<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb814-1"><a href="WE_7.html#cb814-1" aria-hidden="true" tabindex="-1"></a>mod.corExp.ML <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>( A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>,</span>
-<span id="cb814-2"><a href="WE_7.html#cb814-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
-<span id="cb814-3"><a href="WE_7.html#cb814-3" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod.corExp.ML) </span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="WE_7.html#cb202-1" aria-hidden="true" tabindex="-1"></a>mod.corExp.ML <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>( A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>,</span>
+<span id="cb202-2"><a href="WE_7.html#cb202-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T))</span>
+<span id="cb202-3"><a href="WE_7.html#cb202-3" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod.corExp.ML) </span></code></pre></div>
 <pre><code>## Analysis of Deviance Table (Type II tests)
 ## 
 ## Response: A
@@ -2171,35 +1432,35 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The fitted model with the exponential error structure shows a significant effect for PatchSize but not for the IBR term.</p>
 <p>We don’t get an R-squared value directly, but we can calculate a pseudo R-squared from a regression of the response ‘A’ on the fitted values (using the model fitted with REML). Let’s compare it to the R-squared from the <code>lm</code> model.</p>
-<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="WE_7.html#cb816-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(A <span class="sc">~</span> <span class="fu">fitted</span>(mod.corExp), <span class="at">data =</span> Dianthus.df))<span class="sc">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="WE_7.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(A <span class="sc">~</span> <span class="fu">fitted</span>(mod.corExp), <span class="at">data =</span> Dianthus.df))<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.2317629</code></pre>
-<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="WE_7.html#cb818-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.PatchSize)<span class="sc">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="WE_7.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lm.PatchSize)<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.2324922</code></pre>
 <p>The pseudo R-squared is almost identical to the R-squared of the non-spatial <code>lm</code> model.</p>
 <p>Let’s check the residual plots:</p>
-<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb820-1"><a href="WE_7.html#cb820-1" aria-hidden="true" tabindex="-1"></a>predictmeans<span class="sc">::</span><span class="fu">residplot</span>(mod.corExp)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="WE_7.html#cb208-1" aria-hidden="true" tabindex="-1"></a>predictmeans<span class="sc">::</span><span class="fu">residplot</span>(mod.corExp)</span></code></pre></div>
 <p>The normal probability plot still looks about the same.</p>
 <p>Note that the function <code>residplot</code> recognized that we have a <code>gls</code> model and added a plot of the auto-correlation function, ACF. Here we have a value of 1 for the distance lag 0, which is the comparison of each value with itself. All other values are low. Recall that the autcorrelation is inversely related to the semivariogram (which does not report the value for lag = 0):</p>
-<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb821-1"><a href="WE_7.html#cb821-1" aria-hidden="true" tabindex="-1"></a>semivario <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(mod.corExp, <span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, </span>
-<span id="cb821-2"><a href="WE_7.html#cb821-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">resType =</span> <span class="st">&quot;normalized&quot;</span>)</span>
-<span id="cb821-3"><a href="WE_7.html#cb821-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(semivario, <span class="at">smooth =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="WE_7.html#cb209-1" aria-hidden="true" tabindex="-1"></a>semivario <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(mod.corExp, <span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, </span>
+<span id="cb209-2"><a href="WE_7.html#cb209-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">resType =</span> <span class="st">&quot;normalized&quot;</span>)</span>
+<span id="cb209-3"><a href="WE_7.html#cb209-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(semivario, <span class="at">smooth =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>The variogram of the residuals (after accounting for spatial autocorrelation as modeled by the variogram model) does look better!</p>
 </div>
 <div id="d.-plot-fitted-variogram-model" class="section level4">
 <h4>d. Plot fitted variogram model</h4>
 <p>How can we plot the fitted variogram? Let’s first store it in an object ‘Fitted.variog,’ then plot it. Note that the fitted variogram itself has two classes, “Variogram” and “data.frame.” The plot created by <code>plot(Fitted.variog)</code> is a “trellis” object.</p>
-<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb822-1"><a href="WE_7.html#cb822-1" aria-hidden="true" tabindex="-1"></a>Fitted.variog <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(mod.corExp)</span>
-<span id="cb822-2"><a href="WE_7.html#cb822-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Fitted.variog)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="WE_7.html#cb210-1" aria-hidden="true" tabindex="-1"></a>Fitted.variog <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">Variogram</span>(mod.corExp)</span>
+<span id="cb210-2"><a href="WE_7.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Fitted.variog)</span></code></pre></div>
 <pre><code>## [1] &quot;Variogram&quot;  &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb824-1"><a href="WE_7.html#cb824-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">plot</span>(Fitted.variog))</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="WE_7.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">plot</span>(Fitted.variog))</span></code></pre></div>
 <pre><code>## [1] &quot;trellis&quot;</code></pre>
-<div class="sourceCode" id="cb826"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb826-1"><a href="WE_7.html#cb826-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fitted.variog)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="WE_7.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fitted.variog)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>That was easy. However, <code>trellis</code> plots are difficult to tweak, and we may want to create our own plot with <code>ggplot2</code>. For this, we need to access the fitted variogram values (i.e. the exponential model curve values), which is a bit more involved.</p>
 <p>The object ‘Fitted.variog’ is a data frame (S3) with additional attributes. This raises a challenge, because we access attributes of S3 objects with <code>$</code>, but we also use <code>$</code> to access columns in a data frame.</p>
 <p>If we just print <code>Fitted.variog</code>, we only see the data frame.</p>
-<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="WE_7.html#cb827-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Fitted.variog)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="WE_7.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Fitted.variog)</span></code></pre></div>
 <pre><code>##      variog      dist n.pairs
 ## 1 0.6782704  620.5202      85
 ## 2 0.6112605 1236.8297      86
@@ -2208,7 +1469,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## 5 1.0503017 2691.2494      85
 ## 6 0.7493939 3074.7370      86</code></pre>
 <p>We can see the attributes listed by using <code>str</code>:</p>
-<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb829-1"><a href="WE_7.html#cb829-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Fitted.variog)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="WE_7.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Fitted.variog)</span></code></pre></div>
 <pre><code>## Classes &#39;Variogram&#39; and &#39;data.frame&#39;:    20 obs. of  3 variables:
 ##  $ variog : num  0.678 0.611 0.742 0.575 1.05 ...
 ##  $ dist   : num  621 1237 1827 2270 2691 ...
@@ -2219,7 +1480,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  - attr(*, &quot;collapse&quot;)= logi TRUE</code></pre>
 <p>The line we are looking for is: <code>- attr(*, "modelVariog")</code>. The attribute <code>modelVariog</code> has 50 rows (obs.) and 2 variables: <code>$variog</code> and <code>$dist</code>. These are the fitted values (i.e., values of the exponential variogram model for 50 distance values).</p>
 <p>The notation <code>attr(*, "modelVariog")</code> is a cryptic way of telling us how to access the attribute: use the function <code>attr</code> and provide two arguments: the object names <code>Fitted.variog</code> (represented by the asterisk), and the name of the attribute, in quotes: <code>attr(Fitted.variog, "modelVariog")</code>.</p>
-<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb831-1"><a href="WE_7.html#cb831-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(<span class="fu">attr</span>(Fitted.variog, <span class="st">&quot;modelVariog&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="WE_7.html#cb219-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(<span class="fu">attr</span>(Fitted.variog, <span class="st">&quot;modelVariog&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 50 × 2
 ##    variog  dist
 ##     &lt;dbl&gt; &lt;dbl&gt;
@@ -2235,10 +1496,10 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## 10  0.841 2622.
 ## # … with 40 more rows</code></pre>
 <p>This is useful to know if you want to create your own figures, e.g. with <code>ggplot2</code>.</p>
-<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb833-1"><a href="WE_7.html#cb833-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Fitted.variog, <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb833-2"><a href="WE_7.html#cb833-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.3</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Distance&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Semivariance&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb833-3"><a href="WE_7.html#cb833-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span><span class="fu">attr</span>(Fitted.variog, <span class="st">&quot;modelVariog&quot;</span>), <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog), <span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb833-4"><a href="WE_7.html#cb833-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="WE_7.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Fitted.variog, <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb221-2"><a href="WE_7.html#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.3</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Distance&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Semivariance&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb221-3"><a href="WE_7.html#cb221-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span><span class="fu">attr</span>(Fitted.variog, <span class="st">&quot;modelVariog&quot;</span>), <span class="fu">aes</span>(<span class="at">x=</span>dist, <span class="at">y=</span>variog), <span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb221-4"><a href="WE_7.html#cb221-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 </div>
 <div id="e.-add-random-factor" class="section level4">
@@ -2249,11 +1510,11 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <li>In <code>nlme</code>, random effects are specified differently from <code>lmer::lme4</code> (Week6): <code>random = ~ 1 | System</code>.</li>
 <li>The correlation structure is specified exactly as with <code>gls</code>.</li>
 </ul>
-<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="WE_7.html#cb834-1" aria-hidden="true" tabindex="-1"></a>mod.lme.corExp <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>( A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, </span>
-<span id="cb834-2"><a href="WE_7.html#cb834-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> System, <span class="at">data =</span> Dianthus.df, </span>
-<span id="cb834-3"><a href="WE_7.html#cb834-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T),</span>
-<span id="cb834-4"><a href="WE_7.html#cb834-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb834-5"><a href="WE_7.html#cb834-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lme.corExp)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="WE_7.html#cb222-1" aria-hidden="true" tabindex="-1"></a>mod.lme.corExp <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>( A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, </span>
+<span id="cb222-2"><a href="WE_7.html#cb222-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> System, <span class="at">data =</span> Dianthus.df, </span>
+<span id="cb222-3"><a href="WE_7.html#cb222-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">correlation =</span> nlme<span class="sc">::</span><span class="fu">corExp</span>(<span class="at">form =</span> <span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">nugget=</span>T),</span>
+<span id="cb222-4"><a href="WE_7.html#cb222-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb222-5"><a href="WE_7.html#cb222-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.lme.corExp)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: Dianthus.df 
 ##           AIC     BIC   logLik
@@ -2287,7 +1548,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## Number of Groups: 4</code></pre>
 <p>The nature of the results did not change: PatchSize is still significant but IBR is not.</p>
 <p>As in Week 6, we can obtain marginal (fixed effects) and conditional R-squared values (fixed + random):</p>
-<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="WE_7.html#cb836-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">r.squaredGLMM</span>(mod.lme.corExp)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="WE_7.html#cb224-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">r.squaredGLMM</span>(mod.lme.corExp)</span></code></pre></div>
 <pre><code>## Warning: &#39;r.squaredGLMM&#39; now calculates a revised statistic. See the help page.</code></pre>
 <pre><code>##            R2m       R2c
 ## [1,] 0.2294698 0.3447197</code></pre>
@@ -2296,7 +1557,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <li>As discussed in the Week 6 video, we should fit the mixed model with maximum likelihood (method = “ML”) to test fixed effects and to compare its AIC to the other models.</li>
 <li>The Week 6 video followed the philosphy that random effect should only be fitted for factors with &gt;5 levels, whereas here, we are using a factor with 4 levels.</li>
 </ul>
-<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb839-1"><a href="WE_7.html#cb839-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">model.sel</span>(model.lm, mod.corExp, mod.corRatio, mod.lme.corExp)  </span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="WE_7.html#cb227-1" aria-hidden="true" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">model.sel</span>(model.lm, mod.corExp, mod.corRatio, mod.lme.corExp)  </span></code></pre></div>
 <pre><code>## Model selection table 
 ##                (Intrc)     IBR   PtchS             family class
 ## mod.corExp       4.044 0.08468 0.04269 gaussian(identity)   gls
@@ -2328,20 +1589,20 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <h4>a. Fit and compare alternative SAR models</h4>
 <p>The method <code>errorsarlm</code> fits a simultaneous autoregressive model (‘sar’) to the error (‘error’) term of a ‘lm’ model.</p>
 <p>This approach is based on spatial neighbours and weights. We have already defined them in three versions of a <code>listw</code> object. Let’s see which one fits the data best. First, we fit the three models:</p>
-<div class="sourceCode" id="cb841"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb841-1"><a href="WE_7.html#cb841-1" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.gab <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
-<span id="cb841-2"><a href="WE_7.html#cb841-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.gab)</span>
-<span id="cb841-3"><a href="WE_7.html#cb841-3" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.d1 <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
-<span id="cb841-4"><a href="WE_7.html#cb841-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.d1)</span>
-<span id="cb841-5"><a href="WE_7.html#cb841-5" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.d2 <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
-<span id="cb841-6"><a href="WE_7.html#cb841-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.d2)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="WE_7.html#cb229-1" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.gab <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
+<span id="cb229-2"><a href="WE_7.html#cb229-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.gab)</span>
+<span id="cb229-3"><a href="WE_7.html#cb229-3" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.d1 <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
+<span id="cb229-4"><a href="WE_7.html#cb229-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.d1)</span>
+<span id="cb229-5"><a href="WE_7.html#cb229-5" aria-hidden="true" tabindex="-1"></a>mod.sar.IBR.d2 <span class="ot">&lt;-</span> spatialreg<span class="sc">::</span><span class="fu">errorsarlm</span>(A <span class="sc">~</span> PatchSize <span class="sc">+</span> IBR, <span class="at">data =</span> Dianthus.df, </span>
+<span id="cb229-6"><a href="WE_7.html#cb229-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">listw =</span> listw.d2)</span></code></pre></div>
 <p>Due to some issues when using <code>model.sel</code> with these objects, here we manually compile AICc and delta values and sort the models by delta:</p>
-<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="WE_7.html#cb842-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MuMIn::model.sel(mod.lm.IBR, mod.sar.IBR.gab, mod.sar.IBR.d1, mod.sar.IBR.d2) </span></span>
-<span id="cb842-2"><a href="WE_7.html#cb842-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb842-3"><a href="WE_7.html#cb842-3" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mod.lm.IBR=</span>mod.lm.IBR, <span class="at">mod.sar.IBR.gab=</span>mod.sar.IBR.gab, </span>
-<span id="cb842-4"><a href="WE_7.html#cb842-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">mod.sar.IBR.d1=</span>mod.sar.IBR.d1, <span class="at">mod.sar.IBR.d2=</span>mod.sar.IBR.d2)</span>
-<span id="cb842-5"><a href="WE_7.html#cb842-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">AICc =</span> <span class="fu">sapply</span>(Models, MuMIn<span class="sc">::</span>AICc)) <span class="sc">%&gt;%</span> </span>
-<span id="cb842-6"><a href="WE_7.html#cb842-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">delta =</span> AICc <span class="sc">-</span> <span class="fu">min</span>(AICc)) <span class="sc">%&gt;%</span></span>
-<span id="cb842-7"><a href="WE_7.html#cb842-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(delta)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="WE_7.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MuMIn::model.sel(mod.lm.IBR, mod.sar.IBR.gab, mod.sar.IBR.d1, mod.sar.IBR.d2) </span></span>
+<span id="cb230-2"><a href="WE_7.html#cb230-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-3"><a href="WE_7.html#cb230-3" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mod.lm.IBR=</span>mod.lm.IBR, <span class="at">mod.sar.IBR.gab=</span>mod.sar.IBR.gab, </span>
+<span id="cb230-4"><a href="WE_7.html#cb230-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">mod.sar.IBR.d1=</span>mod.sar.IBR.d1, <span class="at">mod.sar.IBR.d2=</span>mod.sar.IBR.d2)</span>
+<span id="cb230-5"><a href="WE_7.html#cb230-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">AICc =</span> <span class="fu">sapply</span>(Models, MuMIn<span class="sc">::</span>AICc)) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-6"><a href="WE_7.html#cb230-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">delta =</span> AICc <span class="sc">-</span> <span class="fu">min</span>(AICc)) <span class="sc">%&gt;%</span></span>
+<span id="cb230-7"><a href="WE_7.html#cb230-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(delta)</span></code></pre></div>
 <pre><code>##                      AICc     delta
 ## mod.sar.IBR.d1  -13.86736 0.0000000
 ## mod.sar.IBR.gab -13.29796 0.5694002
@@ -2352,7 +1613,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <div id="b.-interpret-best-fitting-sar-model" class="section level4">
 <h4>b. Interpret best-fitting SAR model</h4>
 <p>Let’s have a look at the best model. With the argument <code>Nagelkerke = TRUE</code>, we request a pseudo R-squared.</p>
-<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb844-1"><a href="WE_7.html#cb844-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.sar.IBR.d1, <span class="at">Nagelkerke =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="WE_7.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.sar.IBR.d1, <span class="at">Nagelkerke =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ## Call:spatialreg::errorsarlm(formula = A ~ PatchSize + IBR, data = Dianthus.df, 
 ##     listw = listw.d1)
@@ -2394,11 +1655,11 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <p>The new package <code>spmoran</code> makes this really easy. First, we create the MEM spatial eigenvectors. This implies defining neighbors and weights, but this is well hidden in the code below. The function <code>meigen</code> here takes the coordinates, calculates a minimum spanning tree (so that each site has at least one neighbour), and finds the maximum distance ‘h’ from the spanning tree. It then calculates neighbor weights as <code>exp(-dij / h)</code>.</p>
 <p>Note: if you have many sites (&gt; 200), the function <code>meigen_f</code> may be used instead of <code>meigen</code>, it should even work for &gt;1000 sites.</p>
 <p>The function <code>esf</code> then performs the spatial filtering. Here it uses stepwise selection of MEM spatial eigenvectors using an R-squared criterion (<code>fn = "r2"</code>).</p>
-<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb846-1"><a href="WE_7.html#cb846-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lm model: using truncated distance matrix (max of min spanning tree distance)</span></span>
-<span id="cb846-2"><a href="WE_7.html#cb846-2" aria-hidden="true" tabindex="-1"></a>meig <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">meigen</span>(<span class="at">coords=</span>xy)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="WE_7.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lm model: using truncated distance matrix (max of min spanning tree distance)</span></span>
+<span id="cb234-2"><a href="WE_7.html#cb234-2" aria-hidden="true" tabindex="-1"></a>meig <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">meigen</span>(<span class="at">coords=</span>xy)</span></code></pre></div>
 <pre><code>##  9/59 eigen-pairs are extracted</code></pre>
-<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb848-1"><a href="WE_7.html#cb848-1" aria-hidden="true" tabindex="-1"></a>sfd.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">esf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)],</span>
-<span id="cb848-2"><a href="WE_7.html#cb848-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">meig=</span>meig, <span class="at">fn =</span> <span class="st">&quot;r2&quot;</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="WE_7.html#cb236-1" aria-hidden="true" tabindex="-1"></a>sfd.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">esf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)],</span>
+<span id="cb236-2"><a href="WE_7.html#cb236-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">meig=</span>meig, <span class="at">fn =</span> <span class="st">&quot;r2&quot;</span> )</span></code></pre></div>
 <pre><code>##   5/9 eigenvectors are selected</code></pre>
 <p>The objects created by functions ‘meigen’ and ‘esf’ contain a lot of information:</p>
 <ul>
@@ -2420,14 +1681,14 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 </ul></li>
 </ul>
 <p>Let’s look at the table ‘b’ with regression results for the predictors first:</p>
-<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb850-1"><a href="WE_7.html#cb850-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>b</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="WE_7.html#cb238-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>b</span></code></pre></div>
 <pre><code>##               Estimate         SE    t_value      p_value
 ## (Intercept) 4.08678879 0.06759658 60.4585130 3.838659e-49
 ## PatchSize   0.03642554 0.01673612  2.1764625 3.417603e-02
 ## IBR         0.04687286 0.08602602  0.5448685 5.882188e-01</code></pre>
 <p>Again, PatchSize is statistically significant but not IBR.</p>
 <p>Next, we look at the table ‘r’ with regression results for MEM spatial eigenvectors:</p>
-<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="WE_7.html#cb852-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>r</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="WE_7.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>r</span></code></pre></div>
 <pre><code>##       Estimate        SE   t_value     p_value
 ## sf6  0.5938646 0.1782765  3.331144 0.001613967
 ## sf1  0.3962440 0.1788408  2.215624 0.031207615
@@ -2437,7 +1698,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <p>Five MEM spatial eigenvectors were important enough to be included in the model. Here they are ranked by their (absolute value of) slope coefficient, and thus by the strength of their association with the response variable. Eigenvector ‘sf6’ was by far the most important.</p>
 <p>Note: some eigenvectors are included despite having a p-value &gt; 0.05. This may have two reasons. First, the eigenvectors were selected without taking into account predictors X. Second, a different test was used in the stepwise eigenvector selection. The type of test can be specified with an argument <code>fn</code> (see ‘?esf’ helpfile and ‘spmoran’ tutorial).</p>
 <p>Finally, let’s look at the summary results for the fitted model:</p>
-<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="WE_7.html#cb854-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>e</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="WE_7.html#cb242-1" aria-hidden="true" tabindex="-1"></a>sfd.res<span class="sc">$</span>e</span></code></pre></div>
 <pre><code>##                 stat
 ## resid_SE   0.1728755
 ## adjR2      0.4374576
@@ -2449,19 +1710,19 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <div id="b.-using-a-custom-connectivity-matrix" class="section level4">
 <h4>b. Using a custom connectivity matrix</h4>
 <p>We know already that <code>listw.d1</code> fit the data well, so let’s re-run the model with our own definition of spatial weights. With the funciton ‘listw2mat,’ we convert from <code>listw</code> format to a full connnectivity matrix.</p>
-<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb856-1"><a href="WE_7.html#cb856-1" aria-hidden="true" tabindex="-1"></a>cmat.d1    <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">listw2mat</span>( listw.d1) </span>
-<span id="cb856-2"><a href="WE_7.html#cb856-2" aria-hidden="true" tabindex="-1"></a>meigw  <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">meigen</span>( <span class="at">cmat =</span> cmat.d1 )</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="WE_7.html#cb244-1" aria-hidden="true" tabindex="-1"></a>cmat.d1    <span class="ot">&lt;-</span> spdep<span class="sc">::</span><span class="fu">listw2mat</span>( listw.d1) </span>
+<span id="cb244-2"><a href="WE_7.html#cb244-2" aria-hidden="true" tabindex="-1"></a>meigw  <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">meigen</span>( <span class="at">cmat =</span> cmat.d1 )</span></code></pre></div>
 <pre><code>##  Note: cmat is symmetrized by ( cmat + t( cmat ) ) / 2</code></pre>
 <pre><code>##  27/59 eigen-pairs are extracted</code></pre>
-<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="WE_7.html#cb859-1" aria-hidden="true" tabindex="-1"></a>sfw.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">esf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)],</span>
-<span id="cb859-2"><a href="WE_7.html#cb859-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">meig=</span>meigw, <span class="at">fn =</span> <span class="st">&quot;r2&quot;</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="WE_7.html#cb247-1" aria-hidden="true" tabindex="-1"></a>sfw.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">esf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)],</span>
+<span id="cb247-2"><a href="WE_7.html#cb247-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">meig=</span>meigw, <span class="at">fn =</span> <span class="st">&quot;r2&quot;</span> )</span></code></pre></div>
 <pre><code>##   15/27 eigenvectors are selected</code></pre>
-<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="WE_7.html#cb861-1" aria-hidden="true" tabindex="-1"></a>sfw.res<span class="sc">$</span>b</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="WE_7.html#cb249-1" aria-hidden="true" tabindex="-1"></a>sfw.res<span class="sc">$</span>b</span></code></pre></div>
 <pre><code>##               Estimate         SE    t_value      p_value
 ## (Intercept) 4.05985212 0.06875531 59.0478330 2.716097e-41
 ## PatchSize   0.02051541 0.01679035  1.2218572 2.287404e-01
 ## IBR         0.06583796 0.09048375  0.7276219 4.709800e-01</code></pre>
-<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="WE_7.html#cb863-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(sfw.res<span class="sc">$</span>r)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="WE_7.html#cb251-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(sfw.res<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>## # A tibble: 15 × 4
 ##    Estimate    SE t_value  p_value
 ##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
@@ -2480,7 +1741,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## 13   -0.189 0.151   -1.25 0.217   
 ## 14    0.196 0.152    1.29 0.204   
 ## 15    0.166 0.161    1.03 0.309</code></pre>
-<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb865-1"><a href="WE_7.html#cb865-1" aria-hidden="true" tabindex="-1"></a>sfw.res<span class="sc">$</span>e</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="WE_7.html#cb253-1" aria-hidden="true" tabindex="-1"></a>sfw.res<span class="sc">$</span>e</span></code></pre></div>
 <pre><code>##                 stat
 ## resid_SE   0.1493144
 ## adjR2      0.5803455
@@ -2504,21 +1765,21 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <li>In the first line, we create a data frame ‘SF’ that combines the coordinates from ‘xy’ with the eigenvectors from ‘meigw.’ By specifying <code>sf=meigw$sf</code>, the column names will be prefaced by ‘sf.’ so that “X1” becomes “sf.1.”</li>
 <li>With the function <code>gsub</code>, we substitute “.” by an empty vector "“, i.e., we remove the period from the name, so that”sf.1" becomes “sf1.” This is a bit tricky because of the special meanings of ‘.’: we need to escape (here we use “[.]”) to indicate that ‘.’ should be interpreted and matched literally as a period symbol, not as a wildcard that matches any character. Function <code>sub</code> substitutes the first occurrence of the symbol, whereas <code>gsub</code> substitutes all occurrences.</li>
 </ul>
-<div class="sourceCode" id="cb867"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb867-1"><a href="WE_7.html#cb867-1" aria-hidden="true" tabindex="-1"></a>SF <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(xy, <span class="at">sf=</span>meigw<span class="sc">$</span>sf)</span>
-<span id="cb867-2"><a href="WE_7.html#cb867-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(SF) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;[.]&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">names</span>(SF))</span>
-<span id="cb867-3"><a href="WE_7.html#cb867-3" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">coordinates</span>(SF) <span class="ot">&lt;-</span> <span class="er">~</span> x <span class="sc">+</span> y</span>
-<span id="cb867-4"><a href="WE_7.html#cb867-4" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">spplot</span>(SF, <span class="fu">row.names</span>(sfw.res<span class="sc">$</span>r), <span class="at">colorkey =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="WE_7.html#cb255-1" aria-hidden="true" tabindex="-1"></a>SF <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(xy, <span class="at">sf=</span>meigw<span class="sc">$</span>sf)</span>
+<span id="cb255-2"><a href="WE_7.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(SF) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;[.]&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">names</span>(SF))</span>
+<span id="cb255-3"><a href="WE_7.html#cb255-3" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">coordinates</span>(SF) <span class="ot">&lt;-</span> <span class="er">~</span> x <span class="sc">+</span> y</span>
+<span id="cb255-4"><a href="WE_7.html#cb255-4" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">spplot</span>(SF, <span class="fu">row.names</span>(sfw.res<span class="sc">$</span>r), <span class="at">colorkey =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <p>The panel starts at the bottom left, so that the most important spatial eigenvector (sf6) is plotted at the bottom left, the second most important (sf22) second from left, etc.</p>
 <p>The smallest numbers are patterns with the largest spatial scale (sf1), which here shows a gradient from East to West. The most important eigenvector (sf6) shows a finer-scale pattern with the highest values (yellow) in the center, lowest values East and West, and intermediate value North and South.</p>
 <p>However, these patterns individually are not meaningful. More importantly, we can plot the total spatial component in the response as a weighted sum of these component patterns, where the weights correspond to the regression coefficients in table ‘sf.res$r.’ Here we create a panel with two plots, the modeled spatial components ‘sf’ on the left and the response ‘A’ on the right (the mean has been removed to make values comparable).</p>
-<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="WE_7.html#cb868-1" aria-hidden="true" tabindex="-1"></a>SF<span class="sc">@</span>data<span class="sc">$</span>sf <span class="ot">&lt;-</span> sfw.res<span class="sc">$</span>sf</span>
-<span id="cb868-2"><a href="WE_7.html#cb868-2" aria-hidden="true" tabindex="-1"></a>SF<span class="sc">@</span>data<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="fu">scale</span>(Dianthus.df<span class="sc">$</span>A, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb868-3"><a href="WE_7.html#cb868-3" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">spplot</span>(SF, <span class="fu">c</span>(<span class="st">&quot;sf&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">colorkey =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="WE_7.html#cb256-1" aria-hidden="true" tabindex="-1"></a>SF<span class="sc">@</span>data<span class="sc">$</span>sf <span class="ot">&lt;-</span> sfw.res<span class="sc">$</span>sf</span>
+<span id="cb256-2"><a href="WE_7.html#cb256-2" aria-hidden="true" tabindex="-1"></a>SF<span class="sc">@</span>data<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="fu">scale</span>(Dianthus.df<span class="sc">$</span>A, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb256-3"><a href="WE_7.html#cb256-3" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">spplot</span>(SF, <span class="fu">c</span>(<span class="st">&quot;sf&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">colorkey =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <p>Obviously, a big part of the variation in allelic richness is already captured by ‘sf.’ In essence the model then tries to explain the difference between these two sets of values by the predictors “PatchSize” and “IBR.”</p>
 <p>Let’s quantify the correlation of this spatial component with allelic richness, and compare the correlation between the two models:</p>
-<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="WE_7.html#cb869-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(Dianthus.df<span class="sc">$</span>A, <span class="fu">data.frame</span>(<span class="at">sfd=</span>sfd.res<span class="sc">$</span>sf, <span class="at">sfw=</span>sfw.res<span class="sc">$</span>sf))</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="WE_7.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(Dianthus.df<span class="sc">$</span>A, <span class="fu">data.frame</span>(<span class="at">sfd=</span>sfd.res<span class="sc">$</span>sf, <span class="at">sfw=</span>sfw.res<span class="sc">$</span>sf))</span></code></pre></div>
 <pre><code>##            sfd       sfw
 ## [1,] 0.6252594 0.8054356</code></pre>
 <p>With the default method (defining neighbors based on a distance cut-off), the spatial component modeled by the significant MEM spatial eigenvectors showed a correlation of 0.625 with the response variable. Using a Gabriel graph with inverse distance weights increased this correlation to 0.772.</p>
@@ -2527,15 +1788,15 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <div id="d.-random-effect-model" class="section level4">
 <h4>d. Random effect model</h4>
 <p>The previous model selected 15 MEM spatial eigenvectors, and thus fitted 15 additional models. Just like the random effects for family and population in Week 6 lab, we can save a few parameters here by fitting the set of MEM eigenvectors as a random effect. This is done by the function ‘resf.’</p>
-<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="WE_7.html#cb871-1" aria-hidden="true" tabindex="-1"></a>sfr.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)], </span>
-<span id="cb871-2"><a href="WE_7.html#cb871-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span> ) </span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="WE_7.html#cb259-1" aria-hidden="true" tabindex="-1"></a>sfr.res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, <span class="at">x=</span>Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)], </span>
+<span id="cb259-2"><a href="WE_7.html#cb259-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span> ) </span></code></pre></div>
 <pre><code>## Note: The model is nearly singular. Consider simplifying the model</code></pre>
-<div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="WE_7.html#cb873-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>b</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="WE_7.html#cb261-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>b</span></code></pre></div>
 <pre><code>##               Estimate         SE   t_value    p_value
 ## (Intercept) 4.06902708 0.06645938 61.225772 0.00000000
 ## PatchSize   0.04247164 0.01652051  2.570843 0.01344639
 ## IBR         0.08489102 0.08467569  1.002543 0.32132728</code></pre>
-<div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb875-1"><a href="WE_7.html#cb875-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(sfr.res<span class="sc">$</span>r)</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="WE_7.html#cb263-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(sfr.res<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>## # A tibble: 27 × 1
 ##      value
 ##      &lt;dbl&gt;
@@ -2550,14 +1811,14 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  9  0.128 
 ## 10  0.105 
 ## # … with 17 more rows</code></pre>
-<div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="WE_7.html#cb877-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>e</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="WE_7.html#cb265-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>e</span></code></pre></div>
 <pre><code>##                    stat
 ## resid_SE     0.15643276
 ## adjR2(cond)  0.50394641
 ## rlogLik      5.99141269
 ## AIC          0.01717462
 ## BIC         12.48239928</code></pre>
-<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="WE_7.html#cb879-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>s</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="WE_7.html#cb267-1" aria-hidden="true" tabindex="-1"></a>sfr.res<span class="sc">$</span>s</span></code></pre></div>
 <pre><code>##                      (Intercept)
 ## random_SE              0.1785609
 ## Moran.I/max(Moran.I)   0.7742903</code></pre>
@@ -2579,9 +1840,9 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <div id="model-with-patchsize-and-ibr" class="section level3">
 <h3>Model with PatchSize and IBR</h3>
 <p>We fit the model with ‘resf_vc.’</p>
-<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb881-1"><a href="WE_7.html#cb881-1" aria-hidden="true" tabindex="-1"></a>rv_res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf_vc</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, </span>
-<span id="cb881-2"><a href="WE_7.html#cb881-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">x =</span> Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)], </span>
-<span id="cb881-3"><a href="WE_7.html#cb881-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">xconst =</span> <span class="cn">NULL</span>, <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="WE_7.html#cb269-1" aria-hidden="true" tabindex="-1"></a>rv_res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf_vc</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, </span>
+<span id="cb269-2"><a href="WE_7.html#cb269-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">x =</span> Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;PatchSize&quot;</span>, <span class="st">&quot;IBR&quot;</span>)], </span>
+<span id="cb269-3"><a href="WE_7.html#cb269-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">xconst =</span> <span class="cn">NULL</span>, <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;-------  Iteration 1  -------&quot;
 ## [1] &quot;1/3&quot;
 ## [1] &quot;2/3&quot;
@@ -2604,7 +1865,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## [1] &quot;BIC: 10.37&quot;</code></pre>
 <pre><code>## Note: The model is nearly singular. Consider simplifying the model</code></pre>
 <p>Instead of one slope estimate for each predictor, we now get a different estimate for each combination of parameter and site (sounds like overfitting?). Here’s a summary of the distbiution of these estimates.</p>
-<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="WE_7.html#cb884-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>b_vc ) </span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="WE_7.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>b_vc ) </span></code></pre></div>
 <pre><code>##   (Intercept)      PatchSize            IBR         
 ##  Min.   :3.877   Min.   :0.04717   Min.   :0.06883  
 ##  1st Qu.:4.049   1st Qu.:0.04717   1st Qu.:0.06883  
@@ -2614,7 +1875,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  Max.   :4.189   Max.   :0.04717   Max.   :0.06883</code></pre>
 <p>The slope estimate for PatchSize varied between 0 and 0.098, with a mean of 0.046. The slope estimate for the ‘IBR’ term varied between -0.81 and 0.34, with a mean very close to 0! That is an astounding range of variation. Keep in mind that we really expect a positive relationship, there is no biological explanation for a ngeative relationship.</p>
 <p>Here is a similar summary of the p-values:</p>
-<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="WE_7.html#cb886-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>p_vc )</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="WE_7.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>p_vc )</span></code></pre></div>
 <pre><code>##   (Intercept)   PatchSize             IBR        
 ##  Min.   :0    Min.   :0.005485   Min.   :0.4135  
 ##  1st Qu.:0    1st Qu.:0.005485   1st Qu.:0.4135  
@@ -2624,25 +1885,25 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  Max.   :0    Max.   :0.005485   Max.   :0.4135</code></pre>
 <p>For both variables, most sites do not show a significant effect (i.e., only few sites show a p-value &lt; 0.05).</p>
 <p>We could print these results by site (type <code>rv_res$b_vc</code> or <code>rv_res$p_vc</code>). Even better, we can plot them in space. We start with combining the data (‘Dianthus.df’) and the results into one data frame ‘Results.’ By specifying <code>b=rv_res$b_vc</code> and <code>p=rv_res$p_vc</code>, R will create column names that start with ‘b’ or ‘p,’ respectively.</p>
-<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="WE_7.html#cb888-1" aria-hidden="true" tabindex="-1"></a>Result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Dianthus.df, <span class="at">b=</span>rv_res<span class="sc">$</span>b_vc, <span class="at">p=</span>rv_res<span class="sc">$</span>p_vc)</span>
-<span id="cb888-2"><a href="WE_7.html#cb888-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Result)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="WE_7.html#cb276-1" aria-hidden="true" tabindex="-1"></a>Result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Dianthus.df, <span class="at">b=</span>rv_res<span class="sc">$</span>b_vc, <span class="at">p=</span>rv_res<span class="sc">$</span>p_vc)</span>
+<span id="cb276-2"><a href="WE_7.html#cb276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Result)</span></code></pre></div>
 <pre><code>##  [1] &quot;A&quot;             &quot;IBD&quot;           &quot;IBR&quot;           &quot;PatchSize&quot;    
 ##  [5] &quot;System&quot;        &quot;Longitude&quot;     &quot;Latitude&quot;      &quot;x&quot;            
 ##  [9] &quot;y&quot;             &quot;b..Intercept.&quot; &quot;b.PatchSize&quot;   &quot;b.IBR&quot;        
 ## [13] &quot;p..Intercept.&quot; &quot;p.PatchSize&quot;   &quot;p.IBR&quot;</code></pre>
 <p>Let’s start with PatchSize. Here, we first plot PatchSize in space, with symbol size as a function of patch size. In a second plot, we color sites by statistical significance and the size of the symbols represents the parameter estimate of the regression slope coefficient for Patch Size. The layer ‘coord_fixed’ keeps controls the aspect ratio between x- and y-axes.</p>
-<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb890-1"><a href="WE_7.html#cb890-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
-<span id="cb890-2"><a href="WE_7.html#cb890-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">size=</span>PatchSize)) <span class="sc">+</span></span>
-<span id="cb890-3"><a href="WE_7.html#cb890-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;darkblue&quot;</span>) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span>
-<span id="cb890-4"><a href="WE_7.html#cb890-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">col=</span>p.PatchSize <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.PatchSize)) <span class="sc">+</span></span>
-<span id="cb890-5"><a href="WE_7.html#cb890-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="WE_7.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb278-2"><a href="WE_7.html#cb278-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">size=</span>PatchSize)) <span class="sc">+</span></span>
+<span id="cb278-3"><a href="WE_7.html#cb278-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;darkblue&quot;</span>) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span>
+<span id="cb278-4"><a href="WE_7.html#cb278-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">col=</span>p.PatchSize <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.PatchSize)) <span class="sc">+</span></span>
+<span id="cb278-5"><a href="WE_7.html#cb278-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-59-1.png" width="672" /><img src="07-Week07_files/figure-html/unnamed-chunk-59-2.png" width="672" /></p>
 <p>Let’s do the same for ‘IBR’:</p>
-<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb891-1"><a href="WE_7.html#cb891-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
-<span id="cb891-2"><a href="WE_7.html#cb891-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">size=</span>IBR)) <span class="sc">+</span></span>
-<span id="cb891-3"><a href="WE_7.html#cb891-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;darkgreen&quot;</span>) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span>
-<span id="cb891-4"><a href="WE_7.html#cb891-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">col=</span>p.IBR <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.IBR)) <span class="sc">+</span></span>
-<span id="cb891-5"><a href="WE_7.html#cb891-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="WE_7.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb279-2"><a href="WE_7.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">size=</span>IBR)) <span class="sc">+</span></span>
+<span id="cb279-3"><a href="WE_7.html#cb279-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;darkgreen&quot;</span>) <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span>
+<span id="cb279-4"><a href="WE_7.html#cb279-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(Result), <span class="fu">aes</span>(x, y, <span class="at">col=</span>p.IBR <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.IBR)) <span class="sc">+</span></span>
+<span id="cb279-5"><a href="WE_7.html#cb279-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-60-1.png" width="672" /><img src="07-Week07_files/figure-html/unnamed-chunk-60-2.png" width="672" /></p>
 <ul>
 <li>The very small dots in the first map are the ungrazed patches.</li>
@@ -2652,9 +1913,9 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 <div id="model-with-ibr-only" class="section level3">
 <h3>Model with IBR only</h3>
 <p>Keep in mind that ‘IBR’ and ‘PatchSize’ showed a strong correlation. The parameter estimates could therefore depend quite a bit on the other variables. To help with the interpretation, let’s repeat the last analysis just with ‘IBR,’ without ‘PatchSize.’</p>
-<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb892-1"><a href="WE_7.html#cb892-1" aria-hidden="true" tabindex="-1"></a>rv_res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf_vc</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, </span>
-<span id="cb892-2"><a href="WE_7.html#cb892-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">x =</span> Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;IBR&quot;</span>)], </span>
-<span id="cb892-3"><a href="WE_7.html#cb892-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">xconst =</span> <span class="cn">NULL</span>, <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="WE_7.html#cb280-1" aria-hidden="true" tabindex="-1"></a>rv_res <span class="ot">&lt;-</span> spmoran<span class="sc">::</span><span class="fu">resf_vc</span>( <span class="at">y=</span>Dianthus.df<span class="sc">$</span>A, </span>
+<span id="cb280-2"><a href="WE_7.html#cb280-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">x =</span> Dianthus.df[,<span class="fu">c</span>(<span class="st">&quot;IBR&quot;</span>)], </span>
+<span id="cb280-3"><a href="WE_7.html#cb280-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">xconst =</span> <span class="cn">NULL</span>, <span class="at">meig =</span> meigw, <span class="at">method =</span> <span class="st">&quot;reml&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;-------  Iteration 1  -------&quot;
 ## [1] &quot;1/2&quot;
 ## [1] &quot;2/2&quot;
@@ -2672,7 +1933,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ## [1] &quot;2/2&quot;
 ## [1] &quot;BIC: 5.226&quot;</code></pre>
 <pre><code>## Note: The model is nearly singular. Consider simplifying the model</code></pre>
-<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb895-1"><a href="WE_7.html#cb895-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>b_vc ) </span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="WE_7.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>b_vc ) </span></code></pre></div>
 <pre><code>##   (Intercept)          V1        
 ##  Min.   :3.737   Min.   :0.2264  
 ##  1st Qu.:3.902   1st Qu.:0.2264  
@@ -2681,7 +1942,7 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  3rd Qu.:3.994   3rd Qu.:0.2264  
 ##  Max.   :4.064   Max.   :0.2264</code></pre>
 <p>Now the range of slope estimates is smaller, most sites have a positive estimate, and the mean is approx. 0.21.</p>
-<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb897-1"><a href="WE_7.html#cb897-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>p_vc ) </span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="WE_7.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( rv_res<span class="sc">$</span>p_vc ) </span></code></pre></div>
 <pre><code>##   (Intercept)       V1          
 ##  Min.   :0    Min.   :0.001875  
 ##  1st Qu.:0    1st Qu.:0.001875  
@@ -2691,14 +1952,14 @@ See also: <a href="http://rfunctions.blogspot.ca/2017/06/how-to-identify-and-rem
 ##  Max.   :0    Max.   :0.001875</code></pre>
 <p>Also, a larger proportion of sites nows has p-values &lt; 0.05.</p>
 <p>Let’s plot the results onto a gray-scale, stamen terrain map to facilitate interpretation. Note: here the zoom level <code>zoom = 12</code> covers the entire study area, whereas the default value would actually cut off a large number of sites. We use the argument <code>force=TRUE</code> to force the map to be downloaded again (otherwise the argument <code>color="bw"</code> may not have an effect if we already downloaded the terrain map in color).</p>
-<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb899-1"><a href="WE_7.html#cb899-1" aria-hidden="true" tabindex="-1"></a>Result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Dianthus.df, <span class="at">b=</span>rv_res<span class="sc">$</span>b_vc, <span class="at">p=</span>rv_res<span class="sc">$</span>p_vc, <span class="at">resid=</span>rv_res<span class="sc">$</span>resid)</span>
-<span id="cb899-2"><a href="WE_7.html#cb899-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Result)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="WE_7.html#cb287-1" aria-hidden="true" tabindex="-1"></a>Result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Dianthus.df, <span class="at">b=</span>rv_res<span class="sc">$</span>b_vc, <span class="at">p=</span>rv_res<span class="sc">$</span>p_vc, <span class="at">resid=</span>rv_res<span class="sc">$</span>resid)</span>
+<span id="cb287-2"><a href="WE_7.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Result)</span></code></pre></div>
 <pre><code>##  [1] &quot;A&quot;             &quot;IBD&quot;           &quot;IBR&quot;           &quot;PatchSize&quot;    
 ##  [5] &quot;System&quot;        &quot;Longitude&quot;     &quot;Latitude&quot;      &quot;x&quot;            
 ##  [9] &quot;y&quot;             &quot;b..Intercept.&quot; &quot;b.V1&quot;          &quot;p..Intercept.&quot;
 ## [13] &quot;p.V1&quot;          &quot;resid&quot;</code></pre>
-<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb901-1"><a href="WE_7.html#cb901-1" aria-hidden="true" tabindex="-1"></a>ggmap<span class="sc">::</span><span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;terrain&quot;</span>, <span class="at">color=</span><span class="st">&quot;bw&quot;</span>, <span class="at">force=</span><span class="cn">TRUE</span>, <span class="at">zoom=</span><span class="dv">12</span>)) <span class="sc">+</span> </span>
-<span id="cb901-2"><a href="WE_7.html#cb901-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude, <span class="at">col=</span>p.V1 <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.V1), <span class="at">data =</span> Result) </span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="WE_7.html#cb289-1" aria-hidden="true" tabindex="-1"></a>ggmap<span class="sc">::</span><span class="fu">ggmap</span>(<span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype =</span> <span class="st">&quot;terrain&quot;</span>, <span class="at">color=</span><span class="st">&quot;bw&quot;</span>, <span class="at">force=</span><span class="cn">TRUE</span>, <span class="at">zoom=</span><span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb289-2"><a href="WE_7.html#cb289-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>  Longitude, <span class="at">y =</span> Latitude, <span class="at">col=</span>p.V1 <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">size=</span>b.V1), <span class="at">data =</span> Result) </span></code></pre></div>
 <p><img src="07-Week07_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 <p>This is a very different map of results!</p>
 <ul>

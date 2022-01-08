@@ -64,742 +64,6 @@
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
 
-<script>
-/* ========================================================================
- * Bootstrap: transition.js v3.3.7
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.7
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-/* jshint latedef: false */
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
-                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.7'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $this.data()
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-</script>
-<script>
-window.initializeCodeFolding = function(show) {
-
-  // handlers for show-all and hide all
-  $("#rmd-show-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-  });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-  });
-
-  // index for unique code element ids
-  var currentIndex = 1;
-
-  // select all R code blocks
-  var rCodeBlocks = $('pre.sourceCode, pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan');
-  rCodeBlocks.each(function() {
-
-    // if code block has been labeled with class `fold-show`, show the code on init!
-    var classList = $(this).attr('class').split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-    if (classList[i] === 'fold-show') {
-        show = true;
-      }
-    }
-
-    // create a collapsable div to wrap the code in
-    var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
-      div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
-    div.attr('id', id);
-    $(this).before(div);
-    $(this).detach().appendTo(div);
-
-    // add a show code button right above
-    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
-    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
-    showCodeButton.append(showCodeText);
-    showCodeButton
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#' + id)
-        .attr('aria-expanded', show)
-        .attr('aria-controls', id);
-
-    var buttonRow = $('<div class="row"></div>');
-    var buttonCol = $('<div class="col-md-12"></div>');
-
-    buttonCol.append(showCodeButton);
-    buttonRow.append(buttonCol);
-
-    div.before(buttonRow);
-
-    // hack: return show to false, otherwise all next codeBlocks will be shown!
-    show = false;
-
-    // update state of button on show/hide
-    div.on('hidden.bs.collapse', function () {
-      showCodeText.text('Code');
-    });
-    div.on('show.bs.collapse', function () {
-      showCodeText.text('Hide');
-    });
-  });
-
-}
-</script>
-<script>
-/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-</script>
-<style type="text/css">
-.code-folding-btn {
-  margin-bottom: 4px;
-}
-
-.row { display: flex; }
-.collapse { display: none; }
-.in { display:block }
-.pull-right > .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open > .dropdown-menu {
-    display: block;
-    color: #ffffff;
-    background-color: #ffffff;
-    background-image: none;
-    border-color: #92897e;
-}
-
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.42857143;
-  color: #000000;
-  white-space: nowrap;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-}
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #e95420;
-  outline: 0;
-}
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #aea79f;
-}
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-.btn {
-  display: inline-block;
-  margin-bottom: 1;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #ffffff;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn.disabled,
-.btn[disabled],
-fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  box-shadow: none;
-}
-a.btn.disabled,
-fieldset[disabled] a.btn {
-  pointer-events: none;
-}
-.btn-default {
-  color: #ffffff;
-  background-color: #aea79f; #important
-  border-color: #aea79f;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #6f675e;
-}
-
-.btn-default:hover {
-  color: #ffffff;
-  background-color: #978e83;
-  border-color: #92897e;
-}
-.btn-default:active,
-.btn-default.active,
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-radius: 0;
-}
-.btn-group > .btn:first-child {
-  margin-left: 0;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn-group {
-  float: left;
-}
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-.btn-group > .btn + .dropdown-toggle {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-right: 12px;
-  padding-left: 12px;
-}
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  box-shadow: none;
-}
-
-</style>
-<script>
-var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
-document.write(str);
-</script>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "hide");
-});
-</script>
-
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -1723,10 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="WE_2" class="section level2">
 <h2>Worked Example</h2>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="WE_2.html#cb346-1" aria-hidden="true" tabindex="-1"></a>rmd_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/vignettes/&quot;</span>, <span class="st">&quot;Week2_vignette.Rmd&quot;</span>)</span>
-<span id="cb346-2"><a href="WE_2.html#cb346-2" aria-hidden="true" tabindex="-1"></a>yml_metadata <span class="ot">&lt;-</span> rmarkdown<span class="sc">::</span><span class="fu">yaml_front_matter</span>(rmd_file)</span>
-<span id="cb346-3"><a href="WE_2.html#cb346-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(yml_metadata<span class="sc">$</span>author)</span></code></pre></div>
-<pre><code>## Helene Wagner and Max Hesselbarth</code></pre>
+<p>Helene Wagner and Max Hesselbarth</p>
 <div id="overview-of-worked-example-1" class="section level3">
 <h3>1. Overview of Worked Example</h3>
 <p>This code builds on data and code from the <code>GeNetIt</code> package by Jeff Evans and Melanie Murphy. Landscape metrics will be calculated with the <code>landscapemetrics</code> package described in: Hesselbarth et al. (2019), Ecography 42: 1648-1657.</p>
@@ -1761,14 +1022,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-libraries-1" class="section level4">
 <h4>c. Required R libraries</h4>
 <p>Install some packages needed for this worked example.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="WE_2.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="WE_2.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb349-2"><a href="WE_2.html#cb349-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(landscapemetrics)</span>
-<span id="cb349-3"><a href="WE_2.html#cb349-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb349-4"><a href="WE_2.html#cb349-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
-<span id="cb349-5"><a href="WE_2.html#cb349-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
-<span id="cb349-6"><a href="WE_2.html#cb349-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GeNetIt)</span>
-<span id="cb349-7"><a href="WE_2.html#cb349-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="WE_2.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="WE_2.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb56-2"><a href="WE_2.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(landscapemetrics)</span>
+<span id="cb56-3"><a href="WE_2.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb56-4"><a href="WE_2.html#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb56-5"><a href="WE_2.html#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb56-6"><a href="WE_2.html#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GeNetIt)</span>
+<span id="cb56-7"><a href="WE_2.html#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
 </div>
 </div>
 <div id="import-site-data-from-.csv-file" class="section level3">
@@ -1777,15 +1038,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Import data into SpatialPointsDataFrame</h4>
 <p>The site data are already in a SpatialPointsDataFrame named <code>ralu.site</code> that comes with the package <code>GeNetIt</code>. Use <code>data(ralu.site)</code> to load it. This will create an object <code>ralu.site</code>.</p>
 <p>To demonstrate how to create a SpatialPointsDataFrame, we create a simple data frame <code>Sites</code> with the coordinates and site data.</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="WE_2.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
-<span id="cb350-2"><a href="WE_2.html#cb350-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ralu.site)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="WE_2.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb57-2"><a href="WE_2.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ralu.site)</span></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="WE_2.html#cb352-1" aria-hidden="true" tabindex="-1"></a>Sites <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(ralu.site<span class="sc">@</span>coords, ralu.site<span class="sc">@</span>data)</span>
-<span id="cb352-2"><a href="WE_2.html#cb352-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="WE_2.html#cb59-1" aria-hidden="true" tabindex="-1"></a>Sites <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(ralu.site<span class="sc">@</span>coords, ralu.site<span class="sc">@</span>data)</span>
+<span id="cb59-2"><a href="WE_2.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Sites)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="WE_2.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="WE_2.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites)</span></code></pre></div>
 <pre><code>##   coords.x1 coords.x2       SiteName        Drainage      Basin Substrate
 ## 1  688816.6   5003207   AirplaneLake ShipIslandCreek Sheepeater      Silt
 ## 2  688494.4   4999093 BachelorMeadow     WilsonCreek    Skyhigh      Silt
@@ -1811,16 +1072,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To illustrate importing spatial data from Excel, here we export the data as a csv file, import it again as a data frame, then convert it to a SpatialPointsDataFrame. First we create a folder <code>output</code> if it does not yet exist.</p>
 <p>Note: to run the code, remove all the hashtags <code>#</code> at the beginning of the lines to uncomment them. This part assumes that you have writing permission on your computer. Alternatively, try setting up your R project folder on an external drive where you have writing permission.</p>
 <p>The second line exports the data in <code>Sites</code> as a .csv file. The third line re-imports the .csv file to re-create data frame <code>Sites</code>.</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="WE_2.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
-<span id="cb356-2"><a href="WE_2.html#cb356-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
-<span id="cb356-3"><a href="WE_2.html#cb356-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(Sites, file=paste0(here(),&quot;/output/ralu.site.csv&quot;), </span></span>
-<span id="cb356-4"><a href="WE_2.html#cb356-4" aria-hidden="true" tabindex="-1"></a><span class="co">#          quote=FALSE, row.names=FALSE)</span></span>
-<span id="cb356-5"><a href="WE_2.html#cb356-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Sites &lt;- read.csv(paste0(here(),&quot;/output/ralu.site.csv&quot;), header=TRUE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="WE_2.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb63-2"><a href="WE_2.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb63-3"><a href="WE_2.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(Sites, file=paste0(here(),&quot;/output/ralu.site.csv&quot;), </span></span>
+<span id="cb63-4"><a href="WE_2.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co">#          quote=FALSE, row.names=FALSE)</span></span>
+<span id="cb63-5"><a href="WE_2.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Sites &lt;- read.csv(paste0(here(),&quot;/output/ralu.site.csv&quot;), header=TRUE)</span></span></code></pre></div>
 <p>The dataset <code>Sites</code> contains two columns with spatial coordinates and 17 attribute variables. So far, R treats the spatial coordinates like any other quantitative variables. To let R know this is spatial information, we import it into a spatial object type, a <code>SpatialPointsDataFrame</code> from the ‘sp’ package.</p>
 <p>The conversion is done with the function <code>coordinates</code>, which takes a data frame and converts it to a spatial object of the same name. The code is not very intuitive.</p>
 <p>Note: the tilde symbol <code>~</code> (here before the first coordinate) is often used in R formulas, we will see it again later. It roughly translates to “is modeled as a function of.”</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="WE_2.html#cb357-1" aria-hidden="true" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> Sites</span>
-<span id="cb357-2"><a href="WE_2.html#cb357-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(Sites.sp) <span class="ot">&lt;-</span> <span class="er">~</span>coords.x1<span class="sc">+</span>coords.x2</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="WE_2.html#cb64-1" aria-hidden="true" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> Sites</span>
+<span id="cb64-2"><a href="WE_2.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(Sites.sp) <span class="ot">&lt;-</span> <span class="er">~</span>coords.x1<span class="sc">+</span>coords.x2</span></code></pre></div>
 <p>Now R knows these are spatial data and knows how to handle them. It does not treat the coordinates as variables anymore, hence the first column is now <code>SiteName</code>.</p>
 </div>
 <div id="b.-add-spatial-reference-data" class="section level4">
@@ -1829,15 +1090,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For more information on CRS, see: <a href="https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf" class="uri">https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf</a></p>
 <p>We know that these coordinates are UTM zone 11 (Northern hemisphere) coordinates. We define it here by its EPSG code (32611). You can search for EPSG codes here: <a href="https://epsg.io/32611" class="uri">https://epsg.io/32611</a>.</p>
 <p>Here we call the function and the package simultaneously (this is good practice, as it helps keep track of where the functions in your code come from).</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="WE_2.html#cb358-1" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">proj4string</span>(Sites.sp) <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:32611&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="WE_2.html#cb65-1" aria-hidden="true" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">proj4string</span>(Sites.sp) <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:32611&quot;</span>)</span></code></pre></div>
 <p>Note: this function only <strong>declares</strong> the existing projection, it does not change the coordinates to that projection.</p>
 </div>
 <div id="c.-change-projection" class="section level4">
 <h4>c. Change projection</h4>
 <p>In case we needed to <strong>transform</strong> the projection from UTM zone 11 to longitude/latitude (EPSG code: 4326), we could create a new <code>sp</code> object <code>Sites.sp.longlat</code>. We use the function <code>spTransform</code> to change the projection from the projection of the old object <code>Sites.sp</code> to the “longlat” coordinate system, which we define by the argument <code>CRSobj</code>.</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="WE_2.html#cb359-1" aria-hidden="true" tabindex="-1"></a>Sites.sp.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Sites.sp, </span>
-<span id="cb359-2"><a href="WE_2.html#cb359-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">CRSobj =</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:4326&quot;</span>))</span>
-<span id="cb359-3"><a href="WE_2.html#cb359-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp.longlat<span class="sc">@</span>coords)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="WE_2.html#cb66-1" aria-hidden="true" tabindex="-1"></a>Sites.sp.longlat <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">spTransform</span>(Sites.sp, </span>
+<span id="cb66-2"><a href="WE_2.html#cb66-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">CRSobj =</span> sp<span class="sc">::</span><span class="fu">CRS</span>(<span class="at">SRS_string =</span> <span class="st">&quot;EPSG:4326&quot;</span>))</span>
+<span id="cb66-3"><a href="WE_2.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp.longlat<span class="sc">@</span>coords)</span></code></pre></div>
 <pre><code>##   coords.x1 coords.x2
 ## 1 -114.5977  45.15708
 ## 2 -114.6034  45.12016
@@ -1857,10 +1118,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>@bbox</code>: bounding box, i.e., the minimum and maximum of x and y coordinates (filled automatically)</li>
 <li><code>@proj4string</code>: the georeferencing information</li>
 </ul>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="WE_2.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(Sites.sp)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="WE_2.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(Sites.sp)</span></code></pre></div>
 <pre><code>## [1] &quot;data&quot;        &quot;coords.nrs&quot;  &quot;coords&quot;      &quot;bbox&quot;        &quot;proj4string&quot;</code></pre>
 <p>Here are the first few lines of the coordinates:</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="WE_2.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp<span class="sc">@</span>coords)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="WE_2.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sites.sp<span class="sc">@</span>coords)</span></code></pre></div>
 <pre><code>##   coords.x1 coords.x2
 ## 1  688816.6   5003207
 ## 2  688494.4   4999093
@@ -1869,7 +1130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5  690104.0   4999355
 ## 6  688742.5   4997481</code></pre>
 <p>And the proj4 string: Let’s compare this to the proj4string of the original <code>ralu.site</code> dataset.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="WE_2.html#cb365-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="WE_2.html#cb72-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string</span></code></pre></div>
 <pre><code>## Coordinate Reference System:
 ## Deprecated Proj.4 representation:
 ##  +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs 
@@ -1913,14 +1174,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##         BBOX[0,-120,84,-114]],
 ##     ID[&quot;EPSG&quot;,32611]]</code></pre>
 <p>The default for <code>get_proj4("utm11")</code> results in a slightly different proj4string than the <code>ralu.site</code> dataset. The difference is in the <code>datum</code> argument (<code>WGS84</code> vs. <code>NAD83</code>):</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="WE_2.html#cb367-1" aria-hidden="true" tabindex="-1"></a>ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="WE_2.html#cb74-1" aria-hidden="true" tabindex="-1"></a>ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
 <pre><code>## Coordinate Reference System:
 ## Deprecated Proj.4 representation:
 ##  +proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +ellps=GRS80
 ## +towgs84=0,0,0</code></pre>
 <pre><code>## Warning in wkt(x): CRS object has no comment</code></pre>
 <p>Let’s go with the original information and copy it:</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="WE_2.html#cb370-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string <span class="ot">&lt;-</span> ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="WE_2.html#cb77-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>proj4string <span class="ot">&lt;-</span> ralu.site<span class="sc">@</span>proj4string</span></code></pre></div>
 </div>
 </div>
 <div id="display-raster-data-and-overlay-sampling-locations-extract-data" class="section level3">
@@ -1928,14 +1189,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-display-raster-data" class="section level4">
 <h4>a. Display raster data</h4>
 <p>The raster data for this project are already available in the package <code>GeNetIt</code>, under the name <code>rasters</code>, and we can load them with <code>data(rasters)</code>. They are stored as a <code>SpatialPixelsDataFrame</code>, another S4 object type from the <code>sp</code> package.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="WE_2.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
-<span id="cb371-2"><a href="WE_2.html#cb371-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rasters)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="WE_2.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters)</span>
+<span id="cb78-2"><a href="WE_2.html#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rasters)</span></code></pre></div>
 <pre><code>## [1] &quot;SpatialPixelsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
 <p>However, raster data are better analyzed with the package <code>raster</code>, which has an object type <code>raster</code>. Let’s convert the data to a <code>RasterStack</code> of <code>RasterLayer</code> objects (i.e. a set of raster layers with the same spatial reference information).</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="WE_2.html#cb373-1" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">stack</span>(rasters)</span>
-<span id="cb373-2"><a href="WE_2.html#cb373-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(RasterMaps)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="WE_2.html#cb80-1" aria-hidden="true" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">stack</span>(rasters)</span>
+<span id="cb80-2"><a href="WE_2.html#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(RasterMaps)</span></code></pre></div>
 <pre><code>## [1] &quot;RasterStack&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;raster&quot;</code></pre>
@@ -1945,7 +1206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>resolution</strong>: cell size is 30 m both in x and y directions (typical for Landsat-derived remote sensing data)</li>
 <li><strong>coord.ref</strong>: projected in UTM zone 11, though the ‘datum’ (NAD83) is different than what we used for the sampling locations.</li>
 </ul>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="WE_2.html#cb375-1" aria-hidden="true" tabindex="-1"></a>RasterMaps</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="WE_2.html#cb82-1" aria-hidden="true" tabindex="-1"></a>RasterMaps</span></code></pre></div>
 <pre><code>## class      : RasterStack 
 ## dimensions : 426, 358, 152508, 6  (nrow, ncol, ncell, nlayers)
 ## resolution : 30, 30  (x, y)
@@ -1956,10 +1217,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## max values :   23.7147598,    0.7637643,   51.0000000,  338.0696716, 9263.0000000,   95.0000000</code></pre>
 <p>Now we can use <code>plot</code>, which knows what to do with a raster stack.</p>
 <p>Note: layer <code>nlcd</code> is a categorical map of land cover types. See this week’s bonus materials for how to better display a categorical map in R.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="WE_2.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="WE_2.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RasterMaps)</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-22-1.png" width="768" /></p>
 <p>Some layers seem to show a similar pattern. It is easy to calculate the correlation between quantitative raster layers. Here, the last layer <code>ncld</code>, is in fact categorical (land cover type), and it’s correlation here is meaningless.</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="WE_2.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layerStats</span>(RasterMaps, <span class="st">&#39;pearson&#39;</span>, <span class="at">na.rm=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="WE_2.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layerStats</span>(RasterMaps, <span class="st">&#39;pearson&#39;</span>, <span class="at">na.rm=</span>T)</span></code></pre></div>
 <pre><code>## $`pearson correlation coefficient`
 ##              cti       err27         ffp         gsp         hli       nlcd
 ## cti    1.0000000 -0.25442672  0.12264734 -0.14029572 -0.30501483 -0.1807878
@@ -1978,9 +1239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can specify a color ramp by setting the <code>col</code> argument. The default is <code>terrain.colors(255)</code>. Here we change it to <code>rainbow(9)</code>, a rainbow colorpalette with 9 color levels.</p>
 <p>Note: To learn about options for the <code>plot</code> function for <code>raster</code> objects, access the help file by typing <code>?plot</code> and select <code>Plot a Raster object</code>.</p>
 <p>We can add the sampling locations (if we plot only a single raster layer). Here we use <code>rev</code> to reverse the color ramp for plotting raster layer <code>ffp</code>, and add the sites as white circles with black outlines.</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="WE_2.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb380-2"><a href="WE_2.html#cb380-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">raster</span>(RasterMaps, <span class="at">layer=</span><span class="st">&quot;ffp&quot;</span>), <span class="at">col=</span><span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
-<span id="cb380-3"><a href="WE_2.html#cb380-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="WE_2.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb87-2"><a href="WE_2.html#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">raster</span>(RasterMaps, <span class="at">layer=</span><span class="st">&quot;ffp&quot;</span>), <span class="at">col=</span><span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb87-3"><a href="WE_2.html#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Sites.sp, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>)</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-24-1.png" width="427.2" /></p>
 <p><strong>Question</strong>: Recall that ‘ffp’ stands for frost free period (in days). What do you think is the average length of the frost free period at theses sampling sites?</p>
 </div>
@@ -1988,12 +1249,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>c. Extract raster values at sampling locations</h4>
 <p>The following code adds six variables to the data slot of Sites.sp. Technically we combine the columns of the existing data frame <code>Sites.sp</code> with the new columns in a new data frame with the same name.</p>
 <p>R notices the difference in projection (CRS) between the sampling point data and the rasters and takes care of it, providing just a warning.</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="WE_2.html#cb381-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Sites.sp<span class="sc">@</span>data, <span class="fu">extract</span>(RasterMaps, Sites.sp))</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="WE_2.html#cb88-1" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Sites.sp<span class="sc">@</span>data, <span class="fu">extract</span>(RasterMaps, Sites.sp))</span></code></pre></div>
 <p>Let’s calcualate the mean length of the frost free period for these sites:</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="WE_2.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ffp)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="WE_2.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ffp)</span></code></pre></div>
 <pre><code>## [1] 8.0963</code></pre>
 <p>What land cover type is assigned to the most sampling units? Let’s tabulate them.</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="WE_2.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>nlcd)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="WE_2.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>nlcd)</span></code></pre></div>
 <pre><code>## 
 ## 11 12 42 52 71 90 
 ##  3  1 21  1  4  1</code></pre>
@@ -2005,14 +1266,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>4. Calculate landscape metrics</h3>
 <p>We are going to use the package <a href="https://r-spatialecology.github.io/landscapemetrics/"><code>landscapemetrics</code></a>. It is an R package to calculate landscape metrics in a tidy workflow (for more information about tidy data see <a href="https://www.jstatsoft.org/article/view/v059i10/">here</a>). <code>landscapemetrics</code> is basically a reimplementation of <a href="https://www.umass.edu/landeco/research/fragstats/fragstats.html">‘FRAGSTATS’</a>, which allows an integration into larger workflows within the R environment. The core of the package are functions to calculate landscape metrics, but also several auxiliary functions exit.</p>
 <p>To facilitate an integration into larger workflows, <code>landscapemetrics</code> is based on the <a href="https://CRAN.R-project.org/package=raster"><code>raster</code> package</a>. To check if a raster is suitable for <code>landscapemetrics</code>, run the <code>check_landscape()</code> function first. The function checks the coordinate reference system (and mainly if units are in meters) and if the raster values are discrete classes. If the check fails, the calculation of metrics is still possible, however, especially metrics that are based on area and distances must be used with caution.</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="WE_2.html#cb386-1" aria-hidden="true" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> <span class="fu">raster</span>(RasterMaps, <span class="at">layer =</span> <span class="st">&quot;nlcd&quot;</span>)</span>
-<span id="cb386-2"><a href="WE_2.html#cb386-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb386-3"><a href="WE_2.html#cb386-3" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">check_landscape</span>(nlcd)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="WE_2.html#cb93-1" aria-hidden="true" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> <span class="fu">raster</span>(RasterMaps, <span class="at">layer =</span> <span class="st">&quot;nlcd&quot;</span>)</span>
+<span id="cb93-2"><a href="WE_2.html#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="WE_2.html#cb93-3" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">check_landscape</span>(nlcd)</span></code></pre></div>
 <pre><code>##   layer       crs units   class n_classes OK
 ## 1     1 projected     m integer         8  ✓</code></pre>
 <p>There are three different levels of landscape metrics. Firstly, metrics can be calculated for each single patch (a patch is defined as neighbouring cells of the same class). Secondly, metrics can be calculated for a certain class (i.e. all patches belonging to the same class) and lastly for the whole landscape. All these levels are implemented and easily accessible in <code>landscapemetrics</code>.</p>
 <p>All functions to calculate metrics start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). Lastly, the final part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the Euclidean nearest-neighbor distance). To list all available metrics, you can use the <code>list_lsm()</code> function. The function also allows to show metrics filtered by level, type or metric name. For more information about the metrics, please see either the corresponding helpfile(s) or <a href="https://r-spatialecology.github.io/landscapemetrics/reference/index.html">https://r-spatialecology.github.io/landscapemetrics</a>.</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="WE_2.html#cb388-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, <span class="at">type =</span> <span class="st">&quot;diversity metric&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="WE_2.html#cb95-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, <span class="at">type =</span> <span class="st">&quot;diversity metric&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 5
 ##   metric name                               type             level function_name
 ##   &lt;chr&gt;  &lt;chr&gt;                              &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;        
@@ -2025,7 +1286,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 7 shei   shannon&#39;s evenness index           diversity metric land… lsm_l_shei   
 ## 8 sidi   simpson&#39;s diversity index          diversity metric land… lsm_l_sidi   
 ## 9 siei   simspon&#39;s evenness index           diversity metric land… lsm_l_siei</code></pre>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="WE_2.html#cb390-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">metric =</span> <span class="st">&quot;area&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="WE_2.html#cb97-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">metric =</span> <span class="st">&quot;area&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 × 5
 ##   metric  name       type                 level     function_name
 ##   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;        
@@ -2036,8 +1297,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 area_cv patch area area and edge metric landscape lsm_l_area_cv
 ## 6 area_mn patch area area and edge metric landscape lsm_l_area_mn
 ## 7 area_sd patch area area and edge metric landscape lsm_l_area_sd</code></pre>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="WE_2.html#cb392-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;landscape&quot;</span>), <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>, </span>
-<span id="cb392-2"><a href="WE_2.html#cb392-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="WE_2.html#cb99-1" aria-hidden="true" tabindex="-1"></a>landscapemetrics<span class="sc">::</span><span class="fu">list_lsm</span>(<span class="at">level =</span> <span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;landscape&quot;</span>), <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>, </span>
+<span id="cb99-2"><a href="WE_2.html#cb99-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;lsm_c_ai&quot;       &quot;lsm_c_clumpy&quot;   &quot;lsm_c_cohesion&quot; &quot;lsm_c_division&quot;
 ##  [5] &quot;lsm_c_enn_cv&quot;   &quot;lsm_c_enn_mn&quot;   &quot;lsm_c_enn_sd&quot;   &quot;lsm_c_iji&quot;     
 ##  [9] &quot;lsm_c_lsi&quot;      &quot;lsm_c_mesh&quot;     &quot;lsm_c_nlsi&quot;     &quot;lsm_c_np&quot;      
@@ -2050,10 +1311,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Calculate patch-, class- and landscape level landscape metrics</h4>
 <p>Note: This section explains different ways of calculating a selection of landscape metrics from a raster map with ‘landscapemetrics.’ If this seems too technical for a first go, you may jump to section 4b.</p>
 <p>To calculate a single metric, just use the corresponding function. The result of all landscape metric functions is always an identically structured <code>tibble</code> (i.e. an advanced <code>data.frame</code>). The first coloumn is the layer id (only interesting for e.g. a <code>RasterStack</code>). The second coloumn specifies the level (‘patch,’ ‘class’ or ‘landscape’). The third coloumn is the class ID (<code>NA</code> on landscape level) and the fourth coloumn is the patch ID (<code>NA</code> on class- and landscape level). Lastly, The fith coloumn is the abbreviation of the metric and finally the corresponding value in the last coloumn.</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="WE_2.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.lculate percentage of landscape of class</span></span>
-<span id="cb394-2"><a href="WE_2.html#cb394-2" aria-hidden="true" tabindex="-1"></a>percentage_class <span class="ot">&lt;-</span> <span class="fu">lsm_c_pland</span>(<span class="at">landscape =</span> nlcd)</span>
-<span id="cb394-3"><a href="WE_2.html#cb394-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb394-4"><a href="WE_2.html#cb394-4" aria-hidden="true" tabindex="-1"></a>percentage_class</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="WE_2.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.lculate percentage of landscape of class</span></span>
+<span id="cb101-2"><a href="WE_2.html#cb101-2" aria-hidden="true" tabindex="-1"></a>percentage_class <span class="ot">&lt;-</span> <span class="fu">lsm_c_pland</span>(<span class="at">landscape =</span> nlcd)</span>
+<span id="cb101-3"><a href="WE_2.html#cb101-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-4"><a href="WE_2.html#cb101-4" aria-hidden="true" tabindex="-1"></a>percentage_class</span></code></pre></div>
 <pre><code>## # A tibble: 8 × 6
 ##   layer level class    id metric   value
 ##   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -2071,13 +1332,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>What percentage of the landscape is classified as wetlands (classes 90 and 95)?</li>
 </ul>
 <p>Because the resulting <code>tibble</code> is type stable, you can easily row-bind (<code>rbind</code>) different metrics (even of different levels):</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="WE_2.html#cb396-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb396-2"><a href="WE_2.html#cb396-2" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_c_pladj</span>(nlcd), </span>
-<span id="cb396-3"><a href="WE_2.html#cb396-3" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_pr</span>(nlcd),</span>
-<span id="cb396-4"><a href="WE_2.html#cb396-4" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_shdi</span>(nlcd)</span>
-<span id="cb396-5"><a href="WE_2.html#cb396-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb396-6"><a href="WE_2.html#cb396-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb396-7"><a href="WE_2.html#cb396-7" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="WE_2.html#cb103-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb103-2"><a href="WE_2.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_c_pladj</span>(nlcd), </span>
+<span id="cb103-3"><a href="WE_2.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_pr</span>(nlcd),</span>
+<span id="cb103-4"><a href="WE_2.html#cb103-4" aria-hidden="true" tabindex="-1"></a>  landscapemetrics<span class="sc">::</span><span class="fu">lsm_l_shdi</span>(nlcd)</span>
+<span id="cb103-5"><a href="WE_2.html#cb103-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb103-6"><a href="WE_2.html#cb103-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-7"><a href="WE_2.html#cb103-7" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 6
 ##    layer level     class    id metric value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2094,9 +1355,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To calculate a larger set of landscape metrics, you can just use the wrapper <code>calculate_lsm()</code>. The arguments are similar to <code>list_lsm()</code>, e.g. you can specify the level or the type of metrics to calculate. Alternatively, you can also provide a vector with the function names of metrics to calculate to the <code>what</code> argument.</p>
 <p>However, watch out, for large rasters and many metrics, this can be rather slow (set <code>progress = TRUE</code> to get an progress report on the console). Also, we suggest to not just calculate all available metrics, but rather think about which ones might be actually suitable for your research question.</p>
 <p>Calculate all patch-level metrics using wrapper:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="WE_2.html#cb398-1" aria-hidden="true" tabindex="-1"></a>nlcd_patch <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd,</span>
-<span id="cb398-2"><a href="WE_2.html#cb398-2" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">level =</span> <span class="st">&quot;patch&quot;</span>)</span>
-<span id="cb398-3"><a href="WE_2.html#cb398-3" aria-hidden="true" tabindex="-1"></a>nlcd_patch</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="WE_2.html#cb105-1" aria-hidden="true" tabindex="-1"></a>nlcd_patch <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd,</span>
+<span id="cb105-2"><a href="WE_2.html#cb105-2" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">level =</span> <span class="st">&quot;patch&quot;</span>)</span>
+<span id="cb105-3"><a href="WE_2.html#cb105-3" aria-hidden="true" tabindex="-1"></a>nlcd_patch</span></code></pre></div>
 <pre><code>## # A tibble: 19,776 × 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2112,14 +1373,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10     1 patch    11    10 area    1.17
 ## # … with 19,766 more rows</code></pre>
 <p>Show abbreviation of all calculated metrics:</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="WE_2.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(nlcd_patch<span class="sc">$</span>metric)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="WE_2.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(nlcd_patch<span class="sc">$</span>metric)</span></code></pre></div>
 <pre><code>##  [1] &quot;area&quot;   &quot;cai&quot;    &quot;circle&quot; &quot;contig&quot; &quot;core&quot;   &quot;enn&quot;    &quot;frac&quot;   &quot;gyrate&quot;
 ##  [9] &quot;ncore&quot;  &quot;para&quot;   &quot;perim&quot;  &quot;shape&quot;</code></pre>
 <p>Calculate all aggregation metrics on landscape level:</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="WE_2.html#cb402-1" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
-<span id="cb402-2"><a href="WE_2.html#cb402-2" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, </span>
-<span id="cb402-3"><a href="WE_2.html#cb402-3" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>)</span>
-<span id="cb402-4"><a href="WE_2.html#cb402-4" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="WE_2.html#cb109-1" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb109-2"><a href="WE_2.html#cb109-2" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">level =</span> <span class="st">&quot;landscape&quot;</span>, </span>
+<span id="cb109-3"><a href="WE_2.html#cb109-3" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">type =</span> <span class="st">&quot;aggregation metric&quot;</span>)</span>
+<span id="cb109-4"><a href="WE_2.html#cb109-4" aria-hidden="true" tabindex="-1"></a>nlcd_landscape_aggr</span></code></pre></div>
 <pre><code>## # A tibble: 14 × 6
 ##    layer level     class    id metric      value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;
@@ -2138,11 +1399,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 13     1 landscape    NA    NA pladj      83.7  
 ## 14     1 landscape    NA    NA split       5.09</code></pre>
 <p>Calculate specific metrics:</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="WE_2.html#cb404-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
-<span id="cb404-2"><a href="WE_2.html#cb404-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
-<span id="cb404-3"><a href="WE_2.html#cb404-3" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
-<span id="cb404-4"><a href="WE_2.html#cb404-4" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_shdi&quot;</span>))</span>
-<span id="cb404-5"><a href="WE_2.html#cb404-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="WE_2.html#cb111-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb111-2"><a href="WE_2.html#cb111-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
+<span id="cb111-3"><a href="WE_2.html#cb111-3" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
+<span id="cb111-4"><a href="WE_2.html#cb111-4" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;lsm_l_shdi&quot;</span>))</span>
+<span id="cb111-5"><a href="WE_2.html#cb111-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 6
 ##    layer level     class    id metric value
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -2159,13 +1420,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The resulting <code>tibble</code> is easy to integrate into a workflow. For example, to get the ordered patch IDs of the 5% largest patches, the following code could be used.</p>
 <p>The pipe operator %&gt;% from the <code>dplyr</code> package passes the resulting object automatically to the next function as first argument.</p>
 <p>Note: the last step (pulling the id variable only) could be done by adding this to the pipe: <code>%&gt;% dplyr::pull(id)</code>. Due to some package inconsistencies, this sometimes created an error. Here we extract the id variable in a separate step as a work-around.</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="WE_2.html#cb406-1" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> nlcd_patch <span class="sc">%&gt;%</span> <span class="co"># previously calculated patch metrics</span></span>
-<span id="cb406-2"><a href="WE_2.html#cb406-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;area&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># only patch area</span></span>
-<span id="cb406-3"><a href="WE_2.html#cb406-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>value) <span class="sc">%&gt;%</span> <span class="co"># order by decreasing size</span></span>
-<span id="cb406-4"><a href="WE_2.html#cb406-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="fu">quantile</span>(value, <span class="at">probs =</span> <span class="fl">0.95</span>)) <span class="do">## g.t only patches larger than 95% quantile</span></span>
-<span id="cb406-5"><a href="WE_2.html#cb406-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb406-6"><a href="WE_2.html#cb406-6" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> id_largest<span class="sc">$</span>id <span class="do">## g.t only patch id</span></span>
-<span id="cb406-7"><a href="WE_2.html#cb406-7" aria-hidden="true" tabindex="-1"></a>id_largest</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="WE_2.html#cb113-1" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> nlcd_patch <span class="sc">%&gt;%</span> <span class="co"># previously calculated patch metrics</span></span>
+<span id="cb113-2"><a href="WE_2.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;area&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># only patch area</span></span>
+<span id="cb113-3"><a href="WE_2.html#cb113-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>value) <span class="sc">%&gt;%</span> <span class="co"># order by decreasing size</span></span>
+<span id="cb113-4"><a href="WE_2.html#cb113-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="fu">quantile</span>(value, <span class="at">probs =</span> <span class="fl">0.95</span>)) <span class="do">## g.t only patches larger than 95% quantile</span></span>
+<span id="cb113-5"><a href="WE_2.html#cb113-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-6"><a href="WE_2.html#cb113-6" aria-hidden="true" tabindex="-1"></a>id_largest <span class="ot">&lt;-</span> id_largest<span class="sc">$</span>id <span class="do">## g.t only patch id</span></span>
+<span id="cb113-7"><a href="WE_2.html#cb113-7" aria-hidden="true" tabindex="-1"></a>id_largest</span></code></pre></div>
 <pre><code>##  [1]  206  166 1265 1459 1549 1558 1421  427 1434 1385  226    3  386 1205  589
 ## [16] 1441  426 1059 1206  324  433 1195  315 1225  712 1266 1377  389  753 1528
 ## [31]  894 1510  286  563  240 1411  478 1364  435 1336  812  640 1376 1523  786
@@ -2174,12 +1435,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [76]  802 1614  729  977 1488   37  357 1353</code></pre>
 <p>Because the metric names are only abbreviated, there is also a way to include the full name in the results. For the wrapper, just set <code>full_name = TRUE</code>. For the rowbinded <code>tibble</code>, you can use the provided <code>tibble</code> called <code>lsm_abbreviations_names</code> that comes with the package and use e.g. <code>dplyr::left_join()</code> to combine it with your results.</p>
 <p>Add full metrics name to result:</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="WE_2.html#cb408-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(nlcd, </span>
-<span id="cb408-2"><a href="WE_2.html#cb408-2" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
-<span id="cb408-3"><a href="WE_2.html#cb408-3" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
-<span id="cb408-4"><a href="WE_2.html#cb408-4" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_shdi&quot;</span>), </span>
-<span id="cb408-5"><a href="WE_2.html#cb408-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">full_name =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb408-6"><a href="WE_2.html#cb408-6" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="WE_2.html#cb115-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">calculate_lsm</span>(nlcd, </span>
+<span id="cb115-2"><a href="WE_2.html#cb115-2" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_c_pladj&quot;</span>, </span>
+<span id="cb115-3"><a href="WE_2.html#cb115-3" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_pr&quot;</span>, </span>
+<span id="cb115-4"><a href="WE_2.html#cb115-4" aria-hidden="true" tabindex="-1"></a>                                                               <span class="st">&quot;lsm_l_shdi&quot;</span>), </span>
+<span id="cb115-5"><a href="WE_2.html#cb115-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">full_name =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb115-6"><a href="WE_2.html#cb115-6" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_a</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 9
 ##    layer level     class    id metric value name          type     function_name
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;        
@@ -2194,11 +1455,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     1 landscape    NA    NA pr      8    patch richne… diversi… lsm_l_pr     
 ## 10     1 landscape    NA    NA shdi    1.01 shannon&#39;s di… diversi… lsm_l_shdi</code></pre>
 <p>Add full metrics name to results calculated previously using <code>left_join()</code>:</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="WE_2.html#cb410-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">x =</span> nlcd_subset,</span>
-<span id="cb410-2"><a href="WE_2.html#cb410-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">y =</span> lsm_abbreviations_names,</span>
-<span id="cb410-3"><a href="WE_2.html#cb410-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;metric&quot;</span>, <span class="st">&quot;level&quot;</span>))</span>
-<span id="cb410-4"><a href="WE_2.html#cb410-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb410-5"><a href="WE_2.html#cb410-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="WE_2.html#cb117-1" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">x =</span> nlcd_subset,</span>
+<span id="cb117-2"><a href="WE_2.html#cb117-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">y =</span> lsm_abbreviations_names,</span>
+<span id="cb117-3"><a href="WE_2.html#cb117-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;metric&quot;</span>, <span class="st">&quot;level&quot;</span>))</span>
+<span id="cb117-4"><a href="WE_2.html#cb117-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-5"><a href="WE_2.html#cb117-5" aria-hidden="true" tabindex="-1"></a>nlcd_subset_full_b</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 9
 ##    layer level     class    id metric value name          type     function_name
 ##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;        
@@ -2216,13 +1477,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-calculate-patch-level-landscape-metrics-for-evergreen-forest" class="section level4">
 <h4>b. Calculate patch-level landscape metrics for ‘Evergreen Forest’</h4>
 <p>To only get the results for class 42 (evergreen forest), you can just <code>dplyr::filter()</code> the <code>tibble</code> (or use any other subset method you prefer).</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="WE_2.html#cb412-1" aria-hidden="true" tabindex="-1"></a>forest_patch_metrics <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_patch, class <span class="sc">==</span> <span class="dv">42</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="WE_2.html#cb119-1" aria-hidden="true" tabindex="-1"></a>forest_patch_metrics <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_patch, class <span class="sc">==</span> <span class="dv">42</span>)</span></code></pre></div>
 <p>All functions make heavy use of connected components labeling to delineate patches (neighbouring cells of the same class). To get all patches of every class you can just use <code>get_patches()</code>. To get only a certain class, just specify the <code>class</code> argument and the neighbourhood rule can be chosen between 8-neighbour rule or 4-neighbour rule with the argument <code>directions</code>.</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="WE_2.html#cb413-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nnected components labeling of landscape</span></span>
-<span id="cb413-2"><a href="WE_2.html#cb413-2" aria-hidden="true" tabindex="-1"></a>cc_nlcd <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">directions =</span> <span class="dv">8</span>)</span>
-<span id="cb413-3"><a href="WE_2.html#cb413-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb413-4"><a href="WE_2.html#cb413-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show name of each class</span></span>
-<span id="cb413-5"><a href="WE_2.html#cb413-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(cc_nlcd, <span class="cf">function</span>(x) <span class="fu">names</span>(x)) </span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="WE_2.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.nnected components labeling of landscape</span></span>
+<span id="cb120-2"><a href="WE_2.html#cb120-2" aria-hidden="true" tabindex="-1"></a>cc_nlcd <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">directions =</span> <span class="dv">8</span>)</span>
+<span id="cb120-3"><a href="WE_2.html#cb120-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-4"><a href="WE_2.html#cb120-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show name of each class</span></span>
+<span id="cb120-5"><a href="WE_2.html#cb120-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(cc_nlcd, <span class="cf">function</span>(x) <span class="fu">names</span>(x)) </span></code></pre></div>
 <pre><code>##      layer_1   
 ## [1,] &quot;class_11&quot;
 ## [2,] &quot;class_12&quot;
@@ -2232,14 +1493,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [6,] &quot;class_71&quot;
 ## [7,] &quot;class_90&quot;
 ## [8,] &quot;class_95&quot;</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="WE_2.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the fourth list entry is class forest</span></span>
-<span id="cb415-2"><a href="WE_2.html#cb415-2" aria-hidden="true" tabindex="-1"></a>cc_forest_a <span class="ot">&lt;-</span> cc_nlcd[<span class="dv">4</span>]</span>
-<span id="cb415-3"><a href="WE_2.html#cb415-3" aria-hidden="true" tabindex="-1"></a>cc_forest_b <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">class =</span> <span class="dv">42</span>) <span class="co"># watch out: result is list with one entry</span></span>
-<span id="cb415-4"><a href="WE_2.html#cb415-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb415-5"><a href="WE_2.html#cb415-5" aria-hidden="true" tabindex="-1"></a>cc_forest_a</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="WE_2.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the fourth list entry is class forest</span></span>
+<span id="cb122-2"><a href="WE_2.html#cb122-2" aria-hidden="true" tabindex="-1"></a>cc_forest_a <span class="ot">&lt;-</span> cc_nlcd[<span class="dv">4</span>]</span>
+<span id="cb122-3"><a href="WE_2.html#cb122-3" aria-hidden="true" tabindex="-1"></a>cc_forest_b <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">get_patches</span>(nlcd, <span class="at">class =</span> <span class="dv">42</span>) <span class="co"># watch out: result is list with one entry</span></span>
+<span id="cb122-4"><a href="WE_2.html#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="WE_2.html#cb122-5" aria-hidden="true" tabindex="-1"></a>cc_forest_a</span></code></pre></div>
 <pre><code>## $&lt;NA&gt;
 ## NULL</code></pre>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="WE_2.html#cb417-1" aria-hidden="true" tabindex="-1"></a>cc_forest_b</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="WE_2.html#cb124-1" aria-hidden="true" tabindex="-1"></a>cc_forest_b</span></code></pre></div>
 <pre><code>## $layer_1
 ## $layer_1$class_42
 ## class      : RasterLayer 
@@ -2251,32 +1512,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## names      : layer 
 ## values     : 1, 222  (min, max)</code></pre>
 <p>To plot the patches you can use the <code>show_patches()</code> function. Here we show patches of class 42 (forest) and class 52 (shrubland):</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="WE_2.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_patches</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="WE_2.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_patches</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## $layer_1</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <p>It is also possible to visualize only the core area of each patch using <code>show_cores()</code>. The core area is defined as all cells that are further away from the edge of each patch than a specified edge depth (e.g. 5 cells). Here we show core area with edge depth = 5 for class 42; try edge_depth = 1 for comparison:</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="WE_2.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_cores</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>), <span class="at">edge_depth =</span> <span class="dv">5</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="WE_2.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_cores</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>), <span class="at">edge_depth =</span> <span class="dv">5</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## $layer_1</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>Note: this may create a warning “no non-missing arguments to min; returning Inf” for each patch that does not have any core area. Here we suppressed the warnings for the chunk with the chunk option <code>warning=FALSE</code>.</p>
 <p>Lastly, you can plot the map and fill each patch with the corresponding metric value, e.g. patch size, using <code>show_lsm()</code>. Notice that there are two very large patches in class 42:</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="WE_2.html#cb423-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="WE_2.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">class =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">52</span>), <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## $layer_1</code></pre>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 </div>
 <div id="c.-extract-forest-patch-size-at-samplig-locations" class="section level4">
 <h4>c. Extract forest patch size at samplig locations</h4>
 <p>Let’s add forest patch size to the <code>Sites.sp</code> data. To extract landscape metrics of the patch in which each sampling point is located, use <code>extract_lsm()</code>. Which metrics are extracted can be specified by the <code>what</code> argument (similar to <code>calculate_lsm()</code>). However, only patch-level metrics are available. Please be aware, that the resulting <code>tibble</code> now has a new column, namely the ID of the sampling point (in the same order as the input points).</p>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="WE_2.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.tract patch area of all classes:</span></span>
-<span id="cb425-2"><a href="WE_2.html#cb425-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp <span class="ot">&lt;-</span> <span class="fu">extract_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">y =</span> Sites.sp, <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="WE_2.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="do">## e.tract patch area of all classes:</span></span>
+<span id="cb132-2"><a href="WE_2.html#cb132-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp <span class="ot">&lt;-</span> <span class="fu">extract_lsm</span>(<span class="at">landscape =</span> nlcd, <span class="at">y =</span> Sites.sp, <span class="at">what =</span> <span class="st">&quot;lsm_p_area&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Only using &#39;what&#39; argument.</code></pre>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="WE_2.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="do">## b.cause we are only interested in the forest patch size, we set all area of class != 42 to 0:</span></span>
-<span id="cb427-2"><a href="WE_2.html#cb427-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp_forest <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(patch_size_sp, </span>
-<span id="cb427-3"><a href="WE_2.html#cb427-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">value =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(class <span class="sc">==</span> <span class="dv">42</span> <span class="sc">~</span> value, </span>
-<span id="cb427-4"><a href="WE_2.html#cb427-4" aria-hidden="true" tabindex="-1"></a>                                                               class <span class="sc">!=</span> <span class="dv">42</span> <span class="sc">~</span> <span class="dv">0</span>))</span>
-<span id="cb427-5"><a href="WE_2.html#cb427-5" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d data to sp object:</span></span>
-<span id="cb427-6"><a href="WE_2.html#cb427-6" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize <span class="ot">&lt;-</span> patch_size_sp_forest<span class="sc">$</span>value</span>
-<span id="cb427-7"><a href="WE_2.html#cb427-7" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="WE_2.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="do">## b.cause we are only interested in the forest patch size, we set all area of class != 42 to 0:</span></span>
+<span id="cb134-2"><a href="WE_2.html#cb134-2" aria-hidden="true" tabindex="-1"></a>patch_size_sp_forest <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(patch_size_sp, </span>
+<span id="cb134-3"><a href="WE_2.html#cb134-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">value =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(class <span class="sc">==</span> <span class="dv">42</span> <span class="sc">~</span> value, </span>
+<span id="cb134-4"><a href="WE_2.html#cb134-4" aria-hidden="true" tabindex="-1"></a>                                                               class <span class="sc">!=</span> <span class="dv">42</span> <span class="sc">~</span> <span class="dv">0</span>))</span>
+<span id="cb134-5"><a href="WE_2.html#cb134-5" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d data to sp object:</span></span>
+<span id="cb134-6"><a href="WE_2.html#cb134-6" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize <span class="ot">&lt;-</span> patch_size_sp_forest<span class="sc">$</span>value</span>
+<span id="cb134-7"><a href="WE_2.html#cb134-7" aria-hidden="true" tabindex="-1"></a>Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize</span></code></pre></div>
 <pre><code>##  [1] 3179.88    0.00 3179.88    0.00    6.66 4539.33 4539.33 4539.33    0.00
 ## [10] 4539.33 4539.33   23.76   23.76    0.00    0.00 4539.33    0.00 4539.33
 ## [19]    3.60 3179.88    0.00 4539.33    3.87 4539.33    0.00    0.00   23.76
@@ -2284,8 +1545,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="d.-plot-a-bubble-map-of-forest-patch-size-at-sampling-locations" class="section level4">
 <h4>d. Plot a bubble map of forest patch size at sampling locations</h4>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="WE_2.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb429-2"><a href="WE_2.html#cb429-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(Sites.sp, <span class="st">&quot;ForestPatchSize&quot;</span>, <span class="at">fill =</span> <span class="cn">FALSE</span>, <span class="at">key.entries =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize))))</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="WE_2.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb136-2"><a href="WE_2.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(Sites.sp, <span class="st">&quot;ForestPatchSize&quot;</span>, <span class="at">fill =</span> <span class="cn">FALSE</span>, <span class="at">key.entries =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(Sites.sp<span class="sc">@</span>data<span class="sc">$</span>ForestPatchSize))))</span></code></pre></div>
 <pre><code>## Warning in wkt(obj): CRS object has no comment
 
 ## Warning in wkt(obj): CRS object has no comment</code></pre>
@@ -2296,15 +1557,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>5. Sample landscape metrics within buffer around sampling locations</h3>
 <p>The package <code>landscapemetrics</code> has a built-in function <code>sample_lsm</code> to sample metrics in a buffer around sampling locations, which are provided with argument <code>y</code>. You can choose the <code>shape</code> of the buffer window (either a circle or a square) and, with the argument <code>what</code>, which metrics to sample (similar to <code>calculate_lsm()</code>).</p>
 <p>The argument <code>size</code> specifies the buffer size in map units (e.g., meters): radius for circles, half of the side length for squares. Here, the value <code>size = 500</code> results in a square window of 1000 m x 1000 m centered at the sampling location.</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="WE_2.html#cb431-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
-<span id="cb431-2"><a href="WE_2.html#cb431-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>, </span>
-<span id="cb431-3"><a href="WE_2.html#cb431-3" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_np&quot;</span>,</span>
-<span id="cb431-4"><a href="WE_2.html#cb431-4" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_pland&quot;</span>, </span>
-<span id="cb431-5"><a href="WE_2.html#cb431-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
-<span id="cb431-6"><a href="WE_2.html#cb431-6" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
-<span id="cb431-7"><a href="WE_2.html#cb431-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">y =</span> Sites.sp, </span>
-<span id="cb431-8"><a href="WE_2.html#cb431-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">size =</span> <span class="dv">500</span>)</span>
-<span id="cb431-9"><a href="WE_2.html#cb431-9" aria-hidden="true" tabindex="-1"></a>nlcd_sampled</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="WE_2.html#cb138-1" aria-hidden="true" tabindex="-1"></a>nlcd_sampled <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb138-2"><a href="WE_2.html#cb138-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>, </span>
+<span id="cb138-3"><a href="WE_2.html#cb138-3" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_np&quot;</span>,</span>
+<span id="cb138-4"><a href="WE_2.html#cb138-4" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_pland&quot;</span>, </span>
+<span id="cb138-5"><a href="WE_2.html#cb138-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
+<span id="cb138-6"><a href="WE_2.html#cb138-6" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
+<span id="cb138-7"><a href="WE_2.html#cb138-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">y =</span> Sites.sp, </span>
+<span id="cb138-8"><a href="WE_2.html#cb138-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">size =</span> <span class="dv">500</span>)</span>
+<span id="cb138-9"><a href="WE_2.html#cb138-9" aria-hidden="true" tabindex="-1"></a>nlcd_sampled</span></code></pre></div>
 <pre><code>## # A tibble: 493 × 8
 ##    layer level class    id metric value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2321,19 +1582,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # … with 483 more rows</code></pre>
 <p>The <code>tibble</code> now contains two additional columns. Firstly, the <code>plot_id</code> (in the same order as the input points) and secondly, the <code>percentage_inside</code>, i.e. what percentage of the buffer around the sampling location lies within the map. (In cases where the sampling location is on the edge of the landscape, the buffer around the sampling location could be only partly within the map). The value can also deviate from 100 % because the sampling locations are not necessarily in the cell center and the actually clipped cells lead to a slightly smaller or larger buffer area. A circular buffer shape increases this effect.</p>
 <p>It is also possible to get the clippings of the buffer around sampling locations as a <code>RasterLayer</code>. For this, just set <code>return_raster = TRUE</code>.</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="WE_2.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample some metrics within buffer around sample location and returning sample</span></span>
-<span id="cb433-2"><a href="WE_2.html#cb433-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plots as raster</span></span>
-<span id="cb433-3"><a href="WE_2.html#cb433-3" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
-<span id="cb433-4"><a href="WE_2.html#cb433-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>,</span>
-<span id="cb433-5"><a href="WE_2.html#cb433-5" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_np&quot;</span>,</span>
-<span id="cb433-6"><a href="WE_2.html#cb433-6" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_pland&quot;</span>,</span>
-<span id="cb433-7"><a href="WE_2.html#cb433-7" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
-<span id="cb433-8"><a href="WE_2.html#cb433-8" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
-<span id="cb433-9"><a href="WE_2.html#cb433-9" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">y =</span> Sites.sp, </span>
-<span id="cb433-10"><a href="WE_2.html#cb433-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">size =</span> <span class="dv">500</span>, </span>
-<span id="cb433-11"><a href="WE_2.html#cb433-11" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb433-12"><a href="WE_2.html#cb433-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-13"><a href="WE_2.html#cb433-13" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="WE_2.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample some metrics within buffer around sample location and returning sample</span></span>
+<span id="cb140-2"><a href="WE_2.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plots as raster</span></span>
+<span id="cb140-3"><a href="WE_2.html#cb140-3" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots <span class="ot">&lt;-</span> landscapemetrics<span class="sc">::</span><span class="fu">sample_lsm</span>(<span class="at">landscape =</span> nlcd, </span>
+<span id="cb140-4"><a href="WE_2.html#cb140-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">what =</span> <span class="fu">c</span>(<span class="st">&quot;lsm_l_ta&quot;</span>,</span>
+<span id="cb140-5"><a href="WE_2.html#cb140-5" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_np&quot;</span>,</span>
+<span id="cb140-6"><a href="WE_2.html#cb140-6" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_pland&quot;</span>,</span>
+<span id="cb140-7"><a href="WE_2.html#cb140-7" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">&quot;lsm_c_ai&quot;</span>),</span>
+<span id="cb140-8"><a href="WE_2.html#cb140-8" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">shape =</span> <span class="st">&quot;square&quot;</span>,</span>
+<span id="cb140-9"><a href="WE_2.html#cb140-9" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">y =</span> Sites.sp, </span>
+<span id="cb140-10"><a href="WE_2.html#cb140-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">size =</span> <span class="dv">500</span>, </span>
+<span id="cb140-11"><a href="WE_2.html#cb140-11" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">return_raster =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb140-12"><a href="WE_2.html#cb140-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-13"><a href="WE_2.html#cb140-13" aria-hidden="true" tabindex="-1"></a>nlcd_sampled_plots</span></code></pre></div>
 <pre><code>## # A tibble: 493 × 9
 ##    layer level class    id metric value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2350,41 +1611,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # … with 483 more rows, and 1 more variable: raster_sample_plots &lt;list&gt;</code></pre>
 <p>The result will be a nested <code>tibble</code> containing the <code>plot_id</code>, the metrics and a <code>RasterLayer</code> with the clipped buffers (as a <code>list</code>). Attention: Because several metrics on class- and landscape-level the clipped buffers will be “repeated” several times.</p>
 <p>Here we show results for the first four sampling locations:</p>
-<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="WE_2.html#cb435-1" aria-hidden="true" tabindex="-1"></a>unique_plots <span class="ot">&lt;-</span> <span class="fu">unique</span>(nlcd_sampled_plots<span class="sc">$</span>raster_sample_plots)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb435-2"><a href="WE_2.html#cb435-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb435-3"><a href="WE_2.html#cb435-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb435-4"><a href="WE_2.html#cb435-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">1</span>]], </span>
-<span id="cb435-5"><a href="WE_2.html#cb435-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">1</span>]), </span>
-<span id="cb435-6"><a href="WE_2.html#cb435-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
-<span id="cb435-7"><a href="WE_2.html#cb435-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">2</span>]],</span>
-<span id="cb435-8"><a href="WE_2.html#cb435-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">2</span>]),</span>
-<span id="cb435-9"><a href="WE_2.html#cb435-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
-<span id="cb435-10"><a href="WE_2.html#cb435-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">3</span>]],</span>
-<span id="cb435-11"><a href="WE_2.html#cb435-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">3</span>]), </span>
-<span id="cb435-12"><a href="WE_2.html#cb435-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
-<span id="cb435-13"><a href="WE_2.html#cb435-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">4</span>]],</span>
-<span id="cb435-14"><a href="WE_2.html#cb435-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">4</span>]), </span>
-<span id="cb435-15"><a href="WE_2.html#cb435-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="WE_2.html#cb142-1" aria-hidden="true" tabindex="-1"></a>unique_plots <span class="ot">&lt;-</span> <span class="fu">unique</span>(nlcd_sampled_plots<span class="sc">$</span>raster_sample_plots)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb142-2"><a href="WE_2.html#cb142-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-3"><a href="WE_2.html#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb142-4"><a href="WE_2.html#cb142-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">1</span>]], </span>
+<span id="cb142-5"><a href="WE_2.html#cb142-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">1</span>]), </span>
+<span id="cb142-6"><a href="WE_2.html#cb142-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb142-7"><a href="WE_2.html#cb142-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">2</span>]],</span>
+<span id="cb142-8"><a href="WE_2.html#cb142-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">2</span>]),</span>
+<span id="cb142-9"><a href="WE_2.html#cb142-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb142-10"><a href="WE_2.html#cb142-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">3</span>]],</span>
+<span id="cb142-11"><a href="WE_2.html#cb142-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">3</span>]), </span>
+<span id="cb142-12"><a href="WE_2.html#cb142-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span>
+<span id="cb142-13"><a href="WE_2.html#cb142-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(unique_plots[[<span class="dv">4</span>]],</span>
+<span id="cb142-14"><a href="WE_2.html#cb142-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(Sites.sp<span class="sc">$</span>SiteName[<span class="dv">4</span>]), </span>
+<span id="cb142-15"><a href="WE_2.html#cb142-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="dv">9</span>)))</span></code></pre></div>
 <p><img src="02-Week02_files/figure-html/unnamed-chunk-48-1.png" width="768" /></p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="WE_2.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="WE_2.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <div id="b.-extract-landscape-metric-of-choice-for-a-single-cover-type-as-vector" class="section level4">
 <h4>b. Extract landscape metric of choice for a single cover type (as vector)</h4>
 <p>To extract a metrics you can just <code>dplyr::filter()</code> the resulting <code>tibble</code> and pull the <code>value</code> column.
 Here we filter the results for class == 42 (forest) and metric <code>pland</code> (percentage of landscape) and pull the results as a vector:</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="WE_2.html#cb437-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, </span>
-<span id="cb437-2"><a href="WE_2.html#cb437-2" aria-hidden="true" tabindex="-1"></a>                                                     class <span class="sc">==</span> <span class="dv">42</span>, </span>
-<span id="cb437-3"><a href="WE_2.html#cb437-3" aria-hidden="true" tabindex="-1"></a>                                                     metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), value)</span>
-<span id="cb437-4"><a href="WE_2.html#cb437-4" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="WE_2.html#cb144-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled, </span>
+<span id="cb144-2"><a href="WE_2.html#cb144-2" aria-hidden="true" tabindex="-1"></a>                                                     class <span class="sc">==</span> <span class="dv">42</span>, </span>
+<span id="cb144-3"><a href="WE_2.html#cb144-3" aria-hidden="true" tabindex="-1"></a>                                                     metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>), value)</span>
+<span id="cb144-4"><a href="WE_2.html#cb144-4" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_a</span></code></pre></div>
 <pre><code>##  [1] 77.50230 39.57759 38.01653 31.40138 40.40404 83.30450 69.16221 86.80927
 ##  [9] 10.19284 72.81910 92.19467 34.04635 34.84848 27.09447 31.37255 56.23886
 ## [17] 59.77961 58.73440 37.64922 60.12111 46.16756 32.32323 23.35640 50.44563
 ## [25] 66.93405 30.57851 33.70064 26.53811 45.18717 38.05704 62.47772</code></pre>
 <p>As an alternative, here’s the same workflow again, but using a pipe:</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="WE_2.html#cb439-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b <span class="ot">&lt;-</span> nlcd_sampled <span class="sc">%&gt;%</span> </span>
-<span id="cb439-2"><a href="WE_2.html#cb439-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(class <span class="sc">==</span> <span class="dv">42</span>, </span>
-<span id="cb439-3"><a href="WE_2.html#cb439-3" aria-hidden="true" tabindex="-1"></a>                metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb439-4"><a href="WE_2.html#cb439-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(value)</span>
-<span id="cb439-5"><a href="WE_2.html#cb439-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="WE_2.html#cb146-1" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b <span class="ot">&lt;-</span> nlcd_sampled <span class="sc">%&gt;%</span> </span>
+<span id="cb146-2"><a href="WE_2.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(class <span class="sc">==</span> <span class="dv">42</span>, </span>
+<span id="cb146-3"><a href="WE_2.html#cb146-3" aria-hidden="true" tabindex="-1"></a>                metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb146-4"><a href="WE_2.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(value)</span>
+<span id="cb146-5"><a href="WE_2.html#cb146-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_b</span></code></pre></div>
 <pre><code>##  [1] 77.50230 39.57759 38.01653 31.40138 40.40404 83.30450 69.16221 86.80927
 ##  [9] 10.19284 72.81910 92.19467 34.04635 34.84848 27.09447 31.37255 56.23886
 ## [17] 59.77961 58.73440 37.64922 60.12111 46.16756 32.32323 23.35640 50.44563
@@ -2393,11 +1654,11 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 <div id="c.-extract-landscape-metric-of-choice-for-all-cover-types-as-data-frame." class="section level4">
 <h4>c. Extract landscape metric of choice for all cover types (as data frame).</h4>
 <p>To extract the landscape metric ‘prop.landscape’ for all cover types as a <code>tibble</code>, just filter <code>dplyr::filter()</code> the <code>tibble</code> again, but only use the <code>metric</code> as filter.</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="WE_2.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for percentage of landscape</span></span>
-<span id="cb441-2"><a href="WE_2.html#cb441-2" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
-<span id="cb441-3"><a href="WE_2.html#cb441-3" aria-hidden="true" tabindex="-1"></a>                                          metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>)</span>
-<span id="cb441-4"><a href="WE_2.html#cb441-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb441-5"><a href="WE_2.html#cb441-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="WE_2.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for percentage of landscape</span></span>
+<span id="cb148-2"><a href="WE_2.html#cb148-2" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
+<span id="cb148-3"><a href="WE_2.html#cb148-3" aria-hidden="true" tabindex="-1"></a>                                          metric <span class="sc">==</span> <span class="st">&quot;pland&quot;</span>)</span>
+<span id="cb148-4"><a href="WE_2.html#cb148-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-5"><a href="WE_2.html#cb148-5" aria-hidden="true" tabindex="-1"></a>percentage_forest_500_df</span></code></pre></div>
 <pre><code>## # A tibble: 154 × 8
 ##    layer level class    id metric   value plot_id percentage_inside
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;
@@ -2413,11 +1674,11 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 ## 10     1 class    52    NA pland   5.33         2              98.0
 ## # … with 144 more rows</code></pre>
 <p>The percent cover of all cover types should add up to ~ 100% (i.e., 1) for each site. We can check this with the function <code>dplyr::summarize()</code>. First, we need to group the data using the <code>plot_id</code>, then sum all percentages.</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="WE_2.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="do">## g.oup by plot_id and sum all percentages</span></span>
-<span id="cb443-2"><a href="WE_2.html#cb443-2" aria-hidden="true" tabindex="-1"></a>pland_sum_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">summarize</span>(dplyr<span class="sc">::</span><span class="fu">group_by</span>(percentage_forest_500_df, </span>
-<span id="cb443-3"><a href="WE_2.html#cb443-3" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">by =</span> plot_id), </span>
-<span id="cb443-4"><a href="WE_2.html#cb443-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
-<span id="cb443-5"><a href="WE_2.html#cb443-5" aria-hidden="true" tabindex="-1"></a>pland_sum_a</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="WE_2.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="do">## g.oup by plot_id and sum all percentages</span></span>
+<span id="cb150-2"><a href="WE_2.html#cb150-2" aria-hidden="true" tabindex="-1"></a>pland_sum_a <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">summarize</span>(dplyr<span class="sc">::</span><span class="fu">group_by</span>(percentage_forest_500_df, </span>
+<span id="cb150-3"><a href="WE_2.html#cb150-3" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">by =</span> plot_id), </span>
+<span id="cb150-4"><a href="WE_2.html#cb150-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb150-5"><a href="WE_2.html#cb150-5" aria-hidden="true" tabindex="-1"></a>pland_sum_a</span></code></pre></div>
 <pre><code>## # A tibble: 31 × 2
 ##       by sum_pland
 ##    &lt;int&gt;     &lt;dbl&gt;
@@ -2433,10 +1694,10 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 ## 10    10       100
 ## # … with 21 more rows</code></pre>
 <p>Same workflow, but using a pipe:</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="WE_2.html#cb445-1" aria-hidden="true" tabindex="-1"></a>pland_sum_b <span class="ot">&lt;-</span> percentage_forest_500_df <span class="sc">%&gt;%</span> </span>
-<span id="cb445-2"><a href="WE_2.html#cb445-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(plot_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb445-3"><a href="WE_2.html#cb445-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
-<span id="cb445-4"><a href="WE_2.html#cb445-4" aria-hidden="true" tabindex="-1"></a>pland_sum_b</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="WE_2.html#cb152-1" aria-hidden="true" tabindex="-1"></a>pland_sum_b <span class="ot">&lt;-</span> percentage_forest_500_df <span class="sc">%&gt;%</span> </span>
+<span id="cb152-2"><a href="WE_2.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(plot_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb152-3"><a href="WE_2.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">sum_pland =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb152-4"><a href="WE_2.html#cb152-4" aria-hidden="true" tabindex="-1"></a>pland_sum_b</span></code></pre></div>
 <pre><code>## # A tibble: 31 × 2
 ##    plot_id sum_pland
 ##      &lt;int&gt;     &lt;dbl&gt;
@@ -2455,17 +1716,17 @@ Here we filter the results for class == 42 (forest) and metric <code>pland</code
 <div id="d.-extract-all-landscape-metrics-for-a-single-cover-type-as-data-frame" class="section level4">
 <h4>d. Extract all landscape metrics for a single cover type (as data frame)</h4>
 <p>Filter<code>dplyr::filter()</code> for <code>class == 42</code> and add the sites names as coloumn to the resulting <code>tibble</code>.</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="WE_2.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for class == 42 (forest)</span></span>
-<span id="cb447-2"><a href="WE_2.html#cb447-2" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
-<span id="cb447-3"><a href="WE_2.html#cb447-3" aria-hidden="true" tabindex="-1"></a>                               class <span class="sc">==</span> <span class="dv">42</span>)</span>
-<span id="cb447-4"><a href="WE_2.html#cb447-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb447-5"><a href="WE_2.html#cb447-5" aria-hidden="true" tabindex="-1"></a><span class="do">## d.ta.frame with id and name of site</span></span>
-<span id="cb447-6"><a href="WE_2.html#cb447-6" aria-hidden="true" tabindex="-1"></a>SiteName_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Sites.sp<span class="sc">$</span>SiteName), <span class="at">site_name =</span> Sites.sp<span class="sc">$</span>SiteName)</span>
-<span id="cb447-7"><a href="WE_2.html#cb447-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb447-8"><a href="WE_2.html#cb447-8" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d site_name to metrics using plot_id and id of sampling sites</span></span>
-<span id="cb447-9"><a href="WE_2.html#cb447-9" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(forest_500_df, SiteName_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;plot_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;id&quot;</span>))</span>
-<span id="cb447-10"><a href="WE_2.html#cb447-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb447-11"><a href="WE_2.html#cb447-11" aria-hidden="true" tabindex="-1"></a>forest_500_df</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="WE_2.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="do">## f.lter for class == 42 (forest)</span></span>
+<span id="cb154-2"><a href="WE_2.html#cb154-2" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(nlcd_sampled,</span>
+<span id="cb154-3"><a href="WE_2.html#cb154-3" aria-hidden="true" tabindex="-1"></a>                               class <span class="sc">==</span> <span class="dv">42</span>)</span>
+<span id="cb154-4"><a href="WE_2.html#cb154-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-5"><a href="WE_2.html#cb154-5" aria-hidden="true" tabindex="-1"></a><span class="do">## d.ta.frame with id and name of site</span></span>
+<span id="cb154-6"><a href="WE_2.html#cb154-6" aria-hidden="true" tabindex="-1"></a>SiteName_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Sites.sp<span class="sc">$</span>SiteName), <span class="at">site_name =</span> Sites.sp<span class="sc">$</span>SiteName)</span>
+<span id="cb154-7"><a href="WE_2.html#cb154-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-8"><a href="WE_2.html#cb154-8" aria-hidden="true" tabindex="-1"></a><span class="do">## a.d site_name to metrics using plot_id and id of sampling sites</span></span>
+<span id="cb154-9"><a href="WE_2.html#cb154-9" aria-hidden="true" tabindex="-1"></a>forest_500_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(forest_500_df, SiteName_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;plot_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;id&quot;</span>))</span>
+<span id="cb154-10"><a href="WE_2.html#cb154-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-11"><a href="WE_2.html#cb154-11" aria-hidden="true" tabindex="-1"></a>forest_500_df</span></code></pre></div>
 <pre><code>## # A tibble: 93 × 9
 ##    layer level class    id metric value plot_id percentage_inside site_name     
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt; &lt;chr&gt;         

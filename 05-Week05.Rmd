@@ -101,7 +101,7 @@ You can submit multiple attempts and the best attempt will be graded. You will r
 
 ## Worked Example{#WE_5}
 
-```{r}
+```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week5_vignette.Rmd")
 yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)
