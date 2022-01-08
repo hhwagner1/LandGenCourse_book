@@ -180,8 +180,13 @@ rnorm(10)
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] -1.1004976  0.1525153  0.2462272 -0.9466027 -0.2469184  0.6796281
 ##  [7]  1.9432422 -0.8357276 -0.9888942  0.4419820
+=======
+##  [1]  0.97977029  0.99082338  0.04240721  0.90712494 -0.25304539 -1.76968899
+##  [7] -0.32411161 -0.18100105 -0.57174790 -0.47142739
+>>>>>>> Stashed changes
 ```
 
 from the normal distribution with designated mean and standard deviation:
@@ -192,8 +197,13 @@ rnorm(10,mean=42,sd=12)
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] 61.75416 20.93927 33.14975 35.83036 50.99725 42.17253 54.87826 59.17083
 ##  [9] 74.91233 34.56925
+=======
+##  [1] 39.75472 40.10474 41.64354 32.24089 42.17343 37.00403 32.60608 65.23271
+##  [9] 23.73242 45.58109
+>>>>>>> Stashed changes
 ```
 
 A poisson distribution with mean 2:
@@ -204,7 +214,11 @@ rpois(10,lambda = 2)
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] 2 2 0 3 3 1 0 1 3 3
+=======
+##  [1] 0 2 1 4 2 1 2 2 3 0
+>>>>>>> Stashed changes
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
@@ -215,8 +229,13 @@ rchisq(10, df=1)
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] 1.4398890 0.4719287 0.1136631 0.4232242 2.8880269 0.2012972 0.9111348
 ##  [8] 1.0840009 0.3194523 0.2548885
+=======
+##  [1] 2.71902980 0.71868681 0.45624479 4.35033905 0.04583866 0.05100703
+##  [7] 0.08400781 0.47045141 0.10353179 2.65220150
+>>>>>>> Stashed changes
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -547,10 +566,17 @@ data
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1]  0.07629875 -0.49658451  0.02643081 -0.09086597 -0.14672396 -0.54908861
 ##  [7] -1.61728865 -0.03866926 -2.14543733  0.20940107  0.53043612  0.29026588
 ## [13]  0.90477437 -0.60832532  1.36688062  1.25042638  0.35627201 -0.05233272
 ## [19]  1.12260993  1.50734259
+=======
+##  [1]  0.14241733  2.19022817 -0.84695222 -1.64509345 -1.07449957  0.82856198
+##  [7]  0.21927086 -0.40277885  0.99864424  2.27716221 -0.58078040 -1.78617806
+## [13]  1.23096188 -0.42424142  2.32298857  0.06339704 -1.22515550 -0.43844907
+## [19] -1.46352977  0.21689589
+>>>>>>> Stashed changes
 ```
 
 
@@ -562,8 +588,13 @@ data[ data > 0 ]
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] 0.07629875 0.02643081 0.20940107 0.53043612 0.29026588 0.90477437
 ##  [7] 1.36688062 1.25042638 0.35627201 1.12260993 1.50734259
+=======
+##  [1] 0.14241733 2.19022817 0.82856198 0.21927086 0.99864424 2.27716221
+##  [7] 1.23096188 2.32298857 0.06339704 0.21689589
+>>>>>>> Stashed changes
 ```
 
 If you look at the condition being passed to as the index
@@ -574,8 +605,13 @@ data > 0
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE
 ## [13]  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+=======
+##  [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+## [13]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE
+>>>>>>> Stashed changes
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -599,8 +635,13 @@ data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1]  0.07629875  0.02643081 -0.14672396 -1.61728865 -2.14543733  0.53043612
 ##  [7]  0.90477437  1.36688062  0.35627201  1.12260993
+=======
+##  [1]  0.1424173 -0.8469522 -1.0744996  0.2192709  0.9986442 -0.5807804
+##  [7]  1.2309619  2.3229886 -1.2251555 -1.4635298
+>>>>>>> Stashed changes
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -1155,11 +1196,19 @@ df
 
 ```
 ##   ID Names Score
+<<<<<<< Updated upstream
 ## 1  1   Bob    90
 ## 2  2 Alice    91
 ## 3  3 Vicki    91
 ## 4  4  John    94
 ## 5  5 Sarah    87
+=======
+## 1  1   Bob    95
+## 2  2 Alice    93
+## 3  3 Vicki    94
+## 4  4  John    92
+## 5  5 Sarah    89
+>>>>>>> Stashed changes
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
@@ -1178,12 +1227,21 @@ summary(df)
 
 ```
 ##        ID       Names               Score      Passed_Class   
+<<<<<<< Updated upstream
 ##  Min.   :1   Length:5           Min.   :87.0   Mode :logical  
 ##  1st Qu.:2   Class :character   1st Qu.:90.0   FALSE:1        
 ##  Median :3   Mode  :character   Median :91.0   TRUE :4        
 ##  Mean   :3                      Mean   :90.6                  
 ##  3rd Qu.:4                      3rd Qu.:91.0                  
 ##  Max.   :5                      Max.   :94.0
+=======
+##  Min.   :1   Length:5           Min.   :89.0   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:92.0   FALSE:1        
+##  Median :3   Mode  :character   Median :93.0   TRUE :4        
+##  Mean   :3                      Mean   :92.6                  
+##  3rd Qu.:4                      3rd Qu.:94.0                  
+##  Max.   :5                      Max.   :95.0
+>>>>>>> Stashed changes
 ```
 
 
@@ -1199,7 +1257,11 @@ df[1,3]
 ```
 
 ```
+<<<<<<< Updated upstream
 ## [1] 90
+=======
+## [1] 95
+>>>>>>> Stashed changes
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
@@ -1211,7 +1273,11 @@ df[1,]
 
 ```
 ##   ID Names Score Passed_Class
+<<<<<<< Updated upstream
 ## 1  1   Bob    90         TRUE
+=======
+## 1  1   Bob    95         TRUE
+>>>>>>> Stashed changes
 ```
 
 or along columns (which give you a vector of data)
@@ -1222,7 +1288,11 @@ df[,3]
 ```
 
 ```
+<<<<<<< Updated upstream
 ## [1] 90 91 91 94 87
+=======
+## [1] 95 93 94 92 89
+>>>>>>> Stashed changes
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
@@ -1245,9 +1315,15 @@ df[1:3,]
 
 ```
 ##   ID Names Score Passed_Class
+<<<<<<< Updated upstream
 ## 1  1   Bob    90         TRUE
 ## 2  2 Alice    91         TRUE
 ## 3  3 Vicki    91         TRUE
+=======
+## 1  1   Bob    95         TRUE
+## 2  2 Alice    93         TRUE
+## 3  3 Vicki    94         TRUE
+>>>>>>> Stashed changes
 ```
 
 It is also possible to use logical operators as indices.  Here I select only those names in the data.frame whose score was >90 and they passed popgen.
@@ -1258,7 +1334,11 @@ df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
+<<<<<<< Updated upstream
 ## [1] "Alice" "Vicki"
+=======
+## [1] "Bob"   "Alice" "Vicki"
+>>>>>>> Stashed changes
 ```
 
 
@@ -2243,11 +2323,19 @@ colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
+<<<<<<< Updated upstream
 ##  [1] "gray17"          "gray85"          "lightgreen"      "blue4"          
 ##  [5] "lightgoldenrod"  "gray61"          "plum3"           "gray21"         
 ##  [9] "gray45"          "azure2"          "azure3"          "gray38"         
 ## [13] "aliceblue"       "palevioletred2"  "indianred4"      "black"          
 ## [17] "royalblue4"      "lightblue3"      "grey30"          "lightgoldenrod4"
+=======
+##  [1] "gray16"         "slateblue1"     "hotpink1"       "deeppink4"     
+##  [5] "gray100"        "gray26"         "darkred"        "thistle2"      
+##  [9] "seagreen"       "mediumorchid3"  "bisque4"        "gray55"        
+## [13] "grey100"        "grey27"         "lavenderblush4" "skyblue3"      
+## [17] "mediumorchid"   "gray9"          "gray24"         "grey16"
+>>>>>>> Stashed changes
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).

@@ -1387,12 +1387,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="r-graphics.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">colors</span>())</span></code></pre></div>
 <pre><code>## [1] 657</code></pre>
 <p>different colors available for your use. Not all are distinct as some overlap. However the benefit of these colors is that they have specific names, making it easier for you to remember than RGB or hex representations. Here are a random set of 20 color names.</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-graphics.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colors</span>()[ <span class="fu">sample.int</span>( <span class="fu">length</span>(<span class="fu">colors</span>()), <span class="at">size=</span><span class="dv">20</span>) ]</span></code></pre></div>
 <pre><code>##  [1] &quot;gray17&quot;          &quot;gray85&quot;          &quot;lightgreen&quot;      &quot;blue4&quot;          
 ##  [5] &quot;lightgoldenrod&quot;  &quot;gray61&quot;          &quot;plum3&quot;           &quot;gray21&quot;         
 ##  [9] &quot;gray45&quot;          &quot;azure2&quot;          &quot;azure3&quot;          &quot;gray38&quot;         
 ## [13] &quot;aliceblue&quot;       &quot;palevioletred2&quot;  &quot;indianred4&quot;      &quot;black&quot;          
 ## [17] &quot;royalblue4&quot;      &quot;lightblue3&quot;      &quot;grey30&quot;          &quot;lightgoldenrod4&quot;</code></pre>
+=======
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="r-graphics.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colors</span>()[ <span class="fu">sample.int</span>( <span class="fu">length</span>(<span class="fu">colors</span>()), <span class="at">size=</span><span class="dv">20</span>) ]</span></code></pre></div>
+<pre><code>##  [1] &quot;gray16&quot;         &quot;slateblue1&quot;     &quot;hotpink1&quot;       &quot;deeppink4&quot;     
+##  [5] &quot;gray100&quot;        &quot;gray26&quot;         &quot;darkred&quot;        &quot;thistle2&quot;      
+##  [9] &quot;seagreen&quot;       &quot;mediumorchid3&quot;  &quot;bisque4&quot;        &quot;gray55&quot;        
+## [13] &quot;grey100&quot;        &quot;grey27&quot;         &quot;lavenderblush4&quot; &quot;skyblue3&quot;      
+## [17] &quot;mediumorchid&quot;   &quot;gray9&quot;          &quot;gray24&quot;         &quot;grey16&quot;</code></pre>
+>>>>>>> Stashed changes
 <p>To use these colors you can call them by name in the col= option to a plot. Here is an example where I define three named colors and then coerce the <code>iris$Species</code> variable into an integer to select the color by species and plot it in a scatter plot (another version of the <code>pch=</code> example previously).</p>
 <div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="r-graphics.html#cb276-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;royalblue1&quot;</span>, <span class="st">&quot;orange1&quot;</span>, <span class="st">&quot;green3&quot;</span>)</span>
 <span id="cb276-2"><a href="r-graphics.html#cb276-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> colors[ iris<span class="sc">$</span>Species ]</span>

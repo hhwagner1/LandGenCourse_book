@@ -1584,6 +1584,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>gi</strong>: the genind object that contains the genotypes at the end of the simulation.</li>
 </ul>
 <p>First we make sure the folder <code>simout</code> exists within the <code>output</code> folder in the R project:</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="WE_8.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
 <span id="cb62-2"><a href="WE_8.html#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
 <span id="cb62-3"><a href="WE_8.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>)))</span>
@@ -1637,6 +1638,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Finished run: 13 out of 15. So far, it took: 20.62 sec.
 ## Finished run: 14 out of 15. So far, it took: 23.6 sec.
 ## Finished run: 15 out of 15. So far, it took: 26.63 sec.</code></pre>
+=======
+<div class="sourceCode" id="cb966"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb966-1"><a href="WE_8.html#cb966-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
+<span id="cb966-2"><a href="WE_8.html#cb966-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
+<span id="cb966-3"><a href="WE_8.html#cb966-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>)))</span>
+<span id="cb966-4"><a href="WE_8.html#cb966-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb967-1"><a href="WE_8.html#cb967-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.eate a timer (just to know how long it will take roughly)</span></span>
+<span id="cb967-2"><a href="WE_8.html#cb967-2" aria-hidden="true" tabindex="-1"></a>timer0 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>],<span class="dv">2</span>)</span>
+<span id="cb967-3"><a href="WE_8.html#cb967-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb967-4"><a href="WE_8.html#cb967-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(para.space))</span>
+<span id="cb967-5"><a href="WE_8.html#cb967-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb967-6"><a href="WE_8.html#cb967-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## i.itialize</span></span>
+<span id="cb967-7"><a href="WE_8.html#cb967-7" aria-hidden="true" tabindex="-1"></a>  simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind, </span>
+<span id="cb967-8"><a href="WE_8.html#cb967-8" aria-hidden="true" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, para<span class="sc">$</span>n.allels, </span>
+<span id="cb967-9"><a href="WE_8.html#cb967-9" aria-hidden="true" tabindex="-1"></a>                           para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span>
+<span id="cb967-10"><a href="WE_8.html#cb967-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb967-11"><a href="WE_8.html#cb967-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># run for para.space$time[i] generations</span></span>
+<span id="cb967-12"><a href="WE_8.html#cb967-12" aria-hidden="true" tabindex="-1"></a>  simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, </span>
+<span id="cb967-13"><a href="WE_8.html#cb967-13" aria-hidden="true" tabindex="-1"></a>                           <span class="at">steps=</span>para.space<span class="sc">$</span>time[i], cost.mat, </span>
+<span id="cb967-14"><a href="WE_8.html#cb967-14" aria-hidden="true" tabindex="-1"></a>                           <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
+<span id="cb967-15"><a href="WE_8.html#cb967-15" aria-hidden="true" tabindex="-1"></a>                           para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
+<span id="cb967-16"><a href="WE_8.html#cb967-16" aria-hidden="true" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
+<span id="cb967-17"><a href="WE_8.html#cb967-17" aria-hidden="true" tabindex="-1"></a>                           <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb967-18"><a href="WE_8.html#cb967-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb967-19"><a href="WE_8.html#cb967-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## c.nvert to genind object (smaller)</span></span>
+<span id="cb967-20"><a href="WE_8.html#cb967-20" aria-hidden="true" tabindex="-1"></a>  gi <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops)</span>
+<span id="cb967-21"><a href="WE_8.html#cb967-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb967-22"><a href="WE_8.html#cb967-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## c.eate a list of all I want to collect</span></span>
+<span id="cb967-23"><a href="WE_8.html#cb967-23" aria-hidden="true" tabindex="-1"></a>  sim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">para.space=</span>para.space[i,], <span class="at">para=</span>para, </span>
+<span id="cb967-24"><a href="WE_8.html#cb967-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">landscape=</span>landscape, <span class="at">cost.mat=</span>cost.mat, <span class="at">gi=</span>gi)</span>
+<span id="cb967-25"><a href="WE_8.html#cb967-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb967-26"><a href="WE_8.html#cb967-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># save everything in an output folder (with a consecutive number, with three leading zeros, so the file sorting is nicer)</span></span>
+<span id="cb967-27"><a href="WE_8.html#cb967-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb967-28"><a href="WE_8.html#cb967-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save</span>(sim, <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout/sim_time5-45_rep5_&quot;</span>,</span>
+<span id="cb967-29"><a href="WE_8.html#cb967-29" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">sprintf</span>(<span class="st">&quot;%03i&quot;</span>,i) ,<span class="st">&quot;.RData&quot;</span>))</span>
+<span id="cb967-30"><a href="WE_8.html#cb967-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb967-31"><a href="WE_8.html#cb967-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished run: &quot;</span>, i,<span class="st">&quot; out of &quot;</span>,<span class="fu">nrow</span>(para.space),</span>
+<span id="cb967-32"><a href="WE_8.html#cb967-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;. So far, it took: &quot;</span>, <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>]<span class="sc">-</span>timer0,<span class="dv">2</span>),<span class="st">&quot; sec.</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb967-33"><a href="WE_8.html#cb967-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flush.console</span>()</span>
+<span id="cb967-34"><a href="WE_8.html#cb967-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Finished run: 1 out of 15. So far, it took: 0.42 sec.
+## Finished run: 2 out of 15. So far, it took: 0.8 sec.
+## Finished run: 3 out of 15. So far, it took: 1.19 sec.
+## Finished run: 4 out of 15. So far, it took: 1.64 sec.
+## Finished run: 5 out of 15. So far, it took: 2.06 sec.
+## Finished run: 6 out of 15. So far, it took: 3.79 sec.
+## Finished run: 7 out of 15. So far, it took: 5.49 sec.
+## Finished run: 8 out of 15. So far, it took: 7.21 sec.
+## Finished run: 9 out of 15. So far, it took: 8.9 sec.
+## Finished run: 10 out of 15. So far, it took: 10.64 sec.
+## Finished run: 11 out of 15. So far, it took: 13.72 sec.
+## Finished run: 12 out of 15. So far, it took: 16.79 sec.
+## Finished run: 13 out of 15. So far, it took: 19.91 sec.
+## Finished run: 14 out of 15. So far, it took: 22.93 sec.
+## Finished run: 15 out of 15. So far, it took: 26.01 sec.</code></pre>
+>>>>>>> Stashed changes
 </div>
 <div id="d.-analyze-and-synthesize-results" class="section level4">
 <h4>d. Analyze and synthesize results</h4>
