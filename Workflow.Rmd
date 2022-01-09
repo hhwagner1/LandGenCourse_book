@@ -187,13 +187,13 @@ To put the information into the .Renviron file, paste the following lines into t
 CONNECT_SERVER="https://bookdown.org/"
 CONNECT_API_KEY=
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 usethis::edit_r_environ()  # This will open the file
 ```
 
 At the beginning of the session:
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 library(httr)
 
 connectServer <- "https://bookdown.org/"

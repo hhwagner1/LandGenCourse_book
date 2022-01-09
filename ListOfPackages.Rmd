@@ -24,7 +24,7 @@ Load packages
 packages.notUsed <- c("base64enc", "BiocManager", "formatR", "geosphere", "httpuv", "maps", 
                       "maptools", "mvtnorm", "proto", "RANN", "rasterVis", "rgdal", "rgeos", 
                       "RgoogleMaps", "rlang", "sampling", "seqinr", "SoDA", "spacetime", 
-                      "spatialreg", "stringi", "testthat", "usdm", "doParallel")
+                      "stringi", "testthat", "usdm", "doParallel")
 packages.basic <- c("base", "compiler", "graphics", "grDevices",   "methods", 
                     "parallel", "stats", "utils")
 packages.CRAN <- c("ade4", "adegenet","car", "cowplot", "data.table", "deldir", 
@@ -33,8 +33,8 @@ packages.CRAN <- c("ade4", "adegenet","car", "cowplot", "data.table", "deldir",
                 "hierfstat", "igraph", "knitr", "landscapemetrics", "lattice", "lme4", "mapplots",
                 "MASS", "Matrix", "microbenchmark", "mmod", "MuMIn", "nlme", "pegas", 
                 "PopGenReport", "poppr", "predictmeans", "profvis", "purrr", "pwr", "raster", 
-                "RColorBrewer", "readr","rio", "rmarkdown", "secr","sf", "sp", "spatialEco", 
-                "spdep", "spmoran", "Sunder", "tibble", "tmaptools", "vegan")
+                "RColorBrewer", "readr","rio", "rmarkdown", "secr","sf", "sp", "spatialEco", "spatialreg",
+                "spdep", "spmoran", "Sunder", "terra", "tibble", "tmap", "tmaptools", "vcfR", "vegan")
 packages.github <- c("gstudio", "popgraph", "QstFstComp", "lfmm")
 packages.biocl <- c("qvalue", "LEA")
 
