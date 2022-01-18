@@ -17,13 +17,24 @@ library(rsconnect)
 Import all Rmd and other (png) files from vignettes, replace old files
 
 ```{r}
-#Mac:
-Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/" 
+myDir <- unlist(strsplit(here::here(), '/'))
+myDir[length(myDir)] <- "LandGenCourse"
+Path <- paste0(myDir, collapse = '/')
+
+#Mac CH:
+#Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/"
+
+#Mac Toronto:
+#Path <- "/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/vignettes/"
+
 #Windows:
 #Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
+
 #list.of.files <- list.files(Path, pattern="Rmd")
-list.of.files <- list.files(Path)
-file.copy(paste0(Path, list.of.files), paste0(here::here(), "/vignettes"), overwrite=TRUE)
+#list.of.files <- list.files(Path)
+list.of.files <- list.files(paste0(Path, "/vignettes"))
+file.copy(paste0(Path, "/vignettes/", list.of.files), 
+          paste0(here::here(), "/vignettes"), overwrite=TRUE)
 dir(paste0(here::here(), "/vignettes"))
 
 ```
@@ -121,8 +132,17 @@ Import tables of R commands of tutorials from Word file
 library(officer)
 library(dplyr)
 
-# Mac:
-inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+myDir <- unlist(strsplit(here::here(), '/'))
+myDir[length(myDir)] <- "LandGenCourse"
+Path <- paste0(myDir, collapse = '/')
+inFile <- paste0(Path, "/inst/extdata/RCommands.docx")
+
+# Mac CH:
+#inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+
+# Mac Toronoto:
+#inFile <- "/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
+
 # Windows:
 #inFile <- "C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx"
 
@@ -165,9 +185,9 @@ NOTE: for some reason, chapter 8 (bonus vignette) needs to be precompiled before
 May need to run all chunks in Week 8 bonus vignette before rendering the chapter.
 
 ```{r}
-source(knitr::purl(paste0(here::here(), "/vignettes/Week8_bonus_vignette.Rmd")))
+#source(knitr::purl(paste0(here::here(), "/vignettes/Week8_bonus_vignette.Rmd")))
 
-bookdown::preview_chapter("08-Week08.Rmd")
+#bookdown::preview_chapter("08-Week08.Rmd")
 
 #bookdown::render_book(input="index.Rmd", preview=TRUE)
 ```
