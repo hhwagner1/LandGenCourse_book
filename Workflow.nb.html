@@ -231,40 +231,42 @@ library(rsconnect)</code></pre>
 <p>Import all Rmd and other (png) files from vignettes, replace old files</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI01hYzpcblBhdGggPC0gXCIvVXNlcnMvaGVsZW5lL0Rlc2t0b3AvUl9naXRodWJfcHJvamVjdHMvTGFuZEdlbkNvdXJzZS92aWduZXR0ZXMvXCIgXG4jV2luZG93czpcbiNQYXRoIDwtIFwiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIiAjIExhcHRvcFxuI2xpc3Qub2YuZmlsZXMgPC0gbGlzdC5maWxlcyhQYXRoLCBwYXR0ZXJuPVwiUm1kXCIpXG5saXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aClcbmZpbGUuY29weShwYXN0ZTAoUGF0aCwgbGlzdC5vZi5maWxlcyksIHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSwgb3ZlcndyaXRlPVRSVUUpXG5gYGAifQ== -->
-<pre class="r"><code>#Mac:
-Path &lt;- &quot;/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/&quot; 
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSlcbm15RGlyW2xlbmd0aChteURpcildIDwtIFwiTGFuZEdlbkNvdXJzZVwiXG5QYXRoIDwtIHBhc3RlMChteURpciwgY29sbGFwc2UgPSAnLycpXG5cbiNNYWMgQ0g6XG4jUGF0aCA8LSBcIi9Vc2Vycy9oZWxlbmUvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jTWFjIFRvcm9udG86XG4jUGF0aCA8LSBcIi9Vc2Vycy9oaHdhZ25lcjEvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jV2luZG93czpcbiNQYXRoIDwtIFwiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIiAjIExhcHRvcFxuXG4jbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKFBhdGgsIHBhdHRlcm49XCJSbWRcIilcbiNsaXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aClcbmxpc3Qub2YuZmlsZXMgPC0gbGlzdC5maWxlcyhwYXN0ZTAoUGF0aCwgXCIvdmlnbmV0dGVzXCIpKVxuZmlsZS5jb3B5KHBhc3RlMChQYXRoLCBcIi92aWduZXR0ZXMvXCIsIGxpc3Qub2YuZmlsZXMpLCBcbiAgICAgICAgICBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIiksIG92ZXJ3cml0ZT1UUlVFKVxuYGBgIn0= -->
+<pre class="r"><code>myDir &lt;- unlist(strsplit(here::here(), &#39;/&#39;))
+myDir[length(myDir)] &lt;- &quot;LandGenCourse&quot;
+Path &lt;- paste0(myDir, collapse = &#39;/&#39;)
+
+#Mac CH:
+#Path &lt;- &quot;/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/&quot;
+
+#Mac Toronto:
+#Path &lt;- &quot;/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/vignettes/&quot;
+
 #Windows:
 #Path &lt;- &quot;C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/&quot; # Laptop
+
 #list.of.files &lt;- list.files(Path, pattern=&quot;Rmd&quot;)
-list.of.files &lt;- list.files(Path)
-file.copy(paste0(Path, list.of.files), paste0(here::here(), &quot;/vignettes&quot;), overwrite=TRUE)</code></pre>
+#list.of.files &lt;- list.files(Path)
+list.of.files &lt;- list.files(paste0(Path, &quot;/vignettes&quot;))
+file.copy(paste0(Path, &quot;/vignettes/&quot;, list.of.files), 
+          paste0(here::here(), &quot;/vignettes&quot;), overwrite=TRUE)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRVxuWzIyXSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRVxuWzQzXSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUVcbiJ9 -->
-<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-[22] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-[43] TRUE TRUE TRUE TRUE TRUE</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFXG5bMTddIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFXG4ifQ== -->
+<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[17] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGlyKHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmBgYCJ9 -->
 <pre class="r"><code>dir(paste0(here::here(), &quot;/vignettes&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIldFMTJfRmlnMS5QTkdcIiAgICAgICAgICAgICBcIldFMTNfRmlnMS5wbmdcIiAgICAgICAgICAgICBcIldFOV9GaWcxLnBuZ1wiICAgICAgICAgICAgIFxuIFs0XSBcIldFOV9GaWcyLnBuZ1wiICAgICAgICAgICAgICBcIldlZWswX0Jhc2ljUi5odG1sXCIgICAgICAgICBcIldlZWswX0Jhc2ljUi5SXCIgICAgICAgICAgIFxuIFs3XSBcIldlZWswX0Jhc2ljUi5SbWRcIiAgICAgICAgICBcIldlZWswX0dyYXBoaWNzLmh0bWxcIiAgICAgICBcIldlZWswX0dyYXBoaWNzLlJcIiAgICAgICAgIFxuWzEwXSBcIldlZWswX0dyYXBoaWNzLlJtZFwiICAgICAgICBcIldlZWsxX3ZpZ25ldHRlLmh0bWxcIiAgICAgICBcIldlZWsxX3ZpZ25ldHRlLlJcIiAgICAgICAgIFxuWzEzXSBcIldlZWsxX3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWsxMF92aWduZXR0ZS5odG1sXCIgICAgICBcIldlZWsxMF92aWduZXR0ZS5SXCIgICAgICAgIFxuWzE2XSBcIldlZWsxMF92aWduZXR0ZS5SbWRcIiAgICAgICBcIldlZWsxMV92aWduZXR0ZS5odG1sXCIgICAgICBcIldlZWsxMV92aWduZXR0ZS5SXCIgICAgICAgIFxuWzE5XSBcIldlZWsxMV92aWduZXR0ZS5SbWRcIiAgICAgICBcIldlZWsxMl92aWduZXR0ZS5odG1sXCIgICAgICBcIldlZWsxMl92aWduZXR0ZS5SXCIgICAgICAgIFxuWzIyXSBcIldlZWsxMl92aWduZXR0ZS5SbWRcIiAgICAgICBcIldlZWsxM192aWduZXR0ZS5odG1sXCIgICAgICBcIldlZWsxM192aWduZXR0ZS5SXCIgICAgICAgIFxuWzI1XSBcIldlZWsxM192aWduZXR0ZS5SbWRcIiAgICAgICBcIldlZWsxNF92aWduZXR0ZS5odG1sXCIgICAgICBcIldlZWsxNF92aWduZXR0ZS5SXCIgICAgICAgIFxuWzI4XSBcIldlZWsxNF92aWduZXR0ZS5SbWRcIiAgICAgICBcIldlZWsyX2JvbnVzX3ZpZ25ldHRlLmh0bWxcIiBcIldlZWsyX2JvbnVzX3ZpZ25ldHRlLlJcIiAgIFxuWzMxXSBcIldlZWsyX2JvbnVzX3ZpZ25ldHRlLlJtZFwiICBcIldlZWsyX3ZpZ25ldHRlLmh0bWxcIiAgICAgICBcIldlZWsyX3ZpZ25ldHRlLlJcIiAgICAgICAgIFxuWzM0XSBcIldlZWsyX3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWszX3ZpZ25ldHRlLmh0bWxcIiAgICAgICBcIldlZWszX3ZpZ25ldHRlLlJcIiAgICAgICAgIFxuWzM3XSBcIldlZWszX3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWs0X3ZpZ25ldHRlLmh0bWxcIiAgICAgICBcIldlZWs0X3ZpZ25ldHRlLlJcIiAgICAgICAgIFxuWzQwXSBcIldlZWs0X3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWs1X3ZpZ25ldHRlLlJcIiAgICAgICAgICBcIldlZWs1X3ZpZ25ldHRlLlJtZFwiICAgICAgIFxuWzQzXSBcIldlZWs2X3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWs3X3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWs4X2JvbnVzX3ZpZ25ldHRlLlJtZFwiIFxuWzQ2XSBcIldlZWs4X3ZpZ25ldHRlLlJtZFwiICAgICAgICBcIldlZWs5X3ZpZ25ldHRlLlJtZFwiICAgICAgIFxuIn0= -->
-<pre><code> [1] &quot;WE12_Fig1.PNG&quot;             &quot;WE13_Fig1.png&quot;             &quot;WE9_Fig1.png&quot;             
- [4] &quot;WE9_Fig2.png&quot;              &quot;Week0_BasicR.html&quot;         &quot;Week0_BasicR.R&quot;           
- [7] &quot;Week0_BasicR.Rmd&quot;          &quot;Week0_Graphics.html&quot;       &quot;Week0_Graphics.R&quot;         
-[10] &quot;Week0_Graphics.Rmd&quot;        &quot;Week1_vignette.html&quot;       &quot;Week1_vignette.R&quot;         
-[13] &quot;Week1_vignette.Rmd&quot;        &quot;Week10_vignette.html&quot;      &quot;Week10_vignette.R&quot;        
-[16] &quot;Week10_vignette.Rmd&quot;       &quot;Week11_vignette.html&quot;      &quot;Week11_vignette.R&quot;        
-[19] &quot;Week11_vignette.Rmd&quot;       &quot;Week12_vignette.html&quot;      &quot;Week12_vignette.R&quot;        
-[22] &quot;Week12_vignette.Rmd&quot;       &quot;Week13_vignette.html&quot;      &quot;Week13_vignette.R&quot;        
-[25] &quot;Week13_vignette.Rmd&quot;       &quot;Week14_vignette.html&quot;      &quot;Week14_vignette.R&quot;        
-[28] &quot;Week14_vignette.Rmd&quot;       &quot;Week2_bonus_vignette.html&quot; &quot;Week2_bonus_vignette.R&quot;   
-[31] &quot;Week2_bonus_vignette.Rmd&quot;  &quot;Week2_vignette.html&quot;       &quot;Week2_vignette.R&quot;         
-[34] &quot;Week2_vignette.Rmd&quot;        &quot;Week3_vignette.html&quot;       &quot;Week3_vignette.R&quot;         
-[37] &quot;Week3_vignette.Rmd&quot;        &quot;Week4_vignette.html&quot;       &quot;Week4_vignette.R&quot;         
-[40] &quot;Week4_vignette.Rmd&quot;        &quot;Week5_vignette.R&quot;          &quot;Week5_vignette.Rmd&quot;       
-[43] &quot;Week6_vignette.Rmd&quot;        &quot;Week7_vignette.Rmd&quot;        &quot;Week8_bonus_vignette.Rmd&quot; 
-[46] &quot;Week8_vignette.Rmd&quot;        &quot;Week9_vignette.Rmd&quot;       </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIldFMTJfRmlnMS5QTkdcIiAgICAgICAgICAgIFwiV0UxM19GaWcxLnBuZ1wiICAgICAgICAgICAgXCJXRTlfRmlnMS5wbmdcIiAgICAgICAgICAgIFxuIFs0XSBcIldFOV9GaWcyLnBuZ1wiICAgICAgICAgICAgIFwiV2VlazBfQmFzaWNSLlJtZFwiICAgICAgICAgXCJXZWVrMF9HcmFwaGljcy5SbWRcIiAgICAgIFxuIFs3XSBcIldlZWsxX3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazEwX3ZpZ25ldHRlLlJtZFwiICAgICAgXCJXZWVrMTFfdmlnbmV0dGUuUm1kXCIgICAgIFxuWzEwXSBcIldlZWsxMl92aWduZXR0ZS5SbWRcIiAgICAgIFwiV2VlazEzX3ZpZ25ldHRlLlJtZFwiICAgICAgXCJXZWVrMTRfdmlnbmV0dGUuUm1kXCIgICAgIFxuWzEzXSBcIldlZWsyX2JvbnVzX3ZpZ25ldHRlLlJtZFwiIFwiV2VlazJfdmlnbmV0dGUuUm1kXCIgICAgICAgXCJXZWVrM192aWduZXR0ZS5SbWRcIiAgICAgIFxuWzE2XSBcIldlZWs0X3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazVfdmlnbmV0dGUuUm1kXCIgICAgICAgXCJXZWVrNl92aWduZXR0ZS5SbWRcIiAgICAgIFxuWzE5XSBcIldlZWs3X3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazhfYm9udXNfdmlnbmV0dGUuUm1kXCIgXCJXZWVrOF92aWduZXR0ZS5SbWRcIiAgICAgIFxuWzIyXSBcIldlZWs5X3ZpZ25ldHRlLlJtZFwiICAgICAgXG4ifQ== -->
+<pre><code> [1] &quot;WE12_Fig1.PNG&quot;            &quot;WE13_Fig1.png&quot;            &quot;WE9_Fig1.png&quot;            
+ [4] &quot;WE9_Fig2.png&quot;             &quot;Week0_BasicR.Rmd&quot;         &quot;Week0_Graphics.Rmd&quot;      
+ [7] &quot;Week1_vignette.Rmd&quot;       &quot;Week10_vignette.Rmd&quot;      &quot;Week11_vignette.Rmd&quot;     
+[10] &quot;Week12_vignette.Rmd&quot;      &quot;Week13_vignette.Rmd&quot;      &quot;Week14_vignette.Rmd&quot;     
+[13] &quot;Week2_bonus_vignette.Rmd&quot; &quot;Week2_vignette.Rmd&quot;       &quot;Week3_vignette.Rmd&quot;      
+[16] &quot;Week4_vignette.Rmd&quot;       &quot;Week5_vignette.Rmd&quot;       &quot;Week6_vignette.Rmd&quot;      
+[19] &quot;Week7_vignette.Rmd&quot;       &quot;Week8_bonus_vignette.Rmd&quot; &quot;Week8_vignette.Rmd&quot;      
+[22] &quot;Week9_vignette.Rmd&quot;      </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -362,12 +364,31 @@ gsub_ext(ext=&quot;Rmd&quot;, &quot;WE13_Fig1.PNG&quot;, paste0(here::here(), &q
 <p>Import tables of R commands of tutorials from Word file</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShvZmZpY2VyKVxubGlicmFyeShkcGx5cilcblxuIyBNYWM6XG5pbkZpbGUgPC0gXCIvVXNlcnMvaGVsZW5lL0Rlc2t0b3AvUl9naXRodWJfcHJvamVjdHMvTGFuZEdlbkNvdXJzZS9pbnN0L2V4dGRhdGEvUkNvbW1hbmRzLmRvY3hcIlxuIyBXaW5kb3dzOlxuI2luRmlsZSA8LSBcIkM6L1VzZXJzL3dhZ25lcmgxL0Rlc2t0b3AvTGFuZEdlbkNvdXJzZS9pbnN0L2V4dGRhdGEvUkNvbW1hbmRzLmRvY3hcIlxuXG5zYW1wbGVfZGF0YSA8LSBvZmZpY2VyOjpyZWFkX2RvY3goaW5GaWxlKVxuY29udGVudCA8LSBkb2N4X3N1bW1hcnkoc2FtcGxlX2RhdGEpXG5wYXJhZ3JhcGhzIDwtIGNvbnRlbnQgJT4lIGZpbHRlcihjb250ZW50X3R5cGUgPT0gXCJwYXJhZ3JhcGhcIilcbnBhcmFncmFwaHMkdGV4dFxuYGBgIn0= -->
-<pre class="r"><code>library(officer)
-library(dplyr)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShvZmZpY2VyKVxuYGBgIn0= -->
+<pre class="r"><code>library(officer)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYb2ZmaWNlcuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnBvcGdyYXBo4oCZOlxuXG4gICAgdG9faHRtbFxuIn0= -->
+<pre><code>
+Attaching package: ‘officer’
 
-# Mac:
-inFile &lt;- &quot;/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx&quot;
+The following object is masked from ‘package:popgraph’:
+
+    to_html</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcblxubXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSlcbm15RGlyW2xlbmd0aChteURpcildIDwtIFwiTGFuZEdlbkNvdXJzZVwiXG5QYXRoIDwtIHBhc3RlMChteURpciwgY29sbGFwc2UgPSAnLycpXG5pbkZpbGUgPC0gcGFzdGUwKFBhdGgsIFwiL2luc3QvZXh0ZGF0YS9SQ29tbWFuZHMuZG9jeFwiKVxuXG4jIE1hYyBDSDpcbiNpbkZpbGUgPC0gXCIvVXNlcnMvaGVsZW5lL0Rlc2t0b3AvUl9naXRodWJfcHJvamVjdHMvTGFuZEdlbkNvdXJzZS9pbnN0L2V4dGRhdGEvUkNvbW1hbmRzLmRvY3hcIlxuXG4jIE1hYyBUb3Jvbm90bzpcbiNpbkZpbGUgPC0gXCIvVXNlcnMvaGh3YWduZXIxL0Rlc2t0b3AvUl9naXRodWJfcHJvamVjdHMvTGFuZEdlbkNvdXJzZS9pbnN0L2V4dGRhdGEvUkNvbW1hbmRzLmRvY3hcIlxuXG4jIFdpbmRvd3M6XG4jaW5GaWxlIDwtIFwiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL2luc3QvZXh0ZGF0YS9SQ29tbWFuZHMuZG9jeFwiXG5cbnNhbXBsZV9kYXRhIDwtIG9mZmljZXI6OnJlYWRfZG9jeChpbkZpbGUpXG5jb250ZW50IDwtIGRvY3hfc3VtbWFyeShzYW1wbGVfZGF0YSlcbnBhcmFncmFwaHMgPC0gY29udGVudCAlPiUgZmlsdGVyKGNvbnRlbnRfdHlwZSA9PSBcInBhcmFncmFwaFwiKVxucGFyYWdyYXBocyR0ZXh0XG5gYGAifQ== -->
+<pre class="r"><code>library(dplyr)
+
+myDir &lt;- unlist(strsplit(here::here(), &#39;/&#39;))
+myDir[length(myDir)] &lt;- &quot;LandGenCourse&quot;
+Path &lt;- paste0(myDir, collapse = &#39;/&#39;)
+inFile &lt;- paste0(Path, &quot;/inst/extdata/RCommands.docx&quot;)
+
+# Mac CH:
+#inFile &lt;- &quot;/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx&quot;
+
+# Mac Toronoto:
+#inFile &lt;- &quot;/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx&quot;
+
 # Windows:
 #inFile &lt;- &quot;C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx&quot;
 
@@ -376,23 +397,39 @@ content &lt;- docx_summary(sample_data)
 paragraphs &lt;- content %&gt;% filter(content_type == &quot;paragraph&quot;)
 paragraphs$text</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkxpc3Qgb2YgUiBjb21tYW5kcyBpbnRyb2R1Y2VkIGluIFR1dG9yaWFsc1wiIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbM10gXCJXZWVrMVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzVdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJXZWVrMlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs3XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbOV0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTFdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJXZWVrM1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEzXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxNV0gXCJXZWVrNFwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTddIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzE5XSBcIldlZWs1XCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyMV0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjNdIFwiV2VlazZcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzI1XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyN10gXCJXZWVrN1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjldIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJXZWVrOFwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzMxXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code> [1] &quot;List of R commands introduced in Tutorials&quot; &quot;&quot;                                          
- [3] &quot;Week1&quot;                                      &quot;&quot;                                          
- [5] &quot;&quot;                                           &quot;Week2&quot;                                     
- [7] &quot;&quot;                                           &quot;&quot;                                          
- [9] &quot;&quot;                                           &quot;&quot;                                          
-[11] &quot;&quot;                                           &quot;Week3&quot;                                     
-[13] &quot;&quot;                                           &quot;&quot;                                          
-[15] &quot;Week4&quot;                                      &quot;&quot;                                          
-[17] &quot;&quot;                                           &quot;&quot;                                          
-[19] &quot;Week5&quot;                                      &quot;&quot;                                          
-[21] &quot;&quot;                                           &quot;&quot;                                          
-[23] &quot;Week6&quot;                                      &quot;&quot;                                          
-[25] &quot;&quot;                                           &quot;&quot;                                          
-[27] &quot;Week7&quot;                                      &quot;&quot;                                          
-[29] &quot;&quot;                                           &quot;Week8&quot;                                     
-[31] &quot;&quot;                                           &quot;&quot;                                          </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkxpc3Qgb2YgUiBjb21tYW5kcyBpbnRyb2R1Y2VkIGluIFR1dG9yaWFsc1wiXG4gWzJdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbM10gXCJXZWVrMVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs0XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzVdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbNl0gXCJXZWVrMlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs3XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzhdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbOV0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEwXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTFdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxMl0gXCJXZWVrM1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEzXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTRdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxNV0gXCJXZWVrNFwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzE2XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTddIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxOF0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzE5XSBcIldlZWs1XCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjBdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyMV0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzIyXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjNdIFwiV2VlazZcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyNF0gXCJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzI1XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjZdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyN10gXCJXZWVrN1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzI4XSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjldIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblszMF0gXCJXZWVrOFwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzMxXSBcIlwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMzJdIFwiXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
+<pre><code> [1] &quot;List of R commands introduced in Tutorials&quot;
+ [2] &quot;&quot;                                          
+ [3] &quot;Week1&quot;                                     
+ [4] &quot;&quot;                                          
+ [5] &quot;&quot;                                          
+ [6] &quot;Week2&quot;                                     
+ [7] &quot;&quot;                                          
+ [8] &quot;&quot;                                          
+ [9] &quot;&quot;                                          
+[10] &quot;&quot;                                          
+[11] &quot;&quot;                                          
+[12] &quot;Week3&quot;                                     
+[13] &quot;&quot;                                          
+[14] &quot;&quot;                                          
+[15] &quot;Week4&quot;                                     
+[16] &quot;&quot;                                          
+[17] &quot;&quot;                                          
+[18] &quot;&quot;                                          
+[19] &quot;Week5&quot;                                     
+[20] &quot;&quot;                                          
+[21] &quot;&quot;                                          
+[22] &quot;&quot;                                          
+[23] &quot;Week6&quot;                                     
+[24] &quot;&quot;                                          
+[25] &quot;&quot;                                          
+[26] &quot;&quot;                                          
+[27] &quot;Week7&quot;                                     
+[28] &quot;&quot;                                          
+[29] &quot;&quot;                                          
+[30] &quot;Week8&quot;                                     
+[31] &quot;&quot;                                          
+[32] &quot;&quot;                                          </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29udGVudCAlPiUgZmlsdGVyKGNvbnRlbnRfdHlwZSA9PSBcInRhYmxlIGNlbGxcIilcbmBgYCJ9 -->
 <pre class="r"><code>content %&gt;% filter(content_type == &quot;table cell&quot;)</code></pre>
@@ -438,64 +475,15 @@ saveRDS(table_list, paste0(here::here(), &quot;/output/table_list.rds&quot;))</c
 <p>May need to run all chunks in Week 8 bonus vignette before rendering the chapter.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKGtuaXRyOjpwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlcy9XZWVrOF9ib251c192aWduZXR0ZS5SbWRcIikpKVxuXG5ib29rZG93bjo6cHJldmlld19jaGFwdGVyKFwiMDgtV2VlazA4LlJtZFwiKVxuXG4jYm9va2Rvd246OnJlbmRlcl9ib29rKGlucHV0PVwiaW5kZXguUm1kXCIsIHByZXZpZXc9VFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>source(knitr::purl(paste0(here::here(), &quot;/vignettes/Week8_bonus_vignette.Rmd&quot;)))
-
-bookdown::preview_chapter(&quot;08-Week08.Rmd&quot;)
-
-#bookdown::render_book(input=&quot;index.Rmd&quot;, preview=TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="compile-book" class="section level2">
-<h2>Compile book</h2>
-<!-- rnb-text-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="not-needed-api-for-accessing-rstudio-connect-first-time-in-session" class="section level2">
-<h2>NOT NEEDED? API for accessing RStudio Connect (first time in session)</h2>
-<p>To put the information into the .Renviron file, paste the following lines into the file:</p>
-<p>CONNECT_SERVER=“<a href="https://bookdown.org/" class="uri">https://bookdown.org/</a>” CONNECT_API_KEY=</p>
-<!-- rnb-text-end -->
-<!-- rnb-text-begin -->
-<p>At the beginning of the session:</p>
-<!-- rnb-text-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="push-to-bookdown.org" class="section level2">
-<h2>Push to bookdown.org</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYm9va2Rvd246OnB1Ymxpc2hfYm9vaygpXG5gYGBcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKGtuaXRyOjpwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksIFxcL3ZpZ25ldHRlcy9XZWVrOF9ib251c192aWduZXR0ZS5SbWRcXCkpKVxuXG5ib29rZG93bjo6cHJldmlld19jaGFwdGVyKFxcMDgtV2VlazA4LlJtZFxcKVxuXG4jYm9va2Rvd246OnJlbmRlcl9ib29rKGlucHV0PVxcaW5kZXguUm1kXFwsIHByZXZpZXc9VFJVRSlcbmBgYFxuYGBgIn0= -->
 <pre class="r"><code>```r
-bookdown::publish_book()</code></pre>
+source(knitr::purl(paste0(here::here(), \/vignettes/Week8_bonus_vignette.Rmd\)))
+
+bookdown::preview_chapter(\08-Week08.Rmd\)
+
+#bookdown::render_book(input=\index.Rmd\, preview=TRUE)</code></pre>
 <pre><code>
 &lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiUHJlcGFyaW5nIHRvIGRlcGxveSBzaXRlLi4uXG4ifQ== --&gt;
-</code></pre>
-<p>Preparing to deploy site…</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuWVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-Y</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiRE9ORVxuVXBsb2FkaW5nIGJ1bmRsZSBmb3Igc2l0ZTogNzQ0My4uLkRPTkVcbkRlcGxveWluZyBidW5kbGU6IDY1MjAwIGZvciBzaXRlOiA3NDQzIC4uLlxuW0Nvbm5lY3RdIEJ1aWxkaW5nIHN0YXRpYyBjb250ZW50Li4uXG5bQ29ubmVjdF0gTGF1bmNoaW5nIHN0YXRpYyBjb250ZW50Li4uXG5TaXRlIHN1Y2Nlc3NmdWxseSBkZXBsb3llZCB0byBodHRwczovL2Jvb2tkb3duLm9yZy9oaHdhZ25lcjEvTGFuZEdlbkNvdXJzZV9ib29rL1xuIn0= --&gt;
-</code></pre>
-<p>DONE Uploading bundle for site: 7443…DONE Deploying bundle: 65200 for site: 7443 … [Connect] Building static content… [Connect] Launching static content… Site successfully deployed to <a href="https://bookdown.org/hhwagner1/LandGenCourse_book/" class="uri">https://bookdown.org/hhwagner1/LandGenCourse_book/</a></p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
 
 &lt;!-- rnb-chunk-end --&gt;
 
@@ -503,9 +491,45 @@ Y</code></pre>
 &lt;!-- rnb-text-begin --&gt;
 
 
-## Clean up
 
-Check files to be deleted
+## Compile book
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+## NOT NEEDED? API for accessing RStudio Connect (first time in session)
+
+To put the information into the .Renviron file, paste the following lines into the file:
+
+CONNECT_SERVER=&quot;https://bookdown.org/&quot;
+CONNECT_API_KEY=
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+At the beginning of the session:
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+## Push to bookdown.org
 
 
 &lt;!-- rnb-text-end --&gt;
@@ -514,10 +538,32 @@ Check files to be deleted
 &lt;!-- rnb-chunk-begin --&gt;
 
 
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va2Rvd246OmNsZWFuX2Jvb2soRkFMU0UpXG5gYGAifQ== --&gt;
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBgclxuYm9va2Rvd246OnB1Ymxpc2hfYm9vaygpXG5gYGBcbmBgYFxuYGBgIn0= --&gt;
 
 ```r
-bookdown::clean_book(FALSE)</code></pre>
+```r
+```r
+bookdown::publish_book()</code></pre>
+<pre><code></code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlc2UgZmlsZXMvZGlycyBjYW4gcHJvYmFibHkgYmUgcmVtb3ZlZDogXG5cbl9ib29rL1xuTGFuZEdlbkNvdXJzZV9ib29rLnJkc1xuXG5Zb3UgY2FuIHNldCBvcHRpb25zKGJvb2tkb3duLmNsZWFuX2Jvb2sgPSBUUlVFKSB0byBhbGxvdyB0aGlzIGZ1bmN0aW9uIHRvIGFsd2F5cyBjbGVhbiB1cCB0aGUgYm9vayBkaXJlY3RvcnkgZm9yIHlvdS5cbiJ9 -->
+<pre><code>These files/dirs can probably be removed: 
+
+_book/
+LandGenCourse_book.rds
+
+You can set options(bookdown.clean_book = TRUE) to allow this function to always clean up the book directory for you.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="clean-up" class="section level2">
+<h2>Clean up</h2>
+<p>Check files to be deleted</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va2Rvd246OmNsZWFuX2Jvb2soRkFMU0UpXG5gYGAifQ== -->
+<pre class="r"><code>bookdown::clean_book(FALSE)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiVGhlc2UgZmlsZXMvZGlycyBjYW4gcHJvYmFibHkgYmUgcmVtb3ZlZDogXG5cbl9ib29rL1xuTGFuZEdlbkNvdXJzZV9ib29rLnJkc1xuXG5Zb3UgY2FuIHNldCBvcHRpb25zKGJvb2tkb3duLmNsZWFuX2Jvb2sgPSBUUlVFKSB0byBhbGxvdyB0aGlzIGZ1bmN0aW9uIHRvIGFsd2F5cyBjbGVhbiB1cCB0aGUgYm9vayBkaXJlY3RvcnkgZm9yIHlvdS5cbiJ9 -->
 <pre><code>These files/dirs can probably be removed: 
@@ -552,7 +598,7 @@ dir(paste0(here::here(), &quot;/vignettes&quot;))</code></pre>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTXkgYm9va2Rvd24gd29ya2Zsb3ciCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KClBhY2thZ2VzCgpgYGB7cn0KbGlicmFyeSh4ZnVuKQpsaWJyYXJ5KG1hZ2ljaykKbGlicmFyeShzZXJ2cikKbGlicmFyeShyc2Nvbm5lY3QpCmBgYAoKIyMgSW1wb3J0IGFuZCBwcmVwYXJlIGZpbGVzIGZyb20gYExhbmRHZW5Db3Vyc2VgCgpJbXBvcnQgYWxsIFJtZCBhbmQgb3RoZXIgKHBuZykgZmlsZXMgZnJvbSB2aWduZXR0ZXMsIHJlcGxhY2Ugb2xkIGZpbGVzCgpgYGB7cn0KI01hYzoKUGF0aCA8LSAiL1VzZXJzL2hlbGVuZS9EZXNrdG9wL1JfZ2l0aHViX3Byb2plY3RzL0xhbmRHZW5Db3Vyc2UvdmlnbmV0dGVzLyIgCiNXaW5kb3dzOgojUGF0aCA8LSAiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy8iICMgTGFwdG9wCiNsaXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aCwgcGF0dGVybj0iUm1kIikKbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKFBhdGgpCmZpbGUuY29weShwYXN0ZTAoUGF0aCwgbGlzdC5vZi5maWxlcyksIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIiksIG92ZXJ3cml0ZT1UUlVFKQpkaXIocGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKCmBgYAoKSW5jcmVhc2UgaGVhZGVyIGxldmVsIGJ5IDEKCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDEuIiwgIiMjIDEuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgMi4iLCAiIyMgMi4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyAzLiIsICIjIyAzLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDQuIiwgIiMjIDQuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgNS4iLCAiIyMgNS4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyA2LiIsICIjIyA2LiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDcuIiwgIiMjIDcuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgOC4iLCAiIyMgOC4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyA5LiIsICIjIyA5LiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQoKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBhLiIsICIjIyBhLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGIuIiwgIiMjIGIuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgYy4iLCAiIyMgYy4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBkLiIsICIjIyBkLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGUuIiwgIiMjIGUuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgZi4iLCAiIyMgZi4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBnLiIsICIjIyBnLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGguIiwgIiMjIGguIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgaS4iLCAiIyMgaS4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBqLiIsICIjIyBqLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGsuIiwgIiMjIGsuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCgpgYGAKTWFrZSBSIEV4ZXJjaXNlcyBhIHNlcGFyYXRlIHN1Yi1jaGFwdGVyIChmb3IgV2Vla3MgMSAtIDgpCgpgYGB7cn0KZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyMjIDQuIFIgIiwgIiMjIFIgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMjIyA1LiBSICIsICIjIyBSICIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIyMgNi4gUiAiLCAiIyMgUiAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyMjIDcuIFIgIiwgIiMjIFIgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMjIyA4LiBSICIsICIjIyBSICIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIyMgOS4gUiAiLCAiIyMgUiAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKYGBgCgpJbiBzb21lIGNoYXB0ZXJzICgxIC0gMz8pLCBwdXQgc2xvdCBuYW1lcyBpbiB0ZXh0IGludG8gcXVvdGVzCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQEMiLCAiIGBAQ2AiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBFIiwgIiBgQEVgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAUyIsICIgYEBTYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQFhZIiwgIiBgQFhZYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGFsbC5uYW1lcyIsICIgYEBhbGwubmFtZXNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGJib3giLCAiIGBAYmJveGAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBjb29yZHMiLCAiIGBAY29vcmRzYCIsICAKICAgICAgICAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBjb29yZHMubnJzIiwgIiBgQGNvb3Jkcy5ucnNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGRhdGEiLCAiIGBAZGF0YWAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBoaWVyYXJjaHkiLCAiIGBAaGllcmFyY2h5YCIsICAKICAgICAgICAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBsaW5lcyIsICIgYEBsaW5lc2AiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBsb2MuZmFjIiwgIiBgQGxvYy5mYWNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGxvYy5uLmFsbCIsICIgYEBsb2Mubi5hbGxgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQG90aGVyIiwgIiBgQG90aGVyYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHBsb2lkeSIsICIgYEBwbG9pZHlgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHBvcCIsICIgYEBwb3BgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAcHJvajRzdHJpbmciLCAiIGBAcHJvajRzdHJpbmdgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHN0cmF0YSIsICIgYEBzdHJhdGFgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHRhYiIsICIgYEB0YWJgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAdHlwZSIsICIgYEB0eXBlYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpgYGAKCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICJXRTlfRmlnMS5wbmciLCBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcy9XRTlfRmlnMS5wbmciKSwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIldFOV9GaWcyLnBuZyIsIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dFOV9GaWcyLnBuZyIpLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiV0UxMl9GaWcxLnBuZyIsIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dFMTJfRmlnMS5wbmciKSwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIldFMTNfRmlnMS5QTkciLCBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcy9XRTEzX0ZpZzEuUE5HIiksICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpgYGAKCgpDcmVhdGUgbGlzdCBvZiBmdW5jdGlvbnMgYW5kIHBhY2thZ2VzOiBzb3VyY2UgZmlsZSAiTGlzdE9mUGFja2FnZXMuUm1kIiAKCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIGluY2x1ZGU9RkFMU0V9CmxpYnJhcnkoa25pdHIpCnNvdXJjZShwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksICIvTGlzdE9mUGFja2FnZXMuUm1kIiksIG91dHB1dCA9IHRlbXBmaWxlKCkpKQpgYGAKCgpJbXBvcnQgdGFibGVzIG9mIFIgY29tbWFuZHMgb2YgdHV0b3JpYWxzIGZyb20gV29yZCBmaWxlCgoKYGBge3IgbWVzc2FnZT1GQUxTRX0KbGlicmFyeShvZmZpY2VyKQpsaWJyYXJ5KGRwbHlyKQoKIyBNYWM6CmluRmlsZSA8LSAiL1VzZXJzL2hlbGVuZS9EZXNrdG9wL1JfZ2l0aHViX3Byb2plY3RzL0xhbmRHZW5Db3Vyc2UvaW5zdC9leHRkYXRhL1JDb21tYW5kcy5kb2N4IgojIFdpbmRvd3M6CiNpbkZpbGUgPC0gIkM6L1VzZXJzL3dhZ25lcmgxL0Rlc2t0b3AvTGFuZEdlbkNvdXJzZS9pbnN0L2V4dGRhdGEvUkNvbW1hbmRzLmRvY3giCgpzYW1wbGVfZGF0YSA8LSBvZmZpY2VyOjpyZWFkX2RvY3goaW5GaWxlKQpjb250ZW50IDwtIGRvY3hfc3VtbWFyeShzYW1wbGVfZGF0YSkKcGFyYWdyYXBocyA8LSBjb250ZW50ICU+JSBmaWx0ZXIoY29udGVudF90eXBlID09ICJwYXJhZ3JhcGgiKQpwYXJhZ3JhcGhzJHRleHQKY29udGVudCAlPiUgZmlsdGVyKGNvbnRlbnRfdHlwZSA9PSAidGFibGUgY2VsbCIpCnRhYmxlX2NlbGxzIDwtIGNvbnRlbnQgJT4lIGZpbHRlcihjb250ZW50X3R5cGUgPT0gInRhYmxlIGNlbGwiKQp0YWJsZV9kYXRhIDwtIHRhYmxlX2NlbGxzICU+JSBmaWx0ZXIoIWlzX2hlYWRlcikgJT4lIGRwbHlyOjpzZWxlY3Qocm93X2lkLCBjZWxsX2lkLCB0ZXh0KQogCiMgc3BsaXQgZGF0YSBpbnRvIGluZGl2aWR1YWwgY29sdW1ucwpzcGxpdHMgPC0gc3BsaXQodGFibGVfZGF0YSwgdGFibGVfZGF0YSRjZWxsX2lkKQpzcGxpdHMgPC0gbGFwcGx5KHNwbGl0cywgZnVuY3Rpb24oeCkgeCR0ZXh0KQogCiMgY29tYmluZSBjb2x1bW5zIGJhY2sgdG9nZXRoZXIgaW4gd2lkZSBmb3JtYXQKdGFibGVfcmVzdWx0IDwtIGJpbmRfY29scyhzcGxpdHMpCgoKdGFibGVfcmVzdWx0ICA8LSB0YWJsZV9yZXN1bHQgJT4lIG11dGF0ZShXZWVrPWN1bXN1bSh0YWJsZV9yZXN1bHRbLDNdPT0iQ29tbWVudHMiKSkKdGFibGVfbGlzdCA8LSBzcGxpdCh0YWJsZV9yZXN1bHQsIHRhYmxlX3Jlc3VsdCRXZWVrKQoKZ2V0TmFtZXMgPC0gZnVuY3Rpb24obHMpCnsKICBuYW1lcyhscykgPC0gYXMuY2hhcmFjdGVyKGxzWzEsXSkKICBscyA8LSBsc1stMSxdIAogIGxzWywxOjJdCn0KCnRhYmxlX2xpc3QgPC0gbGFwcGx5KHRhYmxlX2xpc3QsIGdldE5hbWVzKQpzYXZlUkRTKHRhYmxlX2xpc3QsIHBhc3RlMChoZXJlOjpoZXJlKCksICIvb3V0cHV0L3RhYmxlX2xpc3QucmRzIikpCmBgYAoKCgojIyBQcmV2aWV3IGNoYXB0ZXIKCk5PVEU6IGZvciBzb21lIHJlYXNvbiwgY2hhcHRlciA4IChib251cyB2aWduZXR0ZSkgbmVlZHMgdG8gYmUgcHJlY29tcGlsZWQgYmVmb3JlIHNlcnZpbmcgdGhlIGVudGlyZSBib29rLCBtYXkgaGF2ZSB0byBkbyB3aXRoIHBhdGhzLgoKTWF5IG5lZWQgdG8gcnVuIGFsbCBjaHVua3MgaW4gV2VlayA4IGJvbnVzIHZpZ25ldHRlIGJlZm9yZSByZW5kZXJpbmcgdGhlIGNoYXB0ZXIuCgpgYGB7cn0Kc291cmNlKGtuaXRyOjpwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dlZWs4X2JvbnVzX3ZpZ25ldHRlLlJtZCIpKSkKCmJvb2tkb3duOjpwcmV2aWV3X2NoYXB0ZXIoIjA4LVdlZWswOC5SbWQiKQoKI2Jvb2tkb3duOjpyZW5kZXJfYm9vayhpbnB1dD0iaW5kZXguUm1kIiwgcHJldmlldz1UUlVFKQpgYGAKCgojIyBDb21waWxlIGJvb2sKCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIGluY2x1ZGU9RkFMU0V9CmJvb2tkb3duOjo6c2VydmVfYm9vaygpCmBgYAoKCiMjIE5PVCBORUVERUQ/IEFQSSBmb3IgYWNjZXNzaW5nIFJTdHVkaW8gQ29ubmVjdCAoZmlyc3QgdGltZSBpbiBzZXNzaW9uKQoKVG8gcHV0IHRoZSBpbmZvcm1hdGlvbiBpbnRvIHRoZSAuUmVudmlyb24gZmlsZSwgcGFzdGUgdGhlIGZvbGxvd2luZyBsaW5lcyBpbnRvIHRoZSBmaWxlOgoKQ09OTkVDVF9TRVJWRVI9Imh0dHBzOi8vYm9va2Rvd24ub3JnLyIKQ09OTkVDVF9BUElfS0VZPQoKYGBge3IgZXZhbD1GQUxTRSwgaW5jbHVkZT1GQUxTRX0KdXNldGhpczo6ZWRpdF9yX2Vudmlyb24oKSAgIyBUaGlzIHdpbGwgb3BlbiB0aGUgZmlsZQpgYGAKCkF0IHRoZSBiZWdpbm5pbmcgb2YgdGhlIHNlc3Npb246CgpgYGB7ciBldmFsPUZBTFNFLCBpbmNsdWRlPUZBTFNFfQpsaWJyYXJ5KGh0dHIpCgpjb25uZWN0U2VydmVyIDwtICJodHRwczovL2Jvb2tkb3duLm9yZy8iCiNjb25uZWN0QVBJS2V5IDwtIAoKI2Nvbm5lY3RTZXJ2ZXIgPC0gU3lzLmdldGVudigiQ09OTkVDVF9TRVJWRVIiKQojY29ubmVjdEFQSUtleSA8LSBTeXMuZ2V0ZW52KCJDT05ORUNUX0FQSV9LRVkiKQoKIyBUaGUgaW5pdGlhbCByZXF1ZXN0IGluIGFuIFIgc2Vzc2lvbiB3aWxsIGhhdmUgbm8gSFRUUCBzZXNzaW9uIGNvb2tpZXMuCnJlc3AgPC0gaHR0cjo6R0VUKGNvbm5lY3RTZXJ2ZXIsIAogIHBhdGggPSAiL2NvbnRlbnQvMjQvbWVhbiIsCiAgcXVlcnkgPSBsaXN0KHNhbXBsZXMgPSA1KSwKICBhZGRfaGVhZGVycyhBdXRob3JpemF0aW9uID0gcGFzdGUoIktleSIsIGNvbm5lY3RBUElLZXkpKQopCiMgLi4uCgojIExhdGVyIHJlcXVlc3RzIHJldGFpbiBjb29raWVzIHNldCBieSB0aGUgcHJldmlvdXMgcmVxdWVzdC4KcmVzcCA8LSBodHRyOjpHRVQoY29ubmVjdFNlcnZlciwgCiAgcGF0aCA9ICIvY29udGVudC8yNC9tZWFuIiwKICBxdWVyeSA9IGxpc3Qoc2FtcGxlcyA9IDEwKSwKICBhZGRfaGVhZGVycyhBdXRob3JpemF0aW9uID0gcGFzdGUoIktleSIsIGNvbm5lY3RBUElLZXkpKQopCiMgLi4uCmBgYAoKCiMjIFB1c2ggdG8gYm9va2Rvd24ub3JnCgpgYGB7cn0KYm9va2Rvd246OnB1Ymxpc2hfYm9vaygpCmBgYAoKIyMgQ2xlYW4gdXAKCkNoZWNrIGZpbGVzIHRvIGJlIGRlbGV0ZWQKCmBgYHtyfQpib29rZG93bjo6Y2xlYW5fYm9vayhGQUxTRSkKYGBgCgpEZWxldGUgdGhlbQoKYGBge3J9CmJvb2tkb3duOjpjbGVhbl9ib29rKFRSVUUpCmBgYAoKRGVsZXRlIGNvcGllcyBvZiBSbWQgZmlsZXMgZnJvbSBMYW5kR2VuQ291cnNlCgpgYGB7cn0KdW5saW5rKHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzLyIsIGxpc3Qub2YuZmlsZXMpLCByZWN1cnNpdmUgPSBGQUxTRSkKZGlyKHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTXkgYm9va2Rvd24gd29ya2Zsb3ciCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KClBhY2thZ2VzCgpgYGB7cn0KbGlicmFyeSh4ZnVuKQpsaWJyYXJ5KG1hZ2ljaykKbGlicmFyeShzZXJ2cikKbGlicmFyeShyc2Nvbm5lY3QpCmBgYAoKIyMgSW1wb3J0IGFuZCBwcmVwYXJlIGZpbGVzIGZyb20gYExhbmRHZW5Db3Vyc2VgCgpJbXBvcnQgYWxsIFJtZCBhbmQgb3RoZXIgKHBuZykgZmlsZXMgZnJvbSB2aWduZXR0ZXMsIHJlcGxhY2Ugb2xkIGZpbGVzCgpgYGB7cn0KbXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSkKbXlEaXJbbGVuZ3RoKG15RGlyKV0gPC0gIkxhbmRHZW5Db3Vyc2UiClBhdGggPC0gcGFzdGUwKG15RGlyLCBjb2xsYXBzZSA9ICcvJykKCiNNYWMgQ0g6CiNQYXRoIDwtICIvVXNlcnMvaGVsZW5lL0Rlc2t0b3AvUl9naXRodWJfcHJvamVjdHMvTGFuZEdlbkNvdXJzZS92aWduZXR0ZXMvIgoKI01hYyBUb3JvbnRvOgojUGF0aCA8LSAiL1VzZXJzL2hod2FnbmVyMS9EZXNrdG9wL1JfZ2l0aHViX3Byb2plY3RzL0xhbmRHZW5Db3Vyc2UvdmlnbmV0dGVzLyIKCiNXaW5kb3dzOgojUGF0aCA8LSAiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy8iICMgTGFwdG9wCgojbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKFBhdGgsIHBhdHRlcm49IlJtZCIpCiNsaXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aCkKbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKHBhc3RlMChQYXRoLCAiL3ZpZ25ldHRlcyIpKQpmaWxlLmNvcHkocGFzdGUwKFBhdGgsICIvdmlnbmV0dGVzLyIsIGxpc3Qub2YuZmlsZXMpLCAKICAgICAgICAgIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIiksIG92ZXJ3cml0ZT1UUlVFKQpkaXIocGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKCmBgYAoKSW5jcmVhc2UgaGVhZGVyIGxldmVsIGJ5IDEKCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDEuIiwgIiMjIDEuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgMi4iLCAiIyMgMi4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyAzLiIsICIjIyAzLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDQuIiwgIiMjIDQuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgNS4iLCAiIyMgNS4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyA2LiIsICIjIyA2LiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIDcuIiwgIiMjIDcuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgOC4iLCAiIyMgOC4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyA5LiIsICIjIyA5LiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQoKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBhLiIsICIjIyBhLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGIuIiwgIiMjIGIuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgYy4iLCAiIyMgYy4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBkLiIsICIjIyBkLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGUuIiwgIiMjIGUuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgZi4iLCAiIyMgZi4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBnLiIsICIjIyBnLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGguIiwgIiMjIGguIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMgaS4iLCAiIyMgaS4iLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyBqLiIsICIjIyBqLiIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIGsuIiwgIiMjIGsuIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCgpgYGAKTWFrZSBSIEV4ZXJjaXNlcyBhIHNlcGFyYXRlIHN1Yi1jaGFwdGVyIChmb3IgV2Vla3MgMSAtIDgpCgpgYGB7cn0KZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyMjIDQuIFIgIiwgIiMjIFIgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMjIyA1LiBSICIsICIjIyBSICIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIyMgNi4gUiAiLCAiIyMgUiAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIyMjIDcuIFIgIiwgIiMjIFIgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiMjIyA4LiBSICIsICIjIyBSICIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIjIyMgOS4gUiAiLCAiIyMgUiAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKYGBgCgpJbiBzb21lIGNoYXB0ZXJzICgxIC0gMz8pLCBwdXQgc2xvdCBuYW1lcyBpbiB0ZXh0IGludG8gcXVvdGVzCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQEMiLCAiIGBAQ2AiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBFIiwgIiBgQEVgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAUyIsICIgYEBTYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQFhZIiwgIiBgQFhZYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGFsbC5uYW1lcyIsICIgYEBhbGwubmFtZXNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGJib3giLCAiIGBAYmJveGAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBjb29yZHMiLCAiIGBAY29vcmRzYCIsICAKICAgICAgICAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBjb29yZHMubnJzIiwgIiBgQGNvb3Jkcy5ucnNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGRhdGEiLCAiIGBAZGF0YWAiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBoaWVyYXJjaHkiLCAiIGBAaGllcmFyY2h5YCIsICAKICAgICAgICAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBsaW5lcyIsICIgYEBsaW5lc2AiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiIEBsb2MuZmFjIiwgIiBgQGxvYy5mYWNgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQGxvYy5uLmFsbCIsICIgYEBsb2Mubi5hbGxgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQG90aGVyIiwgIiBgQG90aGVyYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHBsb2lkeSIsICIgYEBwbG9pZHlgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHBvcCIsICIgYEBwb3BgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAcHJvajRzdHJpbmciLCAiIGBAcHJvajRzdHJpbmdgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHN0cmF0YSIsICIgYEBzdHJhdGFgIiwgIAogICAgICAgICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpnc3ViX2V4dChleHQ9IlJtZCIsICIgQHRhYiIsICIgYEB0YWJgIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIiBAdHlwZSIsICIgYEB0eXBlYCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpgYGAKCmBgYHtyfQpnc3ViX2V4dChleHQ9IlJtZCIsICJXRTlfRmlnMS5wbmciLCBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcy9XRTlfRmlnMS5wbmciKSwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIldFOV9GaWcyLnBuZyIsIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dFOV9GaWcyLnBuZyIpLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi92aWduZXR0ZXMiKSkKZ3N1Yl9leHQoZXh0PSJSbWQiLCAiV0UxMl9GaWcxLnBuZyIsIHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dFMTJfRmlnMS5wbmciKSwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzIikpCmdzdWJfZXh0KGV4dD0iUm1kIiwgIldFMTNfRmlnMS5QTkciLCBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcy9XRTEzX0ZpZzEuUE5HIiksICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpgYGAKCgpDcmVhdGUgbGlzdCBvZiBmdW5jdGlvbnMgYW5kIHBhY2thZ2VzOiBzb3VyY2UgZmlsZSAiTGlzdE9mUGFja2FnZXMuUm1kIiAKCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIGluY2x1ZGU9RkFMU0V9CmxpYnJhcnkoa25pdHIpCnNvdXJjZShwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksICIvTGlzdE9mUGFja2FnZXMuUm1kIiksIG91dHB1dCA9IHRlbXBmaWxlKCkpKQpgYGAKCgpJbXBvcnQgdGFibGVzIG9mIFIgY29tbWFuZHMgb2YgdHV0b3JpYWxzIGZyb20gV29yZCBmaWxlCgoKYGBge3IgbWVzc2FnZT1GQUxTRX0KbGlicmFyeShvZmZpY2VyKQpsaWJyYXJ5KGRwbHlyKQoKbXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSkKbXlEaXJbbGVuZ3RoKG15RGlyKV0gPC0gIkxhbmRHZW5Db3Vyc2UiClBhdGggPC0gcGFzdGUwKG15RGlyLCBjb2xsYXBzZSA9ICcvJykKaW5GaWxlIDwtIHBhc3RlMChQYXRoLCAiL2luc3QvZXh0ZGF0YS9SQ29tbWFuZHMuZG9jeCIpCgojIE1hYyBDSDoKI2luRmlsZSA8LSAiL1VzZXJzL2hlbGVuZS9EZXNrdG9wL1JfZ2l0aHViX3Byb2plY3RzL0xhbmRHZW5Db3Vyc2UvaW5zdC9leHRkYXRhL1JDb21tYW5kcy5kb2N4IgoKIyBNYWMgVG9yb25vdG86CiNpbkZpbGUgPC0gIi9Vc2Vycy9oaHdhZ25lcjEvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL2luc3QvZXh0ZGF0YS9SQ29tbWFuZHMuZG9jeCIKCiMgV2luZG93czoKI2luRmlsZSA8LSAiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL2luc3QvZXh0ZGF0YS9SQ29tbWFuZHMuZG9jeCIKCnNhbXBsZV9kYXRhIDwtIG9mZmljZXI6OnJlYWRfZG9jeChpbkZpbGUpCmNvbnRlbnQgPC0gZG9jeF9zdW1tYXJ5KHNhbXBsZV9kYXRhKQpwYXJhZ3JhcGhzIDwtIGNvbnRlbnQgJT4lIGZpbHRlcihjb250ZW50X3R5cGUgPT0gInBhcmFncmFwaCIpCnBhcmFncmFwaHMkdGV4dApjb250ZW50ICU+JSBmaWx0ZXIoY29udGVudF90eXBlID09ICJ0YWJsZSBjZWxsIikKdGFibGVfY2VsbHMgPC0gY29udGVudCAlPiUgZmlsdGVyKGNvbnRlbnRfdHlwZSA9PSAidGFibGUgY2VsbCIpCnRhYmxlX2RhdGEgPC0gdGFibGVfY2VsbHMgJT4lIGZpbHRlcighaXNfaGVhZGVyKSAlPiUgZHBseXI6OnNlbGVjdChyb3dfaWQsIGNlbGxfaWQsIHRleHQpCiAKIyBzcGxpdCBkYXRhIGludG8gaW5kaXZpZHVhbCBjb2x1bW5zCnNwbGl0cyA8LSBzcGxpdCh0YWJsZV9kYXRhLCB0YWJsZV9kYXRhJGNlbGxfaWQpCnNwbGl0cyA8LSBsYXBwbHkoc3BsaXRzLCBmdW5jdGlvbih4KSB4JHRleHQpCiAKIyBjb21iaW5lIGNvbHVtbnMgYmFjayB0b2dldGhlciBpbiB3aWRlIGZvcm1hdAp0YWJsZV9yZXN1bHQgPC0gYmluZF9jb2xzKHNwbGl0cykKCgp0YWJsZV9yZXN1bHQgIDwtIHRhYmxlX3Jlc3VsdCAlPiUgbXV0YXRlKFdlZWs9Y3Vtc3VtKHRhYmxlX3Jlc3VsdFssM109PSJDb21tZW50cyIpKQp0YWJsZV9saXN0IDwtIHNwbGl0KHRhYmxlX3Jlc3VsdCwgdGFibGVfcmVzdWx0JFdlZWspCgpnZXROYW1lcyA8LSBmdW5jdGlvbihscykKewogIG5hbWVzKGxzKSA8LSBhcy5jaGFyYWN0ZXIobHNbMSxdKQogIGxzIDwtIGxzWy0xLF0gCiAgbHNbLDE6Ml0KfQoKdGFibGVfbGlzdCA8LSBsYXBwbHkodGFibGVfbGlzdCwgZ2V0TmFtZXMpCnNhdmVSRFModGFibGVfbGlzdCwgcGFzdGUwKGhlcmU6OmhlcmUoKSwgIi9vdXRwdXQvdGFibGVfbGlzdC5yZHMiKSkKYGBgCgoKCiMjIFByZXZpZXcgY2hhcHRlcgoKTk9URTogZm9yIHNvbWUgcmVhc29uLCBjaGFwdGVyIDggKGJvbnVzIHZpZ25ldHRlKSBuZWVkcyB0byBiZSBwcmVjb21waWxlZCBiZWZvcmUgc2VydmluZyB0aGUgZW50aXJlIGJvb2ssIG1heSBoYXZlIHRvIGRvIHdpdGggcGF0aHMuCgpNYXkgbmVlZCB0byBydW4gYWxsIGNodW5rcyBpbiBXZWVrIDggYm9udXMgdmlnbmV0dGUgYmVmb3JlIHJlbmRlcmluZyB0aGUgY2hhcHRlci4KCmBgYHtyfQojc291cmNlKGtuaXRyOjpwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksICIvdmlnbmV0dGVzL1dlZWs4X2JvbnVzX3ZpZ25ldHRlLlJtZCIpKSkKCiNib29rZG93bjo6cHJldmlld19jaGFwdGVyKCIwOC1XZWVrMDguUm1kIikKCiNib29rZG93bjo6cmVuZGVyX2Jvb2soaW5wdXQ9ImluZGV4LlJtZCIsIHByZXZpZXc9VFJVRSkKYGBgCgoKIyMgQ29tcGlsZSBib29rCgpgYGB7ciBtZXNzYWdlPUZBTFNFLCBpbmNsdWRlPUZBTFNFfQpib29rZG93bjo6OnNlcnZlX2Jvb2soKQpgYGAKCgojIyBOT1QgTkVFREVEPyBBUEkgZm9yIGFjY2Vzc2luZyBSU3R1ZGlvIENvbm5lY3QgKGZpcnN0IHRpbWUgaW4gc2Vzc2lvbikKClRvIHB1dCB0aGUgaW5mb3JtYXRpb24gaW50byB0aGUgLlJlbnZpcm9uIGZpbGUsIHBhc3RlIHRoZSBmb2xsb3dpbmcgbGluZXMgaW50byB0aGUgZmlsZToKCkNPTk5FQ1RfU0VSVkVSPSJodHRwczovL2Jvb2tkb3duLm9yZy8iCkNPTk5FQ1RfQVBJX0tFWT0KCmBgYHtyIGV2YWw9RkFMU0UsIGluY2x1ZGU9RkFMU0V9CnVzZXRoaXM6OmVkaXRfcl9lbnZpcm9uKCkgICMgVGhpcyB3aWxsIG9wZW4gdGhlIGZpbGUKYGBgCgpBdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBzZXNzaW9uOgoKYGBge3IgZXZhbD1GQUxTRSwgaW5jbHVkZT1GQUxTRX0KbGlicmFyeShodHRyKQoKY29ubmVjdFNlcnZlciA8LSAiaHR0cHM6Ly9ib29rZG93bi5vcmcvIgojY29ubmVjdEFQSUtleSA8LSAKCiNjb25uZWN0U2VydmVyIDwtIFN5cy5nZXRlbnYoIkNPTk5FQ1RfU0VSVkVSIikKI2Nvbm5lY3RBUElLZXkgPC0gU3lzLmdldGVudigiQ09OTkVDVF9BUElfS0VZIikKCiMgVGhlIGluaXRpYWwgcmVxdWVzdCBpbiBhbiBSIHNlc3Npb24gd2lsbCBoYXZlIG5vIEhUVFAgc2Vzc2lvbiBjb29raWVzLgpyZXNwIDwtIGh0dHI6OkdFVChjb25uZWN0U2VydmVyLCAKICBwYXRoID0gIi9jb250ZW50LzI0L21lYW4iLAogIHF1ZXJ5ID0gbGlzdChzYW1wbGVzID0gNSksCiAgYWRkX2hlYWRlcnMoQXV0aG9yaXphdGlvbiA9IHBhc3RlKCJLZXkiLCBjb25uZWN0QVBJS2V5KSkKKQojIC4uLgoKIyBMYXRlciByZXF1ZXN0cyByZXRhaW4gY29va2llcyBzZXQgYnkgdGhlIHByZXZpb3VzIHJlcXVlc3QuCnJlc3AgPC0gaHR0cjo6R0VUKGNvbm5lY3RTZXJ2ZXIsIAogIHBhdGggPSAiL2NvbnRlbnQvMjQvbWVhbiIsCiAgcXVlcnkgPSBsaXN0KHNhbXBsZXMgPSAxMCksCiAgYWRkX2hlYWRlcnMoQXV0aG9yaXphdGlvbiA9IHBhc3RlKCJLZXkiLCBjb25uZWN0QVBJS2V5KSkKKQojIC4uLgpgYGAKCgojIyBQdXNoIHRvIGJvb2tkb3duLm9yZwoKYGBge3J9CmJvb2tkb3duOjpwdWJsaXNoX2Jvb2soKQpgYGAKCiMjIENsZWFuIHVwCgpDaGVjayBmaWxlcyB0byBiZSBkZWxldGVkCgpgYGB7cn0KYm9va2Rvd246OmNsZWFuX2Jvb2soRkFMU0UpCmBgYAoKRGVsZXRlIHRoZW0KCmBgYHtyfQpib29rZG93bjo6Y2xlYW5fYm9vayhUUlVFKQpgYGAKCkRlbGV0ZSBjb3BpZXMgb2YgUm1kIGZpbGVzIGZyb20gTGFuZEdlbkNvdXJzZQoKYGBge3J9CnVubGluayhwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcy8iLCBsaXN0Lm9mLmZpbGVzKSwgcmVjdXJzaXZlID0gRkFMU0UpCmRpcihwYXN0ZTAoaGVyZTo6aGVyZSgpLCAiL3ZpZ25ldHRlcyIpKQpgYGAKCg==</div>
 
 
 
