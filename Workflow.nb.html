@@ -218,10 +218,27 @@ pre code {
 <p>Packages</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh4ZnVuKVxubGlicmFyeShtYWdpY2spXG5saWJyYXJ5KHNlcnZyKVxubGlicmFyeShyc2Nvbm5lY3QpXG5gYGAifQ== -->
-<pre class="r"><code>library(xfun)
-library(magick)
-library(servr)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh4ZnVuKVxuYGBgIn0= -->
+<pre class="r"><code>library(xfun)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYeGZ1buKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6YmFzZeKAmTpcblxuICAgIGF0dHIsIGlzRkFMU0VcbiJ9 -->
+<pre><code>
+Attaching package: ‘xfun’
+
+The following objects are masked from ‘package:base’:
+
+    attr, isFALSE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShtYWdpY2spXG5gYGAifQ== -->
+<pre class="r"><code>library(magick)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBJbWFnZU1hZ2ljayA2LjkuMTIuM1xuRW5hYmxlZCBmZWF0dXJlczogY2Fpcm8sIGZvbnRjb25maWcsIGZyZWV0eXBlLCBoZWljLCBsY21zLCBwYW5nbywgcmF3LCByc3ZnLCB3ZWJwXG5EaXNhYmxlZCBmZWF0dXJlczogZmZ0dywgZ2hvc3RzY3JpcHQsIHgxMVxuIn0= -->
+<pre><code>Linking to ImageMagick 6.9.12.3
+Enabled features: cairo, fontconfig, freetype, heic, lcms, pango, raw, rsvg, webp
+Disabled features: fftw, ghostscript, x11</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzZXJ2cilcbmxpYnJhcnkocnNjb25uZWN0KVxuYGBgIn0= -->
+<pre class="r"><code>library(servr)
 library(rsconnect)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -273,7 +290,7 @@ file.copy(paste0(Path, &quot;/vignettes/&quot;, list.of.files),
 <p>Increase header level by 1</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyAxLlwiLCBcIiMjIDEuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDIuXCIsIFwiIyMgMi5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgMy5cIiwgXCIjIyAzLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyA0LlwiLCBcIiMjIDQuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDUuXCIsIFwiIyMgNS5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgNi5cIiwgXCIjIyA2LlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyA3LlwiLCBcIiMjIDcuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDguXCIsIFwiIyMgOC5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgOS5cIiwgXCIjIyA5LlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIGEuXCIsIFwiIyMgYS5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyAxLlwiLCBcIiMjIDEuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDIuXCIsIFwiIyMgMi5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgMy5cIiwgXCIjIyAzLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyA0LlwiLCBcIiMjIDQuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDUuXCIsIFwiIyMgNS5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgNi5cIiwgXCIjIyA2LlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyA3LlwiLCBcIiMjIDcuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIDguXCIsIFwiIyMgOC5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgOS5cIiwgXCIjIyA5LlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIGEuXCIsIFwiIyMgYS5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgYi5cIiwgXCIjIyBiLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyBjLlwiLCBcIiMjIGMuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIGQuXCIsIFwiIyMgZC5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgZS5cIiwgXCIjIyBlLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyBmLlwiLCBcIiMjIGYuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIGcuXCIsIFwiIyMgZy5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgaC5cIiwgXCIjIyBoLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuZ3N1Yl9leHQoZXh0PVwiUm1kXCIsIFwiIyBpLlwiLCBcIiMjIGkuXCIsICBkaXIgPSBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIikpXG5nc3ViX2V4dChleHQ9XCJSbWRcIiwgXCIjIGouXCIsIFwiIyMgai5cIiwgIGRpciA9IHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmdzdWJfZXh0KGV4dD1cIlJtZFwiLCBcIiMgay5cIiwgXCIjIyBrLlwiLCAgZGlyID0gcGFzdGUwKGhlcmU6OmhlcmUoKSwgXCIvdmlnbmV0dGVzXCIpKVxuXG5gYGAifQ== -->
 <pre class="r"><code>gsub_ext(ext=&quot;Rmd&quot;, &quot;# 1.&quot;, &quot;## 1.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
 gsub_ext(ext=&quot;Rmd&quot;, &quot;# 2.&quot;, &quot;## 2.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
 gsub_ext(ext=&quot;Rmd&quot;, &quot;# 3.&quot;, &quot;## 3.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
@@ -284,7 +301,18 @@ gsub_ext(ext=&quot;Rmd&quot;, &quot;# 7.&quot;, &quot;## 7.&quot;,  dir = paste0
 gsub_ext(ext=&quot;Rmd&quot;, &quot;# 8.&quot;, &quot;## 8.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
 gsub_ext(ext=&quot;Rmd&quot;, &quot;# 9.&quot;, &quot;## 9.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
 
-gsub_ext(ext=&quot;Rmd&quot;, &quot;# a.&quot;, &quot;## a.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))</code></pre>
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# a.&quot;, &quot;## a.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# b.&quot;, &quot;## b.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# c.&quot;, &quot;## c.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# d.&quot;, &quot;## d.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# e.&quot;, &quot;## e.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# f.&quot;, &quot;## f.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# g.&quot;, &quot;## g.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# h.&quot;, &quot;## h.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# i.&quot;, &quot;## i.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# j.&quot;, &quot;## j.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+gsub_ext(ext=&quot;Rmd&quot;, &quot;# k.&quot;, &quot;## k.&quot;,  dir = paste0(here::here(), &quot;/vignettes&quot;))
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -464,84 +492,55 @@ saveRDS(table_list, paste0(here::here(), &quot;/output/table_list.rds&quot;))</c
 <p>May need to run all chunks in Week 8 bonus vignette before rendering the chapter.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKGtuaXRyOjpwdXJsKHBhc3RlMChoZXJlOjpoZXJlKCksIFxcL3ZpZ25ldHRlcy9XZWVrOF9ib251c192aWduZXR0ZS5SbWRcXCkpKVxuXG5ib29rZG93bjo6cHJldmlld19jaGFwdGVyKFxcMDgtV2VlazA4LlJtZFxcKVxuXG4jYm9va2Rvd246OnJlbmRlcl9ib29rKGlucHV0PVxcaW5kZXguUm1kXFwsIHByZXZpZXc9VFJVRSlcbmBgYFxuYGBgIn0= -->
-<pre class="r"><code>```r
-source(knitr::purl(paste0(here::here(), \/vignettes/Week8_bonus_vignette.Rmd\)))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NvdXJjZShrbml0cjo6cHVybChwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXMvV2VlazhfYm9udXNfdmlnbmV0dGUuUm1kXCIpKSlcblxuI2Jvb2tkb3duOjpwcmV2aWV3X2NoYXB0ZXIoXCIwOC1XZWVrMDguUm1kXCIpXG5cbiNib29rZG93bjo6cmVuZGVyX2Jvb2soaW5wdXQ9XCJpbmRleC5SbWRcIiwgcHJldmlldz1UUlVFKVxuYGBgIn0= -->
+<pre class="r"><code>#source(knitr::purl(paste0(here::here(), &quot;/vignettes/Week8_bonus_vignette.Rmd&quot;)))
 
-bookdown::preview_chapter(\08-Week08.Rmd\)
+#bookdown::preview_chapter(&quot;08-Week08.Rmd&quot;)
 
-#bookdown::render_book(input=\index.Rmd\, preview=TRUE)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-## Compile book
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-## NOT NEEDED? API for accessing RStudio Connect (first time in session)
-
-To put the information into the .Renviron file, paste the following lines into the file:
-
-CONNECT_SERVER=&quot;https://bookdown.org/&quot;
-CONNECT_API_KEY=
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-At the beginning of the session:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-## Push to bookdown.org
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBgclxuYm9va2Rvd246OnB1Ymxpc2hfYm9vaygpXG5gYGBcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-```r
-bookdown::publish_book()</code></pre>
-<pre><code></code></pre>
+#bookdown::render_book(input=&quot;index.Rmd&quot;, preview=TRUE)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiVGhlc2UgZmlsZXMvZGlycyBjYW4gcHJvYmFibHkgYmUgcmVtb3ZlZDogXG5cbl9ib29rL1xuTGFuZEdlbkNvdXJzZV9ib29rLnJkc1xuXG5Zb3UgY2FuIHNldCBvcHRpb25zKGJvb2tkb3duLmNsZWFuX2Jvb2sgPSBUUlVFKSB0byBhbGxvdyB0aGlzIGZ1bmN0aW9uIHRvIGFsd2F5cyBjbGVhbiB1cCB0aGUgYm9vayBkaXJlY3RvcnkgZm9yIHlvdS5cbiJ9 -->
-<pre><code>These files/dirs can probably be removed: 
-
-_book/
-LandGenCourse_book.rds
-
-You can set options(bookdown.clean_book = TRUE) to allow this function to always clean up the book directory for you.</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="compile-book" class="section level2">
+<h2>Compile book</h2>
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="not-needed-api-for-accessing-rstudio-connect-first-time-in-session" class="section level2">
+<h2>NOT NEEDED? API for accessing RStudio Connect (first time in session)</h2>
+<p>To put the information into the .Renviron file, paste the following lines into the file:</p>
+<p>CONNECT_SERVER=“<a href="https://bookdown.org/" class="uri">https://bookdown.org/</a>” CONNECT_API_KEY=</p>
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+<p>At the beginning of the session:</p>
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="push-to-bookdown.org" class="section level2">
+<h2>Push to bookdown.org</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va2Rvd246OnB1Ymxpc2hfYm9vaygpXG5gYGAifQ== -->
+<pre class="r"><code>bookdown::publish_book()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUHJlcGFyaW5nIHRvIGRlcGxveSBzaXRlLi4uXG4ifQ== -->
+<pre><code>Preparing to deploy site...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuWVxuYGBgIn0= -->
+<pre class="r"><code>Y</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRE9ORVxuVXBsb2FkaW5nIGJ1bmRsZSBmb3Igc2l0ZTogNzQ0My4uLkRPTkVcbkRlcGxveWluZyBidW5kbGU6IDY2OTUyIGZvciBzaXRlOiA3NDQzIC4uLlxuIn0= -->
+<pre><code>DONE
+Uploading bundle for site: 7443...DONE
+Deploying bundle: 66952 for site: 7443 ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW0Nvbm5lY3RdIEJ1aWxkaW5nIHN0YXRpYyBjb250ZW50Li4uXG5bQ29ubmVjdF0gTGF1bmNoaW5nIHN0YXRpYyBjb250ZW50Li4uXG4ifQ== -->
+<pre><code>[Connect] Building static content...
+[Connect] Launching static content...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiU2l0ZSBzdWNjZXNzZnVsbHkgZGVwbG95ZWQgdG8gaHR0cHM6Ly9ib29rZG93bi5vcmcvaGh3YWduZXIxL0xhbmRHZW5Db3Vyc2VfYm9vay9cbiJ9 -->
+<pre><code>Site successfully deployed to https://bookdown.org/hhwagner1/LandGenCourse_book/</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->

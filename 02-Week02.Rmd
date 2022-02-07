@@ -25,7 +25,7 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 ### 2. Preview Slides
 
 
-[Download]("https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week2_Slides.pdf")
+[Download slides](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/docs/Video_slides/Week2_Slides.pdf)
 
 
 ```{r echo=FALSE, fig.height=54, fig.width=8, message=FALSE}
