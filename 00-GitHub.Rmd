@@ -122,7 +122,7 @@ There are different ways to start a project in RStudio that uses GitHub for vers
 
 - Tutorial: [How to join a collaborative Github project: clone a repo](https://docs.google.com/document/d/1dUPDMcYVdGPBwcvhkuJ0pA9dIbZnEA_U/edit?usp=sharing&ouid=112774497919476559192&rtpof=true&sd=true)
 
-The [Happy Git with R](#happygit) tutorial provides instructions for various use cases:
+In addition, the [Happy Git with R](#happygit) tutorial provides instructions for a wider range of use cases:
 
 - [New project, GitHub first](https://happygitwithr.com/new-github-first.html)
 - [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html) (the case covered by the above tutorial on cloning a repo)

@@ -33,11 +33,14 @@ Link to [DGS Landscape Genetics](https://sites.google.com/site/landscapegenetics
 The online book compiles the teaching materials for the optional computer lab component of the DGS Landscape Genetics. The materials included in this online resource are also included in the R package `LandGenCourse` available on [Github](https://github.com/hhwagner1/LandGenCourse "github repository").   
 
 
-Next sections:
+**Next sections:**
 
 - [How to use this Book](#how-to-use)
 - [List of R Packages by Vignette](#list-of-packages)
 
+**License:**
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Landscape Genetic Data Analysis with R</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/hhwagner1/LandGenCourse_book" property="cc:attributionName" rel="cc:attributionURL">Helene Wagner</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
 
 ## How to use this Book

@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Worked Example | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Worked Example | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Worked Example | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2022-03-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="Week11.html"/>
+<link rel="next" href="Week12.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+<script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this Book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#book-structure"><i class="fa fa-check"></i>1. Book Structure</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-getting-started"><i class="fa fa-check"></i>a) Getting Started</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-basic-topics"><i class="fa fa-check"></i>b) Basic Topics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#c-advanced-topics"><i class="fa fa-check"></i>c) Advanced Topics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#find-what-is-relevant-for-you"><i class="fa fa-check"></i>2. Find what is relevant for you</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#how-to-use"><i class="fa fa-check"></i>a) How to use the labs</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-check-contents"><i class="fa fa-check"></i>b) Check contents</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#course-r-package-landgencourse"><i class="fa fa-check"></i>3. Course R package ‘LandGenCourse’</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-practice-good-r-hygiene"><i class="fa fa-check"></i>a) Practice good R hygiene</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#b-how-to-install-or-update-landgencourse"><i class="fa fa-check"></i>b) How to install (or update) ‘LandGenCourse’</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#c-how-to-install-dependencies"><i class="fa fa-check"></i>c) How to install dependencies</a></li>
+<li><a href="how-to-use-this-book.html#d-how-to-use-the-r-package-landgencourse">d) How to use the R package <code>LandGenCourse</code></a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#e-video-instructions-for-beginners"><i class="fa fa-check"></i>e) Video instructions for beginners</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i>List of R Packages by Vignette</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i>Review of R Skills</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i>Basic R Programming</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#overview"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#data-types"><i class="fa fa-check"></i>2. Data Types</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#numeric-data-types"><i class="fa fa-check"></i>2.1. Numeric Data Types</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#characters"><i class="fa fa-check"></i>2.2. Characters</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#factors"><i class="fa fa-check"></i>2.3. Factors</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#logical-types"><i class="fa fa-check"></i>2.4. Logical Types</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#data-containers"><i class="fa fa-check"></i>3. Data Containers</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#vectors"><i class="fa fa-check"></i>3.1. Vectors</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#matrices"><i class="fa fa-check"></i>3.2. Matrices</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#lists"><i class="fa fa-check"></i>3.3. Lists</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#data-frames"><i class="fa fa-check"></i>3.4. Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#programming"><i class="fa fa-check"></i>4. Programming</a>
+<ul>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#function-writing"><i class="fa fa-check"></i>4.1. Function Writing</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#variable-scope"><i class="fa fa-check"></i>4.2. Variable Scope</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#decision-making"><i class="fa fa-check"></i>4.3. Decision Making</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#flow-control"><i class="fa fa-check"></i>4.4. Flow Control</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i>R Graphics</a>
+<ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#overview-1"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#univariate-plots"><i class="fa fa-check"></i>2. Univariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#barplots-and-histograms"><i class="fa fa-check"></i>2.1. Barplots and histograms</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#plotting-parameters"><i class="fa fa-check"></i>2.2. Plotting Parameters</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#density-plots"><i class="fa fa-check"></i>2.3. Density Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#bivariate-plots"><i class="fa fa-check"></i>3. Bivariate plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#overlaying-plots-by-grouping"><i class="fa fa-check"></i>3.1. Overlaying Plots by grouping</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#boxplots"><i class="fa fa-check"></i>3.2. Boxplots</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#scatter-plots"><i class="fa fa-check"></i>3.3. Scatter Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#advanced-plotting"><i class="fa fa-check"></i>4. Advanced plotting</a>
+<ul>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#multiple-plots"><i class="fa fa-check"></i>4.1. Multiple Plots</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#color-palettes"><i class="fa fa-check"></i>4.2. Color Palettes</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#rcolorbrewer"><i class="fa fa-check"></i>4.3. RColorBrewer</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#saving-imagery"><i class="fa fa-check"></i>4.4. Saving Imagery</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#interactive-graphics"><i class="fa fa-check"></i>4.5. Interactive Graphics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i>Further R resources</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i>GitHub for Group Projects</a>
+<ul>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i>Why use GitHub?</a>
+<ul>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#goals"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#version"><i class="fa fa-check"></i>2. Watch course video: Version Control 101</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#slides"><i class="fa fa-check"></i>3. Preview slides</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#next-steps"><i class="fa fa-check"></i>4. Next steps</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i>Installation</a>
+<ul>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#goals-1"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#happygit"><i class="fa fa-check"></i>2. Happy Git with R</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#gitvideos"><i class="fa fa-check"></i>3. Video tutorials: installation</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#join"><i class="fa fa-check"></i>4. Joining your group’s project on GitHub</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#repo"><i class="fa fa-check"></i>5. Setting up a group repo</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#next-steps-1"><i class="fa fa-check"></i>6. Next steps</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i>Workflows</a>
+<ul>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#goals-2"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#step-by-step-tutorials"><i class="fa fa-check"></i>2. Step-by-step tutorials</a></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#further-resources"><i class="fa fa-check"></i>3. Further resources</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basic Topics</b></span></li>
+<li class="chapter" data-level="" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i>Week 1: Importing Genetic Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_1.html"><a href="video_1.html#embedded-video"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_1.html"><a href="video_1.html#preview-slides"><i class="fa fa-check"></i>2. Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i>Interactive Tutorial 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#list-of-r-commands-covered-this-week"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#general-instructions"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#a-how-to-access-tutorials"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#b-how-to-complete-tutorial"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#c-how-to-submit-answers-participating-institutions-only"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#a.-goals"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#b.-data-set"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#c.-required-r-libraries"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#a.-preparation"><i class="fa fa-check"></i>a. Preparation</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#b.-excel-file"><i class="fa fa-check"></i>b. Excel file</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#c.-import-with-function-read.csv"><i class="fa fa-check"></i>c. Import with function ‘read.csv’</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#d.-create-id-variable"><i class="fa fa-check"></i>d. Create ID variable</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#e.-export-with-function-write.csv"><i class="fa fa-check"></i>e. Export with function ‘write.csv’</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#a.-read-the-helpfile"><i class="fa fa-check"></i>a. Read the helpfile</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#b.-set-all-arguments-of-function-df2genind"><i class="fa fa-check"></i>b. Set all arguments of function ‘df2genind’</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#c.-check-imported-data"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#d.-summarize-genind-object"><i class="fa fa-check"></i>d. Summarize ‘genind’ object</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a>
+<ul>
+<li><a href="WE_1.html#a.-slot-tab">a. Slot <code>@tab</code></a></li>
+<li><a href="WE_1.html#b.-slot-loc.n.all">b. Slot <code>@loc.n.all</code></a></li>
+<li><a href="WE_1.html#c.-slot-loc.fac">c. Slot <code>@loc.fac</code></a></li>
+<li><a href="WE_1.html#d.-slot-all.names">d. Slot <code>@all.names</code></a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#e.-further-slots"><i class="fa fa-check"></i>e. Further slots</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#a.-function-read_population"><i class="fa fa-check"></i>a. Function ‘read_population’</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#b.-set-arguments"><i class="fa fa-check"></i>b. Set arguments</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#c.-check-imported-data-1"><i class="fa fa-check"></i>c. Check imported data</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#d.-add-frogid"><i class="fa fa-check"></i>d. Add FrogID</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#e.-convert-to-genind-object"><i class="fa fa-check"></i>e. Convert to ‘genind’ object</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#a.-import-from-text-file"><i class="fa fa-check"></i>a. Import from text file</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#b.-import-from-vcf-file-to-genind-object"><i class="fa fa-check"></i>b. Import from vcf file to genind object</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#c.-import-from-vcf-file-to-genlight-object"><i class="fa fa-check"></i>c. Import from vcf file to genlight object</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i>Week 2: Spatial Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_2.html"><a href="video_2.html#embedded-video-1"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_2.html"><a href="video_2.html#preview-slides-1"><i class="fa fa-check"></i>2. Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i>Interactive Tutorial 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#general-instructions-1"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#a-how-to-access-tutorials-1"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#b-how-to-complete-tutorial-1"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#c-how-to-submit-answers-participating-institutions-only-1"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#overview-of-worked-example-1"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#a.-goals-1"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#b.-data-set-1"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#c.-required-r-libraries-1"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#import-site-data-from-.csv-file"><i class="fa fa-check"></i>2. Import site data from .csv file</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#a.-import-data-into-spatialpointsdataframe"><i class="fa fa-check"></i>a. Import data into SpatialPointsDataFrame</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#b.-add-spatial-reference-data"><i class="fa fa-check"></i>b. Add spatial reference data</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#c.-change-projection"><i class="fa fa-check"></i>c. Change projection</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#d.-access-data-in-spatialpointsdataframe"><i class="fa fa-check"></i>d. Access data in ‘SpatialPointsDataFrame’</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data"><i class="fa fa-check"></i>3. Display raster data and overlay sampling locations, extract data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#a.-display-raster-data"><i class="fa fa-check"></i>a. Display raster data</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#b.-change-color-ramp-add-sampling-locations"><i class="fa fa-check"></i>b. Change color ramp, add sampling locations</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#c.-extract-raster-values-at-sampling-locations"><i class="fa fa-check"></i>c. Extract raster values at sampling locations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#a.-calculate-patch--class--and-landscape-level-landscape-metrics"><i class="fa fa-check"></i>a. Calculate patch-, class- and landscape level landscape metrics</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#b.-calculate-patch-level-landscape-metrics-for-evergreen-forest"><i class="fa fa-check"></i>b. Calculate patch-level landscape metrics for ‘Evergreen Forest’</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#c.-extract-forest-patch-size-at-samplig-locations"><i class="fa fa-check"></i>c. Extract forest patch size at samplig locations</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#d.-plot-a-bubble-map-of-forest-patch-size-at-sampling-locations"><i class="fa fa-check"></i>d. Plot a bubble map of forest patch size at sampling locations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#b.-extract-landscape-metric-of-choice-for-a-single-cover-type-as-vector"><i class="fa fa-check"></i>b. Extract landscape metric of choice for a single cover type (as vector)</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#c.-extract-landscape-metric-of-choice-for-all-cover-types-as-data-frame."><i class="fa fa-check"></i>c. Extract landscape metric of choice for all cover types (as data frame).</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#d.-extract-all-landscape-metrics-for-a-single-cover-type-as-data-frame"><i class="fa fa-check"></i>d. Extract all landscape metrics for a single cover type (as data frame)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i>Bonus Vignette</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#a.-goals-2"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#b.-required-r-libraries"><i class="fa fa-check"></i>b. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#convert-spatialpointsdataframe-to-sf-object"><i class="fa fa-check"></i>2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-variables-first-10-in-data-set"><i class="fa fa-check"></i>3. Plot variables (first 10 in data set)</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#a.-plot-geometry"><i class="fa fa-check"></i>a. Plot geometry</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#b.-plot-attributes-in-space"><i class="fa fa-check"></i>b. Plot attributes in space</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#c.-create-a-static-bubble-plot-with-tmap"><i class="fa fa-check"></i>c. Create a static bubble plot with ‘tmap’</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#d.-create-an-interactive-bubble-plot-with-tmap"><i class="fa fa-check"></i>d. Create an interactive bubble plot with ‘tmap’</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#e.-export-maps"><i class="fa fa-check"></i>e. Export maps</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#export-site-data-as-esri-shapefile"><i class="fa fa-check"></i>4. Export site data as ESRI shapefile</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme"><i class="fa fa-check"></i>5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i>Week 3: Genetic Diversity</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#embedded-video-2"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#video-part-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#video-part-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#preview-slides-2"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i>Interactive Tutorial 3</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#general-instructions-2"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#a-how-to-access-tutorials-2"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#b-how-to-complete-tutorial-2"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#c-how-to-submit-answers-participating-institutions-only-2"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#overview-of-worked-example-2"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#a.-goals-3"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#b.-data-set-2"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#c.-required-r-libraries-2"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#basic-checking-of-markers-and-populations"><i class="fa fa-check"></i>2. Basic checking of markers and populations</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#a.-re-create-genind-object"><i class="fa fa-check"></i>a. Re-create genind object</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#b.-check-that-markers-are-polymorphic"><i class="fa fa-check"></i>b. Check that markers are polymorphic</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#c.-check-for-deviations-from-hardy-weinberg-equilibrium-hwe"><i class="fa fa-check"></i>c. Check for deviations from Hardy-Weinberg equilibrium (HWE)</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#d.-check-for-linkage-disequilibrium-ld"><i class="fa fa-check"></i>d. Check for linkage disequilibrium (LD)</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#e.-check-for-null-alleles"><i class="fa fa-check"></i>e. Check for null alleles</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#f.-overall-interpretation"><i class="fa fa-check"></i>f. Overall interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#assess-genetic-diversity"><i class="fa fa-check"></i>3. Assess genetic diversity</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#a.-rarefied-allelic-richness"><i class="fa fa-check"></i>a. Rarefied allelic richness</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#b.-observed-and-expected-heterozygosity"><i class="fa fa-check"></i>b. Observed and expected heterozygosity</a></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#c.-create-table-with-sitel-level-genetic-diversity-measures"><i class="fa fa-check"></i>c. Create table with sitel-level genetic diversity measures</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_3.html"><a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies"><i class="fa fa-check"></i>4. Aggregate genetic data at population level (allele frequencies)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i>R Exercise Week 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i>Week 4: Metapopulations</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#embedded-video-3"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#video-part-1-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#video-part-2-1"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#preview-slides-3"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i>Interactive Tutorial 4</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#general-instructions-3"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#a-how-to-access-tutorials-3"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#b-how-to-complete-tutorial-3"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#c-how-to-submit-answers-participating-institutions-only-3"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#overview-of-worked-example-3"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#a.-goals-4"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#b.-data-set-3"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#reference"><i class="fa fa-check"></i>Reference:</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#c.-required-r-libraries-3"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#d.-import-data"><i class="fa fa-check"></i>d. Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#spatial-distribution-of-genetic-structure"><i class="fa fa-check"></i>2. Spatial distribution of genetic structure</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#a.-creating-a-genind-object-with-the-hierarchical-data-set"><i class="fa fa-check"></i>a. Creating a ‘genind’ object with the hierarchical data set</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#b.-hierarchical-amova"><i class="fa fa-check"></i>b. Hierarchical AMOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#what-determines-genetic-differentiation-among-sites"><i class="fa fa-check"></i>3. What determines genetic differentiation among sites?</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#a.-correlation-matrix"><i class="fa fa-check"></i>a. Correlation matrix</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#b.-scatterplots"><i class="fa fa-check"></i>b. Scatterplots</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#c.-regression-model"><i class="fa fa-check"></i>c. Regression model</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#d.-which-populations-dont-fit-the-general-pattern"><i class="fa fa-check"></i>d. Which populations don’t fit the general pattern?</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#e.-regression-model-without-outliers"><i class="fa fa-check"></i>e. Regression model without outliers</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#what-determines-genetic-diversity"><i class="fa fa-check"></i>4. What determines genetic diversity?</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#a.-correlation-matrix-1"><i class="fa fa-check"></i>a. Correlation matrix</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#b.-regression-models"><i class="fa fa-check"></i>b. Regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#a.-effect-of-patch-extinction-event-temporal-data-set"><i class="fa fa-check"></i>a. Effect of patch extinction event (temporal data set)</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#b.-power-analysis"><i class="fa fa-check"></i>b. Power analysis</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#c.-sample-size-calculation"><i class="fa fa-check"></i>c. Sample size calculation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i>Week 5: Spatial Statistics</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_5.html"><a href="video_5.html#embedded-video-4"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_5.html"><a href="video_5.html#preview-slides-4"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i>Interactive Tutorial 5</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#general-instructions-4"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#a-how-to-access-tutorials-4"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#b-how-to-complete-tutorial-4"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#c-how-to-submit-answers-participating-institutions-only-4"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#overview-of-worked-example-4"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-goals-5"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-data-set-4"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#c.-required-r-packages"><i class="fa fa-check"></i>c. Required R packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#data-import-and-manipulation"><i class="fa fa-check"></i>2. Data import and manipulation</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-create-an-ecogen-object"><i class="fa fa-check"></i>a. Create an ecogen object</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-aggregate-to-ecopop"><i class="fa fa-check"></i>b. Aggregate to ecopop</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-add-site-level-data"><i class="fa fa-check"></i>b. Add site-level data</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#c.-export-to-adegenet-and-gstudio"><i class="fa fa-check"></i>c. Export to adegenet and gstudio</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#calculate-genetic-distances"><i class="fa fa-check"></i>3. Calculate genetic distances</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-genetic-distances-calculated-from-genind-object"><i class="fa fa-check"></i>a. Genetic distances calculated from genind object</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-more-distance-matrices-with-gstudio"><i class="fa fa-check"></i>b. More distance matrices with ‘gstudio’</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#c.-assemble-distance-matrices"><i class="fa fa-check"></i>c. Assemble distance matrices</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#d.-export-genetic-distance-matrices"><i class="fa fa-check"></i>d. Export genetic distance matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd"><i class="fa fa-check"></i>4. Perform a Mantel test to test for IBD</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-visually-check-linearity"><i class="fa fa-check"></i>a. Visually check linearity</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-perform-mantel-test"><i class="fa fa-check"></i>b. Perform Mantel test</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-create-a-first-mantel-correlogram"><i class="fa fa-check"></i>a. Create a first Mantel correlogram</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-vary-distance-class-definition"><i class="fa fa-check"></i>b. Vary distance class definition</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#c.-alternative-measures-of-genetic-distances"><i class="fa fa-check"></i>c. Alternative measures of genetic distances</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#a.-defining-spatial-neighbors"><i class="fa fa-check"></i>a. Defining spatial neighbors</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#b.-defining-spatial-weights"><i class="fa fa-check"></i>b. Defining spatial weights</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#c.-calculating-and-testing-morans-i"><i class="fa fa-check"></i>c. Calculating and testing Moran’s I</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i>Week 6: Quantitative Genetics</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#embedded-video-5"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#video-part-1-2"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#video-part-2-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#preview-slides-5"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i>Interactive Tutorial 6</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#general-instructions-5"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#a-how-to-access-tutorials-5"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#b-how-to-complete-tutorial-5"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#c-how-to-submit-answers-participating-institutions-only-5"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#overview-of-worked-example-5"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#a.-goals-6"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#b.-data-set-5"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#c.-required-r-packages-1"><i class="fa fa-check"></i>c. Required R packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#a.-import-phenytypic-data"><i class="fa fa-check"></i>a. Import phenytypic data</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#b.-fit-linear-mixed-effects-models-lmm-to-trait-data-observed-on-families"><i class="fa fa-check"></i>b. Fit linear mixed effects models (LMM) to trait data observed on families</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#c.-compare-model-fit"><i class="fa fa-check"></i>c. Compare model fit</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#d.-check-model-validity"><i class="fa fa-check"></i>d. Check model validity</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#e.-estimate-variance-components"><i class="fa fa-check"></i>e. Estimate variance components</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#f.-significance-testing"><i class="fa fa-check"></i>f. Significance testing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#estimate-trait-heritability"><i class="fa fa-check"></i>3. Estimate trait heritability</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#a.-estimate-heritability"><i class="fa fa-check"></i>a. Estimate heritability</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#b.-estimate-trait-differentiation"><i class="fa fa-check"></i>b. Estimate trait differentiation</a></li>
+</ul></li>
+<li><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#a.-import-ecogen-object"><i class="fa fa-check"></i>a. Import ‘ecogen’ object</a></li>
+<li><a href="WE_6.html#b.-compare-q_st-to-f_st">b. Compare <span class="math inline">\(Q_{ST}\)</span> to <span class="math inline">\(F_{ST}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#assess-correlation-between-trait-and-environment"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#a.-describe-and-extract-effects"><i class="fa fa-check"></i>a. Describe and extract effects</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#b.-correlation-of-population-effect-with-environment"><i class="fa fa-check"></i>b. Correlation of population effect with environment</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i>Week 7: Spatial Linear Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#embedded-video-6"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#video-part-1-3"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#video-part-2-3"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#preview-slides-6"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i>Interactive Tutorial 7</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#general-instructions-6"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#a-how-to-access-tutorials-6"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#b-how-to-complete-tutorial-6"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#c-how-to-submit-answers-participating-institutions-only-6"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#overview-of-worked-example-6"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-goals-7"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-data-set-6"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#c.-required-r-packages-2"><i class="fa fa-check"></i>c. Required R packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#explore-data-set"><i class="fa fa-check"></i>2. Explore data set</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-import-data"><i class="fa fa-check"></i>a. Import data</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-create-a-map"><i class="fa fa-check"></i>b. Create a map</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#c.-explore-correlations"><i class="fa fa-check"></i>c. Explore correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation"><i class="fa fa-check"></i>3. Test regression residuals for spatial autocorrelation</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-fit-regression-models"><i class="fa fa-check"></i>a. Fit regression models</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-test-for-spatial-autocorrelation-morans-i"><i class="fa fa-check"></i>b. Test for spatial autocorrelation (Moran’s I):</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme"><i class="fa fa-check"></i>4. Fit models with spatially correlated error (GLS) with package ‘nlme’</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-plot-empirical-variogram"><i class="fa fa-check"></i>a. Plot empirical variogram</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-fit-variogram-models"><i class="fa fa-check"></i>b. Fit variogram models</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#c.-select-best-fitting-model"><i class="fa fa-check"></i>c. Select best-fitting model</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#d.-plot-fitted-variogram-model"><i class="fa fa-check"></i>d. Plot fitted variogram model</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#e.-add-random-factor"><i class="fa fa-check"></i>e. Add random factor</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar"><i class="fa fa-check"></i>5. Fit spatial simultaneous autoregressive error models (SAR)</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-fit-and-compare-alternative-sar-models"><i class="fa fa-check"></i>a. Fit and compare alternative SAR models</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-interpret-best-fitting-sar-model"><i class="fa fa-check"></i>b. Interpret best-fitting SAR model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran"><i class="fa fa-check"></i>6. Spatial filtering with MEM using package ‘spmoran’</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#a.-default-method"><i class="fa fa-check"></i>a. Default method</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#b.-using-a-custom-connectivity-matrix"><i class="fa fa-check"></i>b. Using a custom connectivity matrix</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#c.-plot-spatial-eigenvectors"><i class="fa fa-check"></i>c. Plot spatial eigenvectors</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#d.-random-effect-model"><i class="fa fa-check"></i>d. Random effect model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran"><i class="fa fa-check"></i>7. Fit spatially varying coefficients model with package ‘spmoran’</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-patchsize-and-ibr"><i class="fa fa-check"></i>Model with PatchSize and IBR</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i>Bonus Vignette</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha"><i class="fa fa-check"></i>3. Optimize the scaling parameter alpha</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i>Week 8: Simulation Experiments</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i>View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#embedded-video-7"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#video-part-1-4"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#video-part-2-4"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#preview-slides-7"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i>Interactive Tutorial 8</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#general-instructions-7"><i class="fa fa-check"></i>2. General Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#a-how-to-access-tutorials-7"><i class="fa fa-check"></i>a) How to access tutorials:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#b-how-to-complete-tutorial-7"><i class="fa fa-check"></i>b) How to complete tutorial:</a></li>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#c-how-to-submit-answers-participating-institutions-only-7"><i class="fa fa-check"></i>c) How to submit answers (participating institutions only):</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#overview-of-worked-example-7"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#a.-goals-8"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#b.-data-set-7"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#c.-required-r-libraries-4"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#initialize-a-landscape"><i class="fa fa-check"></i>2. Initialize a landscape</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#a.-create-a-random-landscape"><i class="fa fa-check"></i>a. Create a random landscape</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#b.-add-populations-to-the-landscape-using-minimal-distance"><i class="fa fa-check"></i>b. Add populations to the landscape (using minimal distance)</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#c.-initialise-a-metapopulation"><i class="fa fa-check"></i>c. Initialise a metapopulation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#define-simulation-parameters"><i class="fa fa-check"></i>3. Define simulation parameters</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#a.-define-your-metapopulation"><i class="fa fa-check"></i>a. Define your metapopulation</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#b.-initialise-your-population-on-the-landscape"><i class="fa fa-check"></i>b. Initialise your population on the landscape</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#a.-run-your-simulation-over-multiple-time-steps-years"><i class="fa fa-check"></i>a. Run your simulation over multiple time steps (years)</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#b.-analyse-your-simulated-population-with-a-partial-mantel-test"><i class="fa fa-check"></i>b. Analyse your simulated population with a partial Mantel test</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#c.-optional-analyze-your-simulated-populations-using-sunder"><i class="fa fa-check"></i>c. Optional: Analyze your simulated populations using ‘Sunder’</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#a.-specify-and-record-the-parameter-combinations"><i class="fa fa-check"></i>a. Specify and record the parameter combinations</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#b.-run-the-simulator-over-every-parameter-combination."><i class="fa fa-check"></i>b. Run the simulator over every parameter combination.</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#c.-save-your-complete-simulation-run-input-and-output"><i class="fa fa-check"></i>c. Save your complete simulation run (input and output)</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#d.-analyze-and-synthesize-results"><i class="fa fa-check"></i>d. Analyze and synthesize results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i>Bonus Vignette</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#overview-of-bonus-material"><i class="fa fa-check"></i>1. Overview of Bonus Material</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-goals-9"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-data-set-8"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#c.-required-r-libraries-5"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#navigating-the-file-system"><i class="fa fa-check"></i>2. Navigating the file system</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-where-am-i"><i class="fa fa-check"></i>a. Where am I?</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-accessing-a-system-file"><i class="fa fa-check"></i>b. Accessing a system file</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#c.-file-manipulation"><i class="fa fa-check"></i>c. File manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#benchmarking-file-import-and-export-options"><i class="fa fa-check"></i>3. Benchmarking file import and export options</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-benchmark-methods-for-importing-csv-files"><i class="fa fa-check"></i>a. Benchmark methods for importing csv files</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-check-handling-of-character-data"><i class="fa fa-check"></i>b. Check handling of character data</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#c.-binary-files"><i class="fa fa-check"></i>c. Binary files</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#d.-should-you-save-your-r-workspace"><i class="fa fa-check"></i>d. Should you save your R workspace?</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#e.-compile-your-functions"><i class="fa fa-check"></i>e. Compile your functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#profiling-your-code"><i class="fa fa-check"></i>4. Profiling your code</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-named-chunks"><i class="fa fa-check"></i>a. Named chunks</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-profiling-some-lines-of-code-with-profvis"><i class="fa fa-check"></i>b. Profiling some lines of code with ‘profvis’</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#c.-profiling-an-r-script-with-profvis"><i class="fa fa-check"></i>c. Profiling an R script with ‘profvis’</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#d.-converting-an-r-notebook-to-an-r-script"><i class="fa fa-check"></i>d. Converting an R Notebook to an R script</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#creating-and-executing-a-bash-r-script"><i class="fa fa-check"></i>5. Creating and executing a Bash R script</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-run-r-script-directly-in-the-terminal"><i class="fa fa-check"></i>a. Run R script directly in the Terminal</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-create-a-bash-r-script"><i class="fa fa-check"></i>b. Create a Bash R script</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#c.-executing-a-bash-r-script"><i class="fa fa-check"></i>c. Executing a Bash R script</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#d.-moving-to-a-node-or-cluster"><i class="fa fa-check"></i>d. Moving to a node or cluster?</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#e.-store-your-session-info-and-package-versions"><i class="fa fa-check"></i>e. Store your session info and package versions</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#f.-potential-windows-issues"><i class="fa fa-check"></i>f. Potential Windows issues</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#parallelizing-code"><i class="fa fa-check"></i>6. Parallelizing code</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#a.-replace-lapply-by-mclapply-with-package-parallel"><i class="fa fa-check"></i>a. Replace ‘lapply’ by ‘mclapply’ with package ‘parallel’</a></li>
+<li class="chapter" data-level="" data-path="bonus_8a.html"><a href="bonus_8a.html#b.-replace-for-by-foreach-with-package-doparallel"><i class="fa fa-check"></i>b. Replace ‘for’ by ‘foreach’ with package ‘doParallel’</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics</b></span></li>
+<li class="chapter" data-level="" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i>Week 9: Population Structure</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#overview-of-worked-example-8"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#a.-goals-10"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#b.-data-sets"><i class="fa fa-check"></i>b. Data sets</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#c.-required-r-libraries-6"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#simulated-data-2-island-model"><i class="fa fa-check"></i>2. Simulated data: 2-island model</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#a.-import-data-1"><i class="fa fa-check"></i>a. Import data</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#b.-perform-principal-components-analysis-pca"><i class="fa fa-check"></i>b. Perform Principal Components Analysis (PCA)</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#c.-create-synthetic-spatial-coordinates-xy-and-map-them"><i class="fa fa-check"></i>c. Create synthetic spatial coordinates (X,Y) and map them</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#simulated-data-2-island-model-with-admixture"><i class="fa fa-check"></i>3. Simulated data: 2-island model with admixture</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#a.-import-the-data"><i class="fa fa-check"></i>a. Import the data:</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#b.-examine-population-structure-with-pca"><i class="fa fa-check"></i>b. Examine population structure with PCA</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#c.-clustering-with-snmf-similar-to-structure"><i class="fa fa-check"></i>c. Clustering with SNMF (similar to ‘STRUCTURE’)</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#d.-plot-ancestry-proportions"><i class="fa fa-check"></i>d. Plot ancestry proportions</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#e.-visualize-admixture-proportions-on-a-map"><i class="fa fa-check"></i>e. Visualize admixture proportions on a map</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i>Week 10: Landscape Resistance</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-goals-11"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-data-set-9"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#c.-required-r-libraries-7"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#d.-import-rasters-gsp-err-cti-and-ffp."><i class="fa fa-check"></i>d. Import rasters (gsp, err, cti, and ffp).</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#e.-import-site-data-with-sampling-locations"><i class="fa fa-check"></i>e. Import site data with sampling locations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-plot-all-rasters"><i class="fa fa-check"></i>a. Plot all rasters</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-plot-spatial-points-over-ffp-raster"><i class="fa fa-check"></i>b. Plot spatial points over ffp raster</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-resistance-vs.-conductance-values"><i class="fa fa-check"></i>a. Resistance vs. conductance values</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-as-needed-get-all-rasters-at-the-same-scale"><i class="fa fa-check"></i>b. As needed: Get all rasters at the same scale</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#c.-calculate-conductance-values"><i class="fa fa-check"></i>c. Calculate conductance values</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#d.-create-a-single-landscape-conductance-raster"><i class="fa fa-check"></i>d. Create a single landscape conductance raster</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-create-a-transition-layer"><i class="fa fa-check"></i>a. Create a transition layer</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-visually-inspect-the-raster"><i class="fa fa-check"></i>b. Visually inspect the raster</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#c.-correct-for-geometric-distortion"><i class="fa fa-check"></i>c. Correct for geometric distortion</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#d.-plot-shortest-paths-in-space"><i class="fa fa-check"></i>d. Plot shortest paths in space</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-least-cost-distance"><i class="fa fa-check"></i>a. Least cost distance</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-cost-distance-matrix-based-on-random-paths-similar-to-circuitscape"><i class="fa fa-check"></i>b. Cost-distance matrix based on random paths (similar to Circuitscape)</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#c.-compare-cost-distances"><i class="fa fa-check"></i>c. Compare cost distances</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#a.-create-loop"><i class="fa fa-check"></i>a. Create loop</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#b.-plot-the-results"><i class="fa fa-check"></i>b. Plot the results</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i>Week 11: Detecting Adaptation</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a.-goals-12"><i class="fa fa-check"></i>a. Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#b.-data-set-10"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#c.-required-r-libraries-8"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a.-import-the-genetic-data"><i class="fa fa-check"></i>a. Import the genetic data</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#b.-import-the-environmental-data"><i class="fa fa-check"></i>b. Import the environmental data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a.-determine-k"><i class="fa fa-check"></i>a. Determine K</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#b.-run-lfmm"><i class="fa fa-check"></i>b. Run LFMM</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#c.-identify-lfmm-candidates-using-false-discovery-rate"><i class="fa fa-check"></i>c. Identify LFMM candidates using False Discovery Rate</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a.-run-rda"><i class="fa fa-check"></i>a. Run RDA</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#b.-identify-rda-candidates"><i class="fa fa-check"></i>b. Identify RDA candidates</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-1"><i class="fa fa-check"></i>7. References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i>Week 12: Model Selection</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#a.-goals-and-background"><i class="fa fa-check"></i>a. Goals and Background</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#b.-data-set-11"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#c.-required-packages"><i class="fa fa-check"></i>c. Required packages</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#d.-import-data-1"><i class="fa fa-check"></i>d. Import data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#a.-alternative-hypotheses"><i class="fa fa-check"></i>a. Alternative hypotheses</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#b.-prepare-for-model-fitting"><i class="fa fa-check"></i>b. Prepare for model fitting</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#c.-fit-all-five-models"><i class="fa fa-check"></i>c. Fit all five models</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#d.-compare-evidence-for-models"><i class="fa fa-check"></i>d. Compare evidence for models</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#e.-calculate-evidence-weights"><i class="fa fa-check"></i>e. Calculate evidence weights</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#f.-confidence-intervals-for-predictors"><i class="fa fa-check"></i>f. Confidence intervals for predictors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-2"><i class="fa fa-check"></i>4. References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i>Week 13: Gravity Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-background"><i class="fa fa-check"></i>a. Background</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-data-set-12"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-required-r-libraries-9"><i class="fa fa-check"></i>c. Required R libraries</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#set-working-and-data-directories---needs-to-be-removed"><i class="fa fa-check"></i>Set working and data directories - NEEDS TO BE REMOVED</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#calculating-graph-metrics"><i class="fa fa-check"></i>2. Calculating graph metrics</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-read-in-make-a-spatial-object-and-plot-wetlands-wetlands.csv."><i class="fa fa-check"></i>a. Read in, make a spatial object and plot wetlands (Wetlands.csv).</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-create-a-graph-from-the-wetlands"><i class="fa fa-check"></i>b. Create a graph from the wetlands</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-create-adjacency-matrix"><i class="fa fa-check"></i>c. Create adjacency matrix</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#d.-calculate-graph-metrics"><i class="fa fa-check"></i>d. Calculate graph metrics</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#e.-add-graph-metrics-to-data.frame"><i class="fa fa-check"></i>e. Add graph metrics to data.frame</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#combine-frog-data-with-graph-metrics"><i class="fa fa-check"></i>3. Combine frog data with graph metrics</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-add-graph-node-data-to-frog-site-data"><i class="fa fa-check"></i>a. Add graph node data to frog site data</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-check-data-types"><i class="fa fa-check"></i>b. Check data types</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#merge-graph-with-genetic-distance-data"><i class="fa fa-check"></i>4. Merge graph with genetic distance data</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-build-graph-from-occupied-sites"><i class="fa fa-check"></i>a. Build graph from occupied sites</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-merge-graph-with-genetic-distance"><i class="fa fa-check"></i>b. Merge graph with genetic distance</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-write-out-results-ascii-csv-and-lines-shapefile."><i class="fa fa-check"></i>c. Write out results (ASCII csv and lines shapefile).</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#preparing-raster-based-covariates"><i class="fa fa-check"></i>5. Preparing raster-based covariates</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-import-raster-data-as-stack"><i class="fa fa-check"></i>a. Import raster data as stack</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-calculate-wetland-area-within-buffer"><i class="fa fa-check"></i>b. Calculate wetland area within buffer</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-create-raster-of-wetland-proportion"><i class="fa fa-check"></i>c. Create raster of wetland proportion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#extract-raster-stats-for-nodes-and-edges"><i class="fa fa-check"></i>6. Extract raster stats for nodes and edges</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-extract-at-site-variables-from-rasters"><i class="fa fa-check"></i>a. Extract at-site variables from rasters</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-add-covariates-to-graph-edges."><i class="fa fa-check"></i>b. Add covariates to graph edges.</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-calculating-stats-along-edges"><i class="fa fa-check"></i>c. Calculating stats along edges</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#d.-calculating-stats-for-categorical-variables"><i class="fa fa-check"></i>d. Calculating stats for categorical variables</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#e.-add-node-data-to-graph"><i class="fa fa-check"></i>e. Add node data to graph</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-models"><i class="fa fa-check"></i>7. Gravity Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#a.-merge-distance-and-site-data"><i class="fa fa-check"></i>a. Merge distance and site data</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#b.-define-a-set-of-models"><i class="fa fa-check"></i>b. Define a set of models</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-check-for-correlations"><i class="fa fa-check"></i>c. Check for correlations</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#c.-write-out-resultss"><i class="fa fa-check"></i>c. Write out resultss</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#e.-compare-models"><i class="fa fa-check"></i>e. Compare models</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#f.-diagnostic-plots"><i class="fa fa-check"></i>f. Diagnostic plots</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#g.-fit-final-models"><i class="fa fa-check"></i>g. Fit final model(s)</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#h.-effect-size"><i class="fa fa-check"></i>h. Effect size</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i>Week 14: Contemporary Gene Flow</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i>Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#a.-background-and-goals"><i class="fa fa-check"></i>a. Background and Goals</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#b.-data-set-13"><i class="fa fa-check"></i>b. Data set</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#c.-required-packages-1"><i class="fa fa-check"></i>c. Required packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#a.-import-genotype-data"><i class="fa fa-check"></i>a. Import genotype data</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#b.-plot-map-of-sampling-locations"><i class="fa fa-check"></i>b. Plot map of sampling locations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#a.-subtract-maternal-contribution-to-offspring-genotype"><i class="fa fa-check"></i>a. Subtract maternal contribution to offspring genotype</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#b.-twogener-analysis-amova-of-pollen-pool-data"><i class="fa fa-check"></i>b. ‘TwoGener’ analysis (AMOVA of pollen pool data)</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#c.-including-space-isolation-by-distance"><i class="fa fa-check"></i>c. Including space: Isolation by distance</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#a.-exclusion-probabilities"><i class="fa fa-check"></i>a. Exclusion probabilities</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#b.-paternity-analysis"><i class="fa fa-check"></i>b. Paternity analysis</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#c.-visualize-reconstructed-pollen-flow-events-in-space"><i class="fa fa-check"></i>c. Visualize reconstructed pollen flow events in space</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#d.-visualize-dispersal-kernel"><i class="fa fa-check"></i>d. Visualize dispersal kernel</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#a.-explain-pollen-flow-within-populations"><i class="fa fa-check"></i>a. Explain pollen flow within populations</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#b.-explain-pollen-flow-at-the-population-level"><i class="fa fa-check"></i>b. Explain pollen flow at the population level</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-3"><i class="fa fa-check"></i>6. References</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="WE_11" class="section level2">
+<h2>Worked Example</h2>
+<p>Brenna R. Forester</p>
+<div id="overview-of-worked-example-10" class="section level3">
+<h3>1. Overview of Worked Example</h3>
+<div id="a.-goals-12" class="section level4">
+<h4>a. Goals</h4>
+<p>This worked example will illustrate the use of two types of genotype-environment association analyses, one univariate and one multivariate. Specifically, you will learn:</p>
+<ul>
+<li>Strategies for screening and preparing predictor variables for different GEA analyses;</li>
+<li>How to run and interpret a Latent Factor Mixed Model (LFMM);</li>
+<li>One option for post-processing LFMM results using the genomic inflation factor (GIF) and false discovery rate (FDR) to correct for multiple tests;</li>
+<li>How to run and interpret Redundancy Analysis for GEA.</li>
+</ul>
+</div>
+<div id="b.-data-set-10" class="section level4">
+<h4>b. Data set</h4>
+<p>We will reanalyze genomic data from 94 North American gray wolves (<em>Canis lupus</em>) sampled across Canada and Alaska (Schweizer et al., 2016). We are interested in understanding how wolves may be locally adapted to environmental conditions across their North American range.</p>
+<p>The genetic data are individual-based, and are input as allele counts (i.e. 0/1/2) for each locus. In the interest of computational efficiency, we will use a randomly sampled subset of 10,000 single nucleotide polymorphism (SNP) markers from the full data set (which contains 42,587 SNPs).</p>
+<p>In addition, we have eight environmental predictors that are ecologically relevant and are not highly correlated (|r| &lt; 0.7). This is a reduced set of predictors from the 12 originally included by Schweizer et al. (2016).</p>
+</div>
+<div id="c.-required-r-libraries-8" class="section level4">
+<h4>c. Required R libraries</h4>
+<p>You may need to install packages ‘qvalue’ from BioClim and ‘lfmm’ from GitHub:</p>
+<div class="sourceCode" id="cb1148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1148-1"><a href="WE_11.html#cb1148-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;qvalue&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  </span>
+<span id="cb1148-2"><a href="WE_11.html#cb1148-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1148-3"><a href="WE_11.html#cb1148-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1148-4"><a href="WE_11.html#cb1148-4" aria-hidden="true" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="at">version =</span> <span class="st">&quot;3.14&quot;</span>)</span>
+<span id="cb1148-5"><a href="WE_11.html#cb1148-5" aria-hidden="true" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;qvalue&quot;</span>)</span>
+<span id="cb1148-6"><a href="WE_11.html#cb1148-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1148-7"><a href="WE_11.html#cb1148-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;lfmm&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  </span>
+<span id="cb1148-8"><a href="WE_11.html#cb1148-8" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;bcm-uga/lfmm&quot;</span>)</span>
+<span id="cb1148-9"><a href="WE_11.html#cb1148-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1149-1"><a href="WE_11.html#cb1149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb1149-2"><a href="WE_11.html#cb1149-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)    <span class="co"># Used to run PCA &amp; RDA</span></span>
+<span id="cb1149-3"><a href="WE_11.html#cb1149-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lfmm)     <span class="co"># Used to run LFMM</span></span>
+<span id="cb1149-4"><a href="WE_11.html#cb1149-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qvalue)   <span class="co"># Used to post-process LFMM output</span></span></code></pre></div>
+</div>
+</div>
+<div id="import-and-prepare-the-data" class="section level3">
+<h3>2. Import and prepare the data</h3>
+<div id="a.-import-the-genetic-data" class="section level4">
+<h4>a. Import the genetic data</h4>
+<p>I downloaded these data from the Schweizer et al. (2016) <a href="http://datadryad.org/resource/doi:10.5061/dryad.c9b25">Dryad repository</a> and converted them from .tped to .raw format using plink (Purcell et al., 2007). Then, using the R package <code>adegenet</code> (Jombart 2008), I read in the .raw data and extracted the matrix of 94 individuals x 42,587 SNPs. Finally, I randomly sampled 10,000 columns (SNPs) from the full data set, which is what we will analyze in this worked example.</p>
+<p>The full data in .raw format are available in the Supplemental Information for Forester et al. (2018). If you want to analyze the full data set, use the <code>read.PLINK</code> call from <code>adegenet</code> to read the data into R.</p>
+<div class="sourceCode" id="cb1150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1150-1"><a href="WE_11.html#cb1150-1" aria-hidden="true" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;wolf_geno_samp_10000.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb1150-2"><a href="WE_11.html#cb1150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gen)</span></code></pre></div>
+<pre><code>## [1]    94 10000</code></pre>
+<p>We have 94 individuals (rows) genotyped at 10,000 SNPs (columns).</p>
+<p>Both LFMM and RDA require complete data frames (i.e., no missing genetic data). For this example, we’ll use a simple approach to imputing missing genotype values: we will impute using the most common genotype at each SNP across all individuals.</p>
+<div class="sourceCode" id="cb1152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1152-1"><a href="WE_11.html#cb1152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(gen)) <span class="do">## 2.,987 NAs in the matrix (~3% missing data)</span></span></code></pre></div>
+<pre><code>## [1] 27987</code></pre>
+<div class="sourceCode" id="cb1154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1154-1"><a href="WE_11.html#cb1154-1" aria-hidden="true" tabindex="-1"></a>gen.imp <span class="ot">&lt;-</span> <span class="fu">apply</span>(gen, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">replace</span>(x, <span class="fu">is.na</span>(x), <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(x))))))</span>
+<span id="cb1154-2"><a href="WE_11.html#cb1154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(gen.imp)) <span class="co"># No NAs</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<p>We could also use this imputation approach within ecotypes (rather than across all individuals). Other promising imputation methods for species lacking a reference genome include: using ancestry values from <code>snmf</code> in the <code>LEA</code> package (Frichot &amp; Francois 2015), and the program LinkImpute (Money et al., 2015).</p>
+</div>
+<div id="b.-import-the-environmental-data" class="section level4">
+<h4>b. Import the environmental data</h4>
+<p>The original data set comes with 12 predictors, but many of them are highly correlated, which can cause problems for regression-based methods like LFMM and RDA. I conducted variable reduction using the |0.7| “rule of thumb” (Dormann et al., 2013) and an ecological interpretation of the relevance of possible predictors. Can you double check the correlations among the variables?</p>
+<p>For more information on the rationale for variable reduction, see the full <a href="http://popgen.nescent.org/2018-03-27_RDA_GEA.html">RDA vignette</a>.</p>
+<div class="sourceCode" id="cb1156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1156-1"><a href="WE_11.html#cb1156-1" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;EnvironmentalData_8pred.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
+<span id="cb1156-2"><a href="WE_11.html#cb1156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(env) <span class="co"># Look at the structure of the data frame</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    94 obs. of  12 variables:
+##  $ individual        : chr  &quot;11226.CEL&quot; &quot;11228.CEL&quot; &quot;11232_CLU_NQUE-I&quot; &quot;11234_CLU_NQUE-I&quot; ...
+##  $ ecotype           : chr  &quot;Pop_2_BorealForest&quot; &quot;Pop_6_AtlanticForest&quot; &quot;Pop_6_AtlanticForest&quot; &quot;Pop_6_AtlanticForest&quot; ...
+##  $ long              : num  -94.5 -88.1 -72 -72 -114.8 ...
+##  $ lat               : num  49.8 49.1 58.8 58.6 60.6 ...
+##  $ ann_mean_temp     : int  23 15 -69 -66 -34 -37 -35 -47 -46 -20 ...
+##  $ mean_diurnal_range: int  97 115 75 76 102 114 112 99 109 115 ...
+##  $ temp_seasonality  : int  13047 11408 11831 11867 14259 14806 15176 15844 15312 14099 ...
+##  $ ann_precip        : int  610 784 483 477 335 319 372 339 284 375 ...
+##  $ precip_seasonality: int  47 29 39 40 39 34 43 48 36 46 ...
+##  $ ndvi              : int  7403 8222 6450 6141 7595 7518 7472 8157 7348 6616 ...
+##  $ elev              : int  349 234 264 200 194 219 280 154 190 222 ...
+##  $ percent_tree_cover: int  36 51 5 9 26 48 47 61 61 47 ...</code></pre>
+<div class="sourceCode" id="cb1158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1158-1"><a href="WE_11.html#cb1158-1" aria-hidden="true" tabindex="-1"></a>env<span class="sc">$</span>individual <span class="ot">&lt;-</span> <span class="fu">as.character</span>(env<span class="sc">$</span>individual) <span class="co"># Make individual names characters (not factors)</span></span>
+<span id="cb1158-2"><a href="WE_11.html#cb1158-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1158-3"><a href="WE_11.html#cb1158-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm that genotypes and environmental data are in the same order</span></span>
+<span id="cb1158-4"><a href="WE_11.html#cb1158-4" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">rownames</span>(gen.imp), env[,<span class="dv">1</span>]) </span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Now we’ll subset just the environmental predictors &amp; shorten their names:</p>
+<div class="sourceCode" id="cb1160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1160-1"><a href="WE_11.html#cb1160-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> env[,<span class="dv">5</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb1160-2"><a href="WE_11.html#cb1160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pred) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AMT&quot;</span>,<span class="st">&quot;MDR&quot;</span>,<span class="st">&quot;sdT&quot;</span>,<span class="st">&quot;AP&quot;</span>,<span class="st">&quot;cvP&quot;</span>,<span class="st">&quot;NDVI&quot;</span>,<span class="st">&quot;Elev&quot;</span>,<span class="st">&quot;Tree&quot;</span>)</span></code></pre></div>
+<p>For the univariate LFMM test, we could run a separate set of tests for each of these eight predictors; this would be a test for each of the 10,000 SNPs with each predictor = 80,000 tests (!). Instead, for LFMM, we’ll perform a PCA on the environmental predictors and use the first principal component (PC) as a synthetic predictor. This will reduce our ability to interpret the output, since the PC predictor will be a linear combination of the original eight variables, but it will reduce the number of corrections needed for multiple tests. Your decision of how to handle multiple predictors for a univarate GEA test will depend on the study goals and characteristics of the data set.</p>
+<p>There are many ways to run PCA in R; we’ll use the <code>rda</code> function in <code>vegan</code> (Oksanen et al., 2016). We’ll center and scale the predictors (<code>scale=T</code>), since they’re in different units. We’ll then determine the proportion of the environmental variance explained by each PC axis &amp; investigate how the original predictors correlate with the first PC axis.</p>
+<div class="sourceCode" id="cb1161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1161-1"><a href="WE_11.html#cb1161-1" aria-hidden="true" tabindex="-1"></a>pred.pca <span class="ot">&lt;-</span> <span class="fu">rda</span>(pred, <span class="at">scale=</span>T)</span>
+<span id="cb1161-2"><a href="WE_11.html#cb1161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pred.pca)<span class="sc">$</span>cont</span></code></pre></div>
+<pre><code>## $importance
+## Importance of components:
+##                         PC1    PC2    PC3     PC4     PC5     PC6     PC7
+## Eigenvalue            3.224 1.8354 1.1258 0.70269 0.48967 0.34983 0.21138
+## Proportion Explained  0.403 0.2294 0.1407 0.08784 0.06121 0.04373 0.02642
+## Cumulative Proportion 0.403 0.6324 0.7731 0.86096 0.92217 0.96590 0.99232
+##                            PC8
+## Eigenvalue            0.061457
+## Proportion Explained  0.007682
+## Cumulative Proportion 1.000000</code></pre>
+<div class="sourceCode" id="cb1163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1163-1"><a href="WE_11.html#cb1163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screeplot</span>(pred.pca, <span class="at">main =</span> <span class="st">&quot;Screeplot: Eigenvalues of Wolf Predictor Variables&quot;</span>)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-3-1.png" width="576" /></p>
+<div class="sourceCode" id="cb1164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1164-1"><a href="WE_11.html#cb1164-1" aria-hidden="true" tabindex="-1"></a><span class="do">## c.rrelations between the PC axis and predictors:</span></span>
+<span id="cb1164-2"><a href="WE_11.html#cb1164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">scores</span>(pred.pca, <span class="at">choices=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">display=</span><span class="st">&quot;species&quot;</span>, <span class="at">scaling=</span><span class="dv">0</span>), <span class="at">digits=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##         PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8
+## AMT  -0.519  0.029 -0.040  0.198 -0.091 -0.297 -0.436 -0.634
+## MDR  -0.315 -0.531  0.258 -0.051 -0.190 -0.259 -0.332  0.579
+## sdT   0.193 -0.586 -0.225 -0.203  0.340  0.464 -0.372 -0.244
+## AP   -0.353  0.468 -0.071  0.212  0.228  0.516 -0.387  0.372
+## cvP   0.319 -0.219  0.070  0.888 -0.199  0.130 -0.033 -0.007
+## NDVI -0.404 -0.253 -0.220  0.281  0.618 -0.161  0.481  0.077
+## Elev -0.150 -0.054  0.876 -0.029  0.174  0.301  0.178 -0.231
+## Tree -0.426 -0.200 -0.233 -0.064 -0.580  0.480  0.385 -0.071
+## attr(,&quot;const&quot;)
+## [1] 5.222678</code></pre>
+<p>40% of the variance in the predictors is explained by the first PC axis, and 23% by the second axis. We could follow up with an LFMM model using the second axis as a predictor, if we wanted. The strongest correlations with PC1 are annual mean temperature (AMT), tree cover (Tree), NDVI, and annual precipitation (AP).</p>
+<p>We’ll store our synthetic PC axis predictor as <code>pred.PC1</code> for use in LFMM.</p>
+<div class="sourceCode" id="cb1166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1166-1"><a href="WE_11.html#cb1166-1" aria-hidden="true" tabindex="-1"></a>pred.PC1 <span class="ot">&lt;-</span> <span class="fu">scores</span>(pred.pca, <span class="at">choices=</span><span class="dv">1</span>, <span class="at">display=</span><span class="st">&quot;sites&quot;</span>, <span class="at">scaling=</span><span class="dv">0</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="latent-factor-mixed-models-lfmm-a-univariate-gea" class="section level3">
+<h3>3. Latent Factor Mixed Models (LFMM): a univariate GEA</h3>
+<p>LFMM is a univariate test, which means that it builds a model for each SNP and each predictor variable. In this case, we will run 10,000 SNPs x 1 synthetic predictor = 10,000 separate LFMM tests.</p>
+<div id="a.-determine-k" class="section level4">
+<h4>a. Determine K</h4>
+<p>LFMM requires an estimate of the number of populations in the data (K). To determine the most likely value of K, we’ll use PCA, noting that there are many different approaches for determining “K” from genetic data (more below). It is also reasonable to run LFMM with different values of K, if there is uncertainty.</p>
+<p>We’ll use a broken stick criterion to determine K. The broken stick stopping rule states that principal components should be retained as long as observed eigenvalues are higher than corresponding random broken stick components.</p>
+<p>For example, if we reran the environmental PCA screeplot from above with a broken stick criterion:</p>
+<div class="sourceCode" id="cb1167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1167-1"><a href="WE_11.html#cb1167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screeplot</span>(pred.pca, <span class="at">main =</span> <span class="st">&quot;Screeplot of Wolf Predictor Variables with Broken Stick&quot;</span>, <span class="at">bstick=</span><span class="cn">TRUE</span>, <span class="at">type=</span><span class="st">&quot;barplot&quot;</span>)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-4-1.png" width="576" /></p>
+<p>You can see that PC1 and PC2 explain more than the random broken stick components, while PC3 + do not. If this were genomic data, and we were determining a value of K using this approach, we’d set K = 3.</p>
+<p>Now let’s run a PCA with the genommic data and plot the eigenvalues with the broken stick criterion:</p>
+<div class="sourceCode" id="cb1168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1168-1"><a href="WE_11.html#cb1168-1" aria-hidden="true" tabindex="-1"></a>gen.pca <span class="ot">&lt;-</span> <span class="fu">rda</span>(gen.imp, <span class="at">scale=</span>T)</span>
+<span id="cb1168-2"><a href="WE_11.html#cb1168-2" aria-hidden="true" tabindex="-1"></a><span class="fu">screeplot</span>(gen.pca, <span class="at">main =</span> <span class="st">&quot;Screeplot of Genetic Data with Broken Stick&quot;</span>, <span class="at">bstick=</span><span class="cn">TRUE</span>, <span class="at">type=</span><span class="st">&quot;barplot&quot;</span>)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-5-1.png" width="576" /></p>
+<p>For the genomic data, we can see that none of the PCs have eigenvalues greater than random (greater than the broken stick values in red). This effectively means that K=1 for the wolf data set, based on a PCA assessment. [Note that we see a similar result using the full genomic data set of 42K SNPs]. This does not mean there isn’t genetic structure in the data; it just means the structure isn’t particularly strong and/or easily partitioned into discrete groupings.</p>
+<p>In the original paper, the authors determined K using Structure. They found support for multiple K values between 3 and 7. The wolf data show an isolation by distance signature, which can confound methods used to identify K and contribute to uncertainty. How do you suspect that differences in K (say K=1 vs. K=3) for LFMM might influence the GEA results?</p>
+<p>For now, we’ll use K=3 following the original manuscript. It would be interesting to compare K=1 to these results, if you have time. Note that with K=1, LFMM is essentially running a simple linear regression (i.e., no latent factors).</p>
+<div class="sourceCode" id="cb1169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1169-1"><a href="WE_11.html#cb1169-1" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">3</span></span></code></pre></div>
+</div>
+<div id="b.-run-lfmm" class="section level4">
+<h4>b. Run LFMM</h4>
+<p>LFMM is a regression model that includes unobserved variables (latent factors, set with “K”) that correct the model for confounding effects, such as population structure. The latent factors are estimated simultaneously with the environmental and response variables, which can help improve power when environment and demography are correlated.</p>
+<p>The previous version of LFMM (v1.5, implemented in the LEA package) uses an MCMC (Markov chain Monte Carlo) algorithm to identify GEAs while correcting for confounding. MCMC made it (very!) time-intensive for large data sets. LFMM v.2 computes LFMMs for GEA using a least-squares estimation method that is substantially faster than v1.5 (Caye et al., 2019). There are two penalty approaches: ridge and lasso. We’ll use ridge today (see <code>?lfmm_ridge</code>); see Jumentier et al. (2020) for more information on the ridge vs. lasso penalties.</p>
+<div class="sourceCode" id="cb1170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1170-1"><a href="WE_11.html#cb1170-1" aria-hidden="true" tabindex="-1"></a>wolf.lfmm <span class="ot">&lt;-</span> <span class="fu">lfmm_ridge</span>(<span class="at">Y=</span>gen.imp, <span class="at">X=</span>pred.PC1, <span class="at">K=</span>K) <span class="do">## c.ange K as you see fit</span></span></code></pre></div>
+<p>That was fast! As you’ll see, post-processing these results is what takes up most of our time and effort…</p>
+</div>
+<div id="c.-identify-lfmm-candidates-using-false-discovery-rate" class="section level4">
+<h4>c. Identify LFMM candidates using False Discovery Rate</h4>
+<p>Next, we post-process the model output. We will move fast here; I strongly recommend reading “Controlling false discoveries in genome scans for selection” (Francois et al., 2016) if you will be running these post-processing steps on your own data! Decisions made here can dramatically impact the candidate markers you identify.</p>
+<p>The steps for post-processing are:</p>
+<ol style="list-style-type: decimal">
+<li>Look at the genomic inflation factor (GIF), which gives us a sense for how well the model has accounted for confounding factors in the data.</li>
+<li>Plot the p-values to see how application of the GIF influences the p-value distribution.</li>
+<li>Modify the GIF (if needed) and re-plot the p-values to identify the best possible fit to the “ideal” p-value distribution.</li>
+<li>Apply a False Discovery Rate control method to the p-values by converting to q-values.</li>
+<li>Identify candidates as those below a given FDR threshold.</li>
+</ol>
+<p>The False Discovery Rate is the expected proportion of false positives among the list of positive tests (see Storey and Tibshirani, 2003).</p>
+<p><em>An essential point to understand here is that the FDR is predicated on the “ideal” p-value distribution</em> (flat with a peak at 0, see Francois et al. 2016).</p>
+<p>For example, an FDR threshold of 0.10 applied to a dataset with an ideal p-value distribution would produce 10% false positives (aka false discoveries) among the set of positive tests. However, if the p-value distribution deviates from the ideal, this same FDR threshold of 0.10 would produce more or fewer false discoveries among the set of postive tests, depending on the skew in the p-value distribution.</p>
+<p>So remember: <em>having an actual FDR that is in accordance with the nominal threshold you set is completely dependent on the p-values used.</em></p>
+<p>The lfmm package has a nice built-in function to calculate test statistics for the predictor(s), see <code>?lfmm_test</code>:</p>
+<div class="sourceCode" id="cb1171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1171-1"><a href="WE_11.html#cb1171-1" aria-hidden="true" tabindex="-1"></a>wolf.pv <span class="ot">&lt;-</span> <span class="fu">lfmm_test</span>(<span class="at">Y=</span>gen.imp, <span class="at">X=</span>pred.PC1, <span class="at">lfmm=</span>wolf.lfmm, <span class="at">calibrate=</span><span class="st">&quot;gif&quot;</span>)</span>
+<span id="cb1171-2"><a href="WE_11.html#cb1171-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1171-3"><a href="WE_11.html#cb1171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(wolf.pv) <span class="co"># this object includes raw z-scores and p-values, as well as GIF-calibrated scores and p-values</span></span></code></pre></div>
+<pre><code>## [1] &quot;B&quot;                 &quot;epsilon.sigma2&quot;    &quot;B.sigma2&quot;         
+## [4] &quot;score&quot;             &quot;pvalue&quot;            &quot;gif&quot;              
+## [7] &quot;calibrated.score2&quot; &quot;calibrated.pvalue&quot;</code></pre>
+<p>Let’s look at the genomic inflation factor (GIF):</p>
+<div class="sourceCode" id="cb1173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1173-1"><a href="WE_11.html#cb1173-1" aria-hidden="true" tabindex="-1"></a>wolf.pv<span class="sc">$</span>gif</span></code></pre></div>
+<pre><code>##      PC1 
+## 2.772992</code></pre>
+<p>An appropriately calibrated set of tests will have a GIF of around 1. The elevated GIF for our tests indicates that the results may be overly liberal in identifying candidate SNPs. If the GIF is less than one, the test may be too conservative.</p>
+<p>NOTE: Changing the value of K influences the GIF, so additional tests using the “best” value of K +/- 1 may be needed in some cases. See Francois et al. (2016) for more details.</p>
+<p>Let’s look at how application of the GIF to the p-values impacts the p-value distribution:</p>
+<div class="sourceCode" id="cb1175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1175-1"><a href="WE_11.html#cb1175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(wolf.pv<span class="sc">$</span>pvalue[,<span class="dv">1</span>], <span class="at">main=</span><span class="st">&quot;Unadjusted p-values&quot;</span>)        </span>
+<span id="cb1175-2"><a href="WE_11.html#cb1175-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(wolf.pv<span class="sc">$</span>calibrated.pvalue[,<span class="dv">1</span>], <span class="at">main=</span><span class="st">&quot;GIF-adjusted p-values&quot;</span>)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-9-1.png" width="480" /><img src="11-Week11_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
+<p>We want to see a relatively flat histogram (most loci not under selection) with a peak near zero, indicating candidate adaptive markers. We see a very large peak with the unadjusted p-values, and a much smaller peak with the GIF-adjusted p-values (note differences in the scale of the y-axis).</p>
+<p>Note that you can choose a different GIF and readjust the p-values to get a “better” histogram distribution (that is, a distribution that conforms best with what is expected under a well-calibrated set of models, see Francois et al, 2016). This process is subjective and can be difficult with empirical data sets, especially those with an IBD signature, such as these wolf data. Remember, you can also change the value of K in your lfmm models and see how this impacts the GIF.</p>
+<p>Below I’ll show you how to manually adjust the GIF correction factor:</p>
+<div class="sourceCode" id="cb1176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1176-1"><a href="WE_11.html#cb1176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s change the GIF and readjust the p-values:</span></span>
+<span id="cb1176-2"><a href="WE_11.html#cb1176-2" aria-hidden="true" tabindex="-1"></a>zscore <span class="ot">&lt;-</span> wolf.pv<span class="sc">$</span>score[,<span class="dv">1</span>]   <span class="co"># zscores for first predictor, we only have one in our case...</span></span>
+<span id="cb1176-3"><a href="WE_11.html#cb1176-3" aria-hidden="true" tabindex="-1"></a>(gif <span class="ot">&lt;-</span> wolf.pv<span class="sc">$</span>gif[<span class="dv">1</span>])       <span class="do">## d.fault GIF for this predictor</span></span></code></pre></div>
+<pre><code>##      PC1 
+## 2.772992</code></pre>
+<div class="sourceCode" id="cb1178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1178-1"><a href="WE_11.html#cb1178-1" aria-hidden="true" tabindex="-1"></a>new.gif1 <span class="ot">&lt;-</span> <span class="fl">2.0</span>               <span class="do">## c.oose your new GIF</span></span>
+<span id="cb1178-2"><a href="WE_11.html#cb1178-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1178-3"><a href="WE_11.html#cb1178-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual adjustment of the p-values:</span></span>
+<span id="cb1178-4"><a href="WE_11.html#cb1178-4" aria-hidden="true" tabindex="-1"></a>adj.pv1 <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(zscore<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>new.gif1, <span class="at">df=</span><span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Plot the p-value histograms:</p>
+<div class="sourceCode" id="cb1179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1179-1"><a href="WE_11.html#cb1179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(wolf.pv<span class="sc">$</span>pvalue[,<span class="dv">1</span>], <span class="at">main=</span><span class="st">&quot;Unadjusted p-values&quot;</span>)        </span>
+<span id="cb1179-2"><a href="WE_11.html#cb1179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(wolf.pv<span class="sc">$</span>calibrated.pvalue[,<span class="dv">1</span>], <span class="at">main=</span><span class="st">&quot;GIF-adjusted p-values (GIF=2.8)&quot;</span>)</span>
+<span id="cb1179-3"><a href="WE_11.html#cb1179-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(adj.pv1, <span class="at">main=</span><span class="st">&quot;REadjusted p-values (GIF=2.0)&quot;</span>)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-11-1.png" width="480" /><img src="11-Week11_files/figure-html/unnamed-chunk-11-2.png" width="480" /><img src="11-Week11_files/figure-html/unnamed-chunk-11-3.png" width="480" /></p>
+<p>For now, we’ll stick with the default GIF calculated by the lfmm package, though it looks like the application of the GIF may be a bit conservative (e.g. it is compressing the peak at 0).</p>
+<p>Finally, we convert the adjusted p-values to q-values. q-values provide a measure of each SNP’s significance, automatically taking into account the fact that thousands are simultaneously being tested. We can then use an FDR threshold to control the number of false positive detections (given that our p-value distribution is “well-behaved”).</p>
+<div class="sourceCode" id="cb1180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1180-1"><a href="WE_11.html#cb1180-1" aria-hidden="true" tabindex="-1"></a>wolf.qv <span class="ot">&lt;-</span> <span class="fu">qvalue</span>(wolf.pv<span class="sc">$</span>calibrated.pvalue)<span class="sc">$</span>qvalues</span>
+<span id="cb1180-2"><a href="WE_11.html#cb1180-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1180-3"><a href="WE_11.html#cb1180-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">which</span>(wolf.qv <span class="sc">&lt;</span> <span class="fl">0.1</span>)) <span class="do">## h.w many SNPs have an FDR &lt; 10%?</span></span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
+<div class="sourceCode" id="cb1182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1182-1"><a href="WE_11.html#cb1182-1" aria-hidden="true" tabindex="-1"></a>(wolf.FDR<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">colnames</span>(gen.imp)[<span class="fu">which</span>(wolf.qv <span class="sc">&lt;</span> <span class="fl">0.1</span>)]) <span class="do">## i.entify which SNPs these are</span></span></code></pre></div>
+<pre><code>##  [1] &quot;chr6.36999927&quot;  &quot;chr20.36354466&quot; &quot;chr17.54224832&quot; &quot;chr12.58928631&quot;
+##  [5] &quot;chr12.55629962&quot; &quot;chr8.41109194&quot;  &quot;chr19.17640345&quot; &quot;chr8.63918041&quot; 
+##  [9] &quot;chr20.10469494&quot; &quot;chr22.64010061&quot; &quot;chr5.25188969&quot;  &quot;chr9.36496633&quot;</code></pre>
+<p>Using K=3, the default GIF correction, and an FDR threshold of 0.10, we only detect 12 candidate SNPs under selection in response to our PC1 environmental predictor. What changes could we make to have a less conservative test?</p>
+</div>
+</div>
+<div id="redundancy-analysis-rda-a-multivariate-gea" class="section level3">
+<h3>4. Redundancy Analysis (RDA): a multivariate GEA</h3>
+<div id="a.-run-rda" class="section level4">
+<h4>a. Run RDA</h4>
+<p>RDA is a multivariate ordination technique that can analyze many loci and environmental predictors simultaneously. For this reason, we can input all of the SNPs and environmental predictors at once, with no need to correct for multiple tests. RDA determines how groups of loci covary in response to the multivariate environment, and can better detect processes that result in weak, multilocus molecular signatures relative to univariate tests (Rellstab et al., 2015; Forester et al., 2018).</p>
+<p>RDA can be used on both individual and population-based sampling designs. The distinction between the two may not be straightforward in all cases. A simple guideline would be to use an individual-based framework when you have individual coordinates for most of your samples, and the resolution of your environmental data would allow for a sampling of environmental conditions across the site/study area. For population-level data, you would input the genetic data as allele frequencies within demes.</p>
+<p>The code to run the RDA is simple. However, I highly recommend reading Borcard et al. (2011) for details on the implementation and interpretation of RDA models and the objects created by <code>vegan</code>. RDA runs relatively quickly on most data sets, though you may need a high memory node on a cluster for very large data sets (i.e., millions of SNPs).</p>
+<div class="sourceCode" id="cb1184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1184-1"><a href="WE_11.html#cb1184-1" aria-hidden="true" tabindex="-1"></a>wolf.rda <span class="ot">&lt;-</span> <span class="fu">rda</span>(gen.imp <span class="sc">~</span> ., <span class="at">data=</span>pred, <span class="at">scale=</span>T)</span>
+<span id="cb1184-2"><a href="WE_11.html#cb1184-2" aria-hidden="true" tabindex="-1"></a>wolf.rda</span></code></pre></div>
+<pre><code>## Call: rda(formula = gen.imp ~ AMT + MDR + sdT + AP + cvP + NDVI + Elev
+## + Tree, data = pred, scale = T)
+## 
+##                Inertia Proportion Rank
+## Total         8307.000      1.000     
+## Constrained   1113.488      0.134    8
+## Unconstrained 7193.512      0.866   85
+## Inertia is correlations 
+## 
+## Eigenvalues for constrained axes:
+##   RDA1   RDA2   RDA3   RDA4   RDA5   RDA6   RDA7   RDA8 
+## 281.19 216.87 179.53 110.84  89.78  87.15  75.93  72.20 
+## 
+## Eigenvalues for unconstrained axes:
+##    PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8 
+## 261.51 211.68 197.60 171.80 127.67 121.61 115.54 110.04 
+## (Showing 8 of 85 unconstrained eigenvalues)</code></pre>
+<p>First, note that we will have as many constrained (“RDA”) axes as we have predictors in the model. All residual variance is then modeled by PCA (the unconstrained “PC” axes). The proportion of the variance explained by the environmental predictors is given under the “Proportion” column for “Constrained”; this is equivalent to the R<sup>2</sup> of a multiple regression. Just like in multiple regression, this R<sup>2</sup> will be biased and should be adjusted based on the number of predictors. We can calculate the adjusted R<sup>2</sup> using:</p>
+<div class="sourceCode" id="cb1186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1186-1"><a href="WE_11.html#cb1186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">RsquareAdj</span>(wolf.rda)</span></code></pre></div>
+<pre><code>## $r.squared
+## [1] 0.1340421
+## 
+## $adj.r.squared
+## [1] 0.05254019</code></pre>
+<p>Our constrained ordination explains about 5% of the variation; this low explanatory power is not surprising given that we expect that most of the SNPs in our dataset will not show a relationship with the environmental predictors (e.g., most SNPs will be neutral).</p>
+<p>The eigenvalues for the constrained axes reflect the variance explained by each canonical axis:</p>
+<div class="sourceCode" id="cb1188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1188-1"><a href="WE_11.html#cb1188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wolf.rda)<span class="sc">$</span>concont</span></code></pre></div>
+<pre><code>## $importance
+## Importance of components:
+##                           RDA1     RDA2     RDA3      RDA4     RDA5     RDA6
+## Eigenvalue            281.1906 216.8651 179.5282 110.84337 89.78143 87.14904
+## Proportion Explained    0.2525   0.1948   0.1612   0.09955  0.08063  0.07827
+## Cumulative Proportion   0.2525   0.4473   0.6085   0.70807  0.78870  0.86697
+##                           RDA7     RDA8
+## Eigenvalue            75.92523 72.20485
+## Proportion Explained   0.06819  0.06485
+## Cumulative Proportion  0.93515  1.00000</code></pre>
+<p>We can visualize this information using a screeplot of the canonical eigenvalues by calling <code>screeplot</code>:</p>
+<div class="sourceCode" id="cb1190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1190-1"><a href="WE_11.html#cb1190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screeplot</span>(wolf.rda)</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/screeplot,%20-1.png" width="595.2" /></p>
+<p>Here, we can see that the first three constrained axes explain most of the variance. The screeplot provides an informal (and quick) way to determine how many constrained axes to include when we search for candidate SNPs (below). We could start by investigating RDA axes that explain the most variance (excluding those after the “drop off” point in the screeplot.)</p>
+<p>You can run a formal test of statistical significance of each constrained axis using: <code>anova.cca(wolf.rda, by="axis")</code>. We can assess both the full model and each constrained axis using F-statistics (Legendre et al, 2010). The null hypothesis is that no linear relationship exists between the SNP data and the environmental predictors. See <code>?anova.cca</code> for more details and options. The screeplot and a formal test (by axis) are both reasonable approaches for determining which RDA axes to assess for candidate SNPs.</p>
+<p>The permutation process to test the signficiance of each axis takes a while (up to a few hours on large data sets), so we’ll just use the screeplot for a first assessment. If we did run the formal test, we would find that the first three constrained axes are significant (p = 0.001); constrained axis 4 has a p-value of 0.080, while axes 5-8 have p-values &gt; 0.850. This corresponds with our evaluation of the screeplot, above.</p>
+<p>Finally, <code>vegan</code> has a simple function for checking Variance Inflation Factors for the predictor variables used in the model. This helps identify redundant predictors:</p>
+<div class="sourceCode" id="cb1191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1191-1"><a href="WE_11.html#cb1191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif.cca</span>(wolf.rda)</span></code></pre></div>
+<pre><code>##      AMT      MDR      sdT       AP      cvP     NDVI     Elev     Tree 
+## 7.854243 6.495892 2.775059 4.051610 1.318631 2.285632 2.028377 2.260139</code></pre>
+<p>All values are below 10, and most are below 5, which indicates that multicollinearity among these predictors shouldn’t be a problem (Zuur et al., 2010).</p>
+<p>Let’s make a quick plot of the RDA output using the default plotting in <code>vegan</code>:</p>
+<div class="sourceCode" id="cb1193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1193-1"><a href="WE_11.html#cb1193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolf.rda, <span class="at">scaling=</span><span class="dv">3</span>)  <span class="do">## d.fault is axes 1 and 2</span></span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/simple_plot-1.png" width="480" /></p>
+<p>Here, the SNPs are in red (in the center of each plot), and the individuals are the black circles. The blue vectors are the environmental predictors. The relative arrangement of these items in the ordination space reflects their relationship with the ordination axes, which are linear combinations of the predictor variables.</p>
+<p>See the full <a href="http://popgen.nescent.org/2018-03-27_RDA_GEA.html">RDA vignette</a> for details on how to make more informative (and prettier!) RDA plots for this data set. For example, we could more clearly visualize the identified candidate loci in the ordination space and see how they are linked to the environmental predictors. We could also use RDA to investigate how wolf ecotypes (based on individual genotypes) are distributed in relation to the environmental predictors (Forester et al., 2018, Figures 9 &amp; 10).</p>
+</div>
+<div id="b.-identify-rda-candidates" class="section level4">
+<h4>b. Identify RDA candidates</h4>
+<p>We’ll use the loadings of the SNPs (their location) in the ordination space to determine which SNPs are candidates for local adaptation. The SNP loadings are stored as <code>species</code> in the RDA object. We’ll extract the SNP loadings from the first three constrained axes, based on our assessment of the screeplot above.</p>
+<div class="sourceCode" id="cb1194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1194-1"><a href="WE_11.html#cb1194-1" aria-hidden="true" tabindex="-1"></a>load.rda <span class="ot">&lt;-</span> <span class="fu">summary</span>(wolf.rda)<span class="sc">$</span>species[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<p>If we look at histograms of the loadings on each RDA axis, we can see their (relatively normal) distribution. SNPs loading at the center of the distribution are not showing a relationship with the environmental predictors; those loading in the tails are, and are more likely to be under selection as a function of those predictors (or some other predictor correlated with them).</p>
+<div class="sourceCode" id="cb1195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1195-1"><a href="WE_11.html#cb1195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(load.rda[,<span class="dv">1</span>], <span class="at">main=</span><span class="st">&quot;Loadings on RDA1&quot;</span>)</span>
+<span id="cb1195-2"><a href="WE_11.html#cb1195-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(load.rda[,<span class="dv">2</span>], <span class="at">main=</span><span class="st">&quot;Loadings on RDA2&quot;</span>)</span>
+<span id="cb1195-3"><a href="WE_11.html#cb1195-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(load.rda[,<span class="dv">3</span>], <span class="at">main=</span><span class="st">&quot;Loadings on RDA3&quot;</span>) </span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/loadings_plot-1.png" width="240" /><img src="11-Week11_files/figure-html/loadings_plot-2.png" width="240" /><img src="11-Week11_files/figure-html/loadings_plot-3.png" width="240" /></p>
+<p>I’ve written a simple function to identify SNPs that load in the tails of these distributions. We’ll start with a 3 standard deviation cutoff (two-tailed p-value = 0.0027). As with all cutoffs, this can be modified to reflect the goals of the analysis and our tolerance for true positives vs. false positives. For example, if you needed to be very conservative and only identify those loci under very strong selection (i.e., minimize false positive rates), you could increase the number of standard deviations to 3.5 (two-tailed p-value = 0.0005). This would also increase the false negative rate. If you were less concerned with false positives, and more concerned with identifying as many potential candidate loci as possible (including those that may be under weaker selection), you might choose a 2.5 standard deviation cutoff (two-tailed p-value = 0.012).</p>
+<p>I define the function here as <code>outliers</code>, where <code>x</code> is the vector of loadings and <code>z</code> is the number of standard deviations to use:</p>
+<div class="sourceCode" id="cb1196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1196-1"><a href="WE_11.html#cb1196-1" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(x,z){</span>
+<span id="cb1196-2"><a href="WE_11.html#cb1196-2" aria-hidden="true" tabindex="-1"></a>  lims <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> z <span class="sc">*</span> <span class="fu">sd</span>(x) <span class="do">## f.nd loadings +/- z SD from mean loading     </span></span>
+<span id="cb1196-3"><a href="WE_11.html#cb1196-3" aria-hidden="true" tabindex="-1"></a>  x[x <span class="sc">&lt;</span> lims[<span class="dv">1</span>] <span class="sc">|</span> x <span class="sc">&gt;</span> lims[<span class="dv">2</span>]]           <span class="co"># locus names in these tails</span></span>
+<span id="cb1196-4"><a href="WE_11.html#cb1196-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now let’s apply it to the first three constrained axes:</p>
+<div class="sourceCode" id="cb1197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1197-1"><a href="WE_11.html#cb1197-1" aria-hidden="true" tabindex="-1"></a>cand1 <span class="ot">&lt;-</span> <span class="fu">outliers</span>(load.rda[,<span class="dv">1</span>], <span class="dv">3</span>) <span class="do">## 3.</span></span>
+<span id="cb1197-2"><a href="WE_11.html#cb1197-2" aria-hidden="true" tabindex="-1"></a>cand2 <span class="ot">&lt;-</span> <span class="fu">outliers</span>(load.rda[,<span class="dv">2</span>], <span class="dv">3</span>) <span class="do">## 6.</span></span>
+<span id="cb1197-3"><a href="WE_11.html#cb1197-3" aria-hidden="true" tabindex="-1"></a>cand3 <span class="ot">&lt;-</span> <span class="fu">outliers</span>(load.rda[,<span class="dv">3</span>], <span class="dv">3</span>) <span class="do">## 3.</span></span>
+<span id="cb1197-4"><a href="WE_11.html#cb1197-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1197-5"><a href="WE_11.html#cb1197-5" aria-hidden="true" tabindex="-1"></a>wolf.rda.cand <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">names</span>(cand1), <span class="fu">names</span>(cand2), <span class="fu">names</span>(cand3)) <span class="do">## j.st the names of the candidates</span></span>
+<span id="cb1197-6"><a href="WE_11.html#cb1197-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1197-7"><a href="WE_11.html#cb1197-7" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(wolf.rda.cand[<span class="fu">duplicated</span>(wolf.rda.cand)]) <span class="do">## 7.duplicate detections (detected on multiple RDA axes)</span></span></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<div class="sourceCode" id="cb1199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1199-1"><a href="WE_11.html#cb1199-1" aria-hidden="true" tabindex="-1"></a>wolf.rda.cand <span class="ot">&lt;-</span> wolf.rda.cand[<span class="sc">!</span><span class="fu">duplicated</span>(wolf.rda.cand)] <span class="do">## 1.4 unique candidates </span></span></code></pre></div>
+<p>Let’s see where these candidate SNPs are in the ordination space. We’ll zoom the plot in to just the SNPs, and color code candidate SNPs in red:</p>
+<div class="sourceCode" id="cb1200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1200-1"><a href="WE_11.html#cb1200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up the color scheme for plotting:</span></span>
+<span id="cb1200-2"><a href="WE_11.html#cb1200-2" aria-hidden="true" tabindex="-1"></a>bgcol  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">colnames</span>(gen.imp) <span class="sc">%in%</span> wolf.rda.cand, <span class="st">&#39;gray32&#39;</span>, <span class="st">&#39;#00000000&#39;</span>)</span>
+<span id="cb1200-3"><a href="WE_11.html#cb1200-3" aria-hidden="true" tabindex="-1"></a>snpcol <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">colnames</span>(gen.imp) <span class="sc">%in%</span> wolf.rda.cand, <span class="st">&#39;red&#39;</span>, <span class="st">&#39;#00000000&#39;</span>)</span>
+<span id="cb1200-4"><a href="WE_11.html#cb1200-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1200-5"><a href="WE_11.html#cb1200-5" aria-hidden="true" tabindex="-1"></a><span class="do">## a.es 1 &amp; 2 - zooming in to just the SNPs here...</span></span>
+<span id="cb1200-6"><a href="WE_11.html#cb1200-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolf.rda, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">main=</span><span class="st">&quot;Wolf RDA, axes 1 and 2&quot;</span>)</span>
+<span id="cb1200-7"><a href="WE_11.html#cb1200-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolf.rda, <span class="at">display=</span><span class="st">&quot;species&quot;</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;gray32&quot;</span>, <span class="at">bg=</span><span class="st">&#39;#f1eef6&#39;</span>, <span class="at">scaling=</span><span class="dv">3</span>)</span>
+<span id="cb1200-8"><a href="WE_11.html#cb1200-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolf.rda, <span class="at">display=</span><span class="st">&quot;species&quot;</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">col=</span>bgcol, <span class="at">bg=</span>snpcol, <span class="at">scaling=</span><span class="dv">3</span>)</span>
+<span id="cb1200-9"><a href="WE_11.html#cb1200-9" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(wolf.rda, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">display=</span><span class="st">&quot;bp&quot;</span>, <span class="at">col=</span><span class="st">&quot;#0868ac&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
+<span id="cb1200-10"><a href="WE_11.html#cb1200-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1200-11"><a href="WE_11.html#cb1200-11" aria-hidden="true" tabindex="-1"></a><span class="do">## a.es 2 &amp; 3</span></span>
+<span id="cb1200-12"><a href="WE_11.html#cb1200-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolf.rda, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">choices=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">main=</span><span class="st">&quot;Wolf RDA, axes 2 and 3&quot;</span>)</span>
+<span id="cb1200-13"><a href="WE_11.html#cb1200-13" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolf.rda, <span class="at">display=</span><span class="st">&quot;species&quot;</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;gray32&quot;</span>, <span class="at">bg=</span><span class="st">&#39;#f1eef6&#39;</span>, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">choices=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb1200-14"><a href="WE_11.html#cb1200-14" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolf.rda, <span class="at">display=</span><span class="st">&quot;species&quot;</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">col=</span>bgcol, <span class="at">bg=</span>snpcol, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">choices=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb1200-15"><a href="WE_11.html#cb1200-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(wolf.rda, <span class="at">scaling=</span><span class="dv">3</span>, <span class="at">display=</span><span class="st">&quot;bp&quot;</span>, <span class="at">col=</span><span class="st">&quot;#0868ac&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">choices=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
+<p><img src="11-Week11_files/figure-html/unnamed-chunk-14-1.png" width="480" /><img src="11-Week11_files/figure-html/unnamed-chunk-14-2.png" width="480" /></p>
+<p>Which environmental predictor(s) seem to be most strongly related to candidate SNPs in the RDA1/RDA2 plot? How about the RDA2/RDA3 plot?</p>
+<p>Why do we see candidate SNPs loading in the center of the ordination space in both plots?</p>
+<p>Let’s see which environmental predictors are most strongly correlated with the first three RDA axes:</p>
+<div class="sourceCode" id="cb1201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1201-1"><a href="WE_11.html#cb1201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersetcor</span>(wolf.rda)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>##            RDA1        RDA2        RDA3
+## AMT  -0.8692103  0.10797423  0.19767975
+## MDR  -0.4791404  0.77837759 -0.09163633
+## sdT   0.2971194  0.47503944 -0.03234453
+## AP   -0.6902664 -0.62757476  0.09806042
+## cvP   0.3155829  0.02749876 -0.64084267
+## NDVI -0.6531881  0.24697034  0.07226876
+## Elev -0.3473015  0.24167932 -0.33073363
+## Tree -0.5699345  0.21080592  0.03478928</code></pre>
+<p>Generally, candidate SNPs on axis 1 represent multilocus sets of SNP genotypes associated most strongly with annual mean temperature and annual precipitation; SNPs on axis 2 represent genotypes associated with mean diurnal range; and SNPs on axis 3 represent genotypes associated with precipitation seasonality. See the full <a href="http://popgen.nescent.org/2018-03-27_RDA_GEA.html">RDA vignette</a> for additional investigation of candidate SNPs.</p>
+</div>
+</div>
+<div id="compare-lfmm-and-rda-candidates" class="section level3">
+<h3>5. Compare LFMM and RDA candidates</h3>
+<p>Let’s see what kind of overlap we have in our candidates from the two methods. Remember that we had only 12 candidates for LFMM and 134 candidates for RDA.</p>
+<div class="sourceCode" id="cb1203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1203-1"><a href="WE_11.html#cb1203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(wolf.FDR<span class="fl">.1</span>, wolf.rda.cand) <span class="do">## f.und by both LFMM and RDA</span></span></code></pre></div>
+<pre><code>##  [1] &quot;chr6.36999927&quot;  &quot;chr20.36354466&quot; &quot;chr17.54224832&quot; &quot;chr12.58928631&quot;
+##  [5] &quot;chr12.55629962&quot; &quot;chr8.41109194&quot;  &quot;chr19.17640345&quot; &quot;chr8.63918041&quot; 
+##  [9] &quot;chr20.10469494&quot; &quot;chr22.64010061&quot; &quot;chr9.36496633&quot;</code></pre>
+<div class="sourceCode" id="cb1205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1205-1"><a href="WE_11.html#cb1205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(wolf.FDR<span class="fl">.1</span>, wolf.rda.cand)   <span class="co"># unique to LFMM</span></span></code></pre></div>
+<pre><code>## [1] &quot;chr5.25188969&quot;</code></pre>
+<p>We see a lot of overlap, even though the tests differ (e.g., correction for population structure, univariate vs. multivariate tests, differences in predictor variables, differences in post-processing).</p>
+<p>An important note: A common approach in studies that use GEAs and populations differentiation methods is to use many tests and then look for the overlap across the detections. This can be helpful for some questions (e.g. where minimizing false positive detections is of greatest importance), but can be overly conservative in many cases and bias detections against weaker signatures of selection. See our paper for an investigation of different approaches for combining detections &amp; how it impacts true and false positive rates: Forester et al. (2018); and see
+the (excellent!) FDR paper for more options based on combining z-scores across different tests: Francois et al. (2016).</p>
+</div>
+<div id="a-quick-note-on-controlling-for-population-structure-in-rda" class="section level3">
+<h3>6. A quick note on controlling for population structure in RDA</h3>
+<p>We are still testing approaches to controlling for population structure in RDA. We’ve generally found that using ancestry values (e.g. from <code>snmf</code> or Admixture) or MEMs (Moran’s Eigenvector Maps, aka spatial eigenvectors) is overly conservative.</p>
+<p>So far, the best approach (e.g. balancing true positives and false negatives) is to compute a PCA of the genetic data and select relevant PCs (e.g. using the broken stick criteron as we did above), then use retained PCs in a partial RDA:</p>
+<div class="sourceCode" id="cb1207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1207-1"><a href="WE_11.html#cb1207-1" aria-hidden="true" tabindex="-1"></a>?rda  <span class="do">## h.lp for running RDA</span></span>
+<span id="cb1207-2"><a href="WE_11.html#cb1207-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1207-3"><a href="WE_11.html#cb1207-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pseudo code for simple RDA:</span></span>
+<span id="cb1207-4"><a href="WE_11.html#cb1207-4" aria-hidden="true" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">rda</span>(genomic.data <span class="sc">~</span> predictor1 <span class="sc">+</span> predictor2, <span class="at">data=</span>dat</span>
+<span id="cb1207-5"><a href="WE_11.html#cb1207-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1207-6"><a href="WE_11.html#cb1207-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pseudo code for partial RDA (correcting for population structure with PCs):</span></span>
+<span id="cb1207-7"><a href="WE_11.html#cb1207-7" aria-hidden="true" tabindex="-1"></a>bar <span class="ot">&lt;-</span> <span class="fu">rda</span>(genomic.data <span class="sc">~</span> predictor1 <span class="sc">+</span> predictor2 <span class="sc">+</span> <span class="fu">Condition</span>(PC1), <span class="at">data=</span>dat, <span class="at">scale=</span>T)</span></code></pre></div>
+<p>You will want to check for correlations between retained PCs and your environmental predictors. If environment and population structure are not correlated, you can retain all predictors and PCs and proceed with your partial RDA. If environment and population structure <em>are</em> highly correlated, you’ll have to decide whether to prune correlated environmental variables or PCs. Pruning environmental variables will likely reduce false positives but will also increase false negatives. Pruning PCs (instead of environmental predictors) will likely increase false positives, but will also reduce false negatives. These trade-offs exist with all approaches for controlling population structure and other confounding factors when environment is correlated with population structure.</p>
+</div>
+<div id="references-1" class="section level3">
+<h3>7. References</h3>
+<p>Borcard D, Gillet F, Legendre P (2011) <a href="http://www.springer.com/us/book/9781441979759"><em>Numerical Ecology with R</em></a>. Springer, New York.</p>
+<p>Caye K, Jumentier B, Lepeule J, Francois O (2019) <a href="https://academic.oup.com/mbe/article/36/4/852/5290100">LFMM 2: Fast and Accurate Inference of Gene-Environment Associations in Genome-Wide Studies</a>. <em>Molecular Biology and Evolution</em> 36: 852-860.</p>
+<p>Dormann CF, Elith J, Bacher S, et al. (2013) <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1600-0587.2012.07348.x/abstract">Collinearity: a review of methods to deal with it and a simulation study evaluating their performance</a>. <em>Ecography</em>, 36: 27-46.</p>
+<p>Forester BR, Lasky JR, Wagner HH, Urban DL (2018) <a href="https://www.biorxiv.org/content/early/2017/12/17/129460">Comparing methods for detecting multilocus adaptation with multivariate genotype-environment associations</a>. <em>Molecular Ecology</em>.</p>
+<p>Forester BR (2018) <a href="http://popgen.nescent.org/2018-03-27_RDA_GEA.html">Vignette: Detectingn multilocus adaptation using Redundancy Analysis (RDA)</a>. Population Genetics in R: <a href="http://popgen.nescent.org/">popgen.nescent.org</a>.</p>
+<p>Francois O, Martins H, Caye, K, Schoville S (2016) <a href="http://onlinelibrary.wiley.com/doi/10.1111/mec.13513/full">Controlling false discoveries in genome scans for selection</a>. <em>Molecular Ecology</em>, 25: 454-469.</p>
+<p>Frichot E, Francois O (2015) <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12382/abstract">LEA: An R package for landscape and ecological association studies</a>. <em>Methods in Ecology and Evolution</em>, 6: 925-929.</p>
+<p>Jombart, T (2008) <a href="https://academic.oup.com/bioinformatics/article/24/11/1403/191127">adegenet: a R package for the multivariate analysis of genetic markers</a>. <em>Bioinformatics</em>, 24: 1403-1405.</p>
+<p>Jumentier B, Caye K, Heude B, Lepeule J, Francois O (2020) <a href="https://www.biorxiv.org/content/10.1101/2020.02.07.938381v1.abstract">Sparse latent factor regression models for genome-wide and epigenome-wide association studies</a>. <em>bioRxiv</em>, 2020.02.07.938381.</p>
+<p>Legendre P, Oksanen J, ter Braak CJ (2010) <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.2041-210X.2010.00078.x">Testing the significance of canonical axes in redundancy analysis</a>. <em>Methods in Ecology and Evolution</em>, 2: 269-277.</p>
+<p>Money D, Migicovsky Z, Gardner K, Myles S (2017) <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-3873-5">LinkImputeR: user-guided genotype calling and imputation for non-model organisms</a>. <em>BMC Genomics</em>, 18: 1-12.</p>
+<p>Oksanen J, Blanchet FG, Kindt R, et al. (2016) <a href="https://CRAN.R-project.org/package=vegan"><em>vegan: Community Ecology Package</em></a>. R package version 2.3-5.</p>
+<p>Rellstab C, Gugerli F, Eckert AJ, Hancock AM, Holderegger R (2015) <a href="http://onlinelibrary.wiley.com/doi/10.1111/mec.13322/abstract">A practical guide to environmental association analysis in landscape genomics</a>. <em>Molecular Ecology</em>, 24: 4348-4370.</p>
+<p>Schweizer RM, vonHoldt BM, Harrigan R, et al. (2016) <a href="http://onlinelibrary.wiley.com/doi/10.1111/mec.13364/full">Genetic subdivision and candidate genes under selection in North American grey wolves</a>. <em>Molecular Ecology</em>, 25: 380-402.</p>
+<p>Storey JD, Tibshirani R (2003) <a href="http://www.pnas.org/content/100/16/9440.full">Statistical significance for genome-wide experiments</a>. <em>Proceedings of the National Academy of Sciences</em>, 100: 9440-9445.</p>
+<p>Zuur AF, Ieno EN, Elphick CS (2010) <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.2041-210X.2009.00001.x">A protocol for data exploration to avoid common statistical problems</a>. <em>Methods in Ecology and Evolution</em>, 1: 3-14.</p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Week11.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Week12.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
