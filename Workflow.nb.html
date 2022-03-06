@@ -248,7 +248,7 @@ library(rsconnect)</code></pre>
 <p>Import all Rmd and other (png) files from vignettes, replace old files</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSlcbm15RGlyW2xlbmd0aChteURpcildIDwtIFwiTGFuZEdlbkNvdXJzZVwiXG5QYXRoIDwtIHBhc3RlMChteURpciwgY29sbGFwc2UgPSAnLycpXG5cbiNNYWMgQ0g6XG4jUGF0aCA8LSBcIi9Vc2Vycy9oZWxlbmUvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jTWFjIFRvcm9udG86XG4jUGF0aCA8LSBcIi9Vc2Vycy9oaHdhZ25lcjEvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jV2luZG93czpcbiNQYXRoIDwtIFwiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIiAjIExhcHRvcFxuXG4jbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKFBhdGgsIHBhdHRlcm49XCJSbWRcIilcbiNsaXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aClcbmxpc3Qub2YuZmlsZXMgPC0gbGlzdC5maWxlcyhwYXN0ZTAoUGF0aCwgXCIvdmlnbmV0dGVzXCIpKVxuZmlsZS5jb3B5KHBhc3RlMChQYXRoLCBcIi92aWduZXR0ZXMvXCIsIGxpc3Qub2YuZmlsZXMpLCBcbiAgICAgICAgICBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIiksIG92ZXJ3cml0ZT1UUlVFKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlEaXIgPC0gdW5saXN0KHN0cnNwbGl0KGhlcmU6OmhlcmUoKSwgJy8nKSlcbm15RGlyW2xlbmd0aChteURpcildIDwtIFwiTGFuZEdlbkNvdXJzZVwiXG5QYXRoIDwtIHBhc3RlMChteURpciwgY29sbGFwc2UgPSAnLycpXG5cbiNNYWMgQ0g6XG4jUGF0aCA8LSBcIi9Vc2Vycy9oZWxlbmUvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jTWFjIFRvcm9udG86XG4jUGF0aCA8LSBcIi9Vc2Vycy9oaHdhZ25lcjEvRGVza3RvcC9SX2dpdGh1Yl9wcm9qZWN0cy9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIlxuXG4jV2luZG93czpcbiNQYXRoIDwtIFwiQzovVXNlcnMvd2FnbmVyaDEvRGVza3RvcC9MYW5kR2VuQ291cnNlL3ZpZ25ldHRlcy9cIiAjIExhcHRvcFxuXG4jbGlzdC5vZi5maWxlcyA8LSBsaXN0LmZpbGVzKFBhdGgsIHBhdHRlcm49XCJSbWRcIilcbiNsaXN0Lm9mLmZpbGVzIDwtIGxpc3QuZmlsZXMoUGF0aClcbmxpc3Qub2YuZmlsZXMgPC0gbGlzdC5maWxlcyhwYXN0ZTAoUGF0aCwgXCIvdmlnbmV0dGVzXCIpKVxuZmlsZS5jb3B5KHBhc3RlMChQYXRoLCBcIi92aWduZXR0ZXMvXCIsIGxpc3Qub2YuZmlsZXMpLCBcbiAgICAgICAgICBwYXN0ZTAoaGVyZTo6aGVyZSgpLCBcIi92aWduZXR0ZXNcIiksIG92ZXJ3cml0ZT1UUlVFKVxuZGlyKHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcblxuYGBgIn0= -->
 <pre class="r"><code>myDir &lt;- unlist(strsplit(here::here(), &#39;/&#39;))
 myDir[length(myDir)] &lt;- &quot;LandGenCourse&quot;
 Path &lt;- paste0(myDir, collapse = &#39;/&#39;)
@@ -266,25 +266,10 @@ Path &lt;- paste0(myDir, collapse = &#39;/&#39;)
 #list.of.files &lt;- list.files(Path)
 list.of.files &lt;- list.files(paste0(Path, &quot;/vignettes&quot;))
 file.copy(paste0(Path, &quot;/vignettes/&quot;, list.of.files), 
-          paste0(here::here(), &quot;/vignettes&quot;), overwrite=TRUE)</code></pre>
+          paste0(here::here(), &quot;/vignettes&quot;), overwrite=TRUE)
+dir(paste0(here::here(), &quot;/vignettes&quot;))
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFXG5bMTddIFRSVUUgVFJVRSBUUlVFIFRSVUUgVFJVRSBUUlVFXG4ifQ== -->
-<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-[17] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGlyKHBhc3RlMChoZXJlOjpoZXJlKCksIFwiL3ZpZ25ldHRlc1wiKSlcbmBgYCJ9 -->
-<pre class="r"><code>dir(paste0(here::here(), &quot;/vignettes&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIldFMTJfRmlnMS5QTkdcIiAgICAgICAgICAgIFwiV0UxM19GaWcxLnBuZ1wiICAgICAgICAgICAgXCJXRTlfRmlnMS5wbmdcIiAgICAgICAgICAgIFxuIFs0XSBcIldFOV9GaWcyLnBuZ1wiICAgICAgICAgICAgIFwiV2VlazBfQmFzaWNSLlJtZFwiICAgICAgICAgXCJXZWVrMF9HcmFwaGljcy5SbWRcIiAgICAgIFxuIFs3XSBcIldlZWsxX3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazEwX3ZpZ25ldHRlLlJtZFwiICAgICAgXCJXZWVrMTFfdmlnbmV0dGUuUm1kXCIgICAgIFxuWzEwXSBcIldlZWsxMl92aWduZXR0ZS5SbWRcIiAgICAgIFwiV2VlazEzX3ZpZ25ldHRlLlJtZFwiICAgICAgXCJXZWVrMTRfdmlnbmV0dGUuUm1kXCIgICAgIFxuWzEzXSBcIldlZWsyX2JvbnVzX3ZpZ25ldHRlLlJtZFwiIFwiV2VlazJfdmlnbmV0dGUuUm1kXCIgICAgICAgXCJXZWVrM192aWduZXR0ZS5SbWRcIiAgICAgIFxuWzE2XSBcIldlZWs0X3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazVfdmlnbmV0dGUuUm1kXCIgICAgICAgXCJXZWVrNl92aWduZXR0ZS5SbWRcIiAgICAgIFxuWzE5XSBcIldlZWs3X3ZpZ25ldHRlLlJtZFwiICAgICAgIFwiV2VlazhfYm9udXNfdmlnbmV0dGUuUm1kXCIgXCJXZWVrOF92aWduZXR0ZS5SbWRcIiAgICAgIFxuWzIyXSBcIldlZWs5X3ZpZ25ldHRlLlJtZFwiICAgICAgXG4ifQ== -->
-<pre><code> [1] &quot;WE12_Fig1.PNG&quot;            &quot;WE13_Fig1.png&quot;            &quot;WE9_Fig1.png&quot;            
- [4] &quot;WE9_Fig2.png&quot;             &quot;Week0_BasicR.Rmd&quot;         &quot;Week0_Graphics.Rmd&quot;      
- [7] &quot;Week1_vignette.Rmd&quot;       &quot;Week10_vignette.Rmd&quot;      &quot;Week11_vignette.Rmd&quot;     
-[10] &quot;Week12_vignette.Rmd&quot;      &quot;Week13_vignette.Rmd&quot;      &quot;Week14_vignette.Rmd&quot;     
-[13] &quot;Week2_bonus_vignette.Rmd&quot; &quot;Week2_vignette.Rmd&quot;       &quot;Week3_vignette.Rmd&quot;      
-[16] &quot;Week4_vignette.Rmd&quot;       &quot;Week5_vignette.Rmd&quot;       &quot;Week6_vignette.Rmd&quot;      
-[19] &quot;Week7_vignette.Rmd&quot;       &quot;Week8_bonus_vignette.Rmd&quot; &quot;Week8_vignette.Rmd&quot;      
-[22] &quot;Week9_vignette.Rmd&quot;      </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Increase header level by 1</p>
@@ -530,10 +515,10 @@ saveRDS(table_list, paste0(here::here(), &quot;/output/table_list.rds&quot;))</c
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuWVxuYGBgIn0= -->
 <pre class="r"><code>Y</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRE9ORVxuVXBsb2FkaW5nIGJ1bmRsZSBmb3Igc2l0ZTogNzQ0My4uLkRPTkVcbkRlcGxveWluZyBidW5kbGU6IDY2OTUyIGZvciBzaXRlOiA3NDQzIC4uLlxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiRE9ORVxuVXBsb2FkaW5nIGJ1bmRsZSBmb3Igc2l0ZTogNzQ0My4uLkRPTkVcbkRlcGxveWluZyBidW5kbGU6IDY3NzM0IGZvciBzaXRlOiA3NDQzIC4uLlxuIn0= -->
 <pre><code>DONE
 Uploading bundle for site: 7443...DONE
-Deploying bundle: 66952 for site: 7443 ...</code></pre>
+Deploying bundle: 67734 for site: 7443 ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiW0Nvbm5lY3RdIEJ1aWxkaW5nIHN0YXRpYyBjb250ZW50Li4uXG5bQ29ubmVjdF0gTGF1bmNoaW5nIHN0YXRpYyBjb250ZW50Li4uXG4ifQ== -->
 <pre><code>[Connect] Building static content...

@@ -73,7 +73,7 @@ names(Functions) <- b
 Custom functions
 
 ```{r custom}
-custom.functions <- c("potential_offspring", "MLPE", "MLPEnoREML", "myPal", "method1", "method2", "method3", "method4", "myFunction", "myFunction.cmp", "createpops", "getArray", "getSunder")
+custom.functions <- c("potential_offspring", "MLPE", "MLPEnoREML", "myPal", "method1", "method2", "method3", "method4", "myFunction", "myFunction.cmp", "createpops", "getArray", "getSunder", "get.Si")
 ```
 
 Check for functions from unloaded packages
@@ -110,7 +110,12 @@ Table of packages x vignettes
 
 ```{r table}
 Packages <- sapply(Functions, function(ls) names(ls))
-Vignettes <- rep(names(Packages), times=sapply(Packages, length))
+nFun <- sapply(Packages, length)
+Packages[nFun==0] <- NA
+nFun[nFun == 0] <- 1
+Vignettes <- rep(names(Packages), times=nFun)
+
+#Vignettes <- rep(names(Packages), times=sapply(Packages, length))
 
 Packages.table <- table(unlist(Packages), Vignettes)
 
