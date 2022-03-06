@@ -115,5 +115,15 @@ cat(yml_metadata$author)
 ```
 
 
+## Bonus Vignette {#bonus_7a}
 
+```{r echo=FALSE, results = 'asis'}
+rmd_file <- paste0(here::here(), "/vignettes/", "Week7_bonus_vignette.Rmd")
+yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
+cat(yml_metadata$author)
+```
+
+
+```{r child=paste0(here::here(), "/vignettes/", "Week7_bonus_vignette.Rmd"), echo=TRUE}
+```
 

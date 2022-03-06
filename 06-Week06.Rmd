@@ -25,7 +25,8 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### Video, Part 2
 
-<iframe width="800" height="513" src="https://sho.co/19YM" frameborder="0" allowfullscreen></iframe>
+<iframe width="800" height="513" src="https://sho.co/19YMJ" frameborder="0" allowfullscreen></iframe>
+
 
 ### Preview Slides
 
