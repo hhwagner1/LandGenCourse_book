@@ -217,10 +217,6 @@ At the beginning of the session:
 library(httr)
 
 connectServer <- "https://bookdown.org/"
-#connectAPIKey <- 
-
-#connectServer <- Sys.getenv("CONNECT_SERVER")
-#connectAPIKey <- Sys.getenv("CONNECT_API_KEY")
 
 # The initial request in an R session will have no HTTP session cookies.
 resp <- httr::GET(connectServer, 
