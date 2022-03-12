@@ -76,38 +76,6 @@ gsub_ext(ext="Rmd", "### 8. R ", "## R ",  dir = paste0(here::here(), "/vignette
 gsub_ext(ext="Rmd", "### 9. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
 ```
 
-In some chapters (1 - 3?), put slot names in text into quotes
-```{r}
-gsub_ext(ext="Rmd", " @C", " `@C`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @E", " `@E`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @S", " `@S`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @XY", " `@XY`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @all.names", " `@all.names`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @bbox", " `@bbox`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @coords", " `@coords`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @coords.nrs", " `@coords.nrs`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @data", " `@data`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @hierarchy", " `@hierarchy`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @lines", " `@lines`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @loc.fac", " `@loc.fac`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @loc.n.all", " `@loc.n.all`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @other", " `@other`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @ploidy", " `@ploidy`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @pop", " `@pop`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @proj4string", " `@proj4string`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @strata", " `@strata`",  
-         dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @tab", " `@tab`",  dir = paste0(here::here(), "/vignettes"))
-gsub_ext(ext="Rmd", " @type", " `@type`",  dir = paste0(here::here(), "/vignettes"))
-```
 
 ```{r}
 gsub_ext(ext="Rmd", "WE9_Fig1.png", paste0(here::here(), "/vignettes/WE9_Fig1.png"),  dir = paste0(here::here(), "/vignettes"))
@@ -117,6 +85,10 @@ gsub_ext(ext="Rmd", "WE13_Fig1.PNG", paste0(here::here(), "/vignettes/WE13_Fig1.
 gsub_ext(ext="Rmd", "radish_tutorial_fig1A.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1A.png"),  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "radish_tutorial_fig1B.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1B.png"),  dir = paste0(here::here(), "/vignettes"))
 ```
+
+Add `{-}` to titles to suppress numbering
+
+
 
 
 Create list of functions and packages: source file "ListOfPackages.Rmd" 
