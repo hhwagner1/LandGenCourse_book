@@ -3,6 +3,7 @@
 This week's lab shows how to define cost surfaces and calculate cost distances. 
 
 - [Worked Example](#WE_10)
+- [Bonus Vignette](#bonus-10a): `radish` tutorial
 
 Note: The worked examples in the Advanced Topics section require the R skills developed in the Basic Topics (Weeks 1 - 8).  
 
@@ -17,5 +18,15 @@ cat(yml_metadata$author)
 ```{r child=paste0(here::here(), "/vignettes/", "Week10_vignette.Rmd"), echo=TRUE}
 ```
 
+## Bonus Vignette {#bonus-10a}
+
+```{r echo=FALSE, results = 'asis'}
+rmd_file <- paste0(here::here(), "/vignettes/", "Week10_bonus_vignette.Rmd")
+yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
+cat(yml_metadata$author)
+```
+
+```{r child=paste0(here::here(), "/vignettes/", "Week10_bonus_vignette.Rmd"), echo=TRUE}
+```
 
 

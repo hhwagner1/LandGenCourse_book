@@ -114,6 +114,8 @@ gsub_ext(ext="Rmd", "WE9_Fig1.png", paste0(here::here(), "/vignettes/WE9_Fig1.pn
 gsub_ext(ext="Rmd", "WE9_Fig2.png", paste0(here::here(), "/vignettes/WE9_Fig2.png"),  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "WE12_Fig1.png", paste0(here::here(), "/vignettes/WE12_Fig1.png"),  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "WE13_Fig1.PNG", paste0(here::here(), "/vignettes/WE13_Fig1.PNG"),  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "radish_tutorial_fig1A.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1A.png"),  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "radish_tutorial_fig1B.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1B.png"),  dir = paste0(here::here(), "/vignettes"))
 ```
 
 

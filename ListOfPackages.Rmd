@@ -35,7 +35,7 @@ packages.CRAN <- c("ade4", "adegenet","car", "cowplot", "data.table", "deldir",
                 "PopGenReport", "poppr", "predictmeans", "profvis", "purrr", "pwr", "raster", 
                 "RColorBrewer", "readr","rio", "rmarkdown", "secr","sf", "sp", "spatialEco", "spatialreg",
                 "spdep", "spmoran", "Sunder", "terra", "tibble", "tmap", "tmaptools", "vcfR", "vegan")
-packages.github <- c("gstudio", "popgraph", "QstFstComp", "lfmm")
+packages.github <- c("gstudio", "popgraph", "QstFstComp", "lfmm", "radish", "corMLPE")
 packages.biocl <- c("qvalue", "LEA")
 
 easypackages::libraries(c("LandGenCourse", packages.basic, packages.CRAN, 
