@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12.1 Worked Example | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12.1 Worked Example | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12.1 Worked Example | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2022-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="Week9.html"/>
+<link rel="next" href="Week10.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+<script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started<span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book<span></span></a>
+<ul>
+<li><a href="how-to-use-this-book.html#book-structure">1. Book Structure<span></span></a></li>
+<li><a href="how-to-use-this-book.html#find-what-is-relevant-for-you">2. Find what is relevant for you<span></span></a></li>
+<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package ‘LandGenCourse’<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming<span></span></a>
+<ul>
+<li><a href="basic-r.html#overview">1. Overview<span></span></a></li>
+<li><a href="basic-r.html#data-types">2. Data Types<span></span></a></li>
+<li><a href="basic-r.html#data-containers">3. Data Containers<span></span></a></li>
+<li><a href="basic-r.html#programming">4. Programming<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics<span></span></a>
+<ul>
+<li><a href="r-graphics.html#overview-1">1. Overview<span></span></a></li>
+<li><a href="r-graphics.html#univariate-plots">2. Univariate plots<span></span></a></li>
+<li><a href="r-graphics.html#bivariate-plots">3. Bivariate plots<span></span></a></li>
+<li><a href="r-graphics.html#advanced-plotting">4. Advanced plotting<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?<span></span></a>
+<ul>
+<li><a href="github.html#goals">1. Goals<span></span></a></li>
+<li><a href="github.html#version">2. Watch course video: Version Control 101<span></span></a></li>
+<li><a href="github.html#slides">3. Preview slides<span></span></a></li>
+<li><a href="github.html#next-steps">4. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation<span></span></a>
+<ul>
+<li><a href="install.html#goals-1">1. Goals<span></span></a></li>
+<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free<span></span></a></li>
+<li><a href="install.html#happygit">3. Happy Git with R<span></span></a></li>
+<li><a href="install.html#gitvideos">4. Video tutorials: installation<span></span></a></li>
+<li><a href="install.html#join">5. Joining your group’s project on GitHub<span></span></a></li>
+<li><a href="install.html#repo">6. Setting up a group repo<span></span></a></li>
+<li><a href="install.html#next-steps-1">7. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows<span></span></a>
+<ul>
+<li><a href="workflow.html#goals-2">1. Goals<span></span></a></li>
+<li><a href="workflow.html#step-by-step-tutorials">2. Step-by-step tutorials<span></span></a></li>
+<li><a href="workflow.html#further-resources">3. Further resources<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basic Topics<span></span></b></span></li>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_1.html#embedded-video">1. Embedded Video<span></span></a></li>
+<li><a href="video_1.html#preview-slides">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1<span></span></a>
+<ul>
+<li><a href="tutorial_1.html#list-of-r-commands-covered-this-week">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_1.html#general-instructions">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_1.html#overview-of-worked-example">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_1.html#import-data-from-.csv-file">2. Import data from .csv file<span></span></a></li>
+<li><a href="WE_1.html#create-genind-object">3. Create ‘genind’ Object<span></span></a></li>
+<li><a href="WE_1.html#view-information-stored-in-genind-object">4. View information stored in ‘genind’ object<span></span></a></li>
+<li><a href="WE_1.html#import-data-with-gstudio-package">5. Import data with ‘gstudio’ package<span></span></a></li>
+<li><a href="WE_1.html#importing-snp-data">6. Importing SNP data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_2.html#embedded-video-1">1. Embedded Video<span></span></a></li>
+<li><a href="video_2.html#preview-slides-1">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2<span></span></a>
+<ul>
+<li><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_2.html#general-instructions-1">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_2.html#overview-of-worked-example-1">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_2.html#import-site-data-from-.csv-file">2. Import site data from .csv file<span></span></a></li>
+<li><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data">3. Display raster data and overlay sampling locations, extract data<span></span></a></li>
+<li><a href="WE_2.html#calculate-landscape-metrics">4. Calculate landscape metrics<span></span></a></li>
+<li><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations">5. Sample landscape metrics within buffer around sampling locations<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’<span></span></a>
+<ul>
+<li><a href="bonus_2a.html#overview-2">1. Overview<span></span></a></li>
+<li><a href="bonus_2a.html#convert-spatialpointsdataframe-to-sf-object">2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object<span></span></a></li>
+<li><a href="bonus_2a.html#plot-variables-first-10-in-data-set">3. Plot variables (first 10 in data set)<span></span></a></li>
+<li><a href="bonus_2a.html#export-site-data-as-esri-shapefile">4. Export site data as ESRI shapefile<span></span></a></li>
+<li><a href="bonus_2a.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme">5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_3.html#embedded-video-2">1. Embedded Video<span></span></a></li>
+<li><a href="video_3.html#video-part-1">Video, Part 1<span></span></a></li>
+<li><a href="video_3.html#video-part-2">Video, Part 2<span></span></a></li>
+<li><a href="video_3.html#preview-slides-2">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3<span></span></a>
+<ul>
+<li><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_3.html#general-instructions-2">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_3.html#overview-of-worked-example-2">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_3.html#basic-checking-of-markers-and-populations">2. Basic checking of markers and populations<span></span></a></li>
+<li><a href="WE_3.html#assess-genetic-diversity">3. Assess genetic diversity<span></span></a></li>
+<li><a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies">4. Aggregate genetic data at population level (allele frequencies)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_4.html#embedded-video-3">1. Embedded Video<span></span></a></li>
+<li><a href="video_4.html#video-part-1-1">Video, Part 1<span></span></a></li>
+<li><a href="video_4.html#video-part-2-1">Video, Part 2<span></span></a></li>
+<li><a href="video_4.html#preview-slides-3">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4<span></span></a>
+<ul>
+<li><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_4.html#general-instructions-3">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_4.html#overview-of-worked-example-3">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_4.html#spatial-distribution-of-genetic-structure">2. Spatial distribution of genetic structure<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-differentiation-among-sites">3. What determines genetic differentiation among sites?<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-diversity">4. What determines genetic diversity?<span></span></a></li>
+<li><a href="WE_4.html#are-genetic-differentiation-and-diversity-related">5. Are genetic differentiation and diversity related?<span></span></a></li>
+<li><a href="WE_4.html#effect-of-recent-extinction-events">6. Effect of recent extinction events<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_5.html#embedded-video-4">1. Embedded Video<span></span></a></li>
+<li><a href="video_5.html#preview-slides-4">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5<span></span></a>
+<ul>
+<li><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_5.html#general-instructions-4">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_5.html#overview-of-worked-example-4">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_5.html#data-import-and-manipulation">2. Data import and manipulation<span></span></a></li>
+<li><a href="WE_5.html#calculate-genetic-distances">3. Calculate genetic distances<span></span></a></li>
+<li><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd">4. Perform a Mantel test to test for IBD<span></span></a></li>
+<li><a href="WE_5.html#create-mantel-correlogram-for-genetic-data">5. Create Mantel correlogram for genetic data<span></span></a></li>
+<li><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i">6. Specify spatial weights and calculate Moran’s I<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_6.html#embedded-video-5">1. Embedded Video<span></span></a></li>
+<li><a href="video_6.html#video-part-1-2">Video, Part 1<span></span></a></li>
+<li><a href="video_6.html#video-part-2-2">Video, Part 2<span></span></a></li>
+<li><a href="video_6.html#preview-slides-5">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6<span></span></a>
+<ul>
+<li><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_6.html#general-instructions-5">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_6.html#overview-of-worked-example-5">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment">2. Estimate genetic and non-genetic variance components from a common garden experiment<span></span></a></li>
+<li><a href="WE_6.html#estimate-trait-heritability">3. Estimate trait heritability<span></span></a></li>
+<li><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data<span></span></a></li>
+<li><a href="WE_6.html#assess-correlation-between-trait-and-environment">5. Assess correlation between trait and environment<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i><b>9.4</b> R Exercise Week 6<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_7.html#embedded-video-6">1. Embedded Video<span></span></a></li>
+<li><a href="video_7.html#video-part-1-3">Video, Part 1<span></span></a></li>
+<li><a href="video_7.html#video-part-2-3">Video, Part 2<span></span></a></li>
+<li><a href="video_7.html#preview-slides-6">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7<span></span></a>
+<ul>
+<li><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_7.html#general-instructions-6">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_7.html#overview-of-worked-example-6">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_7.html#explore-data-set">2. Explore data set<span></span></a></li>
+<li><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation">3. Test regression residuals for spatial autocorrelation<span></span></a></li>
+<li><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme">4. Fit models with spatially correlated error (GLS) with package ‘nlme’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar">5. Fit spatial simultaneous autoregressive error models (SAR)<span></span></a></li>
+<li><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran">6. Spatial filtering with MEM using package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran">7. Fit spatially varying coefficients model with package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#model-with-patchsize-and-ibr">Model with PatchSize and IBR<span></span></a></li>
+<li><a href="WE_7.html#model-with-ibr-only">Model with IBR only<span></span></a></li>
+<li><a href="WE_7.html#conclusions">8. Conclusions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7<span></span></a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index<span></span></a>
+<ul>
+<li><a href="bonus_7a.html#overview-of-bonus-materials">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus_7a.html#import-ecological-distance-matrices">2. Import ecological distance matrices<span></span></a></li>
+<li><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha">3. Optimize the scaling parameter alpha<span></span></a></li>
+<li><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters">4. Calculate Hanski’s index Si with source patch parameters<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_8.html#embedded-video-7">1. Embedded Video<span></span></a></li>
+<li><a href="video_8.html#video-part-1-4">Video, Part 1<span></span></a></li>
+<li><a href="video_8.html#video-part-2-4">Video, Part 2<span></span></a></li>
+<li><a href="video_8.html#preview-slides-7">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8<span></span></a>
+<ul>
+<li><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_8.html#general-instructions-7">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_8.html#overview-of-worked-example-7">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_8.html#initialize-a-landscape">2. Initialize a landscape<span></span></a></li>
+<li><a href="WE_8.html#define-simulation-parameters">3. Define simulation parameters<span></span></a></li>
+<li><a href="WE_8.html#run-simulations-and-analyze-results">4. Run simulations and analyze results<span></span></a></li>
+<li><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set">5. Run simulator using a previously defined parameter set<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8<span></span></a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R<span></span></a>
+<ul>
+<li><a href="bonus_8a.html#overview-of-bonus-material">1. Overview of Bonus Material<span></span></a></li>
+<li><a href="bonus_8a.html#navigating-the-file-system">2. Navigating the file system<span></span></a></li>
+<li><a href="bonus_8a.html#benchmarking-file-import-and-export-options">3. Benchmarking file import and export options<span></span></a></li>
+<li><a href="bonus_8a.html#profiling-your-code">4. Profiling your code<span></span></a></li>
+<li><a href="bonus_8a.html#creating-and-executing-a-bash-r-script">5. Creating and executing a Bash R script<span></span></a></li>
+<li><a href="bonus_8a.html#parallelizing-code">6. Parallelizing code<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics<span></span></b></span></li>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_9.html#overview-of-worked-example-8">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model">2. Simulated data: 2-island model<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model-with-admixture">3. Simulated data: 2-island model with admixture<span></span></a></li>
+<li><a href="WE_9.html#empirical-data-threespine-sticklebacks">4. Empirical data: Threespine sticklebacks<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_10.html#overview-of-worked-example-9">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_10.html#explore-the-data-set">2. Explore the data set<span></span></a></li>
+<li><a href="WE_10.html#setting-cost-values-and-calculating-conductance">3. Setting cost values and calculating conductance<span></span></a></li>
+<li><a href="WE_10.html#convert-conductance-into-effective-distance">4. Convert conductance into effective distance<span></span></a></li>
+<li><a href="WE_10.html#create-cost-distance-matrices">5. Create cost-distance matrices<span></span></a></li>
+<li><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics">6. How does changing resolution affect these metrics?<span></span></a></li>
+<li><a href="WE_10.html#references">7. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial<span></span></a>
+<ul>
+<li><a href="bonus-10a.html#overview-of-bonus-materials-1">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus-10a.html#import-data">2. Import data<span></span></a></li>
+<li><a href="bonus-10a.html#basic-model-fitting">3. Basic model fitting<span></span></a></li>
+<li><a href="bonus-10a.html#advanced-modeling-topics">4. Advanced modeling topics<span></span></a></li>
+<li><a href="bonus-10a.html#summary">5. Summary<span></span></a></li>
+<li><a href="bonus-10a.html#references-1">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation<span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_11.html#overview-of-worked-example-10">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_11.html#import-and-prepare-the-data">2. Import and prepare the data<span></span></a></li>
+<li><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea">3. Latent Factor Mixed Models (LFMM): a univariate GEA<span></span></a></li>
+<li><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea">4. Redundancy Analysis (RDA): a multivariate GEA<span></span></a></li>
+<li><a href="WE_11.html#compare-lfmm-and-rda-candidates">5. Compare LFMM and RDA candidates<span></span></a></li>
+<li><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda">6. A quick note on controlling for population structure in RDA<span></span></a></li>
+<li><a href="WE_11.html#references-2">7. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection<span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_12.html#overview-of-worked-example-11">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_12.html#fitting-candidate-models">2. Fitting candidate models<span></span></a></li>
+<li><a href="WE_12.html#your-turn-to-test-additional-hypotheses">3. Your turn to test additional hypotheses!<span></span></a></li>
+<li><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs">4. Nested model (NMLPE) for hierarchical sampling designs<span></span></a></li>
+<li><a href="WE_12.html#references-3">5. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_13.html#overview-of-worked-example-12">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_13.html#setup">2. Setup<span></span></a></li>
+<li><a href="WE_13.html#wetland-complex-data-preparation">3. Wetland complex data preparation<span></span></a></li>
+<li><a href="WE_13.html#wetland-field-data-preparation">4. Wetland field-data preparation<span></span></a></li>
+<li><a href="WE_13.html#saturated-graph">5. Saturated Graph<span></span></a></li>
+<li><a href="WE_13.html#spatial-model-data-prepration">6. Spatial model data prepration<span></span></a></li>
+<li><a href="WE_13.html#gravity-model">7. Gravity model<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_14.html#overview-3">1. Overview<span></span></a></li>
+<li><a href="WE_14.html#import-genotypes">2. Import Genotypes<span></span></a></li>
+<li><a href="WE_14.html#pollen-pool-genetic-structure">3. Pollen pool genetic structure<span></span></a></li>
+<li><a href="WE_14.html#paternity-analysis">4. Paternity analysis<span></span></a></li>
+<li><a href="WE_14.html#linking-paternity-to-ecological-variables">5. Linking paternity to ecological variables<span></span></a></li>
+<li><a href="WE_14.html#references-4">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="WE_9" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Worked Example<a href="WE_9.html#WE_9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sean Schoville</p>
+<div id="overview-of-worked-example-8" class="section level3 unnumbered hasAnchor">
+<h3>1. Overview of Worked Example<a href="WE_9.html#overview-of-worked-example-8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-goals-10" class="section level4 unnumbered hasAnchor">
+<h4>a. Goals<a href="WE_9.html#a.-goals-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The goals of this lab are to:</p>
+<ul>
+<li>Assess how patterns of genetic variation can be used to delimit natural populations.</li>
+<li>Compare methods that assess population structure.</li>
+<li>Understand how population structure can be used to interpret biogeographic history.</li>
+</ul>
+</div>
+<div id="b.-data-sets" class="section level4 unnumbered hasAnchor">
+<h4>b. Data sets<a href="WE_9.html#b.-data-sets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>All files are distributed as system files with the ‘LandGenCourse’ package (folder ‘extdata’).</p>
+<ul>
+<li>Simulated data using the two-island model and admixture model.</li>
+<li>SNP data from Catchen et al. 2013 Catchen et al. 2013. The population structure and recent colonization history of Oregon threespine stickleback determined using restriction-site associated DNA-sequencing. Molecular Ecology 22:1365-294X. <a href="http://dx.doi.org/10.1111/mec.12330" class="uri">http://dx.doi.org/10.1111/mec.12330</a></li>
+</ul>
+</div>
+<div id="c.-required-r-packages-8" class="section level4 unnumbered hasAnchor">
+<h4>c. Required R packages<a href="WE_9.html#c.-required-r-packages-8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Note: the function ‘library’ will always load the package, even if it is already loaded, whereas ‘require’ will only load it if it is not yet loaded. Either will work.</p>
+<div class="sourceCode" id="cb1067"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1067-1"><a href="WE_9.html#cb1067-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb1067-2"><a href="WE_9.html#cb1067-2" aria-hidden="true" tabindex="-1"></a><span class="co">#require(LandGenCourseData)</span></span>
+<span id="cb1067-3"><a href="WE_9.html#cb1067-3" aria-hidden="true" tabindex="-1"></a><span class="co">#require(fields)  </span></span>
+<span id="cb1067-4"><a href="WE_9.html#cb1067-4" aria-hidden="true" tabindex="-1"></a><span class="co">#require(RColorBrewer)</span></span>
+<span id="cb1067-5"><a href="WE_9.html#cb1067-5" aria-hidden="true" tabindex="-1"></a><span class="co">#require(maps)</span></span>
+<span id="cb1067-6"><a href="WE_9.html#cb1067-6" aria-hidden="true" tabindex="-1"></a><span class="co">#require(mapplots)</span></span>
+<span id="cb1067-7"><a href="WE_9.html#cb1067-7" aria-hidden="true" tabindex="-1"></a><span class="co">#require(here)</span></span></code></pre></div>
+<p>The package ‘LEA’ is available from the ‘Bioconductor’ repository. Also, package ‘fields’ was not installed with ‘LandGenCourse’ automatically due to compatibility issues.</p>
+<div class="sourceCode" id="cb1068"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1068-1"><a href="WE_9.html#cb1068-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;fields&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
+<span id="cb1068-2"><a href="WE_9.html#cb1068-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1068-3"><a href="WE_9.html#cb1068-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LEA&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  </span>
+<span id="cb1068-4"><a href="WE_9.html#cb1068-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1068-5"><a href="WE_9.html#cb1068-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1068-6"><a href="WE_9.html#cb1068-6" aria-hidden="true" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;LEA&quot;</span>)</span>
+<span id="cb1068-7"><a href="WE_9.html#cb1068-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The data are in a data package:</p>
+<div class="sourceCode" id="cb1069"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1069-1"><a href="WE_9.html#cb1069-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;LandGenCourseData&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1069-2"><a href="WE_9.html#cb1069-2" aria-hidden="true" tabindex="-1"></a>            devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hhwagner1/LandGenCourseData&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="simulated-data-2-island-model" class="section level3 unnumbered hasAnchor">
+<h3>2. Simulated data: 2-island model<a href="WE_9.html#simulated-data-2-island-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We simulated data under a classic two-island model, using the coalescent simulation program ‘ms,’ developed by Richard Hudson. The program simulates a coalescent tree under various demographic models, and uses those trees to create allelic data. For those interested in using ‘ms,’ the source code is available here: <a href="http://home.uchicago.edu/rhudson1/source/mksamples.html" class="uri">http://home.uchicago.edu/rhudson1/source/mksamples.html</a></p>
+<p>We simulated 200 haploid individuals genotyped at 100 loci. The effective mutation rate was ‘μ = 0.5.’ We sampled 2 islands with 100 individuals in each. The effective migration rate was ‘Nm 2’ (‘N’ is the effective size in each of the two island, ‘m’ is the bidirectional rate of gene flow).</p>
+<p>Our ms command was as follows:
+ms 200 100 -t .5 -I 2 100 100 -ma x 2 2 x &gt; dataNm2.txt</p>
+<p>These raw data need to be converted in a format amenable to statistical analyses in R.</p>
+<div id="a.-import-data-1" class="section level4 unnumbered hasAnchor">
+<h4>a. Import data<a href="WE_9.html#a.-import-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb1070"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1070-1"><a href="WE_9.html#cb1070-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb1070-2"><a href="WE_9.html#cb1070-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span>
+<span id="cb1070-3"><a href="WE_9.html#cb1070-3" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb1070-4"><a href="WE_9.html#cb1070-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(locus <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb1070-5"><a href="WE_9.html#cb1070-5" aria-hidden="true" tabindex="-1"></a>    res.locus <span class="ot">&lt;-</span> file[<span class="dv">4</span><span class="sc">:</span><span class="dv">203</span>]</span>
+<span id="cb1070-6"><a href="WE_9.html#cb1070-6" aria-hidden="true" tabindex="-1"></a>    file <span class="ot">&lt;-</span> file[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">203</span>)]</span>
+<span id="cb1070-7"><a href="WE_9.html#cb1070-7" aria-hidden="true" tabindex="-1"></a>    genotype <span class="ot">&lt;-</span> <span class="fu">cbind</span>(genotype, <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(res.locus)))}</span>
+<span id="cb1070-8"><a href="WE_9.html#cb1070-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(genotype)</span></code></pre></div>
+<pre><code>## [1] 200 100</code></pre>
+<p>Now we have a new data file, genotype, loaded in R. This file contains 200 rows and 100 columns. Each row corresponds to a simulated individual. The columns code for their multi-locus genotypes.</p>
+</div>
+<div id="b.-perform-principal-components-analysis-pca" class="section level4 unnumbered hasAnchor">
+<h4>b. Perform Principal Components Analysis (PCA)<a href="WE_9.html#b.-perform-principal-components-analysis-pca" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Our first objective is to use ordination (Principal components analysis, or PCA) to examine population structure for the Nm = 2 data set.</p>
+<p>The R command for PCA is fairly simple and fast:</p>
+<div class="sourceCode" id="cb1072"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1072-1"><a href="WE_9.html#cb1072-1" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">=</span> <span class="fu">prcomp</span>(genotype, <span class="at">scale =</span>T)   </span></code></pre></div>
+<p>In order to visualize how the first two eigenvectors capture genotype variation, we will color each population.</p>
+<div class="sourceCode" id="cb1073"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1073-1"><a href="WE_9.html#cb1073-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1073-2"><a href="WE_9.html#cb1073-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>, <span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><strong>Question 1:</strong></p>
+<ul>
+<li>Is population structure (genetic differentiation) evident?</li>
+<li>How much of the genetic variance can be explained by our first two components?</li>
+</ul>
+<p>To answer the second part of this question, use:</p>
+<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="WE_9.html#cb1074-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pc)</span></code></pre></div>
+<pre><code>## Importance of components:
+##                            PC1     PC2    PC3     PC4     PC5     PC6     PC7
+## Standard deviation     2.77699 1.65283 1.5587 1.53452 1.48944 1.48496 1.46718
+## Proportion of Variance 0.07712 0.02732 0.0243 0.02355 0.02218 0.02205 0.02153
+## Cumulative Proportion  0.07712 0.10443 0.1287 0.15228 0.17446 0.19651 0.21804
+##                            PC8     PC9    PC10    PC11    PC12    PC13    PC14
+## Standard deviation     1.43774 1.41957 1.40980 1.40041 1.38541 1.37335 1.35879
+## Proportion of Variance 0.02067 0.02015 0.01988 0.01961 0.01919 0.01886 0.01846
+## Cumulative Proportion  0.23871 0.25886 0.27874 0.29835 0.31754 0.33640 0.35487
+##                           PC15    PC16   PC17    PC18    PC19    PC20    PC21
+## Standard deviation     1.35395 1.31441 1.3078 1.30115 1.29493 1.26846 1.26525
+## Proportion of Variance 0.01833 0.01728 0.0171 0.01693 0.01677 0.01609 0.01601
+## Cumulative Proportion  0.37320 0.39048 0.4076 0.42451 0.44128 0.45737 0.47338
+##                           PC22    PC23    PC24    PC25    PC26    PC27    PC28
+## Standard deviation     1.23786 1.23212 1.22814 1.20358 1.18924 1.17923 1.17139
+## Proportion of Variance 0.01532 0.01518 0.01508 0.01449 0.01414 0.01391 0.01372
+## Cumulative Proportion  0.48870 0.50388 0.51896 0.53345 0.54759 0.56150 0.57522
+##                           PC29    PC30    PC31    PC32    PC33    PC34    PC35
+## Standard deviation     1.16216 1.12304 1.10610 1.10157 1.09177 1.07816 1.05735
+## Proportion of Variance 0.01351 0.01261 0.01223 0.01213 0.01192 0.01162 0.01118
+## Cumulative Proportion  0.58873 0.60134 0.61357 0.62571 0.63763 0.64925 0.66043
+##                           PC36    PC37    PC38    PC39    PC40    PC41    PC42
+## Standard deviation     1.04793 1.02672 1.01936 1.01364 1.00225 0.99349 0.98594
+## Proportion of Variance 0.01098 0.01054 0.01039 0.01027 0.01005 0.00987 0.00972
+## Cumulative Proportion  0.67141 0.68195 0.69235 0.70262 0.71267 0.72254 0.73226
+##                           PC43    PC44   PC45    PC46    PC47    PC48    PC49
+## Standard deviation     0.96673 0.96357 0.9485 0.94380 0.92308 0.91570 0.90220
+## Proportion of Variance 0.00935 0.00928 0.0090 0.00891 0.00852 0.00839 0.00814
+## Cumulative Proportion  0.74160 0.75089 0.7599 0.76879 0.77731 0.78570 0.79384
+##                           PC50    PC51    PC52    PC53    PC54    PC55    PC56
+## Standard deviation     0.89163 0.88277 0.86488 0.84941 0.83872 0.83328 0.82304
+## Proportion of Variance 0.00795 0.00779 0.00748 0.00721 0.00703 0.00694 0.00677
+## Cumulative Proportion  0.80179 0.80958 0.81706 0.82427 0.83131 0.83825 0.84503
+##                           PC57    PC58    PC59    PC60    PC61    PC62   PC63
+## Standard deviation     0.81748 0.80746 0.79085 0.77042 0.76650 0.76104 0.7553
+## Proportion of Variance 0.00668 0.00652 0.00625 0.00594 0.00588 0.00579 0.0057
+## Cumulative Proportion  0.85171 0.85823 0.86448 0.87042 0.87629 0.88209 0.8878
+##                           PC64   PC65    PC66    PC67    PC68    PC69    PC70
+## Standard deviation     0.72978 0.7279 0.72353 0.70575 0.69818 0.68517 0.68335
+## Proportion of Variance 0.00533 0.0053 0.00523 0.00498 0.00487 0.00469 0.00467
+## Cumulative Proportion  0.89312 0.8984 0.90365 0.90863 0.91351 0.91820 0.92287
+##                           PC71    PC72    PC73    PC74    PC75    PC76    PC77
+## Standard deviation     0.67501 0.65756 0.63896 0.62114 0.61388 0.60925 0.60217
+## Proportion of Variance 0.00456 0.00432 0.00408 0.00386 0.00377 0.00371 0.00363
+## Cumulative Proportion  0.92743 0.93175 0.93583 0.93969 0.94346 0.94717 0.95080
+##                           PC78    PC79    PC80    PC81    PC82    PC83    PC84
+## Standard deviation     0.58408 0.56742 0.55817 0.54962 0.53610 0.52625 0.52442
+## Proportion of Variance 0.00341 0.00322 0.00312 0.00302 0.00287 0.00277 0.00275
+## Cumulative Proportion  0.95421 0.95743 0.96054 0.96356 0.96644 0.96921 0.97196
+##                           PC85    PC86   PC87    PC88    PC89    PC90    PC91
+## Standard deviation     0.50528 0.49755 0.4798 0.46734 0.45256 0.44882 0.44121
+## Proportion of Variance 0.00255 0.00248 0.0023 0.00218 0.00205 0.00201 0.00195
+## Cumulative Proportion  0.97451 0.97699 0.9793 0.98147 0.98352 0.98554 0.98748
+##                           PC92    PC93    PC94    PC95    PC96    PC97    PC98
+## Standard deviation     0.41786 0.41163 0.39781 0.37758 0.36923 0.36602 0.34913
+## Proportion of Variance 0.00175 0.00169 0.00158 0.00143 0.00136 0.00134 0.00122
+## Cumulative Proportion  0.98923 0.99092 0.99251 0.99393 0.99529 0.99663 0.99785
+##                           PC99   PC100
+## Standard deviation     0.34128 0.31336
+## Proportion of Variance 0.00116 0.00098
+## Cumulative Proportion  0.99902 1.00000</code></pre>
+<p>Next we would like to see how population genetic structure relates to geographic space. To this aim, we could display PC maps. A PC map is a spatial interpolation of a particular component. Let’s map PC 1.</p>
+</div>
+<div id="c.-create-synthetic-spatial-coordinates-xy-and-map-them" class="section level4 unnumbered hasAnchor">
+<h4>c. Create synthetic spatial coordinates (X,Y) and map them<a href="WE_9.html#c.-create-synthetic-spatial-coordinates-xy-and-map-them" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb1076"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1076-1"><a href="WE_9.html#cb1076-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1076-2"><a href="WE_9.html#cb1076-2" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">sort</span>(<span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">1</span>))), <span class="fu">runif</span>(<span class="dv">200</span>))</span>
+<span id="cb1076-3"><a href="WE_9.html#cb1076-3" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(coord, pc<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span>
+<span id="cb1076-4"><a href="WE_9.html#cb1076-4" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
+<span id="cb1076-5"><a href="WE_9.html#cb1076-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(coord, <span class="at">pch=</span><span class="dv">19</span>) </span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>This map predicts the value of the first principal component at each location in our study area. We observe that the study area is partitioned into two zones that correspond to the 2 clusters visible from PC 1. We have superimposed individual sample sites to see our species distribution.</p>
+<p>To check that the PC map is consistent with having 2 islands, we can examine the PC assignment vs the sampling location. Remember that, in the data sets, the 100 first individuals were sampled from island 1 and the last 100 were sampled from island 2. We compare these assignments to the PCA classification as follows.</p>
+<div class="sourceCode" id="cb1077"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1077-1"><a href="WE_9.html#cb1077-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>((pc<span class="sc">$</span>x[,<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">==</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span> <span class="sc">&lt;=</span> <span class="dv">100</span>))</span></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##     1   199</code></pre>
+<p>In this example, we found that only one individual was not assigned to its island of origin. Well, this individual might be a migrant from the last generation. These results indicated that a very simple method based on principal component analysis can correctly describe spatial population genetic structure.</p>
+<p><strong>Question 2:</strong> Does PCA provide an accurate description of population genetic structure when the genetic differentiation between the 2 islands is less pronounced?</p>
+<p>To answer this question, re-run the first analytical steps up to PCA for data simulated with Nm = 10 (a higher value of gene flow), which is stored in datafile “dataNm10.txt.” This was generated with the following ms command:</p>
+<p>ms 200 100 -t .5 -I 2 100 100 -ma x 10 10 x &gt; dataNm10.txt</p>
+<p>You can import the file as:</p>
+<div class="sourceCode" id="cb1079"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1079-1"><a href="WE_9.html#cb1079-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">scan</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb1079-2"><a href="WE_9.html#cb1079-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">what =</span><span class="st">&quot;character&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="simulated-data-2-island-model-with-admixture" class="section level3 unnumbered hasAnchor">
+<h3>3. Simulated data: 2-island model with admixture<a href="WE_9.html#simulated-data-2-island-model-with-admixture" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="figure">
+<img src="vignettes/WE9_Fig1.png" alt="" />
+<p class="caption">2-island model</p>
+</div>
+<p>A 2-island model is a relatively simple scenario and unlikely to capture the variation we will see in empirical studies. Will our very basic assignment method based on PCA hold up to more complex scenarios?</p>
+<p>Let’s consider a scenario where the 2 populations had been evolving for a long time under an equilibrium island model, and then their environment suddenly changed. Our 2 populations had to move to track their shifting habitat, and after these movements they come into contact in an intermediate region. This contact event resulted in an admixed population with the density of mixed individuals greater in the center of the contact zone than at the ancestral origins at the edges of the landscape.</p>
+<p>Using R and our previous simulation, a multi-locus cline that resumes this scenario can be simulated has follows. The source population data are in the file “dataNm1.str.”</p>
+<p>First we define a function for the shape of a cline:</p>
+<div class="sourceCode" id="cb1080"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1080-1"><a href="WE_9.html#cb1080-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A function for the shape of a cline</span></span>
+<span id="cb1080-2"><a href="WE_9.html#cb1080-2" aria-hidden="true" tabindex="-1"></a>sigmoid <span class="ot">&lt;-</span> <span class="cf">function</span>(x){ <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))}</span>
+<span id="cb1080-3"><a href="WE_9.html#cb1080-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">sigmoid</span>( <span class="fl">0.5</span> <span class="sc">*</span> coord[,<span class="dv">1</span>])</span></code></pre></div>
+<p>Our admixed genotypes are built from a 2 island model with low gene flow (Nm=1)</p>
+<div class="sourceCode" id="cb1081"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1081-1"><a href="WE_9.html#cb1081-1" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">=</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dataNm1.str&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<span id="cb1081-2"><a href="WE_9.html#cb1081-2" aria-hidden="true" tabindex="-1"></a>admixed.genotype <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">ncol =</span> <span class="dv">100</span>, <span class="at">nrow =</span> <span class="dv">200</span>)</span>
+<span id="cb1081-3"><a href="WE_9.html#cb1081-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb1081-4"><a href="WE_9.html#cb1081-4" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i, j],genotype[i<span class="sc">+</span><span class="dv">100</span>, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
+<span id="cb1081-5"><a href="WE_9.html#cb1081-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1081-6"><a href="WE_9.html#cb1081-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">101</span><span class="sc">:</span><span class="dv">200</span>){ <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) </span>
+<span id="cb1081-7"><a href="WE_9.html#cb1081-7" aria-hidden="true" tabindex="-1"></a>admixed.genotype[i,j] <span class="ot">=</span> <span class="fu">sample</span>( <span class="fu">c</span>(genotype[i <span class="sc">-</span> <span class="dv">100</span>, j],genotype[i, j]), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(p1[i], <span class="dv">1</span> <span class="sc">-</span> p1[i]) )}</span>
+<span id="cb1081-8"><a href="WE_9.html#cb1081-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(coord, admixed.genotype)</span></code></pre></div>
+<p>Now our data set is the R object ‘res.’ The next exercise is to apply PCA to these data to evaluate how geographical genetic variation can be captured by this approach. In comparison with the previous example where we had two geographically discrete populations, we now have a “continuous” population in a landscape. Geographical genetic variation is thus expected to be more gradual than in the previous example. Generate and examine the PC 1 map.</p>
+<div class="sourceCode" id="cb1082"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1082-1"><a href="WE_9.html#cb1082-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1082-2"><a href="WE_9.html#cb1082-2" aria-hidden="true" tabindex="-1"></a>pcA <span class="ot">=</span> <span class="fu">prcomp</span>(admixed.genotype, <span class="at">scale =</span>T)   </span>
+<span id="cb1082-3"><a href="WE_9.html#cb1082-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcA<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue2&quot;</span>,<span class="st">&quot;orange&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Look at the PC Map</p>
+<div class="sourceCode" id="cb1083"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1083-1"><a href="WE_9.html#cb1083-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1083-2"><a href="WE_9.html#cb1083-2" aria-hidden="true" tabindex="-1"></a>fit  <span class="ot">&lt;-</span> fields<span class="sc">::</span><span class="fu">Krig</span>(res, pcA<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">m=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Warning: 
+## Grid searches over lambda (nugget and sill variances) with  minima at the endpoints: 
+##   (REML) Restricted maximum likelihood 
+##    minimum at  right endpoint  lambda  =  0.05291003 (eff. df= 190 )</code></pre>
+<div class="sourceCode" id="cb1085"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1085-1"><a href="WE_9.html#cb1085-1" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">surface</span>(fit)</span>
+<span id="cb1085-2"><a href="WE_9.html#cb1085-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(res) </span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><strong>Question 3:</strong> How does admixture change our prediction of population structure (PCA plot)? Is genomic ancestry correlated with geographical location?</p>
+<p>To answer this latter part, check the R2 and significance of statistical association between PC1 component scores and geographical position (p1):</p>
+<div class="sourceCode" id="cb1086"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1086-1"><a href="WE_9.html#cb1086-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(pcA<span class="sc">$</span>x[,<span class="dv">1</span>]<span class="sc">~</span> p1))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = pcA$x[, 1] ~ p1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.61413 -0.68421 -0.05296  0.67709  2.65141 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   3.9845     0.1667   23.91   &lt;2e-16 ***
+## p1           -7.9993     0.3004  -26.63   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.038 on 198 degrees of freedom
+## Multiple R-squared:  0.7817, Adjusted R-squared:  0.7806 
+## F-statistic: 709.1 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="empirical-data-threespine-sticklebacks" class="section level3 unnumbered hasAnchor">
+<h3>4. Empirical data: Threespine sticklebacks<a href="WE_9.html#empirical-data-threespine-sticklebacks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Threespine stickleback (Gasterosteus aculeatus) is a fish that has emerged as a model of rapid and parallel adaptation. Catchen et al. (2013) were interested in how populations colonize freshwater habitats in the Pacific Northwest, USA. These sticklebacks have diversified into three life history forms, one exclusively dwelling in the ocean, another being adapted to freshwater habitats, and one unusual population that can utilize both habitats. It was unclear if this one particular population (Riverbend), from a stream in central Oregon, was introduced due to unintentional human transport, and if this could be an example of rapid adaptation to freshwater from oceanic populations. Single nucleotide polymorphism data were generated using genotyping-by-sequencing, for 9 populations occupying coastal areas and inland streams.</p>
+<div class="figure">
+<img src="vignettes/WE9_Fig2.png" alt="" />
+<p class="caption">Map</p>
+</div>
+<p>In this tutorial, we will analyze the genetic data generated by Catchen et al. (2013) using a few exploratory methods to quantify and visualize genetic differentiation among the stickleback populations sampled. By the end of this tutorial, hopefully you will be able to make a convincing argument for the regional origin of the recently-introduced inland stickleback population.</p>
+<div id="a.-import-the-data" class="section level4 unnumbered hasAnchor">
+<h4>a. Import the data<a href="WE_9.html#a.-import-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb1088"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1088-1"><a href="WE_9.html#cb1088-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_data.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
+<span id="cb1088-2"><a href="WE_9.html#cb1088-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F)</span></code></pre></div>
+<p>Create a list of population IDs:</p>
+<div class="sourceCode" id="cb1089"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1089-1"><a href="WE_9.html#cb1089-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">rownames</span>(data),</span>
+<span id="cb1089-2"><a href="WE_9.html#cb1089-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">function</span>(x){y<span class="ot">&lt;-</span><span class="fu">c</span>();y<span class="ot">&lt;-</span><span class="fu">c</span>(y,<span class="fu">unlist</span>(<span class="fu">strsplit</span>(x,<span class="st">&quot;_&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]))})))         </span></code></pre></div>
+<p>To understand the experimental design a bit better, let’s look at the sample size at each site.</p>
+<div class="sourceCode" id="cb1090"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1090-1"><a href="WE_9.html#cb1090-1" aria-hidden="true" tabindex="-1"></a>sample_sites <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">nrow</span>(data))</span>
+<span id="cb1090-2"><a href="WE_9.html#cb1090-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data)){</span>
+<span id="cb1090-3"><a href="WE_9.html#cb1090-3" aria-hidden="true" tabindex="-1"></a>  sample_sites[i] <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="fu">rownames</span>(data),<span class="st">&quot;_&quot;</span>)[[i]][<span class="dv">1</span>]}</span>
+<span id="cb1090-4"><a href="WE_9.html#cb1090-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(pops,<span class="cf">function</span>(x){<span class="fu">length</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>x))}))</span>
+<span id="cb1090-5"><a href="WE_9.html#cb1090-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(N) <span class="ot">&lt;-</span> pops</span>
+<span id="cb1090-6"><a href="WE_9.html#cb1090-6" aria-hidden="true" tabindex="-1"></a>N</span></code></pre></div>
+<pre><code>##  cr  cs pcr  pl  sj stl  wc  rb  ms 
+##  23  97  67  20  86  50  22 138  68</code></pre>
+</div>
+<div id="b.-examine-population-structure-with-pca" class="section level4 unnumbered hasAnchor">
+<h4>b. Examine population structure with PCA<a href="WE_9.html#b.-examine-population-structure-with-pca" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s start examining population structure, first using PCA. We’ll look at the amount of variation explained in the first few components, and then we’ll plot individuals for four components, coloring them by population.</p>
+<div class="sourceCode" id="cb1092"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1092-1"><a href="WE_9.html#cb1092-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1092-2"><a href="WE_9.html#cb1092-2" aria-hidden="true" tabindex="-1"></a>pcaS <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data,<span class="at">center=</span>T)</span>
+<span id="cb1092-3"><a href="WE_9.html#cb1092-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>), <span class="at">xlab=</span><span class="st">&quot;PC&quot;</span>,</span>
+<span id="cb1092-4"><a href="WE_9.html#cb1092-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Fraction Variation Explained&quot;</span>, <span class="at">main=</span><span class="st">&quot;Scree plot&quot;</span>)</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Get % variance explained for first few PCs:</p>
+<div class="sourceCode" id="cb1093"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1093-1"><a href="WE_9.html#cb1093-1" aria-hidden="true" tabindex="-1"></a>perc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pcaS<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],<span class="dv">2</span>)</span>
+<span id="cb1093-2"><a href="WE_9.html#cb1093-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(perc) <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">array</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>)), <span class="dv">1</span>, <span class="cf">function</span>(x){<span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, x)})</span>
+<span id="cb1093-3"><a href="WE_9.html#cb1093-3" aria-hidden="true" tabindex="-1"></a>perc </span></code></pre></div>
+<pre><code>##   PC1   PC2   PC3   PC4   PC5   PC6   PC7   PC8   PC9  PC10 
+## 37.47  3.78  2.55  0.88  0.76  0.44  0.44  0.39  0.37  0.32</code></pre>
+<p>Use the RColorBrewer package to select a color palette:</p>
+<div class="sourceCode" id="cb1095"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1095-1"><a href="WE_9.html#cb1095-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Paired&quot;</span>) </span></code></pre></div>
+<p>Plot first three PCs with colored symbols:</p>
+<div class="sourceCode" id="cb1096"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1096-1"><a href="WE_9.html#cb1096-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1096-2"><a href="WE_9.html#cb1096-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb1096-3"><a href="WE_9.html#cb1096-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(<span class="fu">factor</span>(sample_sites)), </span>
+<span id="cb1096-4"><a href="WE_9.html#cb1096-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span>colors, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb1096-5"><a href="WE_9.html#cb1096-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb1096-6"><a href="WE_9.html#cb1096-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcaS<span class="sc">$</span>x[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">col=</span>colors[<span class="fu">factor</span>(sample_sites)], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><strong>Question 4:</strong></p>
+<ul>
+<li>Do you see evidence of population structure?</li>
+<li>Is the number of components (here 4) a good representation of the number of populations?</li>
+</ul>
+</div>
+<div id="c.-clustering-with-snmf-similar-to-structure" class="section level4 unnumbered hasAnchor">
+<h4>c. Clustering with SNMF (similar to ‘STRUCTURE’)<a href="WE_9.html#c.-clustering-with-snmf-similar-to-structure" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Now we are going to use a clustering method to examine population structure. There are many approaches, with various assumptions, and it is important to consider the underlying biology of your research organism (and your dataset size) before choosing an appropriate method.</p>
+<p>Here, we will use sparse negative matrix factorization (SNMF) because it is fast to compute for large datasets and it approximates the results of the well-known STRUCTURE algorithm. Notably, it relaxes population genetic assumptions such as Hardy-Weinberg proportions, so it may not converge on the same results as other programs.</p>
+<p>We can use SNMF to estimate the number of genetic clusters (K) among our sampled populations. However, this may take a long time. If you want to run the analysis, un-comment the lines by removing the ‘#’ symbol at the beginning of each line.</p>
+<p>We use SNMF’s cross-entropy criterion to infer the best estimate of K. The lower the cross-entropy, the better our model accounts for population structure. Sometimes cross-entropy continues to decline, so we might choose K where cross entropy first decreases the most.</p>
+<div class="sourceCode" id="cb1097"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1097-1"><a href="WE_9.html#cb1097-1" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(paste0(here::here(), &quot;/data/stickleback.geno&quot;), </span></span>
+<span id="cb1097-2"><a href="WE_9.html#cb1097-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                   K=1:8, ploidy=2, entropy=T, alpha=100, project=&quot;new&quot;)</span></span>
+<span id="cb1097-3"><a href="WE_9.html#cb1097-3" aria-hidden="true" tabindex="-1"></a><span class="co">#snmf2 &lt;- LEA::snmf(&quot;stickleback.geno&quot;, K=1:8, ploidy=2, entropy=T, </span></span>
+<span id="cb1097-4"><a href="WE_9.html#cb1097-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                   alpha=100, project=&quot;new&quot;)</span></span>
+<span id="cb1097-5"><a href="WE_9.html#cb1097-5" aria-hidden="true" tabindex="-1"></a><span class="co">#par(mfrow=c(1,1))</span></span>
+<span id="cb1097-6"><a href="WE_9.html#cb1097-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(snmf2, col=&quot;blue4&quot;, cex=1.4, pch=19)</span></span></code></pre></div>
+<p>INSERT FIGURE WITH RESULT?</p>
+<p>The number of clusters is hard to determine, but four seems to be important and is similar to the results revealed by PCA. I will proceed assuming K=4. We will rerun SNMF using this setting.</p>
+<div class="sourceCode" id="cb1098"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1098-1"><a href="WE_9.html#cb1098-1" aria-hidden="true" tabindex="-1"></a>K<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb1098-2"><a href="WE_9.html#cb1098-2" aria-hidden="true" tabindex="-1"></a>snmf <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">snmf</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback.geno&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), </span>
+<span id="cb1098-3"><a href="WE_9.html#cb1098-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">K =</span> K, <span class="at">alpha =</span> <span class="dv">100</span>, <span class="at">project =</span> <span class="st">&quot;new&quot;</span>)</span></code></pre></div>
+<pre><code>## The project is saved into :
+##  urseData/extdata/stickleback.snmfProject 
+## 
+## To load the project, use:
+##  project = load.snmfProject(&quot;urseData/extdata/stickleback.snmfProject&quot;)
+## 
+## To remove the project, use:
+##  remove.snmfProject(&quot;urseData/extdata/stickleback.snmfProject&quot;)
+## 
+## [1] &quot;*************************************&quot;
+## [1] &quot;* sNMF K = 4  repetition 1      *&quot;
+## [1] &quot;*************************************&quot;
+## summary of the options:
+## 
+##         -n (number of individuals)             571
+##         -L (number of loci)                    10000
+##         -K (number of ancestral pops)          4
+##         -x (input file)                        /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.geno
+##         -q (individual admixture file)         /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.Q
+##         -g (ancestral frequencies file)        /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.G
+##         -i (number max of iterations)          200
+##         -a (regularization parameter)          100
+##         -s (seed random init)                  140579146712667
+##         -e (tolerance error)                   1E-05
+##         -p (number of processes)               1
+##         - diploid
+## 
+## Read genotype file /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.geno:        OK.
+## 
+## 
+## Main algorithm:
+##  [                                                                           ]
+##  [=========]
+## Number of iterations: 24
+## 
+## Least-square error: 722700.268900
+## Write individual ancestry coefficient file /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.Q:     OK.
+## Write ancestral allele frequency coefficient file /Library/Frameworks/R.framework/Versions/4.1/Resources/library/LandGenCourseData/extdata/stickleback.snmf/K4/run1/stickleback_r1.4.G:  OK.
+## 
+## The project is saved into :
+##  urseData/extdata/stickleback.snmfProject 
+## 
+## To load the project, use:
+##  project = load.snmfProject(&quot;urseData/extdata/stickleback.snmfProject&quot;)
+## 
+## To remove the project, use:
+##  remove.snmfProject(&quot;urseData/extdata/stickleback.snmfProject&quot;)</code></pre>
+</div>
+<div id="d.-plot-ancestry-proportions" class="section level4 unnumbered hasAnchor">
+<h4>d. Plot ancestry proportions<a href="WE_9.html#d.-plot-ancestry-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Create matrix of ancestry proportions:</p>
+<div class="sourceCode" id="cb1100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1100-1"><a href="WE_9.html#cb1100-1" aria-hidden="true" tabindex="-1"></a>qmatrix <span class="ot">=</span> LEA<span class="sc">::</span><span class="fu">Q</span>(snmf, <span class="at">K =</span> K)</span></code></pre></div>
+<p>Plot results with a barplot similar to that used to represent STRUCTURE results</p>
+<div class="sourceCode" id="cb1101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1101-1"><a href="WE_9.html#cb1101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1101-2"><a href="WE_9.html#cb1101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">t</span>(qmatrix), <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>,<span class="st">&quot;Paired&quot;</span>), </span>
+<span id="cb1101-3"><a href="WE_9.html#cb1101-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">border=</span><span class="cn">NA</span>, <span class="at">space=</span><span class="dv">0</span>, <span class="at">xlab=</span><span class="st">&quot;Individuals&quot;</span>, </span>
+<span id="cb1101-4"><a href="WE_9.html#cb1101-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;Admixture coefficients&quot;</span>)</span>
+<span id="cb1101-5"><a href="WE_9.html#cb1101-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Add population labels to the axis:</span></span>
+<span id="cb1101-6"><a href="WE_9.html#cb1101-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb1101-7"><a href="WE_9.html#cb1101-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">median</span>(<span class="fu">which</span>(sample_sites<span class="sc">==</span>pops[i])), <span class="at">labels=</span>pops[i])}</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+</div>
+<div id="e.-visualize-admixture-proportions-on-a-map" class="section level4 unnumbered hasAnchor">
+<h4>e. Visualize admixture proportions on a map<a href="WE_9.html#e.-visualize-admixture-proportions-on-a-map" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Import geographical coordinates for the populations:</p>
+<div class="sourceCode" id="cb1102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1102-1"><a href="WE_9.html#cb1102-1" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;stickleback_coordinates.csv&quot;</span>, </span>
+<span id="cb1102-2"><a href="WE_9.html#cb1102-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">package =</span> <span class="st">&quot;LandGenCourseData&quot;</span>), <span class="at">as.is=</span>T, <span class="at">check.names=</span>F, <span class="at">h=</span>T)</span></code></pre></div>
+<p>Calculate population average ancestry proportions and create an array with population coordinates:</p>
+<div class="sourceCode" id="cb1103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1103-1"><a href="WE_9.html#cb1103-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize array for ancestry proportions:</span></span>
+<span id="cb1103-2"><a href="WE_9.html#cb1103-2" aria-hidden="true" tabindex="-1"></a>qpop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span>K) </span>
+<span id="cb1103-3"><a href="WE_9.html#cb1103-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1103-4"><a href="WE_9.html#cb1103-4" aria-hidden="true" tabindex="-1"></a><span class="co">#intialize array for coordinates:</span></span>
+<span id="cb1103-5"><a href="WE_9.html#cb1103-5" aria-hidden="true" tabindex="-1"></a>coord.pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="fu">length</span>(pops),<span class="at">ncol=</span><span class="dv">2</span>) </span>
+<span id="cb1103-6"><a href="WE_9.html#cb1103-6" aria-hidden="true" tabindex="-1"></a>index<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1103-7"><a href="WE_9.html#cb1103-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1103-8"><a href="WE_9.html#cb1103-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb1103-9"><a href="WE_9.html#cb1103-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i<span class="sc">==</span><span class="dv">1</span>){</span>
+<span id="cb1103-10"><a href="WE_9.html#cb1103-10" aria-hidden="true" tabindex="-1"></a>    <span class="do">## i.put pop ancestry proportions for each K cluster:</span></span>
+<span id="cb1103-11"><a href="WE_9.html#cb1103-11" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[<span class="dv">1</span><span class="sc">:</span>N[i],], <span class="dv">2</span>, mean)</span>
+<span id="cb1103-12"><a href="WE_9.html#cb1103-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
+<span id="cb1103-13"><a href="WE_9.html#cb1103-13" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
+<span id="cb1103-14"><a href="WE_9.html#cb1103-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#input pop coordinates:</span></span>
+<span id="cb1103-15"><a href="WE_9.html#cb1103-15" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>] </span>
+<span id="cb1103-16"><a href="WE_9.html#cb1103-16" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
+<span id="cb1103-17"><a href="WE_9.html#cb1103-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1103-18"><a href="WE_9.html#cb1103-18" aria-hidden="true" tabindex="-1"></a>    qpop[i,] <span class="ot">&lt;-</span> <span class="fu">apply</span>(qmatrix[(index<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(index<span class="sc">+</span>N[i]),], <span class="dv">2</span>, mean)</span>
+<span id="cb1103-19"><a href="WE_9.html#cb1103-19" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">6</span>]</span>
+<span id="cb1103-20"><a href="WE_9.html#cb1103-20" aria-hidden="true" tabindex="-1"></a>    coord.pop[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> sites[<span class="fu">which</span>(sites[,<span class="dv">1</span>]<span class="sc">==</span><span class="fu">names</span>(N[i])),<span class="dv">5</span>]</span>
+<span id="cb1103-21"><a href="WE_9.html#cb1103-21" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> index <span class="sc">+</span> N[i]</span>
+<span id="cb1103-22"><a href="WE_9.html#cb1103-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1103-23"><a href="WE_9.html#cb1103-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Create map with pie charts depicting ancestry proportions:</p>
+<div class="sourceCode" id="cb1104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1104-1"><a href="WE_9.html#cb1104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1104-2"><a href="WE_9.html#cb1104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord.pop, <span class="at">xlab =</span> <span class="st">&quot;Longitude&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Latitude&quot;</span>, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb1104-3"><a href="WE_9.html#cb1104-3" aria-hidden="true" tabindex="-1"></a>maps<span class="sc">::</span><span class="fu">map</span>(<span class="at">database=</span><span class="st">&#39;state&#39;</span>,<span class="at">add =</span> T, <span class="at">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1104-4"><a href="WE_9.html#cb1104-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pops)){</span>
+<span id="cb1104-5"><a href="WE_9.html#cb1104-5" aria-hidden="true" tabindex="-1"></a>  mapplots<span class="sc">::</span><span class="fu">add.pie</span>(<span class="at">z=</span>qpop[i,], <span class="at">x=</span>coord.pop[i,<span class="dv">1</span>], </span>
+<span id="cb1104-6"><a href="WE_9.html#cb1104-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>coord.pop[i,<span class="dv">2</span>], <span class="at">labels=</span><span class="st">&quot;&quot;</span>,</span>
+<span id="cb1104-7"><a href="WE_9.html#cb1104-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(K,<span class="st">&quot;Paired&quot;</span>),<span class="at">radius=</span><span class="fl">0.1</span>)</span>
+<span id="cb1104-8"><a href="WE_9.html#cb1104-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="09-Week09_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><strong>Question 5:</strong></p>
+<ul>
+<li>How does the pattern of clustering vary in space?</li>
+<li>Is there evidence of population admixture?</li>
+<li>How do you interpret this pattern biologically?</li>
+</ul>
+<p><strong>Question 6:</strong></p>
+<ul>
+<li>Based on the analyses done in this tutorial, where do you hypothesize the “Riverbend” (“rb”) population originated from?</li>
+<li>What evidence supports your rationale?</li>
+</ul>
+
+</div>
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Week9.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Week10.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

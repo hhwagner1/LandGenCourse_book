@@ -4,7 +4,7 @@ bookdown::gitbook:
       in_header: header.html
 ---
 
-# Review of R Skills 
+# Review of R Skills
 
 ```{r setup, include=FALSE}
 # Add a common class name for every chunks

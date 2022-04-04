@@ -45,17 +45,18 @@ The online book compiles the teaching materials for the optional computer lab co
 
 ## How to use this Book
 
-### 1. Book Structure
+### 1. Book Structure {-}
 
 This book has weekly chapters that correspond to course modules, with three parts:
 
-#### a) Getting Started 
+#### a) Getting Started {-} 
   - Review of R Skills: check whether you need to build or brush up your R skills before starting the course:
       - [Basic R Programming](#basic-r): introduction to R objects and functions. **Prerequisite**.
       - [R Graphics](#r-graphics): learn to create figures with base R and with `ggplot2`. Optional.
       
       
-#### b) Basic Topics
+#### b) Basic Topics {-}
+
   - These 8 weekly modules are streamlined to build the necessary R skills and brush up statistics knowledge. Best complete these in sequence.
   - Each module has the following components:
       - Video: introduces the R and stats topics
@@ -64,15 +65,16 @@ This book has weekly chapters that correspond to course modules, with three part
       - Bonus Materials: some weeks include bonus vignettes with optional advanced topics.
       
       
-#### c) Advanced Topics
+#### c) Advanced Topics {-}
+
   - These weekly modules build on the skills developed in Basic Topics. You may pick and choose from the Advanced Topics according to your interests.
   - Each weekly modules contains:
       - Worked Example: worked example by the weekly experts from the ['DGS Landscape Genetics'](https://sites.google.com/site/landscapegeneticscourse/ "DGS public website") course.
       - Bonus Materials: some weeks include bonus vignettes with optional advanced topics.
 
-### 2. Find what is relevant for you
+### 2. Find what is relevant for you {-}
 
-#### a) How to use the labs {#how-to-use} 
+#### a) How to use the labs {-#how-to-use} 
 
 Weeks 1 - 8:
 
@@ -95,15 +97,15 @@ Weeks 1 - 8:
 **By Week 9**: you will be at least at ‘intermediate’ level if not a pro!
 
 
-#### b) Check contents
+#### b) Check contents {-}
 
 - **Videos**: Check first weekly slide, browse slides for each week
 - **Interactive tutorials**: check weekly list of commands for each chapter
 - **Worked examples**: check [List of R Packages by Vignette](#list-of-packages); check introduction section for each worked example (or bonus vignette) 
 
-### 3. Course R package 'LandGenCourse'
+### 3. Course R package 'LandGenCourse' {-}
 
-#### a) Practice good R hygiene
+#### a) Practice good R hygiene {-}
 
 Please update or install the following before installing 'LandGenCourse':
 
@@ -123,7 +125,7 @@ Please update or install the following before installing 'LandGenCourse':
 - If needed, manually install Command Line Tools. Instructions:
 http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/
 
-#### b) How to install (or update) 'LandGenCourse'
+#### b) How to install (or update) 'LandGenCourse' {-}
 
 ```{r message=FALSE}
 if (!require("remotes")) install.packages("remotes")
@@ -137,16 +139,11 @@ Hints:
 - Check whether the add-ins 0 - 4 are available: in the RStudio menu, click on the drop-down menu `Addins`. 
 - If the add-ins 0 - 4 don't appear, rerun the code above (install and load package `LandGenCourse`). Sometimes this seems to be necessary.
 
-#### c) How to install dependencies
+#### c) How to install dependencies {-}
 
 The previous step only installed the absolutely required dependencies (i.e., R packages that `LandGenCourse` needs so that it can be installed). However, the weekly chapters will require additional R packages. There are two ways to install them:
 
-**Option 1: Install as you go**
-
-- Newer versions of RStudio will warn you when a R notebook (`.Rmd`) that you opened requires R packages that are not installed. 
-- The warning contains a link `Install`, click on it to install the missing packages.
-
-**Option 2: Bulk install**
+**Recommended: Bulk install **
 
 - Use the Addin `0. Install Packages` to bulk install most or all packages needed to run the worked examples.
 - Simply click on the add-in `0. Install Packages` (alternatively, you could run this code: `installDGS()`)
@@ -157,7 +154,14 @@ The previous step only installed the absolutely required dependencies (i.e., R p
     - Use `usethis::edit_r_environ()` and add the token as `GITHUB_PAT`.
 - If you do so, the second line above will open the file `.Renviron` in RStudio. Enter `GITHUB_PAT="myPAT"` on the last line (replace `myPAT` by the PAT you generated using the first line). Make sure to include an empty line after it! Save the file and restart R. 
 
-#### d) How to use the R package `LandGenCourse`
+**Alternative: Install as you go**
+
+- This option is not suitable if you are planning to do the interactive swirl tutorials! Use bulk installation instead (see above).
+- Newer versions of RStudio will warn you when a R notebook (`.Rmd`) that you opened requires R packages that are not installed. 
+- The warning contains a link `Install`, click on it to install the missing packages.
+
+
+#### d) How to use the R package `LandGenCourse` {-}
 
 The package installs four more Addins in RStudio. Each will provide you with some dropdown menu choices.
 
@@ -166,7 +170,7 @@ The package installs four more Addins in RStudio. Each will provide you with som
 - **3. Choose Worked Example**: opens vignette file (.html, .Rmd, or .R) with a worked example from course "Landscape Genetic Data Analysis with R".
 - **4. Open Cheat Sheet**: opens selected R cheat sheet.
 
-#### e) Video instructions for beginners
+#### e) Video instructions for beginners {-}
 
 This video walks through the process of installing devtools, the course package, and using the RStudio Add-Ins.
 <a href="https://www.dropbox.com/s/598kwim7x09m47t/Intro_LandGenCourse_small.mp4?dl=0" target="_blank">Intro_LandGenCourse_small.mp4</a>
@@ -183,7 +187,6 @@ Notes:
 
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-
 library(kableExtra)
 Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% 
@@ -197,7 +200,6 @@ Table %>% kable() %>%
 
 
 ```{r echo=FALSE}
-
 library(kableExtra)
 Table <- readRDS(paste0(here::here(), "/output/Full.rds"))
 Table %>% kable() %>% kable_paper() %>% scroll_box(width = "100%", height = "200px") %>%

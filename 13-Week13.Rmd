@@ -12,6 +12,7 @@ yml_metadata <- rmarkdown::yaml_front_matter(rmd_file)
 cat(yml_metadata$author)
 ```
 
+
 ```{r child=paste0(here::here(), "/vignettes/", "Week13_vignette.Rmd"), echo=TRUE}
 ```
 

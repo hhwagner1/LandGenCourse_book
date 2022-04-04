@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.3 Worked Example | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.3 Worked Example | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.3 Worked Example | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2022-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tutorial_1.html"/>
+<link rel="next" href="r-exercise-week-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+<script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started<span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book<span></span></a>
+<ul>
+<li><a href="how-to-use-this-book.html#book-structure">1. Book Structure<span></span></a></li>
+<li><a href="how-to-use-this-book.html#find-what-is-relevant-for-you">2. Find what is relevant for you<span></span></a></li>
+<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package ‘LandGenCourse’<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming<span></span></a>
+<ul>
+<li><a href="basic-r.html#overview">1. Overview<span></span></a></li>
+<li><a href="basic-r.html#data-types">2. Data Types<span></span></a></li>
+<li><a href="basic-r.html#data-containers">3. Data Containers<span></span></a></li>
+<li><a href="basic-r.html#programming">4. Programming<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics<span></span></a>
+<ul>
+<li><a href="r-graphics.html#overview-1">1. Overview<span></span></a></li>
+<li><a href="r-graphics.html#univariate-plots">2. Univariate plots<span></span></a></li>
+<li><a href="r-graphics.html#bivariate-plots">3. Bivariate plots<span></span></a></li>
+<li><a href="r-graphics.html#advanced-plotting">4. Advanced plotting<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?<span></span></a>
+<ul>
+<li><a href="github.html#goals">1. Goals<span></span></a></li>
+<li><a href="github.html#version">2. Watch course video: Version Control 101<span></span></a></li>
+<li><a href="github.html#slides">3. Preview slides<span></span></a></li>
+<li><a href="github.html#next-steps">4. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation<span></span></a>
+<ul>
+<li><a href="install.html#goals-1">1. Goals<span></span></a></li>
+<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free<span></span></a></li>
+<li><a href="install.html#happygit">3. Happy Git with R<span></span></a></li>
+<li><a href="install.html#gitvideos">4. Video tutorials: installation<span></span></a></li>
+<li><a href="install.html#join">5. Joining your group’s project on GitHub<span></span></a></li>
+<li><a href="install.html#repo">6. Setting up a group repo<span></span></a></li>
+<li><a href="install.html#next-steps-1">7. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows<span></span></a>
+<ul>
+<li><a href="workflow.html#goals-2">1. Goals<span></span></a></li>
+<li><a href="workflow.html#step-by-step-tutorials">2. Step-by-step tutorials<span></span></a></li>
+<li><a href="workflow.html#further-resources">3. Further resources<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basic Topics<span></span></b></span></li>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_1.html#embedded-video">1. Embedded Video<span></span></a></li>
+<li><a href="video_1.html#preview-slides">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1<span></span></a>
+<ul>
+<li><a href="tutorial_1.html#list-of-r-commands-covered-this-week">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_1.html#general-instructions">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_1.html#overview-of-worked-example">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_1.html#import-data-from-.csv-file">2. Import data from .csv file<span></span></a></li>
+<li><a href="WE_1.html#create-genind-object">3. Create ‘genind’ Object<span></span></a></li>
+<li><a href="WE_1.html#view-information-stored-in-genind-object">4. View information stored in ‘genind’ object<span></span></a></li>
+<li><a href="WE_1.html#import-data-with-gstudio-package">5. Import data with ‘gstudio’ package<span></span></a></li>
+<li><a href="WE_1.html#importing-snp-data">6. Importing SNP data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_2.html#embedded-video-1">1. Embedded Video<span></span></a></li>
+<li><a href="video_2.html#preview-slides-1">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2<span></span></a>
+<ul>
+<li><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_2.html#general-instructions-1">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_2.html#overview-of-worked-example-1">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_2.html#import-site-data-from-.csv-file">2. Import site data from .csv file<span></span></a></li>
+<li><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data">3. Display raster data and overlay sampling locations, extract data<span></span></a></li>
+<li><a href="WE_2.html#calculate-landscape-metrics">4. Calculate landscape metrics<span></span></a></li>
+<li><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations">5. Sample landscape metrics within buffer around sampling locations<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’<span></span></a>
+<ul>
+<li><a href="bonus_2a.html#overview-2">1. Overview<span></span></a></li>
+<li><a href="bonus_2a.html#convert-spatialpointsdataframe-to-sf-object">2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object<span></span></a></li>
+<li><a href="bonus_2a.html#plot-variables-first-10-in-data-set">3. Plot variables (first 10 in data set)<span></span></a></li>
+<li><a href="bonus_2a.html#export-site-data-as-esri-shapefile">4. Export site data as ESRI shapefile<span></span></a></li>
+<li><a href="bonus_2a.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme">5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_3.html#embedded-video-2">1. Embedded Video<span></span></a></li>
+<li><a href="video_3.html#video-part-1">Video, Part 1<span></span></a></li>
+<li><a href="video_3.html#video-part-2">Video, Part 2<span></span></a></li>
+<li><a href="video_3.html#preview-slides-2">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3<span></span></a>
+<ul>
+<li><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_3.html#general-instructions-2">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_3.html#overview-of-worked-example-2">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_3.html#basic-checking-of-markers-and-populations">2. Basic checking of markers and populations<span></span></a></li>
+<li><a href="WE_3.html#assess-genetic-diversity">3. Assess genetic diversity<span></span></a></li>
+<li><a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies">4. Aggregate genetic data at population level (allele frequencies)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_4.html#embedded-video-3">1. Embedded Video<span></span></a></li>
+<li><a href="video_4.html#video-part-1-1">Video, Part 1<span></span></a></li>
+<li><a href="video_4.html#video-part-2-1">Video, Part 2<span></span></a></li>
+<li><a href="video_4.html#preview-slides-3">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4<span></span></a>
+<ul>
+<li><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_4.html#general-instructions-3">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_4.html#overview-of-worked-example-3">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_4.html#spatial-distribution-of-genetic-structure">2. Spatial distribution of genetic structure<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-differentiation-among-sites">3. What determines genetic differentiation among sites?<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-diversity">4. What determines genetic diversity?<span></span></a></li>
+<li><a href="WE_4.html#are-genetic-differentiation-and-diversity-related">5. Are genetic differentiation and diversity related?<span></span></a></li>
+<li><a href="WE_4.html#effect-of-recent-extinction-events">6. Effect of recent extinction events<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_5.html#embedded-video-4">1. Embedded Video<span></span></a></li>
+<li><a href="video_5.html#preview-slides-4">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5<span></span></a>
+<ul>
+<li><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_5.html#general-instructions-4">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_5.html#overview-of-worked-example-4">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_5.html#data-import-and-manipulation">2. Data import and manipulation<span></span></a></li>
+<li><a href="WE_5.html#calculate-genetic-distances">3. Calculate genetic distances<span></span></a></li>
+<li><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd">4. Perform a Mantel test to test for IBD<span></span></a></li>
+<li><a href="WE_5.html#create-mantel-correlogram-for-genetic-data">5. Create Mantel correlogram for genetic data<span></span></a></li>
+<li><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i">6. Specify spatial weights and calculate Moran’s I<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_6.html#embedded-video-5">1. Embedded Video<span></span></a></li>
+<li><a href="video_6.html#video-part-1-2">Video, Part 1<span></span></a></li>
+<li><a href="video_6.html#video-part-2-2">Video, Part 2<span></span></a></li>
+<li><a href="video_6.html#preview-slides-5">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6<span></span></a>
+<ul>
+<li><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_6.html#general-instructions-5">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_6.html#overview-of-worked-example-5">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment">2. Estimate genetic and non-genetic variance components from a common garden experiment<span></span></a></li>
+<li><a href="WE_6.html#estimate-trait-heritability">3. Estimate trait heritability<span></span></a></li>
+<li><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data<span></span></a></li>
+<li><a href="WE_6.html#assess-correlation-between-trait-and-environment">5. Assess correlation between trait and environment<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i><b>9.4</b> R Exercise Week 6<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_7.html#embedded-video-6">1. Embedded Video<span></span></a></li>
+<li><a href="video_7.html#video-part-1-3">Video, Part 1<span></span></a></li>
+<li><a href="video_7.html#video-part-2-3">Video, Part 2<span></span></a></li>
+<li><a href="video_7.html#preview-slides-6">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7<span></span></a>
+<ul>
+<li><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_7.html#general-instructions-6">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_7.html#overview-of-worked-example-6">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_7.html#explore-data-set">2. Explore data set<span></span></a></li>
+<li><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation">3. Test regression residuals for spatial autocorrelation<span></span></a></li>
+<li><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme">4. Fit models with spatially correlated error (GLS) with package ‘nlme’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar">5. Fit spatial simultaneous autoregressive error models (SAR)<span></span></a></li>
+<li><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran">6. Spatial filtering with MEM using package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran">7. Fit spatially varying coefficients model with package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#model-with-patchsize-and-ibr">Model with PatchSize and IBR<span></span></a></li>
+<li><a href="WE_7.html#model-with-ibr-only">Model with IBR only<span></span></a></li>
+<li><a href="WE_7.html#conclusions">8. Conclusions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7<span></span></a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index<span></span></a>
+<ul>
+<li><a href="bonus_7a.html#overview-of-bonus-materials">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus_7a.html#import-ecological-distance-matrices">2. Import ecological distance matrices<span></span></a></li>
+<li><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha">3. Optimize the scaling parameter alpha<span></span></a></li>
+<li><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters">4. Calculate Hanski’s index Si with source patch parameters<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_8.html#embedded-video-7">1. Embedded Video<span></span></a></li>
+<li><a href="video_8.html#video-part-1-4">Video, Part 1<span></span></a></li>
+<li><a href="video_8.html#video-part-2-4">Video, Part 2<span></span></a></li>
+<li><a href="video_8.html#preview-slides-7">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8<span></span></a>
+<ul>
+<li><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_8.html#general-instructions-7">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_8.html#overview-of-worked-example-7">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_8.html#initialize-a-landscape">2. Initialize a landscape<span></span></a></li>
+<li><a href="WE_8.html#define-simulation-parameters">3. Define simulation parameters<span></span></a></li>
+<li><a href="WE_8.html#run-simulations-and-analyze-results">4. Run simulations and analyze results<span></span></a></li>
+<li><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set">5. Run simulator using a previously defined parameter set<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8<span></span></a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R<span></span></a>
+<ul>
+<li><a href="bonus_8a.html#overview-of-bonus-material">1. Overview of Bonus Material<span></span></a></li>
+<li><a href="bonus_8a.html#navigating-the-file-system">2. Navigating the file system<span></span></a></li>
+<li><a href="bonus_8a.html#benchmarking-file-import-and-export-options">3. Benchmarking file import and export options<span></span></a></li>
+<li><a href="bonus_8a.html#profiling-your-code">4. Profiling your code<span></span></a></li>
+<li><a href="bonus_8a.html#creating-and-executing-a-bash-r-script">5. Creating and executing a Bash R script<span></span></a></li>
+<li><a href="bonus_8a.html#parallelizing-code">6. Parallelizing code<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics<span></span></b></span></li>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_9.html#overview-of-worked-example-8">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model">2. Simulated data: 2-island model<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model-with-admixture">3. Simulated data: 2-island model with admixture<span></span></a></li>
+<li><a href="WE_9.html#empirical-data-threespine-sticklebacks">4. Empirical data: Threespine sticklebacks<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_10.html#overview-of-worked-example-9">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_10.html#explore-the-data-set">2. Explore the data set<span></span></a></li>
+<li><a href="WE_10.html#setting-cost-values-and-calculating-conductance">3. Setting cost values and calculating conductance<span></span></a></li>
+<li><a href="WE_10.html#convert-conductance-into-effective-distance">4. Convert conductance into effective distance<span></span></a></li>
+<li><a href="WE_10.html#create-cost-distance-matrices">5. Create cost-distance matrices<span></span></a></li>
+<li><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics">6. How does changing resolution affect these metrics?<span></span></a></li>
+<li><a href="WE_10.html#references">7. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial<span></span></a>
+<ul>
+<li><a href="bonus-10a.html#overview-of-bonus-materials-1">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus-10a.html#import-data">2. Import data<span></span></a></li>
+<li><a href="bonus-10a.html#basic-model-fitting">3. Basic model fitting<span></span></a></li>
+<li><a href="bonus-10a.html#advanced-modeling-topics">4. Advanced modeling topics<span></span></a></li>
+<li><a href="bonus-10a.html#summary">5. Summary<span></span></a></li>
+<li><a href="bonus-10a.html#references-1">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation<span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_11.html#overview-of-worked-example-10">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_11.html#import-and-prepare-the-data">2. Import and prepare the data<span></span></a></li>
+<li><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea">3. Latent Factor Mixed Models (LFMM): a univariate GEA<span></span></a></li>
+<li><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea">4. Redundancy Analysis (RDA): a multivariate GEA<span></span></a></li>
+<li><a href="WE_11.html#compare-lfmm-and-rda-candidates">5. Compare LFMM and RDA candidates<span></span></a></li>
+<li><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda">6. A quick note on controlling for population structure in RDA<span></span></a></li>
+<li><a href="WE_11.html#references-2">7. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection<span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_12.html#overview-of-worked-example-11">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_12.html#fitting-candidate-models">2. Fitting candidate models<span></span></a></li>
+<li><a href="WE_12.html#your-turn-to-test-additional-hypotheses">3. Your turn to test additional hypotheses!<span></span></a></li>
+<li><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs">4. Nested model (NMLPE) for hierarchical sampling designs<span></span></a></li>
+<li><a href="WE_12.html#references-3">5. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_13.html#overview-of-worked-example-12">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_13.html#setup">2. Setup<span></span></a></li>
+<li><a href="WE_13.html#wetland-complex-data-preparation">3. Wetland complex data preparation<span></span></a></li>
+<li><a href="WE_13.html#wetland-field-data-preparation">4. Wetland field-data preparation<span></span></a></li>
+<li><a href="WE_13.html#saturated-graph">5. Saturated Graph<span></span></a></li>
+<li><a href="WE_13.html#spatial-model-data-prepration">6. Spatial model data prepration<span></span></a></li>
+<li><a href="WE_13.html#gravity-model">7. Gravity model<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_14.html#overview-3">1. Overview<span></span></a></li>
+<li><a href="WE_14.html#import-genotypes">2. Import Genotypes<span></span></a></li>
+<li><a href="WE_14.html#pollen-pool-genetic-structure">3. Pollen pool genetic structure<span></span></a></li>
+<li><a href="WE_14.html#paternity-analysis">4. Paternity analysis<span></span></a></li>
+<li><a href="WE_14.html#linking-paternity-to-ecological-variables">5. Linking paternity to ecological variables<span></span></a></li>
+<li><a href="WE_14.html#references-4">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="WE_1" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Worked Example<a href="WE_1.html#WE_1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Helene Wagner</p>
+<div id="overview-of-worked-example" class="section level3 unnumbered hasAnchor">
+<h3>1. Overview of Worked Example<a href="WE_1.html#overview-of-worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-goals" class="section level4 unnumbered hasAnchor">
+<h4>a. Goals<a href="WE_1.html#a.-goals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This worked example shows:</p>
+<ul>
+<li>How microsatellite data may be coded in a spreadsheet.</li>
+<li>How such a file is imported into R.</li>
+<li>How the data are imported into a ‘genind’ object using package ‘adegenet.’</li>
+<li>How to view information stored in a ‘genind’ object.</li>
+<li>How to import the data with the ‘gstudio’ package.</li>
+<li>How to import SNP data</li>
+</ul>
+<p>Try modifying the code to import your own data!</p>
+</div>
+<div id="b.-data-set" class="section level4 unnumbered hasAnchor">
+<h4>b. Data set<a href="WE_1.html#b.-data-set" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This code imports genetic data from 181 individuals of Colombia spotted frogs (Rana luteiventris) from 12 populations. The data are a subsample of the full data set analyzed in Funk et al. (2005) and Murphy et al. (2010). Please see the separate introduction to the data set.</p>
+<ul>
+<li><strong>ralu.loci</strong>: Data frame with populations and genetic data (181 rows x 9 columns). Included in package <code>LandGenCourse</code>.</li>
+</ul>
+</div>
+<div id="c.-required-r-packages" class="section level4 unnumbered hasAnchor">
+<h4>c. Required R packages<a href="WE_1.html#c.-required-r-packages" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Install some packages needed for this worked example. Note: <code>popgraph</code> needs to be installed before installing <code>gstudio</code>.</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="WE_1.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;adegenet&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;adegenet&quot;</span>)</span>
+<span id="cb286-2"><a href="WE_1.html#cb286-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;popgraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb286-3"><a href="WE_1.html#cb286-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb286-4"><a href="WE_1.html#cb286-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;RgoogleMaps&quot;</span>, <span class="st">&quot;geosphere&quot;</span>, <span class="st">&quot;proto&quot;</span>, <span class="st">&quot;sampling&quot;</span>, </span>
+<span id="cb286-5"><a href="WE_1.html#cb286-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;seqinr&quot;</span>, <span class="st">&quot;spacetime&quot;</span>, <span class="st">&quot;spdep&quot;</span>), <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span>
+<span id="cb286-6"><a href="WE_1.html#cb286-6" aria-hidden="true" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/popgraph&quot;</span>)</span>
+<span id="cb286-7"><a href="WE_1.html#cb286-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb286-8"><a href="WE_1.html#cb286-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;gstudio&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/gstudio&quot;</span>)</span></code></pre></div>
+<p>Note: the function <code>library</code> will always load the package, even if it is already loaded, whereas <code>require</code> will only load it if it is not yet loaded. Either will work.</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="WE_1.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(adegenet)</span>
+<span id="cb287-2"><a href="WE_1.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstudio)</span>
+<span id="cb287-3"><a href="WE_1.html#cb287-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb287-4"><a href="WE_1.html#cb287-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb287-5"><a href="WE_1.html#cb287-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb287-6"><a href="WE_1.html#cb287-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcfR)</span>
+<span id="cb287-7"><a href="WE_1.html#cb287-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pinfsc50)</span>
+<span id="cb287-8"><a href="WE_1.html#cb287-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(utils)</span></code></pre></div>
+</div>
+</div>
+<div id="import-data-from-.csv-file" class="section level3 unnumbered hasAnchor">
+<h3>2. Import data from .csv file<a href="WE_1.html#import-data-from-.csv-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-preparation" class="section level4 unnumbered hasAnchor">
+<h4>a. Preparation<a href="WE_1.html#a.-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Create a new R project for this lab: File &gt; New Project &gt; New Directory &gt; New Project.</p>
+<p>This will automatically set your working directory to the new project folder. That’s where R will look for files and save anything you export.</p>
+<p>Note: R does not distinguish between single quotes and double quotes, they are treated as synonyms, but the opening and closing symbols need to match.</p>
+<p>The dataset <code>ralu.loci</code> is available in the package ‘LandGenCourse’ and can be loaded with <code>data(ralu.loci)</code>.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="WE_1.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.loci)</span></code></pre></div>
+<p>Below, however, we’ll import it from a comma separated file (.csv), as this is the recommended format for importing your own data (e.g. from Excel).</p>
+</div>
+<div id="b.-excel-file" class="section level4 unnumbered hasAnchor">
+<h4>b. Excel file<a href="WE_1.html#b.-excel-file" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First we need to copy the file <code>ralu.loci.csv</code> to the <code>downloads</code> folder inside your project folder. The first line checks that the folder <code>downloads</code> exists and creates it if needed.</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="WE_1.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/downloads&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/downloads&quot;</span>))</span>
+<span id="cb289-2"><a href="WE_1.html#cb289-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;ralu.loci.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb289-3"><a href="WE_1.html#cb289-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">paste0</span>(<span class="fu">here</span>(), <span class="st">&quot;/downloads/ralu.loci.csv&quot;</span>), <span class="at">overwrite=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Check that the file <code>ralu.loci.csv</code> is now in the folder <code>downloads</code> within your project folder. From your file system, you can open it with Excel. Note that in Excel, the columns with the loci must be explicitly defined as ‘text,’ otherwise Excel is likely to interpret them as times.</p>
+<p><strong>Excel instructions:</strong></p>
+<p>Opening an existing .csv file with genetic data:</p>
+<ul>
+<li>Excel menu: ‘File &gt; New Workbook.’</li>
+<li>Excel menu: ‘File &gt; Import &gt; CSV File &gt; Import.’ Navigate to file.</li>
+<li>Text Import Wizard: select ‘Delimited,’ click ‘Next.’</li>
+<li>Delimiters: check ‘comma.’ Click ‘Next.’</li>
+<li>Use the ‘Shift’ key to select all columns with loci A - H. Select ‘text.’ Click ‘Finish &gt; OK.’</li>
+</ul>
+<p>Creating a new Excel file to enter genetic data:</p>
+<ul>
+<li>Label the loci columns.</li>
+<li>Select all loci columns by clicking on the column headers (hold the ‘Shift’ key to select multiple adjacent columns).</li>
+<li>Define the data format: ‘Format &gt; Cell &gt; Text.’</li>
+<li>Enter genetic data, separating the alleles by a colon (e.g., ‘1:3’).</li>
+</ul>
+<p>Saving Excel file for import in R:</p>
+<ul>
+<li>File Format: ‘Comma Separated Values (.csv)’</li>
+</ul>
+<p>Here is a screenshot of the first few lines of the Excel file with the genetic data:</p>
+<p><img src="downloads/ExcelTable.png" style="width:80.0%" /></p>
+</div>
+<div id="c.-import-with-function-read.csv" class="section level4 unnumbered hasAnchor">
+<h4>c. Import with function ‘read.csv’<a href="WE_1.html#c.-import-with-function-read.csv" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>As the file is saved in csv format, we use the function ‘read.csv’ to import it into an R object called <code>Frogs</code>. Display the first few rows and columns to check whether the data have been imported correctly:</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="WE_1.html#cb291-1" aria-hidden="true" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(), <span class="st">&quot;/downloads/ralu.loci.csv&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb291-2"><a href="WE_1.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(Frogs)</span></code></pre></div>
+<pre><code>## # A tibble: 181 × 10
+##    SiteName     Pop      A     B     C     D     E     F     G     H    
+##    &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 AirplaneLake Airplane 1:1   1:1   1:1   1:1   1:2   1:1   1:1   4:5  
+##  2 AirplaneLake Airplane 2:2   1:1   NA:NA 1:1   1:1   NA:NA 2:2   NA:NA
+##  3 AirplaneLake Airplane 1:1   1:1   1:1   1:1   3:3   1:1   1:1   3:3  
+##  4 AirplaneLake Airplane 1:1   1:1   NA:NA 2:2   1:2   NA:NA NA:NA NA:NA
+##  5 AirplaneLake Airplane 1:2   1:3   1:1   1:1   1:2   1:1   1:2   4:5  
+##  6 AirplaneLake Airplane 1:2   1:1   1:1   3:1   1:1   1:1   1:2   4:5  
+##  7 AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:3   1:1   1:1   2:3  
+##  8 AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:3   1:1   1:1   2:3  
+##  9 AirplaneLake Airplane 3:1   1:1   1:1   1:1   1:7   1:1   1:1   3:5  
+## 10 AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:7   1:1   1:1   3:3  
+## # … with 171 more rows</code></pre>
+<ul>
+<li>The data frame <code>Frogs</code> contains 181 rows and 11 columns. Only the first few are shown.</li>
+<li>The file has a header row with column names.</li>
+<li>Notice the abbreviations for the R data type under each variable name: <code>&lt;fctr&gt;</code> means that the variable has been coded as a factor.</li>
+<li>Each row is one individual. Note that for this data set, there is no column with ID or names of individuals.</li>
+<li>The first two columns indicates the site in long (“SiteName”) and short (“Pop”) format.</li>
+<li>There are 8 columns with loci, named A - H. Each locus has two alleles, coded with numbers and separated by a colon (:).</li>
+<li>This coding suggests that the markers are codominant and that the species is diploid.</li>
+<li>The code for missing values is <code>NA</code>, (which shows up as <code>NA:NA</code> for missing genetic data). There seem to be quite a few missing values.</li>
+</ul>
+</div>
+<div id="d.-create-id-variable" class="section level4 unnumbered hasAnchor">
+<h4>d. Create ID variable<a href="WE_1.html#d.-create-id-variable" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We’ll add unique ID’s for the frogs (to show how these would be imported). Here we take, for each frog, a sub-string of <code>Pop</code> containing the first three letters, add the row number, and separate them by a period.</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="WE_1.html#cb293-1" aria-hidden="true" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID =</span> <span class="fu">paste</span>(<span class="fu">substr</span>(Frogs<span class="sc">$</span>Pop, <span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">row.names</span>(Frogs), <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), Frogs)</span>
+<span id="cb293-2"><a href="WE_1.html#cb293-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(Frogs)</span></code></pre></div>
+<pre><code>## # A tibble: 181 × 11
+##    FrogID SiteName     Pop      A     B     C     D     E     F     G     H    
+##    &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 Air.1  AirplaneLake Airplane 1:1   1:1   1:1   1:1   1:2   1:1   1:1   4:5  
+##  2 Air.2  AirplaneLake Airplane 2:2   1:1   NA:NA 1:1   1:1   NA:NA 2:2   NA:NA
+##  3 Air.3  AirplaneLake Airplane 1:1   1:1   1:1   1:1   3:3   1:1   1:1   3:3  
+##  4 Air.4  AirplaneLake Airplane 1:1   1:1   NA:NA 2:2   1:2   NA:NA NA:NA NA:NA
+##  5 Air.5  AirplaneLake Airplane 1:2   1:3   1:1   1:1   1:2   1:1   1:2   4:5  
+##  6 Air.6  AirplaneLake Airplane 1:2   1:1   1:1   3:1   1:1   1:1   1:2   4:5  
+##  7 Air.7  AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:3   1:1   1:1   2:3  
+##  8 Air.8  AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:3   1:1   1:1   2:3  
+##  9 Air.9  AirplaneLake Airplane 3:1   1:1   1:1   1:1   1:7   1:1   1:1   3:5  
+## 10 Air.10 AirplaneLake Airplane 2:2   1:3   1:1   1:1   3:7   1:1   1:1   3:3  
+## # … with 171 more rows</code></pre>
+</div>
+<div id="e.-export-with-function-write.csv" class="section level4 unnumbered hasAnchor">
+<h4>e. Export with function ‘write.csv’<a href="WE_1.html#e.-export-with-function-write.csv" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you want to export (and import) your own files, adapt this code.</p>
+<p>Note: when using R Notebooks, problems can arise if R looks for files in a different place (more on this in Week 8 Bonus material). Here, we use a safe work-around, with the function <code>here</code>, that will help make your work reproducible and transferable to other computers. For this to work properly, you must work within an R project, and you must have writing permission for the project folder.</p>
+<p>The function <code>here</code> from the package <code>here</code> finds the path to your project folder. Remove the hashtags and run the two lines to see the path to your project folder, and the path to the (to be created) output folder. The function <code>paste0</code> simply pastes strings of text together, without any separator (hence the ‘0’ in the function name).</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="WE_1.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">here</span>() </span></code></pre></div>
+<pre><code>## [1] &quot;/Users/hhwagner1/Desktop/R_GitHub_Projects/LandGenCourse_book&quot;</code></pre>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="WE_1.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;/Users/hhwagner1/Desktop/R_GitHub_Projects/LandGenCourse_book/output&quot;</code></pre>
+<p>The following line checks whether an <code>output</code> folder exists in the project folder, and if not, creates one.</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="WE_1.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) <span class="fu">dir.create</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span></code></pre></div>
+<p>Now we can write our data into a csv file in the output folder:</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="WE_1.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ralu.loci, <span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/output/ralu.loci.csv&quot;</span>), </span>
+<span id="cb300-2"><a href="WE_1.html#cb300-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">quote=</span><span class="cn">FALSE</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p>To import the file again from the output folder, you could do this:</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="WE_1.html#cb301-1" aria-hidden="true" tabindex="-1"></a>ralu.loci<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="fu">here</span>(),<span class="st">&quot;/output/ralu.loci.csv&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="create-genind-object" class="section level3 unnumbered hasAnchor">
+<h3>3. Create ‘genind’ Object<a href="WE_1.html#create-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-read-the-helpfile" class="section level4 unnumbered hasAnchor">
+<h4>a. Read the helpfile<a href="WE_1.html#a.-read-the-helpfile" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We use the function <code>df2genind</code> of the <code>adegenet</code> package to import the loci into a <code>genind</code> object named <code>Frogs.genind</code>. Check the help file for a definition of all arguments and for example code.</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="WE_1.html#cb302-1" aria-hidden="true" tabindex="-1"></a>?df2genind</span></code></pre></div>
+</div>
+<div id="b.-set-all-arguments-of-function-df2genind" class="section level4 unnumbered hasAnchor">
+<h4>b. Set all arguments of function ‘df2genind’<a href="WE_1.html#b.-set-all-arguments-of-function-df2genind" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Some explanations:</p>
+<ul>
+<li><strong>X</strong>: this is the data frame (or matrix) containing the loci only. Hence we need columns 4 - 11.</li>
+<li><strong>sep</strong>: need to specify the separator between alleles (here: colon)</li>
+<li><strong>ncode</strong>: not needed here because we used a separator, defined under <code>sep</code>.</li>
+<li><strong>ind.names</strong>: here we should indicate the column <code>FrogID</code>.</li>
+<li><strong>loc.names</strong>: by default this will use the column names of the loci.</li>
+<li><strong>pop</strong>: here we should indicate either the column <code>Pop</code> or <code>SiteName</code>.</li>
+<li><strong>NA.char</strong>: how were missing values coded? Here: <code>NA</code>.</li>
+<li><strong>ploidy</strong>: this species is diploid, hence <code>2</code>.</li>
+<li><strong>type</strong>: marker type, either <code>"codom"</code> for codominant markers like microsatellites, or <code>"PA"</code> for presence-absence, such as SNP or AFLP markers. Note: you can use either “” or ’’.</li>
+<li><strong>strata</strong>: one way of defining hierarchical sampling levels. We will add this in Week 3.</li>
+<li><strong>hierarchy</strong>: another way of defining hierarchical sampling levels. We’ll skip it for now.</li>
+</ul>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="WE_1.html#cb303-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind <span class="ot">&lt;-</span> <span class="fu">df2genind</span>(<span class="at">X=</span>Frogs[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>)], <span class="at">sep=</span><span class="st">&quot;:&quot;</span>, <span class="at">ncode=</span><span class="cn">NULL</span>, <span class="at">ind.names=</span> Frogs<span class="sc">$</span>FrogID, <span class="at">loc.names=</span><span class="cn">NULL</span>, <span class="at">pop=</span>Frogs<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span></code></pre></div>
+</div>
+<div id="c.-check-imported-data" class="section level4 unnumbered hasAnchor">
+<h4>c. Check imported data<a href="WE_1.html#c.-check-imported-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Printing the genind object’s name lists the number of individuals, loci and alleles, and lists all slots (prefaced by <code>@</code>).</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="WE_1.html#cb304-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind</span></code></pre></div>
+<pre><code>## /// GENIND OBJECT /////////
+## 
+##  // 181 individuals; 8 loci; 39 alleles; size: 55.2 Kb
+## 
+##  // Basic content
+##    @tab:  181 x 39 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 3-9)
+##    @loc.fac: locus factor for the 39 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: df2genind(X = Frogs[, c(4:11)], sep = &quot;:&quot;, ncode = NULL, ind.names = Frogs$FrogID, 
+##     loc.names = NULL, pop = Frogs$Pop, NA.char = &quot;NA&quot;, ploidy = 2, 
+##     type = &quot;codom&quot;, strata = NULL, hierarchy = NULL)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 7-23)</code></pre>
+</div>
+<div id="d.-summarize-genind-object" class="section level4 unnumbered hasAnchor">
+<h4>d. Summarize ‘genind’ object<a href="WE_1.html#d.-summarize-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>There is a <code>summary</code> function for <code>genind</code> objects. Notes:</p>
+<ul>
+<li><code>Group</code> here refers to the populations, i.e., <code>Group sizes</code> means number of individuals per population.</li>
+<li>It is a good idea to check the percentage of missing values here. If it is 0%, this may indicate that the coding for missing values was not recognized. If the % missing is very high, on the other hand, there may be some other importing problem.</li>
+</ul>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="WE_1.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Frogs.genind)</span></code></pre></div>
+<pre><code>## 
+## // Number of individuals: 181
+## // Group sizes: 21 8 14 13 7 17 9 20 19 13 17 23
+## // Number of alleles per locus: 3 4 4 4 9 3 4 8
+## // Number of alleles per group: 21 21 20 22 20 19 19 25 18 14 18 26
+## // Percentage of missing data: 10.64 %
+## // Observed heterozygosity: 0.1 0.4 0.09 0.36 0.68 0.02 0.38 0.68
+## // Expected heterozygosity: 0.17 0.47 0.14 0.59 0.78 0.02 0.48 0.74</code></pre>
+</div>
+</div>
+<div id="view-information-stored-in-genind-object" class="section level3 unnumbered hasAnchor">
+<h3>4. View information stored in ‘genind’ object<a href="WE_1.html#view-information-stored-in-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The summary lists each attribute or <code>slot</code> of the <code>genind</code> object and summarizes its content. Technically speaking, <code>genind</code> objects are S4 objects in R, which means that their slots are accessed with the <code>@</code> sign, rather than the <code>$</code> sign for attributes of the more commonly used S3 objects. Interestingly, the object does not store the data table that was imported, but converts it to a table of allele counts.</p>
+<div id="a.-slot-tab" class="section level4 unnumbered hasAnchor">
+<h4>a. Slot <code>@tab</code><a href="WE_1.html#a.-slot-tab" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Table with allele counts, where each column is an allele. Allele name <code>A.1</code> means “locus A, allele 1.” For a codominant marker (e.g. microsatellite) and a diploid species, allele counts per individual can be 0, 1, 2, or NA=missing. Here are the first few lines:</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="WE_1.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(Frogs.genind<span class="sc">@</span>tab)</span></code></pre></div>
+<pre><code>## # A tibble: 181 × 39
+##      A.1   A.2   A.3   B.1   B.3   B.2   B.4   C.1   C.2   C.4   C.5   D.1   D.2
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1     2     0     0     2     0     0     0     2     0     0     0     2     0
+##  2     0     2     0     2     0     0     0    NA    NA    NA    NA     2     0
+##  3     2     0     0     2     0     0     0     2     0     0     0     2     0
+##  4     2     0     0     2     0     0     0    NA    NA    NA    NA     0     2
+##  5     1     1     0     1     1     0     0     2     0     0     0     2     0
+##  6     1     1     0     2     0     0     0     2     0     0     0     1     0
+##  7     0     2     0     1     1     0     0     2     0     0     0     2     0
+##  8     0     2     0     1     1     0     0     2     0     0     0     2     0
+##  9     1     0     1     2     0     0     0     2     0     0     0     2     0
+## 10     0     2     0     1     1     0     0     2     0     0     0     2     0
+## # … with 171 more rows, and 26 more variables: D.3 &lt;int&gt;, D.4 &lt;int&gt;, E.1 &lt;int&gt;,
+## #   E.2 &lt;int&gt;, E.3 &lt;int&gt;, E.7 &lt;int&gt;, E.6 &lt;int&gt;, E.8 &lt;int&gt;, E.5 &lt;int&gt;,
+## #   E.4 &lt;int&gt;, E.10 &lt;int&gt;, F.1 &lt;int&gt;, F.2 &lt;int&gt;, F.3 &lt;int&gt;, G.1 &lt;int&gt;,
+## #   G.2 &lt;int&gt;, G.3 &lt;int&gt;, G.5 &lt;int&gt;, H.4 &lt;int&gt;, H.5 &lt;int&gt;, H.3 &lt;int&gt;,
+## #   H.2 &lt;int&gt;, H.1 &lt;int&gt;, H.6 &lt;int&gt;, H.8 &lt;int&gt;, H.7 &lt;int&gt;</code></pre>
+</div>
+<div id="b.-slot-loc.n.all" class="section level4 unnumbered hasAnchor">
+<h4>b. Slot <code>@loc.n.all</code><a href="WE_1.html#b.-slot-loc.n.all" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Number of alleles per locus, across all populations.</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="WE_1.html#cb310-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind<span class="sc">@</span>loc.n.all</span></code></pre></div>
+<pre><code>## A B C D E F G H 
+## 3 4 4 4 9 3 4 8</code></pre>
+</div>
+<div id="c.-slot-loc.fac" class="section level4 unnumbered hasAnchor">
+<h4>c. Slot <code>@loc.fac</code><a href="WE_1.html#c.-slot-loc.fac" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This is a factor that indicates for each allele (column in <code>@tab</code>) which locus it belongs to. The levels of the factor correspond to the loci.</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="WE_1.html#cb312-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind<span class="sc">@</span>loc.fac</span></code></pre></div>
+<pre><code>##  [1] A A A B B B B C C C C D D D D E E E E E E E E E F F F G G G G H H H H H H H
+## [39] H
+## Levels: A B C D E F G H</code></pre>
+</div>
+<div id="d.-slot-all.names" class="section level4 unnumbered hasAnchor">
+<h4>d. Slot <code>@all.names</code><a href="WE_1.html#d.-slot-all.names" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>List of allele names, separately for each locus. Note: the alleles are treated as text (character), even if they are coded as numbers. They are sorted in order of occurrence in data set.</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="WE_1.html#cb314-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind<span class="sc">@</span>all.names</span></code></pre></div>
+<pre><code>## $A
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot;
+## 
+## $B
+## [1] &quot;1&quot; &quot;3&quot; &quot;2&quot; &quot;4&quot;
+## 
+## $C
+## [1] &quot;1&quot; &quot;2&quot; &quot;4&quot; &quot;5&quot;
+## 
+## $D
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot;
+## 
+## $E
+## [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;7&quot;  &quot;6&quot;  &quot;8&quot;  &quot;5&quot;  &quot;4&quot;  &quot;10&quot;
+## 
+## $F
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot;
+## 
+## $G
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;5&quot;
+## 
+## $H
+## [1] &quot;4&quot; &quot;5&quot; &quot;3&quot; &quot;2&quot; &quot;1&quot; &quot;6&quot; &quot;8&quot; &quot;7&quot;</code></pre>
+</div>
+<div id="e.-further-slots" class="section level4 unnumbered hasAnchor">
+<h4>e. Further slots<a href="WE_1.html#e.-further-slots" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The following slots are automatically filled with default values unless specified by user during import into <code>genind</code> object:</p>
+<ul>
+<li>Slot <code>@ploidy</code>: ploidy for each individual.</li>
+<li>Slot <code>@type</code>: codominant (microsatellites) or presence/absence (SNP, AFLP)</li>
+</ul>
+<p>The following slots may be empty unless specified during or after import into ‘genind’ object:</p>
+<ul>
+<li>Slot <code>@other</code>: placeholder for non-genetic data, e.g. spatial coordinates of individuals.</li>
+<li>Slot <code>@pop</code>: vector indicating the population that each individual belongs to.</li>
+<li>Slot <code>@strata</code>: stratification of populations, e.g. within regions or treatments.</li>
+<li>Slot <code>@hierarchy</code>: optional formula defining hierarchical levels in strata.</li>
+</ul>
+</div>
+</div>
+<div id="import-data-with-gstudio-package" class="section level3 unnumbered hasAnchor">
+<h3>5. Import data with ‘gstudio’ package<a href="WE_1.html#import-data-with-gstudio-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-function-read_population" class="section level4 unnumbered hasAnchor">
+<h4>a. Function ‘read_population’<a href="WE_1.html#a.-function-read_population" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>While <code>genind</code> objects are used by many functions for analyzing genetic data, the <code>gstudio</code> package provides an interface for additional analysis. We use the function <code>read_population</code> to import the data.</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="WE_1.html#cb316-1" aria-hidden="true" tabindex="-1"></a>?read_population</span></code></pre></div>
+</div>
+<div id="b.-set-arguments" class="section level4 unnumbered hasAnchor">
+<h4>b. Set arguments<a href="WE_1.html#b.-set-arguments" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Some explanations:</p>
+<ul>
+<li><strong>path</strong>: This is the path to the .csv file. If it is in the current working directory, then the filename is sufficient.<br />
+</li>
+<li><strong>type</strong>: here we have ‘separated’ data, as the alleles at each locus are separated by a colon.</li>
+<li><strong>locus.columns</strong>: this would be columns 3 - 10 in this case, because we are importing from the .csv file directly, which does not contain the FrogID variable. We can add that later.</li>
+<li><strong>phased</strong>: default is fine here.</li>
+<li><strong>sep</strong>: here this refers to the .csv file! The separater is a comma.</li>
+<li><strong>header</strong>: yes we have column names.</li>
+</ul>
+<p>Working directory confusion: If you are working within an R project folder, then that folder is automatically set as your working directory. If you are working in an R session outside of an R project, then you need to actively set the working directory in the R Studio menu under: <code>Session &gt; Set working directory &gt; Choose Directory</code>.</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="WE_1.html#cb317-1" aria-hidden="true" tabindex="-1"></a>Frogs.gstudio <span class="ot">&lt;-</span> <span class="fu">read_population</span>(<span class="at">path=</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;ralu.loci.csv&quot;</span>, </span>
+<span id="cb317-2"><a href="WE_1.html#cb317-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), </span>
+<span id="cb317-3"><a href="WE_1.html#cb317-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">type=</span><span class="st">&quot;separated&quot;</span>, <span class="at">locus.columns=</span><span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>), </span>
+<span id="cb317-4"><a href="WE_1.html#cb317-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">phased=</span><span class="cn">FALSE</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="c.-check-imported-data-1" class="section level4 unnumbered hasAnchor">
+<h4>c. Check imported data<a href="WE_1.html#c.-check-imported-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Check the column types: <code>SiteName</code> and <code>Pop</code> are now character vectors, and the loci columns A - H are now of class <code>locus</code> (it is indicated that ‘locus’ is a S3 object type).</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="WE_1.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Frogs.gstudio)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    181 obs. of  10 variables:
+##  $ SiteName: chr  &quot;AirplaneLake&quot; &quot;AirplaneLake&quot; &quot;AirplaneLake&quot; &quot;AirplaneLake&quot; ...
+##  $ Pop     : chr  &quot;Airplane&quot; &quot;Airplane&quot; &quot;Airplane&quot; &quot;Airplane&quot; ...
+##  $ A       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;2:2&quot; &quot;1:1&quot; &quot;1:1&quot; ...
+##  $ B       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;1:1&quot; &quot;1:1&quot; &quot;1:1&quot; ...
+##  $ C       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;&quot; &quot;1:1&quot; &quot;&quot; ...
+##  $ D       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;1:1&quot; &quot;1:1&quot; &quot;2:2&quot; ...
+##  $ E       : &#39;locus&#39; chr  &quot;1:2&quot; &quot;1:1&quot; &quot;3:3&quot; &quot;1:2&quot; ...
+##  $ F       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;&quot; &quot;1:1&quot; &quot;&quot; ...
+##  $ G       : &#39;locus&#39; chr  &quot;1:1&quot; &quot;2:2&quot; &quot;1:1&quot; &quot;&quot; ...
+##  $ H       : &#39;locus&#39; chr  &quot;4:5&quot; &quot;&quot; &quot;3:3&quot; &quot;&quot; ...</code></pre>
+</div>
+<div id="d.-add-frogid" class="section level4 unnumbered hasAnchor">
+<h4>d. Add FrogID<a href="WE_1.html#d.-add-frogid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><code>Frogs.gstudio</code> is a data frame, and we can manipulate like any other data frame. Here we will add the variable <code>FrogID</code> as the first column.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="WE_1.html#cb320-1" aria-hidden="true" tabindex="-1"></a>Frogs.gstudio <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID=</span>Frogs<span class="sc">$</span>FrogID, Frogs.gstudio) </span>
+<span id="cb320-2"><a href="WE_1.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Frogs.gstudio)</span></code></pre></div>
+<pre><code>##   FrogID     SiteName      Pop   A   B   C   D   E   F   G   H
+## 1  Air.1 AirplaneLake Airplane 1:1 1:1 1:1 1:1 1:2 1:1 1:1 4:5
+## 2  Air.2 AirplaneLake Airplane 2:2 1:1     1:1 1:1     2:2    
+## 3  Air.3 AirplaneLake Airplane 1:1 1:1 1:1 1:1 3:3 1:1 1:1 3:3
+## 4  Air.4 AirplaneLake Airplane 1:1 1:1     2:2 1:2            
+## 5  Air.5 AirplaneLake Airplane 1:2 1:3 1:1 1:1 1:2 1:1 1:2 4:5
+## 6  Air.6 AirplaneLake Airplane 1:2 1:1 1:1 1:3 1:1 1:1 1:2 4:5</code></pre>
+</div>
+<div id="e.-convert-to-genind-object" class="section level4 unnumbered hasAnchor">
+<h4>e. Convert to ‘genind’ object<a href="WE_1.html#e.-convert-to-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can use the dataframe with the locus objects from gstudio to import the data into a <code>genind</code> object. In this case, we set <code>sep=":"</code>, because the <code>locus</code> object in <code>gstudio</code> stores the alleles at each locus separated by a colon, and <code>NA.char=""</code>, because <code>gstudio</code> stores missing values as empty cells.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="WE_1.html#cb322-1" aria-hidden="true" tabindex="-1"></a>Frogs.genind2 <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">df2genind</span>(<span class="at">X=</span>Frogs.gstudio[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>)], <span class="at">sep=</span><span class="st">&quot;:&quot;</span>, <span class="at">ncode=</span><span class="cn">NULL</span>,   </span>
+<span id="cb322-2"><a href="WE_1.html#cb322-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ind.names=</span>Frogs.gstudio<span class="sc">$</span>FrogID, <span class="at">loc.names=</span><span class="cn">NULL</span>, </span>
+<span id="cb322-3"><a href="WE_1.html#cb322-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pop=</span>Frogs.gstudio<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
+<span id="cb322-4"><a href="WE_1.html#cb322-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
+<span id="cb322-5"><a href="WE_1.html#cb322-5" aria-hidden="true" tabindex="-1"></a>Frogs.genind2</span></code></pre></div>
+<pre><code>## /// GENIND OBJECT /////////
+## 
+##  // 181 individuals; 8 loci; 39 alleles; size: 55.5 Kb
+## 
+##  // Basic content
+##    @tab:  181 x 39 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 3-9)
+##    @loc.fac: locus factor for the 39 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: adegenet::df2genind(X = Frogs.gstudio[, c(4:11)], sep = &quot;:&quot;, 
+##     ncode = NULL, ind.names = Frogs.gstudio$FrogID, loc.names = NULL, 
+##     pop = Frogs.gstudio$Pop, NA.char = &quot;&quot;, ploidy = 2, type = &quot;codom&quot;, 
+##     strata = NULL, hierarchy = NULL)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 7-23)</code></pre>
+</div>
+</div>
+<div id="importing-snp-data" class="section level3 unnumbered hasAnchor">
+<h3>6. Importing SNP data<a href="WE_1.html#importing-snp-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a.-import-from-text-file" class="section level4 unnumbered hasAnchor">
+<h4>a. Import from text file<a href="WE_1.html#a.-import-from-text-file" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First, we’ll import a relatively small SNP dataset from a text file. This dataset will be analyzed in the Week 6 Worked Example. The data are stored in a tab-delimited text file.</p>
+<p>Let’s have a look at the first few rows and columns:</p>
+<ul>
+<li><code>family</code>: these are ID’s of the genotyped tree individuals (from which seeds were grown in a common-garden experiment, hence they are called “family” in the dataset).</li>
+<li><code>population</code>: the trees were sampled from a set of populations.</li>
+<li><code>snpXXX.Plmn</code>: each column is a diploid SNP.</li>
+</ul>
+<p>To import your own data, replace <code>infile</code> by the path to the text file with your SNP data. Change settings as necessary (check whether data are separated by tabs or commas!).</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="WE_1.html#cb324-1" aria-hidden="true" tabindex="-1"></a>infile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;WWP_SNP_genotypes.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb324-2"><a href="WE_1.html#cb324-2" aria-hidden="true" tabindex="-1"></a>Trees <span class="ot">&lt;-</span> <span class="fu">read.table</span>(infile, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb324-3"><a href="WE_1.html#cb324-3" aria-hidden="true" tabindex="-1"></a>Trees[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
+<pre><code>##   family population snp102.Plmn snp106.Plmn snp108.Plmn snp110.Plmn
+## 1     59    blk cyn          CC          AC          GG          GG
+## 2     60    blk cyn          AC          AA          AG          GG
+## 3     61    blk cyn          CC          AA          AG          GG
+## 4     63    blk cyn          CC          AA          GG          GG
+## 5     64    blk cyn          AC          AA          AG          GG
+## 6     65    blk cyn          AC          AA        &lt;NA&gt;          GG</code></pre>
+<p>We should replace the SNP column names: if they contain a period ., then the function df2genind thinks that the first part indicates the locus and the second part the allele. The following line of code splits each column name by the period and only retains the first part.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="WE_1.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Trees) <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(Trees), <span class="cf">function</span>(x) <span class="fu">strsplit</span>(x, <span class="st">&quot;[.]&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]))</span></code></pre></div>
+<p>To import these data frame into a <code>genind</code> object, we need to tell R how the SNP data are coded (check the <code>df2genind</code> help file!)</p>
+<ul>
+<li><code>ncode = 1</code>: each allele (A, C, G, T) is coded with a single character.</li>
+<li><code>sep = ""</code>: the two alleles per individual and locus are not separated by any symbol.</li>
+<li><code>NA.char= "NA"</code>: missing values are coded as NA.</li>
+</ul>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="WE_1.html#cb327-1" aria-hidden="true" tabindex="-1"></a>Trees.genind <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">df2genind</span>(<span class="at">X=</span>Trees[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)], <span class="at">sep=</span><span class="st">&quot;&quot;</span>, <span class="at">ncode=</span><span class="dv">1</span>,   </span>
+<span id="cb327-2"><a href="WE_1.html#cb327-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ind.names=</span>Trees<span class="sc">$</span>family, <span class="at">loc.names=</span><span class="cn">NULL</span>, </span>
+<span id="cb327-3"><a href="WE_1.html#cb327-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pop=</span>Trees<span class="sc">$</span>population, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
+<span id="cb327-4"><a href="WE_1.html#cb327-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
+<span id="cb327-5"><a href="WE_1.html#cb327-5" aria-hidden="true" tabindex="-1"></a>Trees.genind</span></code></pre></div>
+<pre><code>## /// GENIND OBJECT /////////
+## 
+##  // 157 individuals; 164 loci; 324 alleles; size: 302 Kb
+## 
+##  // Basic content
+##    @tab:  157 x 324 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 1-2)
+##    @loc.fac: locus factor for the 324 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: adegenet::df2genind(X = Trees[, -c(1:2)], sep = &quot;&quot;, ncode = 1, 
+##     ind.names = Trees$family, loc.names = NULL, pop = Trees$population, 
+##     NA.char = &quot;NA&quot;, ploidy = 2, type = &quot;codom&quot;, strata = NULL, 
+##     hierarchy = NULL)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 9-22)</code></pre>
+</div>
+<div id="b.-import-from-vcf-file-to-genind-object" class="section level4 unnumbered hasAnchor">
+<h4>b. Import from vcf file to genind object<a href="WE_1.html#b.-import-from-vcf-file-to-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A common data format for genomic data is vcf. Here’s some background information (all but the first are vignettes from the <code>vcfR</code> package):</p>
+<ul>
+<li>PDF defining the data format: <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" class="uri">https://samtools.github.io/hts-specs/VCFv4.3.pdf</a></li>
+<li>Tutorial on data format: <a href="https://cran.r-project.org/web/packages/vcfR/vignettes/vcf_data.html" class="uri">https://cran.r-project.org/web/packages/vcfR/vignettes/vcf_data.html</a></li>
+<li>Tutorial on quality testing: <a href="https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html" class="uri">https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html</a></li>
+<li>Tutorial on converting vcf data: <a href="https://cran.r-project.org/web/packages/vcfR/vignettes/converting_data.html" class="uri">https://cran.r-project.org/web/packages/vcfR/vignettes/converting_data.html</a></li>
+</ul>
+<p>The R package <code>vcfR</code> makes it easy to import vcf files and convert to other formats. Here we use it to convert the data into a <code>genind</code> object. The following code is adapted from the above listed <code>vcfR</code> vignettes.</p>
+<p>We’ll import a file that is distributed with the <code>pinfsc50</code> package. Note that <code>vcf</code> files are commonly compressed in <code>gz</code> archives. To import your own data, replace <code>vcf_file</code> by the path to your own <code>gz</code> archive.</p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="WE_1.html#cb329-1" aria-hidden="true" tabindex="-1"></a>vcf_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pinf_sc50.vcf.gz&quot;</span>, <span class="at">package =</span> <span class="st">&quot;pinfsc50&quot;</span>)</span>
+<span id="cb329-2"><a href="WE_1.html#cb329-2" aria-hidden="true" tabindex="-1"></a>vcf <span class="ot">&lt;-</span> <span class="fu">read.vcfR</span>( vcf_file, <span class="at">verbose =</span> <span class="cn">FALSE</span> )</span></code></pre></div>
+<p>Note that the package <code>vcfR</code> can import three types of genomic data files listed below. We will only use the <code>.vcf</code> file here.</p>
+<ul>
+<li>.<code>vcf</code>: SNPs</li>
+<li><code>.fasta</code>: genomic reference sequence data</li>
+<li><code>.gff</code>: annotation</li>
+</ul>
+<p>Convert to <code>genind</code> object:</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="WE_1.html#cb330-1" aria-hidden="true" tabindex="-1"></a>SNP_genind <span class="ot">&lt;-</span> <span class="fu">vcfR2genind</span>(vcf)</span>
+<span id="cb330-2"><a href="WE_1.html#cb330-2" aria-hidden="true" tabindex="-1"></a>SNP_genind</span></code></pre></div>
+<pre><code>## /// GENIND OBJECT /////////
+## 
+##  // 18 individuals; 22,031 loci; 44,137 alleles; size: 16.4 Mb
+## 
+##  // Basic content
+##    @tab:  18 x 44137 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 1-5)
+##    @loc.fac: locus factor for the 44137 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: adegenet::df2genind(X = t(x), sep = sep)
+## 
+##  // Optional content
+##    - empty -</code></pre>
+</div>
+<div id="c.-import-from-vcf-file-to-genlight-object" class="section level4 unnumbered hasAnchor">
+<h4>c. Import from vcf file to genlight object<a href="WE_1.html#c.-import-from-vcf-file-to-genlight-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This dataset has 18 individuals genotyped at 44,137. It may be better to use a <code>genlight</code> object instead of <code>genind</code>. This is an alternative object type from the package <code>adegenet</code> that can store large genomic data much more efficiently.</p>
+<p>Note: the current implementation can only store two alleles per locus, loci with more alleles will be dropped and a warning is printed.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="WE_1.html#cb332-1" aria-hidden="true" tabindex="-1"></a>SNP_genlight <span class="ot">&lt;-</span> <span class="fu">vcfR2genlight</span>(vcf)</span></code></pre></div>
+<pre><code>## Warning in vcfR2genlight(vcf): Found 312 loci with more than two alleles.
+## Objects of class genlight only support loci with two alleles.
+## 312 loci will be omitted from the genlight object.</code></pre>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="WE_1.html#cb334-1" aria-hidden="true" tabindex="-1"></a>SNP_genlight</span></code></pre></div>
+<pre><code>##  /// GENLIGHT OBJECT /////////
+## 
+##  // 18 genotypes,  21,719 binary SNPs, size: 2.2 Mb
+##  31239 (7.99 %) missing data
+## 
+##  // Basic content
+##    @gen: list of 18 SNPbin
+## 
+##  // Optional content
+##    @ind.names:  18 individual labels
+##    @loc.names:  21719 locus labels
+##    @chromosome: factor storing chromosomes of the SNPs
+##    @position: integer storing positions of the SNPs
+##    @other: a list containing: elements without names</code></pre>
+<p>Note that instead of 44,137 alleles, we now have 21,719 binary SNPs. This is one of the ways by which the <code>genlight</code> object is more efficient than <code>genind</code>. Overall, the size has been reduced from 16.4 Mb to 2.2 Mb!</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tutorial_1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-exercise-week-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

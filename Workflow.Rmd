@@ -14,6 +14,17 @@ library(rsconnect)
 
 ## Import and prepare files from `LandGenCourse`
 
+```{r download}
+Path <- here::here()
+if(!file.exists(file.path(Path, "data", "Wetlands.csv")))
+{
+  d = "https://spatialr.s3.us-west-2.amazonaws.com/Gravity/data.zip"
+  download.file(d, destfile=file.path(Path, "data.zip"), mode="wb")
+  unzip(file.path(Path, "data.zip"))
+  file.remove(file.path(Path, "data.zip"))
+}
+```
+
 Import all Rmd and other (png) files from vignettes, replace old files
 
 ```{r}
@@ -65,9 +76,11 @@ gsub_ext(ext="Rmd", "# j.", "## j.",  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "# k.", "## k.",  dir = paste0(here::here(), "/vignettes"))
 
 ```
+
 Make R Exercises a separate sub-chapter (for Weeks 1 - 8)
 
 ```{r}
+## 7. R exercise Week 1 {-}
 gsub_ext(ext="Rmd", "### 4. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "### 5. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "### 6. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
@@ -76,6 +89,20 @@ gsub_ext(ext="Rmd", "### 8. R ", "## R ",  dir = paste0(here::here(), "/vignette
 gsub_ext(ext="Rmd", "### 9. R ", "## R ",  dir = paste0(here::here(), "/vignettes"))
 ```
 
+Number R exercises
+
+
+```{r eval=FALSE, include=FALSE}
+## 7. R exercise Week 1 {-}
+gsub_ext(ext="Rmd", "## R exercise Week 1 \\{-}", "## R exercise Week 1",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 2 \\{-}", "## R Exercise Week 2",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 3 \\{-}", "## R Exercise Week 3",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 4 \\{-}", "## R Exercise Week 4",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 5 \\{-}", "## R Exercise Week 5",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 6 \\{-}", "## R Exercise Week 6",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 7 \\{-}", "## R Exercise Week 7",  dir = paste0(here::here(), "/vignettes"))
+gsub_ext(ext="Rmd", "## R Exercise Week 8 \\{-}", "## R Exercise Week 8",  dir = paste0(here::here(), "/vignettes"))
+```
 
 ```{r}
 gsub_ext(ext="Rmd", "WE9_Fig1.png", paste0(here::here(), "/vignettes/WE9_Fig1.png"),  dir = paste0(here::here(), "/vignettes"))
@@ -85,10 +112,6 @@ gsub_ext(ext="Rmd", "WE13_Fig1.PNG", paste0(here::here(), "/vignettes/WE13_Fig1.
 gsub_ext(ext="Rmd", "radish_tutorial_fig1A.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1A.png"),  dir = paste0(here::here(), "/vignettes"))
 gsub_ext(ext="Rmd", "radish_tutorial_fig1B.png", paste0(here::here(), "/vignettes/radish_tutorial_fig1B.png"),  dir = paste0(here::here(), "/vignettes"))
 ```
-
-Add `{-}` to titles to suppress numbering
-
-
 
 
 Create list of functions and packages: source file "ListOfPackages.Rmd" 
@@ -150,13 +173,8 @@ table_list <- lapply(table_list, getNames)
 saveRDS(table_list, paste0(here::here(), "/output/table_list.rds"))
 ```
 
-
-
 ## Preview chapter
 
-NOTE: for some reason, chapter 8 (bonus vignette) needs to be precompiled before serving the entire book, may have to do with paths.
-
-May need to run all chunks in Week 8 bonus vignette before rendering the chapter.
 
 ```{r}
 #source(knitr::purl(paste0(here::here(), "/vignettes/Week8_bonus_vignette.Rmd")))
@@ -165,6 +183,7 @@ May need to run all chunks in Week 8 bonus vignette before rendering the chapter
 
 #bookdown::render_book(input="index.Rmd", preview=TRUE)
 ```
+
 
 
 ## Compile book

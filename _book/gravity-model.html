@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7. Gravity model | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7. Gravity model | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7. Gravity model | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2022-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="spatial-model-data-prepration.html"/>
+<link rel="next" href="Week14.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+<script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started<span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book<span></span></a>
+<ul>
+<li><a href="how-to-use-this-book.html#book-structure">1. Book Structure<span></span></a></li>
+<li><a href="how-to-use-this-book.html#find-what-is-relevant-for-you">2. Find what is relevant for you<span></span></a></li>
+<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package ‘LandGenCourse’<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming<span></span></a></li>
+<li><a href="overview.html#overview">1. Overview<span></span></a></li>
+<li><a href="data-types.html#data-types">2. Data Types<span></span></a>
+<ul>
+<li><a href="data-types.html#numeric-data-types">2.1. Numeric Data Types<span></span></a></li>
+<li><a href="data-types.html#characters">2.2. Characters<span></span></a></li>
+<li><a href="data-types.html#factors">2.3. Factors<span></span></a></li>
+<li><a href="data-types.html#logical-types">2.4. Logical Types<span></span></a></li>
+</ul></li>
+<li><a href="data-containers.html#data-containers">3. Data Containers<span></span></a>
+<ul>
+<li><a href="data-containers.html#vectors">3.1. Vectors<span></span></a></li>
+<li><a href="data-containers.html#matrices">3.2. Matrices<span></span></a></li>
+<li><a href="data-containers.html#lists">3.3. Lists<span></span></a></li>
+<li><a href="data-containers.html#data-frames">3.4. Data Frames<span></span></a></li>
+</ul></li>
+<li><a href="programming.html#programming">4. Programming<span></span></a>
+<ul>
+<li><a href="programming.html#function-writing">4.1. Function Writing<span></span></a></li>
+<li><a href="programming.html#variable-scope">4.2. Variable Scope<span></span></a></li>
+<li><a href="programming.html#decision-making">4.3. Decision Making<span></span></a></li>
+<li><a href="programming.html#flow-control">4.4. Flow Control<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics<span></span></a></li>
+<li><a href="overview-1.html#overview-1">1. Overview<span></span></a></li>
+<li><a href="univariate-plots.html#univariate-plots">2. Univariate plots<span></span></a>
+<ul>
+<li><a href="univariate-plots.html#barplots-and-histograms">2.1. Barplots and histograms<span></span></a></li>
+<li><a href="univariate-plots.html#plotting-parameters">2.2. Plotting Parameters<span></span></a></li>
+<li><a href="univariate-plots.html#density-plots">2.3. Density Plots<span></span></a></li>
+</ul></li>
+<li><a href="bivariate-plots.html#bivariate-plots">3. Bivariate plots<span></span></a>
+<ul>
+<li><a href="bivariate-plots.html#overlaying-plots-by-grouping">3.1. Overlaying Plots by grouping<span></span></a></li>
+<li><a href="bivariate-plots.html#boxplots">3.2. Boxplots<span></span></a></li>
+<li><a href="bivariate-plots.html#scatter-plots">3.3. Scatter Plots<span></span></a></li>
+</ul></li>
+<li><a href="advanced-plotting.html#advanced-plotting">4. Advanced plotting<span></span></a>
+<ul>
+<li><a href="advanced-plotting.html#multiple-plots">4.1. Multiple Plots<span></span></a></li>
+<li><a href="advanced-plotting.html#color-palettes">4.2. Color Palettes<span></span></a></li>
+<li><a href="advanced-plotting.html#rcolorbrewer">4.3. RColorBrewer<span></span></a></li>
+<li><a href="advanced-plotting.html#saving-imagery">4.4. Saving Imagery<span></span></a></li>
+<li><a href="advanced-plotting.html#interactive-graphics">4.5. Interactive Graphics<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?<span></span></a>
+<ul>
+<li><a href="github.html#goals">1. Goals<span></span></a></li>
+<li><a href="github.html#version">2. Watch course video: Version Control 101<span></span></a></li>
+<li><a href="github.html#slides">3. Preview slides<span></span></a></li>
+<li><a href="github.html#next-steps">4. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation<span></span></a>
+<ul>
+<li><a href="install.html#goals-1">1. Goals<span></span></a></li>
+<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free<span></span></a></li>
+<li><a href="install.html#happygit">3. Happy Git with R<span></span></a></li>
+<li><a href="install.html#gitvideos">4. Video tutorials: installation<span></span></a></li>
+<li><a href="install.html#join">5. Joining your group’s project on GitHub<span></span></a></li>
+<li><a href="install.html#repo">6. Setting up a group repo<span></span></a></li>
+<li><a href="install.html#next-steps-1">7. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows<span></span></a>
+<ul>
+<li><a href="workflow.html#goals-2">1. Goals<span></span></a></li>
+<li><a href="workflow.html#step-by-step-tutorials">2. Step-by-step tutorials<span></span></a></li>
+<li><a href="workflow.html#further-resources">3. Further resources<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basic Topics<span></span></b></span></li>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_1.html#embedded-video">1. Embedded Video<span></span></a></li>
+<li><a href="video_1.html#preview-slides">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1<span></span></a>
+<ul>
+<li><a href="tutorial_1.html#list-of-r-commands-covered-this-week">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_1.html#general-instructions">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example.html#overview-of-worked-example">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example.html#a-goals">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example.html#b-data-set">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example.html#c-required-r-packages">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="import-data-from-.csv-file.html#import-data-from-.csv-file">2. Import data from .csv file<span></span></a>
+<ul>
+<li><a href="import-data-from-.csv-file.html#a-preparation">a) Preparation<span></span></a></li>
+<li><a href="import-data-from-.csv-file.html#b-excel-file">b) Excel file<span></span></a></li>
+<li><a href="import-data-from-.csv-file.html#c-import-with-function-read.csv">c) Import with function ‘read.csv’<span></span></a></li>
+<li><a href="import-data-from-.csv-file.html#d-create-id-variable">d) Create ID variable<span></span></a></li>
+<li><a href="import-data-from-.csv-file.html#e-export-with-function-write.csv">e) Export with function ‘write.csv’<span></span></a></li>
+</ul></li>
+<li><a href="create-genind-object.html#create-genind-object">3. Create ‘genind’ Object<span></span></a>
+<ul>
+<li><a href="create-genind-object.html#a-read-the-helpfile">a) Read the helpfile<span></span></a></li>
+<li><a href="create-genind-object.html#b-set-all-arguments-of-function-df2genind">b) Set all arguments of function ‘df2genind’<span></span></a></li>
+<li><a href="create-genind-object.html#c-check-imported-data">c) Check imported data<span></span></a></li>
+<li><a href="create-genind-object.html#d-summarize-genind-object">d) Summarize ‘genind’ object<span></span></a></li>
+</ul></li>
+<li><a href="view-information-stored-in-genind-object.html#view-information-stored-in-genind-object">4. View information stored in ‘genind’ object<span></span></a>
+<ul>
+<li><a href="view-information-stored-in-genind-object.html#a-slot-tab">a) Slot <code>@tab</code><span></span></a></li>
+<li><a href="view-information-stored-in-genind-object.html#b-slot-loc.n.all">b) Slot <code>@loc.n.all</code><span></span></a></li>
+<li><a href="view-information-stored-in-genind-object.html#c-slot-loc.fac">c) Slot <code>@loc.fac</code><span></span></a></li>
+<li><a href="view-information-stored-in-genind-object.html#d-slot-all.names">d) Slot <code>@all.names</code><span></span></a></li>
+<li><a href="view-information-stored-in-genind-object.html#e-further-slots">e) Further slots<span></span></a></li>
+</ul></li>
+<li><a href="import-data-with-gstudio-package.html#import-data-with-gstudio-package">5. Import data with ‘gstudio’ package<span></span></a>
+<ul>
+<li><a href="import-data-with-gstudio-package.html#a-function-read_population">a) Function ‘read_population’<span></span></a></li>
+<li><a href="import-data-with-gstudio-package.html#b-set-arguments">b) Set arguments<span></span></a></li>
+<li><a href="import-data-with-gstudio-package.html#c-check-imported-data-1">c) Check imported data<span></span></a></li>
+<li><a href="import-data-with-gstudio-package.html#d-add-frogid">d) Add FrogID<span></span></a></li>
+<li><a href="import-data-with-gstudio-package.html#e-convert-to-genind-object">e) Convert to ‘genind’ object<span></span></a></li>
+</ul></li>
+<li><a href="importing-snp-data.html#importing-snp-data">6. Importing SNP data<span></span></a>
+<ul>
+<li><a href="importing-snp-data.html#a-import-from-text-file">a) Import from text file<span></span></a></li>
+<li><a href="importing-snp-data.html#b-import-from-vcf-file-to-genind-object">b) Import from vcf file to genind object<span></span></a></li>
+<li><a href="importing-snp-data.html#c-import-from-vcf-file-to-genlight-object">c) Import from vcf file to genlight object<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-1.html#r-exercise-week-1">7. R exercise Week 1<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_2.html#embedded-video-1">1. Embedded Video<span></span></a></li>
+<li><a href="video_2.html#preview-slides-1">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2<span></span></a>
+<ul>
+<li><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_2.html#general-instructions-1">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-1.html#overview-of-worked-example-1">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-1.html#a-goals-1">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-1.html#b-data-set-1">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-1.html#c-required-r-packages-1">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="import-site-data-from-.csv-file.html#import-site-data-from-.csv-file">2. Import site data from .csv file<span></span></a>
+<ul>
+<li><a href="import-site-data-from-.csv-file.html#a-import-data-into-spatialpointsdataframe">a) Import data into SpatialPointsDataFrame<span></span></a></li>
+<li><a href="import-site-data-from-.csv-file.html#b-add-spatial-reference-data">b) Add spatial reference data<span></span></a></li>
+<li><a href="import-site-data-from-.csv-file.html#c-change-projection">c) Change projection<span></span></a></li>
+<li><a href="import-site-data-from-.csv-file.html#d-access-data-in-spatialpointsdataframe">d) Access data in ‘SpatialPointsDataFrame’<span></span></a></li>
+</ul></li>
+<li><a href="display-raster-data-and-overlay-sampling-locations-extract-data.html#display-raster-data-and-overlay-sampling-locations-extract-data">3. Display raster data and overlay sampling locations, extract data<span></span></a>
+<ul>
+<li><a href="display-raster-data-and-overlay-sampling-locations-extract-data.html#a-display-raster-data">a) Display raster data<span></span></a></li>
+<li><a href="display-raster-data-and-overlay-sampling-locations-extract-data.html#b-change-color-ramp-add-sampling-locations">b) Change color ramp, add sampling locations<span></span></a></li>
+<li><a href="display-raster-data-and-overlay-sampling-locations-extract-data.html#c-extract-raster-values-at-sampling-locations">c) Extract raster values at sampling locations<span></span></a></li>
+</ul></li>
+<li><a href="calculate-landscape-metrics.html#calculate-landscape-metrics">4. Calculate landscape metrics<span></span></a>
+<ul>
+<li><a href="calculate-landscape-metrics.html#a-calculate-patch--class--and-landscape-level-landscape-metrics">a) Calculate patch-, class- and landscape level landscape metrics<span></span></a></li>
+<li><a href="calculate-landscape-metrics.html#b-calculate-patch-level-landscape-metrics-for-evergreen-forest">b) Calculate patch-level landscape metrics for ‘Evergreen Forest’<span></span></a></li>
+<li><a href="calculate-landscape-metrics.html#c-extract-forest-patch-size-at-samplig-locations">c) Extract forest patch size at samplig locations<span></span></a></li>
+<li><a href="calculate-landscape-metrics.html#d-plot-a-bubble-map-of-forest-patch-size-at-sampling-locations">d) Plot a bubble map of forest patch size at sampling locations<span></span></a></li>
+</ul></li>
+<li><a href="sample-landscape-metrics-within-buffer-around-sampling-locations.html#sample-landscape-metrics-within-buffer-around-sampling-locations">5. Sample landscape metrics within buffer around sampling locations<span></span></a>
+<ul>
+<li><a href="sample-landscape-metrics-within-buffer-around-sampling-locations.html#b-extract-landscape-metric-of-choice-for-a-single-cover-type-as-vector">b) Extract landscape metric of choice for a single cover type (as vector)<span></span></a></li>
+<li><a href="sample-landscape-metrics-within-buffer-around-sampling-locations.html#c-extract-landscape-metric-of-choice-for-all-cover-types-as-data-frame">c) Extract landscape metric of choice for all cover types (as data frame)<span></span></a></li>
+<li><a href="sample-landscape-metrics-within-buffer-around-sampling-locations.html#d-extract-all-landscape-metrics-for-a-single-cover-type-as-data-frame">d) Extract all landscape metrics for a single cover type (as data frame)<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-2.html#r-exercise-week-2">6. R Exercise Week 2<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’<span></span></a></li>
+<li><a href="overview-2.html#overview-2">1. Overview<span></span></a>
+<ul>
+<li><a href="overview-2.html#a-goals-2">a) Goals<span></span></a></li>
+<li><a href="overview-2.html#b-required-r-packages">b) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="convert-spatialpointsdataframe-to-sf-object.html#convert-spatialpointsdataframe-to-sf-object">2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object<span></span></a></li>
+<li><a href="plot-variables-first-10-in-data-set.html#plot-variables-first-10-in-data-set">3. Plot variables (first 10 in data set)<span></span></a>
+<ul>
+<li><a href="plot-variables-first-10-in-data-set.html#a-plot-geometry">a) Plot geometry<span></span></a></li>
+<li><a href="plot-variables-first-10-in-data-set.html#b-plot-attributes-in-space">b) Plot attributes in space<span></span></a></li>
+<li><a href="plot-variables-first-10-in-data-set.html#c-create-a-static-bubble-plot-with-tmap">c) Create a static bubble plot with ‘tmap’<span></span></a></li>
+<li><a href="plot-variables-first-10-in-data-set.html#d-create-an-interactive-bubble-plot-with-tmap">d) Create an interactive bubble plot with ‘tmap’<span></span></a></li>
+<li><a href="plot-variables-first-10-in-data-set.html#e-export-maps">e) Export maps<span></span></a></li>
+</ul></li>
+<li><a href="export-site-data-as-esri-shapefile.html#export-site-data-as-esri-shapefile">4. Export site data as ESRI shapefile<span></span></a></li>
+<li><a href="use-terra-and-tmap-to-display-categorical-map-with-color-scheme.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme">5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_3.html#embedded-video-2">1. Embedded Video<span></span></a></li>
+<li><a href="video_3.html#video-part-1">Video, Part 1<span></span></a></li>
+<li><a href="video_3.html#video-part-2">Video, Part 2<span></span></a></li>
+<li><a href="video_3.html#preview-slides-2">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3<span></span></a>
+<ul>
+<li><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_3.html#general-instructions-2">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-2.html#overview-of-worked-example-2">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-2.html#a-goals-3">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-2.html#b-data-set-2">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-2.html#c-required-r-packages-2">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="basic-checking-of-markers-and-populations.html#basic-checking-of-markers-and-populations">2. Basic checking of markers and populations<span></span></a>
+<ul>
+<li><a href="basic-checking-of-markers-and-populations.html#a-re-create-genind-object">a) Re-create genind object<span></span></a></li>
+<li><a href="basic-checking-of-markers-and-populations.html#b-check-that-markers-are-polymorphic">b) Check that markers are polymorphic<span></span></a></li>
+<li><a href="basic-checking-of-markers-and-populations.html#c-check-for-deviations-from-hardy-weinberg-equilibrium-hwe">c) Check for deviations from Hardy-Weinberg equilibrium (HWE)<span></span></a></li>
+<li><a href="basic-checking-of-markers-and-populations.html#d-check-for-linkage-disequilibrium-ld">d) Check for linkage disequilibrium (LD)<span></span></a></li>
+<li><a href="basic-checking-of-markers-and-populations.html#e-check-for-null-alleles">e) Check for null alleles<span></span></a></li>
+<li><a href="basic-checking-of-markers-and-populations.html#f-overall-interpretation">f) Overall interpretation<span></span></a></li>
+</ul></li>
+<li><a href="assess-genetic-diversity.html#assess-genetic-diversity">3. Assess genetic diversity<span></span></a>
+<ul>
+<li><a href="assess-genetic-diversity.html#a-rarefied-allelic-richness">a) Rarefied allelic richness<span></span></a></li>
+<li><a href="assess-genetic-diversity.html#b-observed-and-expected-heterozygosity">b) Observed and expected heterozygosity<span></span></a></li>
+<li><a href="assess-genetic-diversity.html#c-create-table-with-sitel-level-genetic-diversity-measures">c) Create table with sitel-level genetic diversity measures<span></span></a></li>
+</ul></li>
+<li><a href="aggregate-genetic-data-at-population-level-allele-frequencies.html#aggregate-genetic-data-at-population-level-allele-frequencies">4. Aggregate genetic data at population level (allele frequencies)<span></span></a></li>
+<li><a href="r-exercise-week-3.html#r-exercise-week-3">5. R Exercise Week 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_4.html#embedded-video-3">1. Embedded Video<span></span></a></li>
+<li><a href="video_4.html#video-part-1-1">Video, Part 1<span></span></a></li>
+<li><a href="video_4.html#video-part-2-1">Video, Part 2<span></span></a></li>
+<li><a href="video_4.html#preview-slides-3">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4<span></span></a>
+<ul>
+<li><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_4.html#general-instructions-3">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-3.html#overview-of-worked-example-3">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-3.html#a-goals-4">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-3.html#b-data-set-3">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-3.html#c-required-r-libraries">c) Required R libraries<span></span></a></li>
+<li><a href="overview-of-worked-example-3.html#d-import-data">d) Import data<span></span></a></li>
+</ul></li>
+<li><a href="spatial-distribution-of-genetic-structure.html#spatial-distribution-of-genetic-structure">2. Spatial distribution of genetic structure<span></span></a>
+<ul>
+<li><a href="spatial-distribution-of-genetic-structure.html#a-creating-a-genind-object-with-the-hierarchical-data-set">a) Creating a ‘genind’ object with the hierarchical data set<span></span></a></li>
+<li><a href="spatial-distribution-of-genetic-structure.html#b-hierarchical-amova">b) Hierarchical AMOVA<span></span></a></li>
+</ul></li>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#what-determines-genetic-differentiation-among-sites">3. What determines genetic differentiation among sites?<span></span></a>
+<ul>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#a-correlation-matrix">a) Correlation matrix<span></span></a></li>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#b-scatterplots">b) Scatterplots<span></span></a></li>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#c-regression-model">c) Regression model<span></span></a></li>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#d-which-populations-dont-fit-the-general-pattern">d) Which populations don’t fit the general pattern?<span></span></a></li>
+<li><a href="what-determines-genetic-differentiation-among-sites.html#e-regression-model-without-outliers">e) Regression model without outliers<span></span></a></li>
+</ul></li>
+<li><a href="what-determines-genetic-diversity.html#what-determines-genetic-diversity">4. What determines genetic diversity?<span></span></a>
+<ul>
+<li><a href="what-determines-genetic-diversity.html#a-correlation-matrix-1">a) Correlation matrix<span></span></a></li>
+<li><a href="what-determines-genetic-diversity.html#b-regression-models">b) Regression models<span></span></a></li>
+</ul></li>
+<li><a href="are-genetic-differentiation-and-diversity-related.html#are-genetic-differentiation-and-diversity-related">5. Are genetic differentiation and diversity related?<span></span></a></li>
+<li><a href="effect-of-recent-extinction-events.html#effect-of-recent-extinction-events">6. Effect of recent extinction events<span></span></a>
+<ul>
+<li><a href="effect-of-recent-extinction-events.html#a-effect-of-patch-extinction-event-temporal-data-set">a) Effect of patch extinction event (temporal data set)<span></span></a></li>
+<li><a href="effect-of-recent-extinction-events.html#b-power-analysis">b) Power analysis<span></span></a></li>
+<li><a href="effect-of-recent-extinction-events.html#c-sample-size-calculation">c) Sample size calculation<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-4.html#r-exercise-week-4">7. R Exercise Week 4<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_5.html#embedded-video-4">1. Embedded Video<span></span></a></li>
+<li><a href="video_5.html#preview-slides-4">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5<span></span></a>
+<ul>
+<li><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_5.html#general-instructions-4">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-4.html#overview-of-worked-example-4">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-4.html#a-goals-5">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-4.html#b-data-set-4">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-4.html#c-required-r-packages-3">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="data-import-and-manipulation.html#data-import-and-manipulation">2. Data import and manipulation<span></span></a>
+<ul>
+<li><a href="data-import-and-manipulation.html#a-create-an-ecogen-object">a) Create an ecogen object<span></span></a></li>
+<li><a href="data-import-and-manipulation.html#b-aggregate-to-ecopop">b) Aggregate to ‘ecopop’<span></span></a></li>
+<li><a href="data-import-and-manipulation.html#b-add-site-level-data">b) Add site-level data<span></span></a></li>
+<li><a href="data-import-and-manipulation.html#c-export-to-adegenet-and-gstudio">c) Export to ‘adegenet’ and ‘gstudio’<span></span></a></li>
+</ul></li>
+<li><a href="calculate-genetic-distances.html#calculate-genetic-distances">3. Calculate genetic distances<span></span></a>
+<ul>
+<li><a href="calculate-genetic-distances.html#a-genetic-distances-calculated-from-genind-object">a) Genetic distances calculated from genind object<span></span></a></li>
+<li><a href="calculate-genetic-distances.html#b-more-distance-matrices-with-gstudio">b) More distance matrices with ‘gstudio’<span></span></a></li>
+<li><a href="calculate-genetic-distances.html#c-assemble-distance-matrices">c) Assemble distance matrices<span></span></a></li>
+<li><a href="calculate-genetic-distances.html#d-export-genetic-distance-matrices">d) Export genetic distance matrices<span></span></a></li>
+</ul></li>
+<li><a href="perform-a-mantel-test-to-test-for-ibd.html#perform-a-mantel-test-to-test-for-ibd">4. Perform a Mantel test to test for IBD<span></span></a>
+<ul>
+<li><a href="perform-a-mantel-test-to-test-for-ibd.html#a-visually-check-linearity">a) Visually check linearity<span></span></a></li>
+<li><a href="perform-a-mantel-test-to-test-for-ibd.html#b-perform-mantel-test">b) Perform Mantel test<span></span></a></li>
+</ul></li>
+<li><a href="create-mantel-correlogram-for-genetic-data.html#create-mantel-correlogram-for-genetic-data">5. Create Mantel correlogram for genetic data<span></span></a>
+<ul>
+<li><a href="create-mantel-correlogram-for-genetic-data.html#a-create-a-first-mantel-correlogram">a) Create a first Mantel correlogram<span></span></a></li>
+<li><a href="create-mantel-correlogram-for-genetic-data.html#b-vary-distance-class-definition">b) Vary distance class definition<span></span></a></li>
+<li><a href="create-mantel-correlogram-for-genetic-data.html#c-alternative-measures-of-genetic-distances">c) Alternative measures of genetic distances<span></span></a></li>
+</ul></li>
+<li><a href="specify-spatial-weights-and-calculate-morans-i.html#specify-spatial-weights-and-calculate-morans-i">6. Specify spatial weights and calculate Moran’s I<span></span></a>
+<ul>
+<li><a href="specify-spatial-weights-and-calculate-morans-i.html#a-defining-spatial-neighbors">a) Defining spatial neighbors<span></span></a></li>
+<li><a href="specify-spatial-weights-and-calculate-morans-i.html#b-defining-spatial-weights">b) Defining spatial weights<span></span></a></li>
+<li><a href="specify-spatial-weights-and-calculate-morans-i.html#c-calculating-and-testing-morans-i">c) Calculating and testing Moran’s I<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-5.html#r-exercise-week-5">7. R Exercise Week 5<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_6.html#embedded-video-5">1. Embedded Video<span></span></a></li>
+<li><a href="video_6.html#video-part-1-2">Video, Part 1<span></span></a></li>
+<li><a href="video_6.html#video-part-2-2">Video, Part 2<span></span></a></li>
+<li><a href="video_6.html#preview-slides-5">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6<span></span></a>
+<ul>
+<li><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_6.html#general-instructions-5">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-5.html#overview-of-worked-example-5">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-5.html#a-goals-6">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-5.html#b-data-set-5">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-5.html#c-required-r-packages-4">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment">2. Estimate genetic and non-genetic variance components from a common garden experiment<span></span></a>
+<ul>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#a-import-phenytypic-data">a) Import phenytypic data<span></span></a></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#b-fit-linear-mixed-effects-models-lmm-to-trait-data-observed-on-families">b) Fit linear mixed effects models (LMM) to trait data observed on families<span></span></a></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#c-compare-model-fit">c) Compare model fit<span></span></a></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#d-check-model-validity">d) Check model validity<span></span></a></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#e-estimate-variance-components">e) Estimate variance components<span></span></a></li>
+<li><a href="estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment.html#f-significance-testing">f) Significance testing<span></span></a></li>
+</ul></li>
+<li><a href="estimate-trait-heritability.html#estimate-trait-heritability">3. Estimate trait heritability<span></span></a>
+<ul>
+<li><a href="estimate-trait-heritability.html#a-estimate-heritability">a) Estimate heritability<span></span></a></li>
+<li><a href="estimate-trait-heritability.html#b-estimate-trait-differentiation">b) Estimate trait differentiation<span></span></a></li>
+</ul></li>
+<li><a href="compare-q_st-to-f_st-measured-from-snp-data.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data<span></span></a>
+<ul>
+<li><a href="compare-q_st-to-f_st-measured-from-snp-data.html#a-import-ecogen-object">a) Import ‘ecogen’ object<span></span></a></li>
+<li><a href="compare-q_st-to-f_st-measured-from-snp-data.html#b-compare-q_st-to-f_st">b) Compare <span class="math inline">\(Q_{ST}\)</span> to <span class="math inline">\(F_{ST}\)</span><span></span></a></li>
+</ul></li>
+<li><a href="assess-correlation-between-trait-and-environment.html#assess-correlation-between-trait-and-environment">5. Assess correlation between trait and environment<span></span></a>
+<ul>
+<li><a href="assess-correlation-between-trait-and-environment.html#a-describe-and-extract-effects">a) Describe and extract effects<span></span></a></li>
+<li><a href="assess-correlation-between-trait-and-environment.html#b-correlation-of-population-effect-with-environment">b) Correlation of population effect with environment<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-6.html#r-exercise-week-6">7. R Exercise Week 6<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_7.html#embedded-video-6">1. Embedded Video<span></span></a></li>
+<li><a href="video_7.html#video-part-1-3">Video, Part 1<span></span></a></li>
+<li><a href="video_7.html#video-part-2-3">Video, Part 2<span></span></a></li>
+<li><a href="video_7.html#preview-slides-6">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7<span></span></a>
+<ul>
+<li><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_7.html#general-instructions-6">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-6.html#overview-of-worked-example-6">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-6.html#a-goals-7">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-6.html#b-data-set-6">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-6.html#c-required-r-packages-5">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="explore-data-set.html#explore-data-set">2. Explore data set<span></span></a>
+<ul>
+<li><a href="explore-data-set.html#a-import-data">a) Import data<span></span></a></li>
+<li><a href="explore-data-set.html#b-create-a-map">b) Create a map<span></span></a></li>
+<li><a href="explore-data-set.html#c-explore-correlations">c) Explore correlations<span></span></a></li>
+</ul></li>
+<li><a href="test-regression-residuals-for-spatial-autocorrelation.html#test-regression-residuals-for-spatial-autocorrelation">3. Test regression residuals for spatial autocorrelation<span></span></a>
+<ul>
+<li><a href="test-regression-residuals-for-spatial-autocorrelation.html#a-fit-regression-models">a) Fit regression models<span></span></a></li>
+<li><a href="test-regression-residuals-for-spatial-autocorrelation.html#b-test-for-spatial-autocorrelation-morans-i">b) Test for spatial autocorrelation (Moran’s I)<span></span></a></li>
+</ul></li>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme">4. Fit models with spatially correlated error (GLS) with package ‘nlme’<span></span></a>
+<ul>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#a-plot-empirical-variogram">a) Plot empirical variogram<span></span></a></li>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#b-fit-variogram-models">b) Fit variogram models<span></span></a></li>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#c-select-best-fitting-model">c) Select best-fitting model<span></span></a></li>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#d-plot-fitted-variogram-model">d) Plot fitted variogram model<span></span></a></li>
+<li><a href="fit-models-with-spatially-correlated-error-gls-with-package-nlme.html#e-add-random-factor">e) Add random factor<span></span></a></li>
+</ul></li>
+<li><a href="fit-spatial-simultaneous-autoregressive-error-models-sar.html#fit-spatial-simultaneous-autoregressive-error-models-sar">5. Fit spatial simultaneous autoregressive error models (SAR)<span></span></a>
+<ul>
+<li><a href="fit-spatial-simultaneous-autoregressive-error-models-sar.html#a-fit-and-compare-alternative-sar-models">a) Fit and compare alternative SAR models<span></span></a></li>
+<li><a href="fit-spatial-simultaneous-autoregressive-error-models-sar.html#b-interpret-best-fitting-sar-model">b) Interpret best-fitting SAR model<span></span></a></li>
+</ul></li>
+<li><a href="spatial-filtering-with-mem-using-package-spmoran.html#spatial-filtering-with-mem-using-package-spmoran">6. Spatial filtering with MEM using package ‘spmoran’<span></span></a>
+<ul>
+<li><a href="spatial-filtering-with-mem-using-package-spmoran.html#a-default-method">a) Default method<span></span></a></li>
+<li><a href="spatial-filtering-with-mem-using-package-spmoran.html#b-using-a-custom-connectivity-matrix">b) Using a custom connectivity matrix<span></span></a></li>
+<li><a href="spatial-filtering-with-mem-using-package-spmoran.html#c-plot-spatial-eigenvectors">c) Plot spatial eigenvectors<span></span></a></li>
+<li><a href="spatial-filtering-with-mem-using-package-spmoran.html#d-random-effect-model">d) Random effect model<span></span></a></li>
+</ul></li>
+<li><a href="fit-spatially-varying-coefficients-model-with-package-spmoran.html#fit-spatially-varying-coefficients-model-with-package-spmoran">7. Fit spatially varying coefficients model with package ‘spmoran’<span></span></a>
+<ul>
+<li><a href="fit-spatially-varying-coefficients-model-with-package-spmoran.html#model-with-patchsize-and-ibr">Model with PatchSize and IBR<span></span></a></li>
+<li><a href="fit-spatially-varying-coefficients-model-with-package-spmoran.html#model-with-ibr-only">Model with IBR only<span></span></a></li>
+</ul></li>
+<li><a href="conclusions.html#conclusions">8. Conclusions<span></span></a></li>
+<li><a href="r-exercise-week-7.html#r-exercise-week-7">9. R Exercise Week 7<span></span></a></li>
+<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index<span></span></a></li>
+<li><a href="overview-of-bonus-materials.html#overview-of-bonus-materials">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="import-ecological-distance-matrices.html#import-ecological-distance-matrices">2. Import ecological distance matrices<span></span></a></li>
+<li><a href="optimize-the-scaling-parameter-alpha.html#optimize-the-scaling-parameter-alpha">3. Optimize the scaling parameter alpha<span></span></a></li>
+<li><a href="calculate-hanskis-index-si-with-source-patch-parameters.html#calculate-hanskis-index-si-with-source-patch-parameters">4. Calculate Hanski’s index Si with source patch parameters<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_8.html#embedded-video-7">1. Embedded Video<span></span></a></li>
+<li><a href="video_8.html#video-part-1-4">Video, Part 1<span></span></a></li>
+<li><a href="video_8.html#video-part-2-4">Video, Part 2<span></span></a></li>
+<li><a href="video_8.html#preview-slides-7">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8<span></span></a>
+<ul>
+<li><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_8.html#general-instructions-7">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-7.html#overview-of-worked-example-7">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-7.html#a-goals-8">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-7.html#b-data-set-7">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-7.html#c-required-r-packages-6">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="initialize-a-landscape.html#initialize-a-landscape">2. Initialize a landscape<span></span></a>
+<ul>
+<li><a href="initialize-a-landscape.html#a-create-a-random-landscape">a) Create a random landscape<span></span></a></li>
+<li><a href="initialize-a-landscape.html#b-add-populations-to-the-landscape-using-minimal-distance">b) Add populations to the landscape (using minimal distance)<span></span></a></li>
+<li><a href="initialize-a-landscape.html#c-initialise-a-metapopulation">c) Initialise a metapopulation<span></span></a></li>
+</ul></li>
+<li><a href="define-simulation-parameters.html#define-simulation-parameters">3. Define simulation parameters<span></span></a>
+<ul>
+<li><a href="define-simulation-parameters.html#a-define-your-metapopulation">a) Define your metapopulation<span></span></a></li>
+<li><a href="define-simulation-parameters.html#b-initialise-your-population-on-the-landscape">b) Initialise your population on the landscape<span></span></a></li>
+</ul></li>
+<li><a href="run-simulations-and-analyze-results.html#run-simulations-and-analyze-results">4. Run simulations and analyze results<span></span></a>
+<ul>
+<li><a href="run-simulations-and-analyze-results.html#a-run-your-simulation-over-multiple-time-steps-years">a) Run your simulation over multiple time steps (years)<span></span></a></li>
+<li><a href="run-simulations-and-analyze-results.html#b-analyse-your-simulated-population-with-a-partial-mantel-test">b) Analyse your simulated population with a partial Mantel test<span></span></a></li>
+<li><a href="run-simulations-and-analyze-results.html#c-optional-analyze-your-simulated-populations-using-sunder">c) Optional: Analyze your simulated populations using ‘Sunder’<span></span></a></li>
+</ul></li>
+<li><a href="run-simulator-using-a-previously-defined-parameter-set.html#run-simulator-using-a-previously-defined-parameter-set">5. Run simulator using a previously defined parameter set<span></span></a>
+<ul>
+<li><a href="run-simulator-using-a-previously-defined-parameter-set.html#a-specify-and-record-the-parameter-combinations">a) Specify and record the parameter combinations<span></span></a></li>
+<li><a href="run-simulator-using-a-previously-defined-parameter-set.html#b-run-the-simulator-over-every-parameter-combination">b) Run the simulator over every parameter combination<span></span></a></li>
+<li><a href="run-simulator-using-a-previously-defined-parameter-set.html#c-save-your-complete-simulation-run-input-and-output">c) Save your complete simulation run (input and output)<span></span></a></li>
+<li><a href="run-simulator-using-a-previously-defined-parameter-set.html#d-analyze-and-synthesize-results">d) Analyze and synthesize results<span></span></a></li>
+</ul></li>
+<li><a href="r-exercise-week-8.html#r-exercise-week-8">6. R Exercise Week 8<span></span></a></li>
+<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R<span></span></a></li>
+<li><a href="overview-of-bonus-material.html#overview-of-bonus-material">1. Overview of Bonus Material<span></span></a>
+<ul>
+<li><a href="overview-of-bonus-material.html#a-goals-9">a) Goals<span></span></a></li>
+<li><a href="overview-of-bonus-material.html#b-data-set-8">b) Data set<span></span></a></li>
+<li><a href="overview-of-bonus-material.html#c-required-r-packages-7">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="navigating-the-file-system.html#navigating-the-file-system">2. Navigating the file system<span></span></a>
+<ul>
+<li><a href="navigating-the-file-system.html#a-where-am-i">a) Where am I?<span></span></a></li>
+<li><a href="navigating-the-file-system.html#b-accessing-a-system-file">b) Accessing a system file<span></span></a></li>
+<li><a href="navigating-the-file-system.html#c-file-manipulation">c) File manipulation<span></span></a></li>
+</ul></li>
+<li><a href="benchmarking-file-import-and-export-options.html#benchmarking-file-import-and-export-options">3. Benchmarking file import and export options<span></span></a>
+<ul>
+<li><a href="benchmarking-file-import-and-export-options.html#a-benchmark-methods-for-importing-csv-files">a) Benchmark methods for importing csv files<span></span></a></li>
+<li><a href="benchmarking-file-import-and-export-options.html#b-check-handling-of-character-data">b) Check handling of character data<span></span></a></li>
+<li><a href="benchmarking-file-import-and-export-options.html#c-binary-files">c) Binary files<span></span></a></li>
+<li><a href="benchmarking-file-import-and-export-options.html#d-should-you-save-your-r-workspace">d) Should you save your R workspace?<span></span></a></li>
+<li><a href="benchmarking-file-import-and-export-options.html#e-compile-your-functions">e) Compile your functions<span></span></a></li>
+</ul></li>
+<li><a href="profiling-your-code.html#profiling-your-code">4. Profiling your code<span></span></a>
+<ul>
+<li><a href="profiling-your-code.html#a-named-chunks">a) Named chunks<span></span></a></li>
+<li><a href="profiling-your-code.html#b-profiling-some-lines-of-code-with-profvis">b) Profiling some lines of code with ‘profvis’<span></span></a></li>
+<li><a href="profiling-your-code.html#c-profiling-an-r-script-with-profvis">c) Profiling an R script with ‘profvis’<span></span></a></li>
+<li><a href="profiling-your-code.html#d-converting-an-r-notebook-to-an-r-script">d) Converting an R Notebook to an R script<span></span></a></li>
+</ul></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#creating-and-executing-a-bash-r-script">5. Creating and executing a Bash R script<span></span></a>
+<ul>
+<li><a href="creating-and-executing-a-bash-r-script.html#a-run-r-script-directly-in-the-terminal">a) Run R script directly in the Terminal<span></span></a></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#b-create-a-bash-r-script">b) Create a Bash R script<span></span></a></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#c-executing-a-bash-r-script">c) Executing a Bash R script<span></span></a></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#d-moving-to-a-node-or-cluster">d) Moving to a node or cluster?<span></span></a></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#e-store-your-session-info-and-package-versions">e) Store your session info and package versions<span></span></a></li>
+<li><a href="creating-and-executing-a-bash-r-script.html#f-potential-windows-issues">f) Potential Windows issues<span></span></a></li>
+</ul></li>
+<li><a href="parallelizing-code.html#parallelizing-code">6. Parallelizing code<span></span></a>
+<ul>
+<li><a href="parallelizing-code.html#a-replace-lapply-by-mclapply-with-package-parallel">a) Replace ‘lapply’ by ‘mclapply’ with package ‘parallel’<span></span></a></li>
+<li><a href="parallelizing-code.html#b-replace-for-by-foreach-with-package-doparallel">b) Replace ‘for’ by ‘foreach’ with package ‘doParallel’<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics<span></span></b></span></li>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-8.html#overview-of-worked-example-8">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-8.html#a-goals-10">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-8.html#b-data-sets">b) Data sets<span></span></a></li>
+<li><a href="overview-of-worked-example-8.html#c-required-r-packages-8">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="simulated-data-2-island-model.html#simulated-data-2-island-model">2. Simulated data: 2-island model<span></span></a>
+<ul>
+<li><a href="simulated-data-2-island-model.html#a-import-data-1">a) Import data<span></span></a></li>
+<li><a href="simulated-data-2-island-model.html#b-perform-principal-components-analysis-pca">b) Perform Principal Components Analysis (PCA)<span></span></a></li>
+<li><a href="simulated-data-2-island-model.html#c-create-synthetic-spatial-coordinates-xy-and-map-them">c) Create synthetic spatial coordinates (X,Y) and map them<span></span></a></li>
+</ul></li>
+<li><a href="simulated-data-2-island-model-with-admixture.html#simulated-data-2-island-model-with-admixture">3. Simulated data: 2-island model with admixture<span></span></a></li>
+<li><a href="empirical-data-threespine-sticklebacks.html#empirical-data-threespine-sticklebacks">4. Empirical data: Threespine sticklebacks<span></span></a>
+<ul>
+<li><a href="empirical-data-threespine-sticklebacks.html#a-import-the-data">a) Import the data<span></span></a></li>
+<li><a href="empirical-data-threespine-sticklebacks.html#b-examine-population-structure-with-pca">b) Examine population structure with PCA<span></span></a></li>
+<li><a href="empirical-data-threespine-sticklebacks.html#c-clustering-with-snmf-similar-to-structure">c) Clustering with SNMF (similar to ‘STRUCTURE’)<span></span></a></li>
+<li><a href="empirical-data-threespine-sticklebacks.html#d-plot-ancestry-proportions">d) Plot ancestry proportions<span></span></a></li>
+<li><a href="empirical-data-threespine-sticklebacks.html#e-visualize-admixture-proportions-on-a-map">e) Visualize admixture proportions on a map<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-9.html#overview-of-worked-example-9">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-9.html#a-goals-11">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-9.html#b-data-set-9">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-9.html#c-required-r-packages-9">c) Required R packages<span></span></a></li>
+<li><a href="overview-of-worked-example-9.html#d-import-rasters-gsp-err-cti-and-ffp">d) Import rasters (gsp, err, cti, and ffp)<span></span></a></li>
+<li><a href="overview-of-worked-example-9.html#e-import-site-data-with-sampling-locations">e) Import site data with sampling locations<span></span></a></li>
+</ul></li>
+<li><a href="explore-the-data-set.html#explore-the-data-set">2. Explore the data set<span></span></a>
+<ul>
+<li><a href="explore-the-data-set.html#a-plot-all-rasters">a) Plot all rasters<span></span></a></li>
+<li><a href="explore-the-data-set.html#b-plot-spatial-points-over-ffp-raster">b) Plot spatial points over ‘ffp’ raster<span></span></a></li>
+</ul></li>
+<li><a href="setting-cost-values-and-calculating-conductance.html#setting-cost-values-and-calculating-conductance">3. Setting cost values and calculating conductance<span></span></a>
+<ul>
+<li><a href="setting-cost-values-and-calculating-conductance.html#a-resistance-vs.-conductance-values">a) Resistance vs. conductance values<span></span></a></li>
+<li><a href="setting-cost-values-and-calculating-conductance.html#b-as-needed-get-all-rasters-at-the-same-scale">b) As needed: Get all rasters at the same scale<span></span></a></li>
+<li><a href="setting-cost-values-and-calculating-conductance.html#c-calculate-conductance-values">c) Calculate conductance values<span></span></a></li>
+<li><a href="setting-cost-values-and-calculating-conductance.html#d-create-a-single-landscape-conductance-raster">d) Create a single landscape conductance raster<span></span></a></li>
+</ul></li>
+<li><a href="convert-conductance-into-effective-distance.html#convert-conductance-into-effective-distance">4. Convert conductance into effective distance<span></span></a>
+<ul>
+<li><a href="convert-conductance-into-effective-distance.html#a-create-a-transition-layer">a) Create a transition layer<span></span></a></li>
+<li><a href="convert-conductance-into-effective-distance.html#b-visually-inspect-the-raster">b) Visually inspect the raster<span></span></a></li>
+<li><a href="convert-conductance-into-effective-distance.html#c-correct-for-geometric-distortion">c) Correct for geometric distortion<span></span></a></li>
+<li><a href="convert-conductance-into-effective-distance.html#d-plot-shortest-paths-in-space">d) Plot shortest paths in space<span></span></a></li>
+</ul></li>
+<li><a href="create-cost-distance-matrices.html#create-cost-distance-matrices">5. Create cost-distance matrices<span></span></a>
+<ul>
+<li><a href="create-cost-distance-matrices.html#a-least-cost-distance">a) Least cost distance<span></span></a></li>
+<li><a href="create-cost-distance-matrices.html#b-cost-distance-matrix-based-on-random-paths-similar-to-circuitscape">b) Cost-distance matrix based on random paths (similar to Circuitscape)<span></span></a></li>
+<li><a href="create-cost-distance-matrices.html#c-compare-cost-distances">c) Compare cost distances<span></span></a></li>
+</ul></li>
+<li><a href="how-does-changing-resolution-affect-these-metrics.html#how-does-changing-resolution-affect-these-metrics">6. How does changing resolution affect these metrics?<span></span></a>
+<ul>
+<li><a href="how-does-changing-resolution-affect-these-metrics.html#a-create-loop">a) Create loop<span></span></a></li>
+<li><a href="how-does-changing-resolution-affect-these-metrics.html#b-plot-the-results">b) Plot the results<span></span></a></li>
+</ul></li>
+<li><a href="references.html#references">7. References<span></span></a></li>
+<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial<span></span></a></li>
+<li><a href="overview-of-bonus-materials-1.html#overview-of-bonus-materials-1">1. Overview of Bonus Materials<span></span></a>
+<ul>
+<li><a href="overview-of-bonus-materials-1.html#a-what-is-the-package-radish">a) What is the package ‘radish?’<span></span></a></li>
+<li><a href="overview-of-bonus-materials-1.html#b-data">b) Data<span></span></a></li>
+<li><a href="overview-of-bonus-materials-1.html#c-required-r-packages-10">c) Required R packages<span></span></a></li>
+</ul></li>
+<li><a href="import-data.html#import-data">2. Import data<span></span></a>
+<ul>
+<li><a href="import-data.html#a-import-raster-data">a) Import raster data<span></span></a></li>
+<li><a href="import-data.html#b-import-sampling-location-data">b) Import sampling location data<span></span></a></li>
+<li><a href="import-data.html#c-import-genetic-data">c) Import genetic data<span></span></a></li>
+<li><a href="import-data.html#d-selecting-sites">d) Selecting sites<span></span></a></li>
+</ul></li>
+<li><a href="basic-model-fitting.html#basic-model-fitting">3. Basic model fitting<span></span></a>
+<ul>
+<li><a href="basic-model-fitting.html#a-preparing-radish-objects">a) Preparing ‘radish’ objects<span></span></a></li>
+<li><a href="basic-model-fitting.html#b-fitting-radish-models">b) Fitting ‘radish’ models<span></span></a></li>
+<li><a href="basic-model-fitting.html#c-model-interactions">c) Model interactions<span></span></a></li>
+</ul></li>
+<li><a href="advanced-modeling-topics.html#advanced-modeling-topics">4. Advanced modeling topics<span></span></a>
+<ul>
+<li><a href="advanced-modeling-topics.html#a-isolation-by-distance">a) Isolation-by-Distance<span></span></a></li>
+<li><a href="advanced-modeling-topics.html#b-visualizing-results">b) Visualizing results<span></span></a></li>
+<li><a href="advanced-modeling-topics.html#c-plot-effects">c) Plot effects<span></span></a></li>
+<li><a href="advanced-modeling-topics.html#d-other-measurement-models-generalized-wishart-and-least-squares">d) Other measurement models: Generalized Wishart and least squares<span></span></a></li>
+<li><a href="advanced-modeling-topics.html#e-categorical-surfaces">e) Categorical surfaces<span></span></a></li>
+</ul></li>
+<li><a href="summary.html#summary">5. Summary<span></span></a></li>
+<li><a href="references-1.html#references-1">6. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation<span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-10.html#overview-of-worked-example-10">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-10.html#a-goals-12">a) Goals<span></span></a></li>
+<li><a href="overview-of-worked-example-10.html#b-data-set-10">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-10.html#c-required-r-libraries-1">c) Required R libraries<span></span></a></li>
+</ul></li>
+<li><a href="import-and-prepare-the-data.html#import-and-prepare-the-data">2. Import and prepare the data<span></span></a>
+<ul>
+<li><a href="import-and-prepare-the-data.html#a-import-the-genetic-data">a) Import the genetic data<span></span></a></li>
+<li><a href="import-and-prepare-the-data.html#b-import-the-environmental-data">b) Import the environmental data<span></span></a></li>
+</ul></li>
+<li><a href="latent-factor-mixed-models-lfmm-a-univariate-gea.html#latent-factor-mixed-models-lfmm-a-univariate-gea">3. Latent Factor Mixed Models (LFMM): a univariate GEA<span></span></a>
+<ul>
+<li><a href="latent-factor-mixed-models-lfmm-a-univariate-gea.html#a-determine-k">a) Determine K<span></span></a></li>
+<li><a href="latent-factor-mixed-models-lfmm-a-univariate-gea.html#b-run-lfmm">b) Run LFMM<span></span></a></li>
+<li><a href="latent-factor-mixed-models-lfmm-a-univariate-gea.html#c-identify-lfmm-candidates-using-false-discovery-rate">c) Identify LFMM candidates using False Discovery Rate<span></span></a></li>
+</ul></li>
+<li><a href="redundancy-analysis-rda-a-multivariate-gea.html#redundancy-analysis-rda-a-multivariate-gea">4. Redundancy Analysis (RDA): a multivariate GEA<span></span></a>
+<ul>
+<li><a href="redundancy-analysis-rda-a-multivariate-gea.html#a-run-rda">a) Run RDA<span></span></a></li>
+<li><a href="redundancy-analysis-rda-a-multivariate-gea.html#b-identify-rda-candidates">b) Identify RDA candidates<span></span></a></li>
+</ul></li>
+<li><a href="compare-lfmm-and-rda-candidates.html#compare-lfmm-and-rda-candidates">5. Compare LFMM and RDA candidates<span></span></a></li>
+<li><a href="a-quick-note-on-controlling-for-population-structure-in-rda.html#a-quick-note-on-controlling-for-population-structure-in-rda">6. A quick note on controlling for population structure in RDA<span></span></a></li>
+<li><a href="references-2.html#references-2">7. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection<span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-11.html#overview-of-worked-example-11">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-11.html#a-goals-and-background">a) Goals and Background<span></span></a></li>
+<li><a href="overview-of-worked-example-11.html#b-data-set-11">b) Data set<span></span></a></li>
+<li><a href="overview-of-worked-example-11.html#c-required-packages">c) Required packages<span></span></a></li>
+<li><a href="overview-of-worked-example-11.html#d-import-data-1">d) Import data<span></span></a></li>
+</ul></li>
+<li><a href="fitting-candidate-models.html#fitting-candidate-models">2. Fitting candidate models<span></span></a>
+<ul>
+<li><a href="fitting-candidate-models.html#a-alternative-hypotheses">a) Alternative hypotheses<span></span></a></li>
+<li><a href="fitting-candidate-models.html#b-check-for-multicollinearity">b) Check for multicollinearity<span></span></a></li>
+<li><a href="fitting-candidate-models.html#c-fit-all-five-models">c) Fit all five models<span></span></a></li>
+<li><a href="fitting-candidate-models.html#d-compare-evidence-for-models">d) Compare evidence for models<span></span></a></li>
+<li><a href="fitting-candidate-models.html#e-calculate-evidence-weights">e) Calculate evidence weights<span></span></a></li>
+<li><a href="fitting-candidate-models.html#f-confidence-intervals-for-predictors">f) Confidence intervals for predictors<span></span></a></li>
+</ul></li>
+<li><a href="your-turn-to-test-additional-hypotheses.html#your-turn-to-test-additional-hypotheses">3. Your turn to test additional hypotheses!<span></span></a></li>
+<li><a href="nested-model-nmlpe-for-hierarchical-sampling-designs.html#nested-model-nmlpe-for-hierarchical-sampling-designs">4. Nested model (NMLPE) for hierarchical sampling designs<span></span></a></li>
+<li><a href="references-3.html#references-3">5. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-of-worked-example-12.html#overview-of-worked-example-12">1. Overview of Worked Example<span></span></a>
+<ul>
+<li><a href="overview-of-worked-example-12.html#a-background">a) Background<span></span></a></li>
+<li><a href="overview-of-worked-example-12.html#b-data-set-12">b) Data set<span></span></a></li>
+</ul></li>
+<li><a href="setup.html#setup">2. Setup<span></span></a></li>
+<li><a href="wetland-complex-data-preparation.html#wetland-complex-data-preparation">3. Wetland complex data preparation<span></span></a>
+<ul>
+<li><a href="wetland-complex-data-preparation.html#a-read-in-wetlands-data">a) Read in wetlands data<span></span></a></li>
+<li><a href="wetland-complex-data-preparation.html#b-create-wetlands-graph">b) Create wetlands graph<span></span></a></li>
+<li><a href="wetland-complex-data-preparation.html#c-graph-metrics">c) Graph metrics<span></span></a></li>
+<li><a href="wetland-complex-data-preparation.html#d-plot-graph-metric">d) Plot graph metric<span></span></a></li>
+</ul></li>
+<li><a href="wetland-field-data-preparation.html#wetland-field-data-preparation">4. Wetland field-data preparation<span></span></a></li>
+<li><a href="saturated-graph.html#saturated-graph">5. Saturated Graph<span></span></a>
+<ul>
+<li><a href="saturated-graph.html#a-create-graph-from-site-locations">a) Create graph from site locations<span></span></a></li>
+<li><a href="saturated-graph.html#b-merge-the-graph-with-genetic-distance">b) Merge the graph with genetic distance<span></span></a></li>
+</ul></li>
+<li><a href="spatial-model-data-prepration.html#spatial-model-data-prepration">6. Spatial model data prepration<span></span></a>
+<ul>
+<li><a href="spatial-model-data-prepration.html#a-read-raster-data-using-terra">a) Read raster data using ‘terra’<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#b-reclassify-wetlands">b) Reclassify wetlands<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#c-calculate-the-proportion-of-the-landscape-around-sites">c) Calculate the proportion of the landscape around sites<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#d-add-values-of-rasters-to-sample-sites">d) Add values of rasters to sample sites<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#e-add-raster-covariates-to-graph-edges-lines">e) Add raster covariates to graph edges (lines)<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#f-what-about-categorical-variables">f) What about categorical variables?<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#g-evaluate-node-and-edge-correlations">g) Evaluate node and edge correlations<span></span></a></li>
+<li><a href="spatial-model-data-prepration.html#h-add-node-data">h) Add node data<span></span></a></li>
+</ul></li>
+<li><a href="gravity-model.html#gravity-model">7. Gravity model<span></span></a>
+<ul>
+<li><a href="gravity-model.html#a-develop-hypothesis">a) Develop hypothesis<span></span></a></li>
+<li><a href="gravity-model.html#b-compare-competing-models">b) Compare competing models<span></span></a></li>
+<li><a href="gravity-model.html#c-fit-final-models-and-calculate-effect-size">c) Fit final model(s) and calculate effect size<span></span></a></li>
+<li><a href="gravity-model.html#d-back-predict-global_fit-model">d) Back predict global_fit model<span></span></a></li>
+<li><a href="gravity-model.html#e-aggregrate-estimates-and-plot">e) Aggregrate estimates and plot<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example<span></span></a></li>
+<li><a href="overview-3.html#overview-3">1. Overview<span></span></a>
+<ul>
+<li><a href="overview-3.html#a-background-and-goals">a) Background and Goals<span></span></a></li>
+<li><a href="overview-3.html#b-data-set-13">b) Data set<span></span></a></li>
+<li><a href="overview-3.html#c-required-packages-1">c) Required packages<span></span></a></li>
+</ul></li>
+<li><a href="import-genotypes.html#import-genotypes">2. Import Genotypes<span></span></a>
+<ul>
+<li><a href="import-genotypes.html#a-import-genotype-data">a) Import genotype data<span></span></a></li>
+<li><a href="import-genotypes.html#b-plot-map-of-sampling-locations">b) Plot map of sampling locations<span></span></a></li>
+</ul></li>
+<li><a href="pollen-pool-genetic-structure.html#pollen-pool-genetic-structure">3. Pollen pool genetic structure<span></span></a>
+<ul>
+<li><a href="pollen-pool-genetic-structure.html#a-subtract-maternal-contribution-to-offspring-genotype">a) Subtract maternal contribution to offspring genotype<span></span></a></li>
+<li><a href="pollen-pool-genetic-structure.html#b-twogener-analysis-amova-of-pollen-pool-data">b) ‘TwoGener’ analysis (AMOVA of pollen pool data)<span></span></a></li>
+<li><a href="pollen-pool-genetic-structure.html#c-including-space-isolation-by-distance">c) Including space: Isolation by distance<span></span></a></li>
+</ul></li>
+<li><a href="paternity-analysis.html#paternity-analysis">4. Paternity analysis<span></span></a>
+<ul>
+<li><a href="paternity-analysis.html#a-exclusion-probabilities">a) Exclusion probabilities<span></span></a></li>
+<li><a href="paternity-analysis.html#b-paternity-analysis">b) Paternity analysis<span></span></a></li>
+<li><a href="paternity-analysis.html#c-visualize-reconstructed-pollen-flow-events-in-space">c) Visualize reconstructed pollen flow events in space<span></span></a></li>
+<li><a href="paternity-analysis.html#d-visualize-dispersal-kernel">d) Visualize dispersal kernel<span></span></a></li>
+</ul></li>
+<li><a href="linking-paternity-to-ecological-variables.html#linking-paternity-to-ecological-variables">5. Linking paternity to ecological variables<span></span></a>
+<ul>
+<li><a href="linking-paternity-to-ecological-variables.html#a-explain-pollen-flow-within-populations">a) Explain pollen flow within populations<span></span></a></li>
+<li><a href="linking-paternity-to-ecological-variables.html#b-explain-pollen-flow-at-the-population-level">b) Explain pollen flow at the population level<span></span></a></li>
+</ul></li>
+<li><a href="references-4.html#references-4">6. References<span></span></a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="gravity-model" class="section level2 unnumbered hasAnchor">
+<h2>7. Gravity model<a href="gravity-model.html#gravity-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="a-develop-hypothesis" class="section level3 unnumbered hasAnchor">
+<h3>a) Develop hypothesis<a href="gravity-model.html#a-develop-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>What type of gravity model do you wish to run (production or attraction constraint)? Think about what hypotheses that you want to test. Write out model statements that group parameters into hypotheses and run models. Remember to run a NULL that is just distance.</p>
+<p><strong>At-site (node) potential parameters.</strong> These are all at-site variables. Remember that we pulled all raster variables. We want to critically think about hypotheses and not use all of these parameters.</p>
+<ul>
+<li><code>degree</code> - graph degree</li>
+<li><code>betweenness</code> - graph betweeness</li>
+<li><code>Elev</code> - elevation (see comments below)</li>
+<li><code>Length</code> - geographic distance</li>
+<li><code>Area</code> - wetland area (field)</li>
+<li><code>Perim</code> - wetland perimeter (field)</li>
+<li><code>Depth</code> - wetland depth (field)- highly correlated with predatory fish presence/abundance</li>
+<li><code>pH</code> - wetland pH (field)</li>
+<li><code>Dforest</code> - distance to forest (field)</li>
+<li><code>Drock</code> - distance to rock (field)</li>
+<li><code>Dshrub</code> - distance to shrub (field)</li>
+<li><code>pwetland</code> - proportion of wetland in X buffer (calculated above)</li>
+<li><code>cti</code> - compound topographic wetness index - steady-state measure of wetness based on topography (raster data)</li>
+<li><code>dd5</code> - degree days &gt;5 C (sum of temp) - (raster data)</li>
+<li><code>ffp</code> - frost free period (raster data)</li>
+<li><code>gsp</code> - growing season precipitation (raster data)</li>
+<li><code>pratio</code> - ratio of growing season precip to annual precip (raster data) - can indicate amount of snow to rain</li>
+<li><code>hli</code> - heat load index - topographic measure of exposure, related to productivity (ice-off and primary productivity) in this system (raster data)</li>
+<li><code>rough27</code> - unscale topographic variation at a 27 X 27 (cells) window size (raster data)</li>
+<li><code>ssr</code> - measure of topographic variation at a 27X27 (cells) windo size - for this system pulling out ridgelines (raster data)</li>
+</ul>
+<p>NOTE: we are adding elevation here as a covariate. HOWEVER - elevation does not represent ecological processes in and of itself. I strongly encourage using the components (temp, moisture, rainfall, vegetation, accessibility, etc.) directly and not elevation as a surrogate parameter.</p>
+<p><strong>Between site (edge) potential parameters include:</strong></p>
+<ul>
+<li><code>cti</code>, <code>dd5</code>, <code>ffp</code>, <code>gsp</code>, <code>pratio</code>, <code>hli</code>, <code>rough27</code>, <code>ssr</code> (min, mean, max, var, median for each)</li>
+<li><code>wet.pct.nlcd</code> - percent of cells that are wetland class</li>
+</ul>
+<div class="sourceCode" id="cb1376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1376-1"><a href="gravity-model.html#cb1376-1" aria-hidden="true" tabindex="-1"></a><span class="co"># null model (under Maximum Likelihood) </span></span>
+<span id="cb1376-2"><a href="gravity-model.html#cb1376-2" aria-hidden="true" tabindex="-1"></a>( null <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, </span>
+<span id="cb1376-3"><a href="gravity-model.html#cb1376-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##        AIC      BIC    logLik
+##   20554.37 20585.62 -10273.18
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept)  Residual
+## StdDev:   0.2009152 0.4232432
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                  Value  Std.Error    DF    t-value p-value
+## (Intercept) -1.2019984 0.07467247 18224 -16.096941       0
+## length       0.1418157 0.03059252 18224   4.635633       0
+##  Correlation: 
+##        (Intr)
+## length -0.854
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -3.2285925 -0.5168847  0.1184083  0.6182159  2.4848654 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1379-1"><a href="gravity-model.html#cb1379-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fish hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1379-2"><a href="gravity-model.html#cb1379-2" aria-hidden="true" tabindex="-1"></a>( depth <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>,<span class="st">&quot;from.Depth&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb1379-3"><a href="gravity-model.html#cb1379-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>, <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC  logLik
+##   -13067.22 -13028.16 6538.61
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.08102556 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                  Value   Std.Error    DF    t-value p-value
+## (Intercept) -0.4101360 0.028357541 18224 -14.463032  0.0000
+## length      -0.0002202 0.001624886 18224  -0.135530  0.8922
+## from.Depth  -0.0200540 0.014527936    25  -1.380377  0.1797
+##  Correlation: 
+##            (Intr) length
+## length     -0.462       
+## from.Depth -0.693 -0.002
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07683320 -0.58959052  0.02162005  0.65913788  3.21875035 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1382-1"><a href="gravity-model.html#cb1382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Productivity hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1382-2"><a href="gravity-model.html#cb1382-2" aria-hidden="true" tabindex="-1"></a>( production <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>), </span>
+<span id="cb1382-3"><a href="gravity-model.html#cb1382-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">d =</span> <span class="st">&quot;length&quot;</span>,  <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, </span>
+<span id="cb1382-4"><a href="gravity-model.html#cb1382-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>, <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC   logLik
+##   -13069.56 -13022.69 6540.779
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.07472813 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                 Value Std.Error    DF    t-value p-value
+## (Intercept)  7.844732  3.217229 18224  2.4383506  0.0148
+## length      -0.000216  0.001625 18224 -0.1327679  0.8944
+## from.ffp    -0.182845  0.092655    24 -1.9734052  0.0601
+## from.hli     9.858960  3.806810    24  2.5898215  0.0161
+##  Correlation: 
+##          (Intr) length frm.ff
+## length   -0.001              
+## from.ffp -0.873 -0.002       
+## from.hli  1.000  0.003 -0.858
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07745485 -0.59059645  0.02038188  0.65656315  3.21927307 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1385-1"><a href="gravity-model.html#cb1385-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Climate hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1385-2"><a href="gravity-model.html#cb1385-2" aria-hidden="true" tabindex="-1"></a>( climate <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.ffp&quot;</span>, <span class="st">&quot;median.pratio&quot;</span>), </span>
+<span id="cb1385-3"><a href="gravity-model.html#cb1385-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, </span>
+<span id="cb1385-4"><a href="gravity-model.html#cb1385-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>,  <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##        AIC       BIC   logLik
+##   -13063.4 -13016.53 6537.699
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.08379164 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                    Value Std.Error    DF    t-value p-value
+## (Intercept)   -0.3764155 0.4324059 18222 -0.8705143  0.3840
+## length        -0.0002220 0.0016250 18222 -0.1365944  0.8914
+## median.ffp    -0.0015543 0.0123722 18222 -0.1256312  0.9000
+## median.pratio  0.0719090 0.5093743 18222  0.1411713  0.8877
+##  Correlation: 
+##               (Intr) length mdn.ff
+## length        -0.030              
+## median.ffp    -0.921  0.000       
+## median.pratio  0.999  0.000 -0.914
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07813375 -0.58911378  0.02085691  0.65932821  3.22058420 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1388-1"><a href="gravity-model.html#cb1388-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wetlands hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1388-2"><a href="gravity-model.html#cb1388-2" aria-hidden="true" tabindex="-1"></a>( wetlands <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;from.degree&quot;</span>, <span class="st">&quot;from.betweenness&quot;</span>, <span class="st">&quot;from.pwetland&quot;</span>), </span>
+<span id="cb1388-3"><a href="gravity-model.html#cb1388-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>,</span>
+<span id="cb1388-4"><a href="gravity-model.html#cb1388-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC   logLik
+##   -13061.71 -13007.03 6537.856
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.08333405 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                       Value  Std.Error    DF   t-value p-value
+## (Intercept)      -0.3992700 0.10461517 18224 -3.816559  0.0001
+## length           -0.0002201 0.00162516 18224 -0.135444  0.8923
+## from.degree      -0.0016877 0.01219259    23 -0.138422  0.8911
+## from.betweenness -0.0211050 0.05709693    23 -0.369635  0.7150
+## from.pwetland    -0.0042020 0.00998733    23 -0.420733  0.6779
+##  Correlation: 
+##                  (Intr) length frm.dg frm.bt
+## length           -0.129                     
+## from.degree      -0.273  0.013              
+## from.betweenness -0.770 -0.006 -0.335       
+## from.pwetland     0.015 -0.002  0.348 -0.015
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07678625 -0.58904996  0.02101676  0.65966584  3.21863968 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1391-1"><a href="gravity-model.html#cb1391-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Topography hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1391-2"><a href="gravity-model.html#cb1391-2" aria-hidden="true" tabindex="-1"></a>( topo <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, <span class="st">&quot;median.rough27&quot;</span>), <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb1391-3"><a href="gravity-model.html#cb1391-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>,</span>
+<span id="cb1391-4"><a href="gravity-model.html#cb1391-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC   logLik
+##   -13063.38 -13016.51 6537.691
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.08384168 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                     Value   Std.Error    DF    t-value p-value
+## (Intercept)    -0.4362752 0.028684761 18222 -15.209304  0.0000
+## length         -0.0002219 0.001624950 18222  -0.136584  0.8914
+## median.srr      0.0000915 0.012808227 18222   0.007141  0.9943
+## median.rough27 -0.0001394 0.002224808 18222  -0.062664  0.9500
+##  Correlation: 
+##                (Intr) length mdn.sr
+## length         -0.458              
+## median.srr      0.449  0.000       
+## median.rough27 -0.574  0.000 -0.132
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -5.0777083 -0.5892049  0.0209408  0.6596691  3.2190372 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1394-1"><a href="gravity-model.html#cb1394-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Habitat hypothesis (under Maximum Likelihood) </span></span>
+<span id="cb1394-2"><a href="gravity-model.html#cb1394-2" aria-hidden="true" tabindex="-1"></a>( habitat <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>), </span>
+<span id="cb1394-3"><a href="gravity-model.html#cb1394-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>,</span>
+<span id="cb1394-4"><a href="gravity-model.html#cb1394-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ln =</span> <span class="cn">FALSE</span>, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC   logLik
+##   -13063.38 -13016.51 6537.689
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.08385112 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                   Value Std.Error    DF    t-value p-value
+## (Intercept)  -0.4347231 0.3358747 18222 -1.2943015  0.1956
+## length       -0.0002220 0.0016250 18222 -0.1365927  0.8914
+## wet.pct.nlcd  0.0000233 0.0008368 18222  0.0278113  0.9778
+## median.gsp   -0.0004444 0.0592399 18222 -0.0075024  0.9940
+##  Correlation: 
+##              (Intr) length wt.pc.
+## length       -0.039              
+## wet.pct.nlcd -0.131  0.000       
+## median.gsp   -0.998  0.000  0.137
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07735336 -0.58922468  0.02089058  0.65952539  3.21896772 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+<div class="sourceCode" id="cb1397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1397-1"><a href="gravity-model.html#cb1397-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global model (under Maximum Likelihood) </span></span>
+<span id="cb1397-2"><a href="gravity-model.html#cb1397-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1397-3"><a href="gravity-model.html#cb1397-3" aria-hidden="true" tabindex="-1"></a>( global <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, </span>
+<span id="cb1397-4"><a href="gravity-model.html#cb1397-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.Depth&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;from.pratio&quot;</span>, <span class="st">&quot;from.degree&quot;</span>, </span>
+<span id="cb1397-5"><a href="gravity-model.html#cb1397-5" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;from.betweenness&quot;</span>, <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>, <span class="st">&quot;median.rough27&quot;</span>), </span>
+<span id="cb1397-6"><a href="gravity-model.html#cb1397-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">fit.method =</span> <span class="st">&quot;ML&quot;</span>,</span>
+<span id="cb1397-7"><a href="gravity-model.html#cb1397-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ln =</span> <span class="cn">FALSE</span>) )</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<pre><code>## Gravity model
+## 
+## Linear mixed-effects model fit by maximum likelihood
+##   Data: gdata 
+##         AIC       BIC   logLik
+##   -13054.63 -12937.45 6542.316
+## 
+## Random effects:
+##  Formula: GDIST ~ 1 | from_ID
+##         (Intercept) Residual
+## StdDev:  0.07055036 0.168483
+## 
+## Fixed effects:  stats::as.formula(paste(paste(y, &quot;~&quot;, sep = &quot;&quot;), paste(x, collapse = &quot;+&quot;))) 
+##                      Value Std.Error    DF    t-value p-value
+## (Intercept)       7.594838  3.142709 18220  2.4166536  0.0157
+## length           -0.000222  0.001626 18220 -0.1363422  0.8916
+## wet.pct.nlcd      0.000015  0.000848 18220  0.0182482  0.9854
+## median.gsp        0.006423  0.074369 18220  0.0863647  0.9312
+## from.Depth       -0.028416  0.016951    19 -1.6763414  0.1100
+## from.ffp         -0.160716  0.092478    19 -1.7378814  0.0984
+## from.hli          9.870505  3.708767    19  2.6613980  0.0154
+## from.pratio       0.021924  0.044485    19  0.4928338  0.6278
+## from.degree      -0.002106  0.010941    19 -0.1924986  0.8494
+## from.betweenness  0.041878  0.059756    19  0.7008170  0.4919
+## from.pwetland     0.004308  0.009342    19  0.4611556  0.6499
+## median.srr        0.000243  0.012888 18220  0.0188312  0.9850
+## median.rough27   -0.000201  0.002850 18220 -0.0705163  0.9438
+##  Correlation: 
+##                  (Intr) length wt.pc. mdn.gs frm.Dp frm.ff frm.hl frm.pr frm.dg
+## length           -0.004                                                        
+## wet.pct.nlcd     -0.006  0.000                                                 
+## median.gsp       -0.130  0.000  0.018                                          
+## from.Depth        0.062 -0.001 -0.002 -0.001                                   
+## from.ffp         -0.861  0.001  0.006  0.017 -0.179                            
+## from.hli          0.985  0.001 -0.004  0.002  0.035 -0.858                     
+## from.pratio       0.015  0.007 -0.009  0.015 -0.076 -0.132  0.120              
+## from.degree      -0.114  0.016 -0.005 -0.004 -0.074  0.084 -0.075  0.300       
+## from.betweenness  0.054 -0.007  0.003 -0.012 -0.533 -0.009  0.062 -0.159 -0.292
+## from.pwetland     0.085  0.000  0.005  0.000 -0.339 -0.070  0.117  0.254  0.379
+## median.srr        0.001  0.000 -0.075  0.077  0.005 -0.009  0.007  0.001  0.010
+## median.rough27    0.085  0.000  0.150 -0.603 -0.004 -0.010  0.009 -0.015  0.009
+##                  frm.bt frm.pw mdn.sr
+## length                               
+## wet.pct.nlcd                         
+## median.gsp                           
+## from.Depth                           
+## from.ffp                             
+## from.hli                             
+## from.pratio                          
+## from.degree                          
+## from.betweenness                     
+## from.pwetland     0.137              
+## median.srr        0.002 -0.006       
+## median.rough27    0.003  0.004 -0.161
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.07862043 -0.59088464  0.02199601  0.65522607  3.22091896 
+## 
+## Number of Observations: 18252
+## Number of Groups: 27</code></pre>
+</div>
+<div id="b-compare-competing-models" class="section level3 unnumbered hasAnchor">
+<h3>b) Compare competing models<a href="gravity-model.html#b-compare-competing-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Should you use ML or REML? Create diagnostic plots.</p>
+<p>Can you directly compare ML and REML? Why not?</p>
+<div class="sourceCode" id="cb1400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1400-1"><a href="gravity-model.html#cb1400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare.models</span>(null, depth, production, climate, wetlands, </span>
+<span id="cb1400-2"><a href="gravity-model.html#cb1400-2" aria-hidden="true" tabindex="-1"></a>               topo, habitat, global)</span></code></pre></div>
+<pre><code>##        model       AIC       BIC log.likelihood   RMSE nparms     deltaAIC
+## 1       null  20554.37  20585.62     -10273.185 0.5386      0 33623.927613
+## 2      depth -13067.22 -13028.16       6538.610 0.1779      2     2.339018
+## 3 production -13069.56 -13022.69       6540.779 0.1765      3     0.000000
+## 4    climate -13063.40 -13016.53       6537.699 0.1785      3     6.160553
+## 5   wetlands -13061.71 -13007.03       6537.856 0.1784      4     7.846638
+## 6       topo -13063.38 -13016.51       6537.691 0.1786      3     6.176597
+## 7    habitat -13063.38 -13016.51       6537.689 0.1786      3     6.179621
+## 8     global -13054.63 -12937.45       6542.316 0.1757     12    14.926651
+##       deltaBIC
+## 1 33613.776566
+## 2     0.000000
+## 3     5.473012
+## 4    11.633565
+## 5    21.131680
+## 6    11.649610
+## 7    11.652634
+## 8    90.707933</code></pre>
+<div class="sourceCode" id="cb1402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1402-1"><a href="gravity-model.html#cb1402-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb1402-2"><a href="gravity-model.html#cb1402-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) { <span class="fu">plot</span>(null, <span class="at">type=</span>i) } </span></code></pre></div>
+<p><img src="13-Week13_files/figure-html/null-1.png" width="672" /></p>
+</div>
+<div id="c-fit-final-models-and-calculate-effect-size" class="section level3 unnumbered hasAnchor">
+<h3>c) Fit final model(s) and calculate effect size<a href="gravity-model.html#c-fit-final-models-and-calculate-effect-size" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To calculate effect size, we refit the models with REML.</p>
+<div class="sourceCode" id="cb1403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1403-1"><a href="gravity-model.html#cb1403-1" aria-hidden="true" tabindex="-1"></a><span class="co"># productivity fit (under REML)</span></span>
+<span id="cb1403-2"><a href="gravity-model.html#cb1403-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>, <span class="st">&quot;from.hli&quot;</span>)</span>
+<span id="cb1403-3"><a href="gravity-model.html#cb1403-3" aria-hidden="true" tabindex="-1"></a>production_fit <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> h, <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>,</span>
+<span id="cb1403-4"><a href="gravity-model.html#cb1403-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> gdata, <span class="at">ln=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<div class="sourceCode" id="cb1405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1405-1"><a href="gravity-model.html#cb1405-1" aria-hidden="true" tabindex="-1"></a><span class="co"># global fit (under REML)</span></span>
+<span id="cb1405-2"><a href="gravity-model.html#cb1405-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;length&quot;</span>, <span class="st">&quot;wet.pct.nlcd&quot;</span>, <span class="st">&quot;median.gsp&quot;</span>, <span class="st">&quot;from.Depth&quot;</span>, <span class="st">&quot;from.ffp&quot;</span>,</span>
+<span id="cb1405-3"><a href="gravity-model.html#cb1405-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;from.hli&quot;</span>, <span class="st">&quot;from.pratio&quot;</span>,  <span class="st">&quot;from.degree&quot;</span>, <span class="st">&quot;from.betweenness&quot;</span>,  </span>
+<span id="cb1405-4"><a href="gravity-model.html#cb1405-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;from.pwetland&quot;</span>, <span class="st">&quot;median.srr&quot;</span>,  <span class="st">&quot;median.rough27&quot;</span>)</span>
+<span id="cb1405-5"><a href="gravity-model.html#cb1405-5" aria-hidden="true" tabindex="-1"></a>global_fit <span class="ot">&lt;-</span> <span class="fu">gravity</span>(<span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> g, <span class="at">d =</span> <span class="st">&quot;length&quot;</span>, </span>
+<span id="cb1405-6"><a href="gravity-model.html#cb1405-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">group =</span> <span class="st">&quot;from_ID&quot;</span>, <span class="at">data =</span> gdata, <span class="at">ln=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Running singly-constrained gravity model&quot;</code></pre>
+<p>Effect size calculation: global model</p>
+<div class="sourceCode" id="cb1407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1407-1"><a href="gravity-model.html#cb1407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gravity.es</span>(global_fit)</span></code></pre></div>
+<pre><code>##                      t.value    df       cohen.d  p.value      low.ci
+## length           -0.12995103 18220 -0.0019254646 0.896607 -0.02246144
+## wet.pct.nlcd      0.01285573 18220  0.0001904814 0.989743 -0.02034549
+## median.gsp        0.06080170 18220  0.0009008895 0.951518 -0.01963508
+## from.Depth       -1.40651839    19 -0.6453548981 0.175716 -1.33971267
+## from.ffp         -1.45856008    19 -0.6692332641 0.161020 -1.36495273
+## from.hli          2.23310806    19  1.0246202508 0.037767  0.30328454
+## from.pratio       0.41324402    19  0.1896093623 0.684054 -0.48802350
+## from.degree      -0.16130151    19 -0.0740102093 0.873559 -0.75028579
+## from.betweenness  0.58817704    19  0.2698741332 0.563340 -0.40939769
+## from.pwetland     0.38694297    19  0.1775416115 0.703098 -0.49989408
+## median.srr        0.01325052 18220  0.0001963309 0.989428 -0.02033964
+## median.rough27   -0.04964361 18220 -0.0007355618 0.960407 -0.02127153
+##                       up.ci
+## length           0.01861051
+## wet.pct.nlcd     0.02072645
+## median.gsp       0.02143686
+## from.Depth       0.04900287
+## from.ffp         0.02648620
+## from.hli         1.74595596
+## from.pratio      0.86724222
+## from.degree      0.60226537
+## from.betweenness 0.94914596
+## from.pwetland    0.85497730
+## median.srr       0.02073230
+## median.rough27   0.01980041</code></pre>
+<div class="sourceCode" id="cb1409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1409-1"><a href="gravity-model.html#cb1409-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb1409-2"><a href="gravity-model.html#cb1409-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) { <span class="fu">plot</span>(global_fit, <span class="at">type=</span>i) } </span></code></pre></div>
+<p><img src="13-Week13_files/figure-html/global_fit-1.png" width="672" /></p>
+<p>Production model:</p>
+<div class="sourceCode" id="cb1410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1410-1"><a href="gravity-model.html#cb1410-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gravity.es</span>(production_fit)</span></code></pre></div>
+<pre><code>##             t.value    df      cohen.d  p.value      low.ci      up.ci
+## length   -0.1307727 18224 -0.001937426 0.895957 -0.02247115  0.0185963
+## from.ffp -1.8607323    24 -0.759640789 0.075078 -1.37514450 -0.1441371
+## from.hli  2.4419572    24  0.996924848 0.022351  0.36605297  1.6277967</code></pre>
+<div class="sourceCode" id="cb1412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1412-1"><a href="gravity-model.html#cb1412-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb1412-2"><a href="gravity-model.html#cb1412-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) { <span class="fu">plot</span>(production_fit, <span class="at">type=</span>i) } </span></code></pre></div>
+<p><img src="13-Week13_files/figure-html/production_fit-1.png" width="672" /></p>
+</div>
+<div id="d-back-predict-global_fit-model" class="section level3 unnumbered hasAnchor">
+<h3>d) Back predict global_fit model<a href="gravity-model.html#d-back-predict-global_fit-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Feel free to add other top models.</p>
+<div class="sourceCode" id="cb1413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1413-1"><a href="gravity-model.html#cb1413-1" aria-hidden="true" tabindex="-1"></a>gd <span class="ot">&lt;-</span> <span class="fu">back.transform</span>(gdata<span class="sc">$</span>GDIST)</span>
+<span id="cb1413-2"><a href="gravity-model.html#cb1413-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1413-3"><a href="gravity-model.html#cb1413-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make individual-level (group) predictions (per slope) and show RMSE </span></span>
+<span id="cb1413-4"><a href="gravity-model.html#cb1413-4" aria-hidden="true" tabindex="-1"></a>global.p <span class="ot">&lt;-</span> <span class="fu">predict</span>(global_fit, <span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> g,  </span>
+<span id="cb1413-5"><a href="gravity-model.html#cb1413-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">newdata=</span>gdata, <span class="at">groups =</span> gdata<span class="sc">$</span>from_ID,</span>
+<span id="cb1413-6"><a href="gravity-model.html#cb1413-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">back.transform =</span> <span class="st">&quot;simple&quot;</span>)</span></code></pre></div>
+<pre><code>## Making individual-level (per-slope group) 
+##        constrained predictions</code></pre>
+<pre><code>## Back-transforming exp(y-hat)*0.5*variance(y-hat), 
+##        assumes normally distributed errors</code></pre>
+<div class="sourceCode" id="cb1416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1416-1"><a href="gravity-model.html#cb1416-1" aria-hidden="true" tabindex="-1"></a>production.p <span class="ot">&lt;-</span> <span class="fu">predict</span>(production_fit, <span class="at">y =</span> <span class="st">&quot;GDIST&quot;</span>, <span class="at">x =</span> h,  </span>
+<span id="cb1416-2"><a href="gravity-model.html#cb1416-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">newdata=</span>gdata, <span class="at">groups =</span> gdata<span class="sc">$</span>from_ID,</span>
+<span id="cb1416-3"><a href="gravity-model.html#cb1416-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">back.transform =</span> <span class="st">&quot;simple&quot;</span>)</span></code></pre></div>
+<pre><code>## Making individual-level (per-slope group) 
+##        constrained predictions
+## Back-transforming exp(y-hat)*0.5*variance(y-hat), 
+##        assumes normally distributed errors</code></pre>
+<div class="sourceCode" id="cb1418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1418-1"><a href="gravity-model.html#cb1418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;RMSE of global&quot;</span>, <span class="fu">rmse</span>(global.p, gd), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## RMSE of global 0.1104084</code></pre>
+<div class="sourceCode" id="cb1420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1420-1"><a href="gravity-model.html#cb1420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;RMSE of production&quot;</span>, <span class="fu">rmse</span>(production.p, gd), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## RMSE of production 0.1104098</code></pre>
+</div>
+<div id="e-aggregrate-estimates-and-plot" class="section level3 unnumbered hasAnchor">
+<h3>e) Aggregrate estimates and plot<a href="gravity-model.html#e-aggregrate-estimates-and-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can aggregrate estimates back to the edges and nodes. An interactive map can be created using the <code>tmap</code> package (see Week 2 Bonus vignette).</p>
+<p>Aggregate estimates to graph and node.</p>
+<div class="sourceCode" id="cb1422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1422-1"><a href="gravity-model.html#cb1422-1" aria-hidden="true" tabindex="-1"></a>global.p <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">EID =</span> gdata<span class="sc">$</span>from.to,</span>
+<span id="cb1422-2"><a href="gravity-model.html#cb1422-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">NID =</span> gdata<span class="sc">$</span>from_ID,  </span>
+<span id="cb1422-3"><a href="gravity-model.html#cb1422-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">p=</span>global.p)</span>
+<span id="cb1422-4"><a href="gravity-model.html#cb1422-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1422-5"><a href="gravity-model.html#cb1422-5" aria-hidden="true" tabindex="-1"></a>edge.p <span class="ot">&lt;-</span> <span class="fu">tapply</span>(global.p<span class="sc">$</span>p, global.p<span class="sc">$</span>EID, mean)</span>
+<span id="cb1422-6"><a href="gravity-model.html#cb1422-6" aria-hidden="true" tabindex="-1"></a>  dist.graph<span class="sc">$</span>global.flow <span class="ot">&lt;-</span> edge.p</span>
+<span id="cb1422-7"><a href="gravity-model.html#cb1422-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1422-8"><a href="gravity-model.html#cb1422-8" aria-hidden="true" tabindex="-1"></a>node.p <span class="ot">&lt;-</span> <span class="fu">tapply</span>(global.p<span class="sc">$</span>p, global.p<span class="sc">$</span>NID, mean)</span>
+<span id="cb1422-9"><a href="gravity-model.html#cb1422-9" aria-hidden="true" tabindex="-1"></a>node.var <span class="ot">&lt;-</span> <span class="fu">tapply</span>(global.p<span class="sc">$</span>p, global.p<span class="sc">$</span>NID, var)</span>
+<span id="cb1422-10"><a href="gravity-model.html#cb1422-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1422-11"><a href="gravity-model.html#cb1422-11" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(sites<span class="sc">$</span>SiteName <span class="sc">%in%</span> <span class="fu">names</span>(node.p))</span>
+<span id="cb1422-12"><a href="gravity-model.html#cb1422-12" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">$</span>global.flow[idx] <span class="ot">&lt;-</span> node.p</span>
+<span id="cb1422-13"><a href="gravity-model.html#cb1422-13" aria-hidden="true" tabindex="-1"></a>sites<span class="sc">$</span>global.var[idx] <span class="ot">&lt;-</span> node.var</span></code></pre></div>
+<p>Define the map and store it in object <code>Map</code>.</p>
+<div class="sourceCode" id="cb1423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1423-1"><a href="gravity-model.html#cb1423-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;orange&quot;</span>,<span class="st">&quot;blue&quot;</span>)), <span class="at">bias=</span><span class="fl">0.15</span>)</span>
+<span id="cb1423-2"><a href="gravity-model.html#cb1423-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1423-3"><a href="gravity-model.html#cb1423-3" aria-hidden="true" tabindex="-1"></a>Map <span class="ot">&lt;-</span> </span>
+<span id="cb1423-4"><a href="gravity-model.html#cb1423-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(dist.graph) <span class="sc">+</span></span>
+<span id="cb1423-5"><a href="gravity-model.html#cb1423-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="st">&quot;global.flow&quot;</span>, <span class="at">palette=</span><span class="fu">pal</span>(<span class="dv">10</span>), <span class="at">title.col=</span><span class="st">&quot;Edges: global.flow&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1423-6"><a href="gravity-model.html#cb1423-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(sites) <span class="sc">+</span></span>
+<span id="cb1423-7"><a href="gravity-model.html#cb1423-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">col =</span> <span class="st">&quot;global.flow&quot;</span>, <span class="at">size =</span> <span class="st">&quot;global.var&quot;</span>, </span>
+<span id="cb1423-8"><a href="gravity-model.html#cb1423-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">scale =</span> <span class="fl">0.75</span>, <span class="at">palette=</span><span class="fu">pal</span>(<span class="dv">10</span>), </span>
+<span id="cb1423-9"><a href="gravity-model.html#cb1423-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">title.col=</span><span class="st">&quot;Nodes: global.flow&quot;</span>, <span class="at">title.size=</span><span class="st">&quot;Nodes: global.var&quot;</span>) </span></code></pre></div>
+<p>Plot static map: here we tell R to plot the legend outside of the map.</p>
+<div class="sourceCode" id="cb1424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1424-1"><a href="gravity-model.html#cb1424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="fu">c</span>(<span class="st">&quot;plot&quot;</span>, <span class="st">&quot;view&quot;</span>)[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## tmap mode set to plotting</code></pre>
+<div class="sourceCode" id="cb1426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1426-1"><a href="gravity-model.html#cb1426-1" aria-hidden="true" tabindex="-1"></a>Map <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;top&quot;</span>))</span></code></pre></div>
+<pre><code>## Legend labels were too wide. Therefore, legend.text.size has been set to 0.49. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</code></pre>
+<p><img src="13-Week13_files/figure-html/static-1.png" width="672" /></p>
+<p>Plot interactive map: this may not render e.g. in Bookdown or when you knit your notebook to output formats other than <code>.html</code>.</p>
+<div class="sourceCode" id="cb1428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1428-1"><a href="gravity-model.html#cb1428-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tmap_mode(c(&quot;plot&quot;, &quot;view&quot;)[2])</span></span>
+<span id="cb1428-2"><a href="gravity-model.html#cb1428-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Map </span></span></code></pre></div>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="spatial-model-data-prepration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Week14.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

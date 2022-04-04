@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.1 How to use this Book | Landscape Genetic Data Analysis with R</title>
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.1 How to use this Book | Landscape Genetic Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.1 How to use this Book | Landscape Genetic Data Analysis with R" />
+  
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
+
+
+<meta name="date" content="2022-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="list-of-packages.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+<script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Landscape Genetic Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting Started<span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book<span></span></a>
+<ul>
+<li><a href="how-to-use-this-book.html#book-structure">1. Book Structure<span></span></a></li>
+<li><a href="how-to-use-this-book.html#find-what-is-relevant-for-you">2. Find what is relevant for you<span></span></a></li>
+<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package ‘LandGenCourse’<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming<span></span></a>
+<ul>
+<li><a href="basic-r.html#overview">1. Overview<span></span></a></li>
+<li><a href="basic-r.html#data-types">2. Data Types<span></span></a></li>
+<li><a href="basic-r.html#data-containers">3. Data Containers<span></span></a></li>
+<li><a href="basic-r.html#programming">4. Programming<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics<span></span></a>
+<ul>
+<li><a href="r-graphics.html#overview-1">1. Overview<span></span></a></li>
+<li><a href="r-graphics.html#univariate-plots">2. Univariate plots<span></span></a></li>
+<li><a href="r-graphics.html#bivariate-plots">3. Bivariate plots<span></span></a></li>
+<li><a href="r-graphics.html#advanced-plotting">4. Advanced plotting<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?<span></span></a>
+<ul>
+<li><a href="github.html#goals">1. Goals<span></span></a></li>
+<li><a href="github.html#version">2. Watch course video: Version Control 101<span></span></a></li>
+<li><a href="github.html#slides">3. Preview slides<span></span></a></li>
+<li><a href="github.html#next-steps">4. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation<span></span></a>
+<ul>
+<li><a href="install.html#goals-1">1. Goals<span></span></a></li>
+<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free<span></span></a></li>
+<li><a href="install.html#happygit">3. Happy Git with R<span></span></a></li>
+<li><a href="install.html#gitvideos">4. Video tutorials: installation<span></span></a></li>
+<li><a href="install.html#join">5. Joining your group’s project on GitHub<span></span></a></li>
+<li><a href="install.html#repo">6. Setting up a group repo<span></span></a></li>
+<li><a href="install.html#next-steps-1">7. Next steps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows<span></span></a>
+<ul>
+<li><a href="workflow.html#goals-2">1. Goals<span></span></a></li>
+<li><a href="workflow.html#step-by-step-tutorials">2. Step-by-step tutorials<span></span></a></li>
+<li><a href="workflow.html#further-resources">3. Further resources<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basic Topics<span></span></b></span></li>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_1.html#embedded-video">1. Embedded Video<span></span></a></li>
+<li><a href="video_1.html#preview-slides">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1<span></span></a>
+<ul>
+<li><a href="tutorial_1.html#list-of-r-commands-covered-this-week">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_1.html#general-instructions">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_1.html#overview-of-worked-example">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_1.html#import-data-from-.csv-file">2. Import data from .csv file<span></span></a></li>
+<li><a href="WE_1.html#create-genind-object">3. Create ‘genind’ Object<span></span></a></li>
+<li><a href="WE_1.html#view-information-stored-in-genind-object">4. View information stored in ‘genind’ object<span></span></a></li>
+<li><a href="WE_1.html#import-data-with-gstudio-package">5. Import data with ‘gstudio’ package<span></span></a></li>
+<li><a href="WE_1.html#importing-snp-data">6. Importing SNP data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_2.html#embedded-video-1">1. Embedded Video<span></span></a></li>
+<li><a href="video_2.html#preview-slides-1">2. Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2<span></span></a>
+<ul>
+<li><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_2.html#general-instructions-1">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_2.html#overview-of-worked-example-1">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_2.html#import-site-data-from-.csv-file">2. Import site data from .csv file<span></span></a></li>
+<li><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data">3. Display raster data and overlay sampling locations, extract data<span></span></a></li>
+<li><a href="WE_2.html#calculate-landscape-metrics">4. Calculate landscape metrics<span></span></a></li>
+<li><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations">5. Sample landscape metrics within buffer around sampling locations<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’<span></span></a>
+<ul>
+<li><a href="bonus_2a.html#overview-2">1. Overview<span></span></a></li>
+<li><a href="bonus_2a.html#convert-spatialpointsdataframe-to-sf-object">2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object<span></span></a></li>
+<li><a href="bonus_2a.html#plot-variables-first-10-in-data-set">3. Plot variables (first 10 in data set)<span></span></a></li>
+<li><a href="bonus_2a.html#export-site-data-as-esri-shapefile">4. Export site data as ESRI shapefile<span></span></a></li>
+<li><a href="bonus_2a.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme">5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_3.html#embedded-video-2">1. Embedded Video<span></span></a></li>
+<li><a href="video_3.html#video-part-1">Video, Part 1<span></span></a></li>
+<li><a href="video_3.html#video-part-2">Video, Part 2<span></span></a></li>
+<li><a href="video_3.html#preview-slides-2">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3<span></span></a>
+<ul>
+<li><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_3.html#general-instructions-2">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_3.html#overview-of-worked-example-2">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_3.html#basic-checking-of-markers-and-populations">2. Basic checking of markers and populations<span></span></a></li>
+<li><a href="WE_3.html#assess-genetic-diversity">3. Assess genetic diversity<span></span></a></li>
+<li><a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies">4. Aggregate genetic data at population level (allele frequencies)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_4.html#embedded-video-3">1. Embedded Video<span></span></a></li>
+<li><a href="video_4.html#video-part-1-1">Video, Part 1<span></span></a></li>
+<li><a href="video_4.html#video-part-2-1">Video, Part 2<span></span></a></li>
+<li><a href="video_4.html#preview-slides-3">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4<span></span></a>
+<ul>
+<li><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_4.html#general-instructions-3">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_4.html#overview-of-worked-example-3">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_4.html#spatial-distribution-of-genetic-structure">2. Spatial distribution of genetic structure<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-differentiation-among-sites">3. What determines genetic differentiation among sites?<span></span></a></li>
+<li><a href="WE_4.html#what-determines-genetic-diversity">4. What determines genetic diversity?<span></span></a></li>
+<li><a href="WE_4.html#are-genetic-differentiation-and-diversity-related">5. Are genetic differentiation and diversity related?<span></span></a></li>
+<li><a href="WE_4.html#effect-of-recent-extinction-events">6. Effect of recent extinction events<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_5.html#embedded-video-4">1. Embedded Video<span></span></a></li>
+<li><a href="video_5.html#preview-slides-4">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5<span></span></a>
+<ul>
+<li><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_5.html#general-instructions-4">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_5.html#overview-of-worked-example-4">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_5.html#data-import-and-manipulation">2. Data import and manipulation<span></span></a></li>
+<li><a href="WE_5.html#calculate-genetic-distances">3. Calculate genetic distances<span></span></a></li>
+<li><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd">4. Perform a Mantel test to test for IBD<span></span></a></li>
+<li><a href="WE_5.html#create-mantel-correlogram-for-genetic-data">5. Create Mantel correlogram for genetic data<span></span></a></li>
+<li><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i">6. Specify spatial weights and calculate Moran’s I<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_6.html#embedded-video-5">1. Embedded Video<span></span></a></li>
+<li><a href="video_6.html#video-part-1-2">Video, Part 1<span></span></a></li>
+<li><a href="video_6.html#video-part-2-2">Video, Part 2<span></span></a></li>
+<li><a href="video_6.html#preview-slides-5">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6<span></span></a>
+<ul>
+<li><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_6.html#general-instructions-5">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_6.html#overview-of-worked-example-5">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment">2. Estimate genetic and non-genetic variance components from a common garden experiment<span></span></a></li>
+<li><a href="WE_6.html#estimate-trait-heritability">3. Estimate trait heritability<span></span></a></li>
+<li><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data<span></span></a></li>
+<li><a href="WE_6.html#assess-correlation-between-trait-and-environment">5. Assess correlation between trait and environment<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i><b>9.4</b> R Exercise Week 6<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_7.html#embedded-video-6">1. Embedded Video<span></span></a></li>
+<li><a href="video_7.html#video-part-1-3">Video, Part 1<span></span></a></li>
+<li><a href="video_7.html#video-part-2-3">Video, Part 2<span></span></a></li>
+<li><a href="video_7.html#preview-slides-6">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7<span></span></a>
+<ul>
+<li><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_7.html#general-instructions-6">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_7.html#overview-of-worked-example-6">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_7.html#explore-data-set">2. Explore data set<span></span></a></li>
+<li><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation">3. Test regression residuals for spatial autocorrelation<span></span></a></li>
+<li><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme">4. Fit models with spatially correlated error (GLS) with package ‘nlme’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar">5. Fit spatial simultaneous autoregressive error models (SAR)<span></span></a></li>
+<li><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran">6. Spatial filtering with MEM using package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran">7. Fit spatially varying coefficients model with package ‘spmoran’<span></span></a></li>
+<li><a href="WE_7.html#model-with-patchsize-and-ibr">Model with PatchSize and IBR<span></span></a></li>
+<li><a href="WE_7.html#model-with-ibr-only">Model with IBR only<span></span></a></li>
+<li><a href="WE_7.html#conclusions">8. Conclusions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7<span></span></a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index<span></span></a>
+<ul>
+<li><a href="bonus_7a.html#overview-of-bonus-materials">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus_7a.html#import-ecological-distance-matrices">2. Import ecological distance matrices<span></span></a></li>
+<li><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha">3. Optimize the scaling parameter alpha<span></span></a></li>
+<li><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters">4. Calculate Hanski’s index Si with source patch parameters<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video<span></span></a>
+<ul>
+<li><a href="video_8.html#embedded-video-7">1. Embedded Video<span></span></a></li>
+<li><a href="video_8.html#video-part-1-4">Video, Part 1<span></span></a></li>
+<li><a href="video_8.html#video-part-2-4">Video, Part 2<span></span></a></li>
+<li><a href="video_8.html#preview-slides-7">Preview Slides<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8<span></span></a>
+<ul>
+<li><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7">1. List of R commands covered this week<span></span></a></li>
+<li><a href="tutorial_8.html#general-instructions-7">2. General Instructions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_8.html#overview-of-worked-example-7">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_8.html#initialize-a-landscape">2. Initialize a landscape<span></span></a></li>
+<li><a href="WE_8.html#define-simulation-parameters">3. Define simulation parameters<span></span></a></li>
+<li><a href="WE_8.html#run-simulations-and-analyze-results">4. Run simulations and analyze results<span></span></a></li>
+<li><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set">5. Run simulator using a previously defined parameter set<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8<span></span></a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R<span></span></a>
+<ul>
+<li><a href="bonus_8a.html#overview-of-bonus-material">1. Overview of Bonus Material<span></span></a></li>
+<li><a href="bonus_8a.html#navigating-the-file-system">2. Navigating the file system<span></span></a></li>
+<li><a href="bonus_8a.html#benchmarking-file-import-and-export-options">3. Benchmarking file import and export options<span></span></a></li>
+<li><a href="bonus_8a.html#profiling-your-code">4. Profiling your code<span></span></a></li>
+<li><a href="bonus_8a.html#creating-and-executing-a-bash-r-script">5. Creating and executing a Bash R script<span></span></a></li>
+<li><a href="bonus_8a.html#parallelizing-code">6. Parallelizing code<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics<span></span></b></span></li>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_9.html#overview-of-worked-example-8">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model">2. Simulated data: 2-island model<span></span></a></li>
+<li><a href="WE_9.html#simulated-data-2-island-model-with-admixture">3. Simulated data: 2-island model with admixture<span></span></a></li>
+<li><a href="WE_9.html#empirical-data-threespine-sticklebacks">4. Empirical data: Threespine sticklebacks<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_10.html#overview-of-worked-example-9">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_10.html#explore-the-data-set">2. Explore the data set<span></span></a></li>
+<li><a href="WE_10.html#setting-cost-values-and-calculating-conductance">3. Setting cost values and calculating conductance<span></span></a></li>
+<li><a href="WE_10.html#convert-conductance-into-effective-distance">4. Convert conductance into effective distance<span></span></a></li>
+<li><a href="WE_10.html#create-cost-distance-matrices">5. Create cost-distance matrices<span></span></a></li>
+<li><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics">6. How does changing resolution affect these metrics?<span></span></a></li>
+<li><a href="WE_10.html#references">7. References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial<span></span></a>
+<ul>
+<li><a href="bonus-10a.html#overview-of-bonus-materials-1">1. Overview of Bonus Materials<span></span></a></li>
+<li><a href="bonus-10a.html#import-data">2. Import data<span></span></a></li>
+<li><a href="bonus-10a.html#basic-model-fitting">3. Basic model fitting<span></span></a></li>
+<li><a href="bonus-10a.html#advanced-modeling-topics">4. Advanced modeling topics<span></span></a></li>
+<li><a href="bonus-10a.html#summary">5. Summary<span></span></a></li>
+<li><a href="bonus-10a.html#references-1">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation<span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_11.html#overview-of-worked-example-10">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_11.html#import-and-prepare-the-data">2. Import and prepare the data<span></span></a></li>
+<li><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea">3. Latent Factor Mixed Models (LFMM): a univariate GEA<span></span></a></li>
+<li><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea">4. Redundancy Analysis (RDA): a multivariate GEA<span></span></a></li>
+<li><a href="WE_11.html#compare-lfmm-and-rda-candidates">5. Compare LFMM and RDA candidates<span></span></a></li>
+<li><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda">6. A quick note on controlling for population structure in RDA<span></span></a></li>
+<li><a href="WE_11.html#references-2">7. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection<span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_12.html#overview-of-worked-example-11">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_12.html#fitting-candidate-models">2. Fitting candidate models<span></span></a></li>
+<li><a href="WE_12.html#your-turn-to-test-additional-hypotheses">3. Your turn to test additional hypotheses!<span></span></a></li>
+<li><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs">4. Nested model (NMLPE) for hierarchical sampling designs<span></span></a></li>
+<li><a href="WE_12.html#references-3">5. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_13.html#overview-of-worked-example-12">1. Overview of Worked Example<span></span></a></li>
+<li><a href="WE_13.html#setup">2. Setup<span></span></a></li>
+<li><a href="WE_13.html#wetland-complex-data-preparation">3. Wetland complex data preparation<span></span></a></li>
+<li><a href="WE_13.html#wetland-field-data-preparation">4. Wetland field-data preparation<span></span></a></li>
+<li><a href="WE_13.html#saturated-graph">5. Saturated Graph<span></span></a></li>
+<li><a href="WE_13.html#spatial-model-data-prepration">6. Spatial model data prepration<span></span></a></li>
+<li><a href="WE_13.html#gravity-model">7. Gravity model<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example<span></span></a>
+<ul>
+<li><a href="WE_14.html#overview-3">1. Overview<span></span></a></li>
+<li><a href="WE_14.html#import-genotypes">2. Import Genotypes<span></span></a></li>
+<li><a href="WE_14.html#pollen-pool-genetic-structure">3. Pollen pool genetic structure<span></span></a></li>
+<li><a href="WE_14.html#paternity-analysis">4. Paternity analysis<span></span></a></li>
+<li><a href="WE_14.html#linking-paternity-to-ecological-variables">5. Linking paternity to ecological variables<span></span></a></li>
+<li><a href="WE_14.html#references-4">6. References<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Landscape Genetic Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="how-to-use-this-book" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> How to use this Book<a href="how-to-use-this-book.html#how-to-use-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="book-structure" class="section level3 unnumbered hasAnchor">
+<h3>1. Book Structure<a href="how-to-use-this-book.html#book-structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This book has weekly chapters that correspond to course modules, with three parts:</p>
+<div id="a-getting-started" class="section level4 unnumbered hasAnchor">
+<h4>a) Getting Started<a href="how-to-use-this-book.html#a-getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Review of R Skills: check whether you need to build or brush up your R skills before starting the course:
+<ul>
+<li><a href="basic-r.html#basic-r">Basic R Programming</a>: introduction to R objects and functions. <strong>Prerequisite</strong>.</li>
+<li><a href="r-graphics.html#r-graphics">R Graphics</a>: learn to create figures with base R and with <code>ggplot2</code>. Optional.</li>
+</ul></li>
+</ul>
+</div>
+<div id="b-basic-topics" class="section level4 unnumbered hasAnchor">
+<h4>b) Basic Topics<a href="how-to-use-this-book.html#b-basic-topics" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>These 8 weekly modules are streamlined to build the necessary R skills and brush up statistics knowledge. Best complete these in sequence.</li>
+<li>Each module has the following components:
+<ul>
+<li>Video: introduces the R and stats topics</li>
+<li>Interactive Tutorial: swirl course to practice R programming</li>
+<li>Worked Example: worked example by the weekly experts from the <a href="https://sites.google.com/site/landscapegeneticscourse/" title="DGS public website">‘DGS Landscape Genetics’</a> course.</li>
+<li>Bonus Materials: some weeks include bonus vignettes with optional advanced topics.</li>
+</ul></li>
+</ul>
+</div>
+<div id="c-advanced-topics" class="section level4 unnumbered hasAnchor">
+<h4>c) Advanced Topics<a href="how-to-use-this-book.html#c-advanced-topics" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>These weekly modules build on the skills developed in Basic Topics. You may pick and choose from the Advanced Topics according to your interests.</li>
+<li>Each weekly modules contains:
+<ul>
+<li>Worked Example: worked example by the weekly experts from the <a href="https://sites.google.com/site/landscapegeneticscourse/" title="DGS public website">‘DGS Landscape Genetics’</a> course.</li>
+<li>Bonus Materials: some weeks include bonus vignettes with optional advanced topics.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="find-what-is-relevant-for-you" class="section level3 unnumbered hasAnchor">
+<h3>2. Find what is relevant for you<a href="how-to-use-this-book.html#find-what-is-relevant-for-you" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="how-to-use" class="section level4 unnumbered hasAnchor">
+<h4>a) How to use the labs<a href="how-to-use-this-book.html#how-to-use" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Weeks 1 - 8:</p>
+<ul>
+<li><strong>Beginners</strong>:
+<ul>
+<li>watch video</li>
+<li>do tutorial to build basic R programming skills</li>
+<li>read worked example, focus on content</li>
+</ul></li>
+<li><strong>Intermediate</strong>:
+<ul>
+<li>watch video</li>
+<li>check weekly tutorial functions: do tutorial to brush up?</li>
+<li>understand worked example, focus on content and code</li>
+<li>do R exercise to practice coding</li>
+</ul></li>
+<li><strong>Advanced</strong>:
+<ul>
+<li>check video slides: watch video to brush up on concepts?</li>
+<li>R exercise?</li>
+<li>adapt worked example to own data</li>
+</ul></li>
+</ul>
+<p><strong>By Week 9</strong>: you will be at least at ‘intermediate’ level if not a pro!</p>
+</div>
+<div id="b-check-contents" class="section level4 unnumbered hasAnchor">
+<h4>b) Check contents<a href="how-to-use-this-book.html#b-check-contents" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Videos</strong>: Check first weekly slide, browse slides for each week</li>
+<li><strong>Interactive tutorials</strong>: check weekly list of commands for each chapter</li>
+<li><strong>Worked examples</strong>: check <a href="list-of-packages.html#list-of-packages">List of R Packages by Vignette</a>; check introduction section for each worked example (or bonus vignette)</li>
+</ul>
+</div>
+</div>
+<div id="course-r-package-landgencourse" class="section level3 unnumbered hasAnchor">
+<h3>3. Course R package ‘LandGenCourse’<a href="how-to-use-this-book.html#course-r-package-landgencourse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="a-practice-good-r-hygiene" class="section level4 unnumbered hasAnchor">
+<h4>a) Practice good R hygiene<a href="how-to-use-this-book.html#a-practice-good-r-hygiene" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Please update or install the following before installing ‘LandGenCourse’:</p>
+<p><strong>Windows</strong>:</p>
+<ul>
+<li>R: <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></li>
+<li>RStudio: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a></li>
+<li>If asked to install Rtools during package installation: accept</li>
+</ul>
+<p><strong>Mac</strong>: please follow the order below exactly!</p>
+<ul>
+<li>Xquartz: <a href="https://www.xquartz.org/" class="uri">https://www.xquartz.org/</a> (re-install after each MacOS upgrade)</li>
+<li>R: <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></li>
+<li>RStudio: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a></li>
+<li>If asked to install Command Line Tools during package installation: accept</li>
+<li>If asked which packages to install, select ‘All.’</li>
+<li>If needed, manually install Command Line Tools. Instructions:
+<a href="http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/" class="uri">http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/</a></li>
+</ul>
+</div>
+<div id="b-how-to-install-or-update-landgencourse" class="section level4 unnumbered hasAnchor">
+<h4>b) How to install (or update) ‘LandGenCourse’<a href="how-to-use-this-book.html#b-how-to-install-or-update-landgencourse" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="how-to-use-this-book.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;remotes&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb1-2"><a href="how-to-use-this-book.html#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hhwagner1/LandGenCourse&quot;</span>)</span>
+<span id="cb1-3"><a href="how-to-use-this-book.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span></code></pre></div>
+<p>Hints:</p>
+<ul>
+<li>Make sure you load the package (<code>library(LandGenCourse)</code>) after installing it!</li>
+<li>Check whether the add-ins 0 - 4 are available: in the RStudio menu, click on the drop-down menu <code>Addins</code>.</li>
+<li>If the add-ins 0 - 4 don’t appear, rerun the code above (install and load package <code>LandGenCourse</code>). Sometimes this seems to be necessary.</li>
+</ul>
+</div>
+<div id="c-how-to-install-dependencies" class="section level4 unnumbered hasAnchor">
+<h4>c) How to install dependencies<a href="how-to-use-this-book.html#c-how-to-install-dependencies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The previous step only installed the absolutely required dependencies (i.e., R packages that <code>LandGenCourse</code> needs so that it can be installed). However, the weekly chapters will require additional R packages. There are two ways to install them:</p>
+<p><strong>Recommended: Bulk install </strong></p>
+<ul>
+<li>Use the Addin <code>0. Install Packages</code> to bulk install most or all packages needed to run the worked examples.</li>
+<li>Simply click on the add-in <code>0. Install Packages</code> (alternatively, you could run this code: <code>installDGS()</code>)</li>
+<li>If asked whether to install some package from source (<code>Do you want to install from sources the package which needs compilation? (Yes/no/cancel)</code>), you may enter: <code>no</code> (this is faster)</li>
+<li>If the installation stops with an error <code>API rate limit exceeded</code>, the best thing to do is to wait 30 min and run the Addin <code>0. Install Packages</code> again. Don’t worry, this won’t start the installation process again, it will resume where it broke off.</li>
+<li>If you often install packages from Github, you may want to follow up on the advice printed with the error message:
+<ul>
+<li>Use <code>usethis::create_github_token()</code> to create a Personal Access Token.</li>
+<li>Use <code>usethis::edit_r_environ()</code> and add the token as <code>GITHUB_PAT</code>.</li>
+</ul></li>
+<li>If you do so, the second line above will open the file <code>.Renviron</code> in RStudio. Enter <code>GITHUB_PAT="myPAT"</code> on the last line (replace <code>myPAT</code> by the PAT you generated using the first line). Make sure to include an empty line after it! Save the file and restart R.</li>
+</ul>
+<p><strong>Alternative: Install as you go</strong></p>
+<ul>
+<li>This option is not suitable if you are planning to do the interactive swirl tutorials! Use bulk installation instead (see above).</li>
+<li>Newer versions of RStudio will warn you when a R notebook (<code>.Rmd</code>) that you opened requires R packages that are not installed.</li>
+<li>The warning contains a link <code>Install</code>, click on it to install the missing packages.</li>
+</ul>
+</div>
+<div id="d-how-to-use-the-r-package-landgencourse" class="section level4 unnumbered hasAnchor">
+<h4>d) How to use the R package <code>LandGenCourse</code><a href="how-to-use-this-book.html#d-how-to-use-the-r-package-landgencourse" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The package installs four more Addins in RStudio. Each will provide you with some dropdown menu choices.</p>
+<ul>
+<li><strong>1. Watch Course Video</strong>: opens a video resource from course “Landscape Genetic Data Analysis with R.”</li>
+<li><strong>2. Start Tutorial</strong>: installs swirl course “Landscape_Genetics_R_Course” and prints instructions.</li>
+<li><strong>3. Choose Worked Example</strong>: opens vignette file (.html, .Rmd, or .R) with a worked example from course “Landscape Genetic Data Analysis with R.”</li>
+<li><strong>4. Open Cheat Sheet</strong>: opens selected R cheat sheet.</li>
+</ul>
+</div>
+<div id="e-video-instructions-for-beginners" class="section level4 unnumbered hasAnchor">
+<h4>e) Video instructions for beginners<a href="how-to-use-this-book.html#e-video-instructions-for-beginners" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This video walks through the process of installing devtools, the course package, and using the RStudio Add-Ins.
+<a href="https://www.dropbox.com/s/598kwim7x09m47t/Intro_LandGenCourse_small.mp4?dl=0" target="_blank">Intro_LandGenCourse_small.mp4</a></p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="list-of-packages.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

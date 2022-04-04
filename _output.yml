@@ -1,9 +1,7 @@
 bookdown::gitbook:
-  includes:
-    in_header: header.html
+  number_sections: true
   split_by: section
-  number_sections: false
-  toc_depth: 4
+  toc_depth: 3
   css: style.css
   config:
     toc:

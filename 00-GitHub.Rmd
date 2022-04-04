@@ -4,7 +4,7 @@ bookdown::gitbook:
       in_header: header.html
 ---
 
-# GitHub for Group Projects 
+# GitHub for Group Projects
 
 ```{r setup, include=FALSE}
 # Add a common class name for every chunks
@@ -26,14 +26,14 @@ It contains an introductory video and a series of tutorials to help get you star
 
 Helene Wagner
 
-### 1. Goals
+### 1. Goals {-}
 
 This section explains the basics of version control: why it is important, and how it works. This will help you better understand the tutorials on installation and workflow. Here you can:
 
 - [Watch course video](#version)
 - [Preview and download the slides](#slides)
 
-### 2. Watch course video: Version Control 101 {#version}
+### 2. Watch course video: Version Control 101 {-#version}
 
 Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
 
@@ -46,7 +46,7 @@ Embedded video:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/prXFvulWRGw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### 3. Preview slides {#slides}
+### 3. Preview slides {-#slides}
 
 [Download slides](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week0_Slides.pdf)
 
@@ -68,7 +68,7 @@ Plots <- lapply(files, function(j) ggdraw() + draw_image(paste0(Path, j), scale 
 plot_grid(plotlist=Plots, ncol=1)
 ```
 
-### 4. Next steps 
+### 4. Next steps {-} 
 
 Continue to the [Installation](#install) page.
 
@@ -77,7 +77,7 @@ Continue to the [Installation](#install) page.
 
 Helene Wagner
 
-### 1. Goals
+### 1. Goals {-}
 
 This section provides step-by-step video instructions how to install git and make it interact with RStudio and GitKraken. 
 
@@ -88,7 +88,17 @@ This section provides step-by-step video instructions how to install git and mak
 
 There are various ways to install git, and various ways to interact with it. While many tutorials available online rely heavily on git commands in the Terminal, here we avoid using the Terminal as far as reasonably possible (and when we use it, we demonstrate it in a video). 
 
-### 2. Happy Git with R {#happygit}
+### 2. How to get GitHub and GitKraken for free
+
+For students: [GitHub Student Developer Pack](https://education.github.com/pack?utm_source=github+gitkraken)
+
+For teachers: [GitHub Teacher Toolbox](https://education.github.com/teachers)
+ https://education.github.com/pack?utm_source=github+gitkraken
+
+[How to get GitKraken through these packs](https://www.gitkraken.com/github-student-developer-pack) 
+
+
+### 3. Happy Git with R {-#happygit}
 
 This excellent external resource explains the installation process and contains useful information for trouble-shooting:
 
@@ -98,7 +108,7 @@ This excellent external resource explains the installation process and contains 
 - Refer to the tutorial if you run into issues with the installation, as not everything could be covered in the videos.
 
 
-### 3. Video tutorials: installation {#gitvideos}
+### 4. Video tutorials: installation {-#gitvideos}
 
 These videos show the installation process step-by-step, focusing on the most important numbered sections of the [Happy Git with R](#happygit) tutorial listed above. If you run into problems, please consult the tutorial. 
 
@@ -116,7 +126,7 @@ Embedded videos:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GnIMndjweMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### 4. Joining your group's project on GitHub {#join}
+### 5. Joining your group's project on GitHub {-#join}
 
 There are different ways to start a project in RStudio that uses GitHub for version control. Here we focus on the case where you have been invited to join an existing GitHub project. The following tutorial explains how to get a copy (clone) of your team's GitHub project (repo = repository) into RStudio on your local computer.
 
@@ -128,13 +138,13 @@ In addition, the [Happy Git with R](#happygit) tutorial provides instructions fo
 - [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html) (the case covered by the above tutorial on cloning a repo)
 - [Existing project, GitHub last](https://happygitwithr.com/existing-github-last.html)
 
-### 5. Setting up a group repo {#repo}
+### 6. Setting up a group repo {-#repo}
 
 This is for the folks who want to start a project and invite others to it. 
 
 - External tutorial: [The Ultimate Github Collaboration Guide](https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67)
 
-### 6. Next steps
+### 7. Next steps {-}
 
 Continue to the [Workflows](#workflow) page.
 
@@ -143,7 +153,7 @@ Continue to the [Workflows](#workflow) page.
 
 Helene Wagner
 
-### 1. Goals
+### 1. Goals {-}
 
 The main goal of this section is to help you get over the most intimidating first steps and become familiar with workflows that will get you started on a collaborative research project using R and GitHub.
 
@@ -156,7 +166,7 @@ The tutorials provide step-by-step instructions, illustrated with screenshots. I
 The focus lies on workflows that use RStudio's built-in git functionality and complement it with GitKraken. We thus avoid using git commands in the Terminal.
 
 
-### 2. Step-by-step tutorials
+### 2. Step-by-step tutorials {-}
 
 These tutorials build on each other and should be worked through in sequence, unless you have prior experience with these topics.
 
@@ -167,7 +177,7 @@ These tutorials build on each other and should be worked through in sequence, un
 These tutorials are currently in a beta version. Please use the "Comment" feature in the Google docs to suggests changes that could help other users. Thanks!
 
 
-### 3. Further resources
+### 3. Further resources {-}
 
 GitKraken is providing a series of brief videos that explain relevant concepts and show specific actions: 
 

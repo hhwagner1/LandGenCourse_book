@@ -6,6 +6,7 @@ In this week's computer lab, we will test the effect of landscape data on geneti
 - [Interactive Tutorial 7](#tutorial_7)
 - [Worked Example](#WE_7)
 - [R Exercise Week 7](#r-exercise-week-7)
+- [Bonus Vignette](#bonus_7): Calculate the Si index
 
 Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building your R skills. These skills are required for the Advanced Topics. 
 
@@ -13,21 +14,21 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 ## View Course Video{#video_7}
 
 
-### 1. Embedded Video
+### 1. Embedded Video {-}
 
 - External link: [Week 7 video (Part 1)](https://sho.co/1A1KH);  [Week 7 video (Part 2)](https://sho.co/1A1K)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week7_script_v3.pdf)
 
 
-### Video, Part 1
+### Video, Part 1 {-}
 
 <iframe width="800" height="513" src="https://sho.co/1A1KH" frameborder="0" allowfullscreen></iframe>
 
-### Video, Part 2
+### Video, Part 2 {-}
 
 <iframe width="800" height="513" src="https://sho.co/1A1KF" frameborder="0" allowfullscreen></iframe>
 
-### Preview Slides
+### Preview Slides {-}
 
 [Download slides](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/docs/Video_slides/Week7_Slides.pdf)
 
@@ -51,7 +52,7 @@ plot_grid(plotlist=Plots, ncol=1)
 
 ## Interactive Tutorial 7{#tutorial_7}
 
-### 1. List of R commands covered this week
+### 1. List of R commands covered this week {-}
 
 ```{r echo=FALSE}
 library(kableExtra)
@@ -61,9 +62,9 @@ Table %>% kable() %>%
   kable_styling(fixed_thead = T, full_width=F) 
 ```	
 
-### 2. General Instructions
+### 2. General Instructions {-}
 
-#### a) How to access tutorials:
+#### a) How to access tutorials {-}
 
 Through RStudio Add-in:
 
@@ -76,7 +77,7 @@ Through RStudio Add-in:
   - select course ("Landscape_Genetics_R_Course") and tutorial (Weeks 1 - 8)
 
 
-#### b) How to complete tutorial:
+#### b) How to complete tutorial {-}
 
 Follow prompts in the RStudio Console.
 
@@ -91,7 +92,7 @@ To restart tutorial from beginning:
  - use a different name 
    (simply add a number, like this: 'MyName2')
 
-#### c) How to submit answers (participating institutions only):
+#### c) How to submit answers (participating institutions only) {-}
 
 The last prompt will ask whether you would like to submit the log of your tutorial session to Google Forms so that your instructor may evaluate your progress. **This feature is only available for students from participating institutions.**
 
@@ -115,7 +116,7 @@ cat(yml_metadata$author)
 ```
 
 
-## Bonus Vignette {#bonus_7a}
+## Bonus: Si index {#bonus_7a}
 
 ```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week7_bonus_vignette.Rmd")

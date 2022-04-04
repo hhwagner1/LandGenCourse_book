@@ -18,7 +18,7 @@ cat(yml_metadata$author)
 ```{r child=paste0(here::here(), "/vignettes/", "Week10_vignette.Rmd"), echo=TRUE}
 ```
 
-## Bonus Vignette {#bonus-10a}
+## Bonus: 'radish' tutorial {#bonus-10a}
 
 ```{r echo=FALSE, results = 'asis'}
 rmd_file <- paste0(here::here(), "/vignettes/", "Week10_bonus_vignette.Rmd")
