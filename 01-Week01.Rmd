@@ -62,13 +62,19 @@ Table %>% kable() %>%
 
 Through RStudio Add-in:
 
-- Install course Addins in RStudio: `library(LandGenCourse)`
-- In RStudio, click on `Addins` (top menu bar)
-- Follow instructions in the Console:
+- Install course Addins in RStudio:
+  - the LandGenCourse package must be installed
+  - instructions and video are available on [Github] (https://github.com/hhwagner1/LandGenCourse) 
+  - type: `library(LandGenCourse)`
+- In RStudio, click on `Addins` (top menu bar) and select `2. Start Tutorial`  
+  - alternatively you can type: `LandGenCourse:::startTutorialAddin()`
+  - video instructions are [available] (https://www.dropbox.com/s/598kwim7x09m47t/Intro_LandGenCourse_small.mp4?dl=0) 
+- Following the `To start a tutorial` instructions that pop up in the Console:
   - type: `require(swirl)` 
   - type: `swirl()` 
   - follow prompts 
-  - select course ("Landscape_Genetics_R_Course") and tutorial (Weeks 1 - 8)
+  - select course ("Landscape_Genetics_R_Course") and tutorial (Weeks 1 - 8) 
+  - note: some users will require updates to packages and to restart this process before proceeding
 
 
 #### b) How to complete tutorial {-}
