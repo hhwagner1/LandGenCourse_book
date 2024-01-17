@@ -66,7 +66,7 @@ b2 <- substr(sapply(Filenames, function(x) unlist(strsplit(x, split="_"))[2]), 1
 b3 <- as.numeric(b2 == "b")
 for(i in 2:length(b))
 {
-  if((b3[i] > 0) && (b3[-1] > 0)) b3[i] = b3[i-1] + 1
+  if((b3[i] > 0) && (b3[i-1] > 0)) b3[i] = b3[i-1] + 1
 }
 b2[b3 > 0] <- letters[b3[b3 > 0]]
 
