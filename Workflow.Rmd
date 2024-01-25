@@ -32,17 +32,6 @@ myDir <- unlist(strsplit(here::here(), '/'))
 myDir[length(myDir)] <- "LandGenCourse"
 Path <- paste0(myDir, collapse = '/')
 
-#Mac CH:
-#Path <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/vignettes/"
-
-#Mac Toronto:
-#Path <- "/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/vignettes/"
-
-#Windows:
-#Path <- "C:/Users/wagnerh1/Desktop/LandGenCourse/vignettes/" # Laptop
-
-#list.of.files <- list.files(Path, pattern="Rmd")
-#list.of.files <- list.files(Path)
 list.of.files <- list.files(paste0(Path, "/vignettes"))
 file.copy(paste0(Path, "/vignettes/", list.of.files), 
           paste0(here::here(), "/vignettes"), overwrite=TRUE)
@@ -133,15 +122,6 @@ myDir <- unlist(strsplit(here::here(), '/'))
 myDir[length(myDir)] <- "LandGenCourse"
 Path <- paste0(myDir, collapse = '/')
 inFile <- paste0(Path, "/inst/extdata/RCommands.docx")
-
-# Mac CH:
-#inFile <- "/Users/helene/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
-
-# Mac Toronoto:
-#inFile <- "/Users/hhwagner1/Desktop/R_github_projects/LandGenCourse/inst/extdata/RCommands.docx"
-
-# Windows:
-#inFile <- "C:/Users/wagnerh1/Desktop/LandGenCourse/inst/extdata/RCommands.docx"
 
 sample_data <- officer::read_docx(inFile)
 content <- docx_summary(sample_data)

@@ -5,25 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>13.2 Bonus: ‘radish’ tutorial | Landscape Genetic Data Analysis with R</title>
-  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="13.2 Bonus: ‘radish’ tutorial | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="13.2 Bonus: ‘radish’ tutorial | Landscape Genetic Data Analysis with R" />
   
-  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics.’ The output format is bookdown::gitbook." />
+  <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   
 
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2022-04-03" />
+<meta name="date" content="2024-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,14 +54,23 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +111,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +124,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -129,6 +138,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -146,359 +159,345 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Landscape Genetic Data Analysis with R</a></li>
 
 <li class="divider"></li>
-<li class="part"><span><b>Getting Started<span></span></b></span></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<li class="part"><span><b>Getting Started</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book<span></span></a>
+<li class="chapter" data-level="1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>1.1</b> How to use this Book</a>
 <ul>
-<li><a href="how-to-use-this-book.html#book-structure">1. Book Structure<span></span></a></li>
-<li><a href="how-to-use-this-book.html#find-what-is-relevant-for-you">2. Find what is relevant for you<span></span></a></li>
-<li><a href="how-to-use-this-book.html#course-r-package-landgencourse">3. Course R package ‘LandGenCourse’<span></span></a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#book-structure"><i class="fa fa-check"></i>1. Book Structure</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#find-what-is-relevant-for-you"><i class="fa fa-check"></i>2. Find what is relevant for you</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#course-r-package-landgencourse"><i class="fa fa-check"></i>3. Course R package ‘LandGenCourse’</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="list-of-packages.html"><a href="list-of-packages.html"><i class="fa fa-check"></i><b>1.2</b> List of R Packages by Vignette</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills<span></span></a>
+<li class="chapter" data-level="2" data-path="review-of-r-skills.html"><a href="review-of-r-skills.html"><i class="fa fa-check"></i><b>2</b> Review of R Skills</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming<span></span></a>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2.1</b> Basic R Programming</a>
 <ul>
-<li><a href="basic-r.html#overview">1. Overview<span></span></a></li>
-<li><a href="basic-r.html#data-types">2. Data Types<span></span></a></li>
-<li><a href="basic-r.html#data-containers">3. Data Containers<span></span></a></li>
-<li><a href="basic-r.html#programming">4. Programming<span></span></a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#overview"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#data-types"><i class="fa fa-check"></i>2. Data Types</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#data-containers"><i class="fa fa-check"></i>3. Data Containers</a></li>
+<li class="chapter" data-level="" data-path="basic-r.html"><a href="basic-r.html#programming"><i class="fa fa-check"></i>4. Programming</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics<span></span></a>
+<li class="chapter" data-level="2.2" data-path="r-graphics.html"><a href="r-graphics.html"><i class="fa fa-check"></i><b>2.2</b> R Graphics</a>
 <ul>
-<li><a href="r-graphics.html#overview-1">1. Overview<span></span></a></li>
-<li><a href="r-graphics.html#univariate-plots">2. Univariate plots<span></span></a></li>
-<li><a href="r-graphics.html#bivariate-plots">3. Bivariate plots<span></span></a></li>
-<li><a href="r-graphics.html#advanced-plotting">4. Advanced plotting<span></span></a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#overview-1"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#univariate-plots"><i class="fa fa-check"></i>2. Univariate plots</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#bivariate-plots"><i class="fa fa-check"></i>3. Bivariate plots</a></li>
+<li class="chapter" data-level="" data-path="r-graphics.html"><a href="r-graphics.html#advanced-plotting"><i class="fa fa-check"></i>4. Advanced plotting</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>2.3</b> Further R resources</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects<span></span></a>
+<li class="chapter" data-level="3" data-path="github-for-group-projects.html"><a href="github-for-group-projects.html"><i class="fa fa-check"></i><b>3</b> GitHub for Group Projects</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?<span></span></a>
+<li class="chapter" data-level="3.1" data-path="github.html"><a href="github.html"><i class="fa fa-check"></i><b>3.1</b> Why use GitHub?</a>
 <ul>
-<li><a href="github.html#goals">1. Goals<span></span></a></li>
-<li><a href="github.html#version">2. Watch course video: Version Control 101<span></span></a></li>
-<li><a href="github.html#slides">3. Preview slides<span></span></a></li>
-<li><a href="github.html#next-steps">4. Next steps<span></span></a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#goals"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#version"><i class="fa fa-check"></i>2. Watch course video: Version Control 101</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#slides"><i class="fa fa-check"></i>3. Preview slides</a></li>
+<li class="chapter" data-level="" data-path="github.html"><a href="github.html#next-steps"><i class="fa fa-check"></i>4. Next steps</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation<span></span></a>
+<li class="chapter" data-level="3.2" data-path="install.html"><a href="install.html"><i class="fa fa-check"></i><b>3.2</b> Installation</a>
 <ul>
-<li><a href="install.html#goals-1">1. Goals<span></span></a></li>
-<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free<span></span></a></li>
-<li><a href="install.html#happygit">3. Happy Git with R<span></span></a></li>
-<li><a href="install.html#gitvideos">4. Video tutorials: installation<span></span></a></li>
-<li><a href="install.html#join">5. Joining your group’s project on GitHub<span></span></a></li>
-<li><a href="install.html#repo">6. Setting up a group repo<span></span></a></li>
-<li><a href="install.html#next-steps-1">7. Next steps<span></span></a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#goals-1"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="3.2.1" data-path="install.html"><a href="install.html#how-to-get-github-and-gitkraken-for-free"><i class="fa fa-check"></i><b>3.2.1</b> 2. How to get GitHub and GitKraken for free</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#happygit"><i class="fa fa-check"></i>3. Happy Git with R</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#gitvideos"><i class="fa fa-check"></i>4. Video tutorials: installation</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#join"><i class="fa fa-check"></i>5. Joining your group’s project on GitHub</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#repo"><i class="fa fa-check"></i>6. Setting up a group repo</a></li>
+<li class="chapter" data-level="" data-path="install.html"><a href="install.html#next-steps-1"><i class="fa fa-check"></i>7. Next steps</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows<span></span></a>
+<li class="chapter" data-level="3.3" data-path="workflow.html"><a href="workflow.html"><i class="fa fa-check"></i><b>3.3</b> Workflows</a>
 <ul>
-<li><a href="workflow.html#goals-2">1. Goals<span></span></a></li>
-<li><a href="workflow.html#step-by-step-tutorials">2. Step-by-step tutorials<span></span></a></li>
-<li><a href="workflow.html#further-resources">3. Further resources<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Basic Topics<span></span></b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data<span></span></a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video<span></span></a>
-<ul>
-<li><a href="video_1.html#embedded-video">1. Embedded Video<span></span></a></li>
-<li><a href="video_1.html#preview-slides">2. Preview Slides<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1<span></span></a>
-<ul>
-<li><a href="tutorial_1.html#list-of-r-commands-covered-this-week">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_1.html#general-instructions">2. General Instructions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_1.html#overview-of-worked-example">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_1.html#import-data-from-.csv-file">2. Import data from .csv file<span></span></a></li>
-<li><a href="WE_1.html#create-genind-object">3. Create ‘genind’ Object<span></span></a></li>
-<li><a href="WE_1.html#view-information-stored-in-genind-object">4. View information stored in ‘genind’ object<span></span></a></li>
-<li><a href="WE_1.html#import-data-with-gstudio-package">5. Import data with ‘gstudio’ package<span></span></a></li>
-<li><a href="WE_1.html#importing-snp-data">6. Importing SNP data<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data<span></span></a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video<span></span></a>
-<ul>
-<li><a href="video_2.html#embedded-video-1">1. Embedded Video<span></span></a></li>
-<li><a href="video_2.html#preview-slides-1">2. Preview Slides<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2<span></span></a>
-<ul>
-<li><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_2.html#general-instructions-1">2. General Instructions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_2.html#overview-of-worked-example-1">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_2.html#import-site-data-from-.csv-file">2. Import site data from .csv file<span></span></a></li>
-<li><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data">3. Display raster data and overlay sampling locations, extract data<span></span></a></li>
-<li><a href="WE_2.html#calculate-landscape-metrics">4. Calculate landscape metrics<span></span></a></li>
-<li><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations">5. Sample landscape metrics within buffer around sampling locations<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2<span></span></a></li>
-<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’<span></span></a>
-<ul>
-<li><a href="bonus_2a.html#overview-2">1. Overview<span></span></a></li>
-<li><a href="bonus_2a.html#convert-spatialpointsdataframe-to-sf-object">2. Convert ‘SpatialPointsDataFrame’ to ‘sf’ object<span></span></a></li>
-<li><a href="bonus_2a.html#plot-variables-first-10-in-data-set">3. Plot variables (first 10 in data set)<span></span></a></li>
-<li><a href="bonus_2a.html#export-site-data-as-esri-shapefile">4. Export site data as ESRI shapefile<span></span></a></li>
-<li><a href="bonus_2a.html#use-terra-and-tmap-to-display-categorical-map-with-color-scheme">5. Use ‘terra’ and ‘tmap’ to display categorical map with color scheme<span></span></a></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#goals-2"><i class="fa fa-check"></i>1. Goals</a></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#step-by-step-tutorials"><i class="fa fa-check"></i>2. Step-by-step tutorials</a></li>
+<li class="chapter" data-level="" data-path="workflow.html"><a href="workflow.html#further-resources"><i class="fa fa-check"></i>3. Further resources</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity<span></span></a>
+<li class="part"><span><b>Basic Topics</b></span></li>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video<span></span></a>
+<li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
-<li><a href="video_3.html#embedded-video-2">1. Embedded Video<span></span></a></li>
-<li><a href="video_3.html#video-part-1">Video, Part 1<span></span></a></li>
-<li><a href="video_3.html#video-part-2">Video, Part 2<span></span></a></li>
-<li><a href="video_3.html#preview-slides-2">Preview Slides<span></span></a></li>
+<li class="chapter" data-level="" data-path="video_1.html"><a href="video_1.html#embedded-video"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_1.html"><a href="video_1.html#preview-slides"><i class="fa fa-check"></i>2. Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3<span></span></a>
+<li class="chapter" data-level="4.2" data-path="tutorial_1.html"><a href="tutorial_1.html"><i class="fa fa-check"></i><b>4.2</b> Interactive Tutorial 1</a>
 <ul>
-<li><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_3.html#general-instructions-2">2. General Instructions<span></span></a></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#list-of-r-commands-covered-this-week"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_1.html"><a href="tutorial_1.html#general-instructions"><i class="fa fa-check"></i>2. General Instructions</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example<span></span></a>
+<li class="chapter" data-level="4.3" data-path="WE_1.html"><a href="WE_1.html"><i class="fa fa-check"></i><b>4.3</b> Worked Example</a>
 <ul>
-<li><a href="WE_3.html#overview-of-worked-example-2">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_3.html#basic-checking-of-markers-and-populations">2. Basic checking of markers and populations<span></span></a></li>
-<li><a href="WE_3.html#assess-genetic-diversity">3. Assess genetic diversity<span></span></a></li>
-<li><a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies">4. Aggregate genetic data at population level (allele frequencies)<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#overview-of-worked-example"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-from-.csv-file"><i class="fa fa-check"></i>2. Import data from .csv file</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#create-genind-object"><i class="fa fa-check"></i>3. Create ‘genind’ Object</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#view-information-stored-in-genind-object"><i class="fa fa-check"></i>4. View information stored in ‘genind’ object</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
+<li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3<span></span></a></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations<span></span></a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video<span></span></a>
+<li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
-<li><a href="video_4.html#embedded-video-3">1. Embedded Video<span></span></a></li>
-<li><a href="video_4.html#video-part-1-1">Video, Part 1<span></span></a></li>
-<li><a href="video_4.html#video-part-2-1">Video, Part 2<span></span></a></li>
-<li><a href="video_4.html#preview-slides-3">Preview Slides<span></span></a></li>
+<li class="chapter" data-level="" data-path="video_2.html"><a href="video_2.html#embedded-video-1"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_2.html"><a href="video_2.html#preview-slides-1"><i class="fa fa-check"></i>2. Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4<span></span></a>
+<li class="chapter" data-level="5.2" data-path="tutorial_2.html"><a href="tutorial_2.html"><i class="fa fa-check"></i><b>5.2</b> Interactive Tutorial 2</a>
 <ul>
-<li><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_4.html#general-instructions-3">2. General Instructions<span></span></a></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#list-of-r-commands-covered-this-week-1"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_2.html"><a href="tutorial_2.html#general-instructions-1"><i class="fa fa-check"></i>2. General Instructions</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example<span></span></a>
+<li class="chapter" data-level="5.3" data-path="WE_2.html"><a href="WE_2.html"><i class="fa fa-check"></i><b>5.3</b> Worked Example</a>
 <ul>
-<li><a href="WE_4.html#overview-of-worked-example-3">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_4.html#spatial-distribution-of-genetic-structure">2. Spatial distribution of genetic structure<span></span></a></li>
-<li><a href="WE_4.html#what-determines-genetic-differentiation-among-sites">3. What determines genetic differentiation among sites?<span></span></a></li>
-<li><a href="WE_4.html#what-determines-genetic-diversity">4. What determines genetic diversity?<span></span></a></li>
-<li><a href="WE_4.html#are-genetic-differentiation-and-diversity-related">5. Are genetic differentiation and diversity related?<span></span></a></li>
-<li><a href="WE_4.html#effect-of-recent-extinction-events">6. Effect of recent extinction events<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#overview-of-worked-example-1"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#import-site-data-from-.csv-file"><i class="fa fa-check"></i>2. Import site data from .csv file</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#display-raster-data-and-overlay-sampling-locations-extract-data"><i class="fa fa-check"></i>3. Display raster data and overlay sampling locations, extract data</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
+<li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics<span></span></a>
+<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video<span></span></a>
-<ul>
-<li><a href="video_5.html#embedded-video-4">1. Embedded Video<span></span></a></li>
-<li><a href="video_5.html#preview-slides-4">Preview Slides<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5<span></span></a>
-<ul>
-<li><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_5.html#general-instructions-4">2. General Instructions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_5.html#overview-of-worked-example-4">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_5.html#data-import-and-manipulation">2. Data import and manipulation<span></span></a></li>
-<li><a href="WE_5.html#calculate-genetic-distances">3. Calculate genetic distances<span></span></a></li>
-<li><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd">4. Perform a Mantel test to test for IBD<span></span></a></li>
-<li><a href="WE_5.html#create-mantel-correlogram-for-genetic-data">5. Create Mantel correlogram for genetic data<span></span></a></li>
-<li><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i">6. Specify spatial weights and calculate Moran’s I<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics<span></span></a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video<span></span></a>
-<ul>
-<li><a href="video_6.html#embedded-video-5">1. Embedded Video<span></span></a></li>
-<li><a href="video_6.html#video-part-1-2">Video, Part 1<span></span></a></li>
-<li><a href="video_6.html#video-part-2-2">Video, Part 2<span></span></a></li>
-<li><a href="video_6.html#preview-slides-5">Preview Slides<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6<span></span></a>
-<ul>
-<li><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_6.html#general-instructions-5">2. General Instructions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_6.html#overview-of-worked-example-5">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment">2. Estimate genetic and non-genetic variance components from a common garden experiment<span></span></a></li>
-<li><a href="WE_6.html#estimate-trait-heritability">3. Estimate trait heritability<span></span></a></li>
-<li><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data">4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data<span></span></a></li>
-<li><a href="WE_6.html#assess-correlation-between-trait-and-environment">5. Assess correlation between trait and environment<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.4" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i><b>9.4</b> R Exercise Week 6<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models<span></span></a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video<span></span></a>
-<ul>
-<li><a href="video_7.html#embedded-video-6">1. Embedded Video<span></span></a></li>
-<li><a href="video_7.html#video-part-1-3">Video, Part 1<span></span></a></li>
-<li><a href="video_7.html#video-part-2-3">Video, Part 2<span></span></a></li>
-<li><a href="video_7.html#preview-slides-6">Preview Slides<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7<span></span></a>
-<ul>
-<li><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_7.html#general-instructions-6">2. General Instructions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_7.html#overview-of-worked-example-6">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_7.html#explore-data-set">2. Explore data set<span></span></a></li>
-<li><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation">3. Test regression residuals for spatial autocorrelation<span></span></a></li>
-<li><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme">4. Fit models with spatially correlated error (GLS) with package ‘nlme’<span></span></a></li>
-<li><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar">5. Fit spatial simultaneous autoregressive error models (SAR)<span></span></a></li>
-<li><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran">6. Spatial filtering with MEM using package ‘spmoran’<span></span></a></li>
-<li><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran">7. Fit spatially varying coefficients model with package ‘spmoran’<span></span></a></li>
-<li><a href="WE_7.html#model-with-patchsize-and-ibr">Model with PatchSize and IBR<span></span></a></li>
-<li><a href="WE_7.html#model-with-ibr-only">Model with IBR only<span></span></a></li>
-<li><a href="WE_7.html#conclusions">8. Conclusions<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7<span></span></a></li>
-<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index<span></span></a>
-<ul>
-<li><a href="bonus_7a.html#overview-of-bonus-materials">1. Overview of Bonus Materials<span></span></a></li>
-<li><a href="bonus_7a.html#import-ecological-distance-matrices">2. Import ecological distance matrices<span></span></a></li>
-<li><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha">3. Optimize the scaling parameter alpha<span></span></a></li>
-<li><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters">4. Calculate Hanski’s index Si with source patch parameters<span></span></a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#compatibility-with-sp-and-raster-objects"><i class="fa fa-check"></i>3. Compatibility with <code>sp</code> and <code>raster</code> objects</a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plotting-spatial-data-with-tmap"><i class="fa fa-check"></i>4. Plotting spatial data with <code>tmap</code></a></li>
+<li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments<span></span></a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video<span></span></a>
+<li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
-<li><a href="video_8.html#embedded-video-7">1. Embedded Video<span></span></a></li>
-<li><a href="video_8.html#video-part-1-4">Video, Part 1<span></span></a></li>
-<li><a href="video_8.html#video-part-2-4">Video, Part 2<span></span></a></li>
-<li><a href="video_8.html#preview-slides-7">Preview Slides<span></span></a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#embedded-video-2"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#video-part-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#video-part-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_3.html"><a href="video_3.html#preview-slides-2"><i class="fa fa-check"></i>Preview Slides</a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8<span></span></a>
+<li class="chapter" data-level="6.2" data-path="tutorial_3.html"><a href="tutorial_3.html"><i class="fa fa-check"></i><b>6.2</b> Interactive Tutorial 3</a>
 <ul>
-<li><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7">1. List of R commands covered this week<span></span></a></li>
-<li><a href="tutorial_8.html#general-instructions-7">2. General Instructions<span></span></a></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#list-of-r-commands-covered-this-week-2"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_3.html"><a href="tutorial_3.html#general-instructions-2"><i class="fa fa-check"></i>2. General Instructions</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_8.html#overview-of-worked-example-7">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_8.html#initialize-a-landscape">2. Initialize a landscape<span></span></a></li>
-<li><a href="WE_8.html#define-simulation-parameters">3. Define simulation parameters<span></span></a></li>
-<li><a href="WE_8.html#run-simulations-and-analyze-results">4. Run simulations and analyze results<span></span></a></li>
-<li><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set">5. Run simulator using a previously defined parameter set<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
+<li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8<span></span></a></li>
-<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R<span></span></a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
 <ul>
-<li><a href="bonus_8a.html#overview-of-bonus-material">1. Overview of Bonus Material<span></span></a></li>
-<li><a href="bonus_8a.html#navigating-the-file-system">2. Navigating the file system<span></span></a></li>
-<li><a href="bonus_8a.html#benchmarking-file-import-and-export-options">3. Benchmarking file import and export options<span></span></a></li>
-<li><a href="bonus_8a.html#profiling-your-code">4. Profiling your code<span></span></a></li>
-<li><a href="bonus_8a.html#creating-and-executing-a-bash-r-script">5. Creating and executing a Bash R script<span></span></a></li>
-<li><a href="bonus_8a.html#parallelizing-code">6. Parallelizing code<span></span></a></li>
+<li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#embedded-video-3"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#video-part-1-1"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#video-part-2-1"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_4.html"><a href="video_4.html#preview-slides-3"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="tutorial_4.html"><a href="tutorial_4.html"><i class="fa fa-check"></i><b>7.2</b> Interactive Tutorial 4</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#list-of-r-commands-covered-this-week-3"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_4.html"><a href="tutorial_4.html#general-instructions-3"><i class="fa fa-check"></i>2. General Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="WE_4.html"><a href="WE_4.html"><i class="fa fa-check"></i><b>7.3</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#overview-of-worked-example-3"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#spatial-distribution-of-genetic-structure"><i class="fa fa-check"></i>2. Spatial distribution of genetic structure</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#what-determines-genetic-differentiation-among-sites"><i class="fa fa-check"></i>3. What determines genetic differentiation among sites?</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#what-determines-genetic-diversity"><i class="fa fa-check"></i>4. What determines genetic diversity?</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
+<li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_5.html"><a href="video_5.html#embedded-video-4"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_5.html"><a href="video_5.html#preview-slides-4"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tutorial_5.html"><a href="tutorial_5.html"><i class="fa fa-check"></i><b>8.2</b> Interactive Tutorial 5</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#list-of-r-commands-covered-this-week-4"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_5.html"><a href="tutorial_5.html#general-instructions-4"><i class="fa fa-check"></i>2. General Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="WE_5.html"><a href="WE_5.html"><i class="fa fa-check"></i><b>8.3</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#overview-of-worked-example-4"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#data-import-and-manipulation"><i class="fa fa-check"></i>2. Data import and manipulation</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#calculate-genetic-distances"><i class="fa fa-check"></i>3. Calculate genetic distances</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#perform-a-mantel-test-to-test-for-ibd"><i class="fa fa-check"></i>4. Perform a Mantel test to test for IBD</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
+<li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#embedded-video-5"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#video-part-1-2"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#video-part-2-2"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_6.html"><a href="video_6.html#preview-slides-5"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="tutorial_6.html"><a href="tutorial_6.html"><i class="fa fa-check"></i><b>9.2</b> Interactive Tutorial 6</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#list-of-r-commands-covered-this-week-5"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_6.html"><a href="tutorial_6.html#general-instructions-5"><i class="fa fa-check"></i>2. General Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="WE_6.html"><a href="WE_6.html"><i class="fa fa-check"></i><b>9.3</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#overview-of-worked-example-5"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#estimate-genetic-and-non-genetic-variance-components-from-a-common-garden-experiment"><i class="fa fa-check"></i>2. Estimate genetic and non-genetic variance components from a common garden experiment</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#estimate-trait-heritability"><i class="fa fa-check"></i>3. Estimate trait heritability</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#compare-q_st-to-f_st-measured-from-snp-data"><i class="fa fa-check"></i>4. Compare <span class="math inline">\(Q_{st}\)</span> to <span class="math inline">\(F_{st}\)</span> measured from SNP data</a></li>
+<li class="chapter" data-level="" data-path="WE_6.html"><a href="WE_6.html#assess-correlation-between-trait-and-environment"><i class="fa fa-check"></i>5. Assess correlation between trait and environment</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
+<ul>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#embedded-video-6"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#video-part-1-3"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#video-part-2-3"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_7.html"><a href="video_7.html#preview-slides-6"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tutorial_7.html"><a href="tutorial_7.html"><i class="fa fa-check"></i><b>10.2</b> Interactive Tutorial 7</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#list-of-r-commands-covered-this-week-6"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_7.html"><a href="tutorial_7.html#general-instructions-6"><i class="fa fa-check"></i>2. General Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="WE_7.html"><a href="WE_7.html"><i class="fa fa-check"></i><b>10.3</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#overview-of-worked-example-6"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#explore-data-set"><i class="fa fa-check"></i>2. Explore data set</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#test-regression-residuals-for-spatial-autocorrelation"><i class="fa fa-check"></i>3. Test regression residuals for spatial autocorrelation</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-models-with-spatially-correlated-error-gls-with-package-nlme"><i class="fa fa-check"></i>4. Fit models with spatially correlated error (GLS) with package ‘nlme’</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-spatial-simultaneous-autoregressive-error-models-sar"><i class="fa fa-check"></i>5. Fit spatial simultaneous autoregressive error models (SAR)</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#spatial-filtering-with-mem-using-package-spmoran"><i class="fa fa-check"></i>6. Spatial filtering with MEM using package ‘spmoran’</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#fit-spatially-varying-coefficients-model-with-package-spmoran"><i class="fa fa-check"></i>7. Fit spatially varying coefficients model with package ‘spmoran’</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-patchsize-and-ibr"><i class="fa fa-check"></i>Model with PatchSize and IBR</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
+<li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#optimize-the-scaling-parameter-alpha"><i class="fa fa-check"></i>3. Optimize the scaling parameter alpha</a></li>
+<li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>Advanced Topics<span></span></b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure<span></span></a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example<span></span></a>
+<li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
-<li><a href="WE_9.html#overview-of-worked-example-8">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_9.html#simulated-data-2-island-model">2. Simulated data: 2-island model<span></span></a></li>
-<li><a href="WE_9.html#simulated-data-2-island-model-with-admixture">3. Simulated data: 2-island model with admixture<span></span></a></li>
-<li><a href="WE_9.html#empirical-data-threespine-sticklebacks">4. Empirical data: Threespine sticklebacks<span></span></a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#embedded-video-7"><i class="fa fa-check"></i>1. Embedded Video</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#video-part-1-4"><i class="fa fa-check"></i>Video, Part 1</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#video-part-2-4"><i class="fa fa-check"></i>Video, Part 2</a></li>
+<li class="chapter" data-level="" data-path="video_8.html"><a href="video_8.html#preview-slides-7"><i class="fa fa-check"></i>Preview Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="tutorial_8.html"><a href="tutorial_8.html"><i class="fa fa-check"></i><b>11.2</b> Interactive Tutorial 8</a>
+<ul>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#list-of-r-commands-covered-this-week-7"><i class="fa fa-check"></i>1. List of R commands covered this week</a></li>
+<li class="chapter" data-level="" data-path="tutorial_8.html"><a href="tutorial_8.html#general-instructions-7"><i class="fa fa-check"></i>2. General Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="WE_8.html"><a href="WE_8.html"><i class="fa fa-check"></i><b>11.3</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#overview-of-worked-example-7"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#initialize-a-landscape"><i class="fa fa-check"></i>2. Initialize a landscape</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#define-simulation-parameters"><i class="fa fa-check"></i>3. Define simulation parameters</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
+<li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+</ul></li>
+<li class="part"><span><b>Advanced Topics</b></span></li>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#overview-of-worked-example-8"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#simulated-data-2-island-model"><i class="fa fa-check"></i>2. Simulated data: 2-island model</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#simulated-data-2-island-model-with-admixture"><i class="fa fa-check"></i>3. Simulated data: 2-island model with admixture</a></li>
+<li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance<span></span></a>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example<span></span></a>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li><a href="WE_10.html#overview-of-worked-example-9">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_10.html#explore-the-data-set">2. Explore the data set<span></span></a></li>
-<li><a href="WE_10.html#setting-cost-values-and-calculating-conductance">3. Setting cost values and calculating conductance<span></span></a></li>
-<li><a href="WE_10.html#convert-conductance-into-effective-distance">4. Convert conductance into effective distance<span></span></a></li>
-<li><a href="WE_10.html#create-cost-distance-matrices">5. Create cost-distance matrices<span></span></a></li>
-<li><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics">6. How does changing resolution affect these metrics?<span></span></a></li>
-<li><a href="WE_10.html#references">7. References<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial<span></span></a>
+<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
 <ul>
-<li><a href="bonus-10a.html#overview-of-bonus-materials-1">1. Overview of Bonus Materials<span></span></a></li>
-<li><a href="bonus-10a.html#import-data">2. Import data<span></span></a></li>
-<li><a href="bonus-10a.html#basic-model-fitting">3. Basic model fitting<span></span></a></li>
-<li><a href="bonus-10a.html#advanced-modeling-topics">4. Advanced modeling topics<span></span></a></li>
-<li><a href="bonus-10a.html#summary">5. Summary<span></span></a></li>
-<li><a href="bonus-10a.html#references-1">6. References<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation<span></span></a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example<span></span></a>
-<ul>
-<li><a href="WE_11.html#overview-of-worked-example-10">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_11.html#import-and-prepare-the-data">2. Import and prepare the data<span></span></a></li>
-<li><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea">3. Latent Factor Mixed Models (LFMM): a univariate GEA<span></span></a></li>
-<li><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea">4. Redundancy Analysis (RDA): a multivariate GEA<span></span></a></li>
-<li><a href="WE_11.html#compare-lfmm-and-rda-candidates">5. Compare LFMM and RDA candidates<span></span></a></li>
-<li><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda">6. A quick note on controlling for population structure in RDA<span></span></a></li>
-<li><a href="WE_11.html#references-2">7. References<span></span></a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
+<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection<span></span></a>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example<span></span></a>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li><a href="WE_12.html#overview-of-worked-example-11">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_12.html#fitting-candidate-models">2. Fitting candidate models<span></span></a></li>
-<li><a href="WE_12.html#your-turn-to-test-additional-hypotheses">3. Your turn to test additional hypotheses!<span></span></a></li>
-<li><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs">4. Nested model (NMLPE) for hierarchical sampling designs<span></span></a></li>
-<li><a href="WE_12.html#references-3">5. References<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models<span></span></a>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example<span></span></a>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
 <ul>
-<li><a href="WE_13.html#overview-of-worked-example-12">1. Overview of Worked Example<span></span></a></li>
-<li><a href="WE_13.html#setup">2. Setup<span></span></a></li>
-<li><a href="WE_13.html#wetland-complex-data-preparation">3. Wetland complex data preparation<span></span></a></li>
-<li><a href="WE_13.html#wetland-field-data-preparation">4. Wetland field-data preparation<span></span></a></li>
-<li><a href="WE_13.html#saturated-graph">5. Saturated Graph<span></span></a></li>
-<li><a href="WE_13.html#spatial-model-data-prepration">6. Spatial model data prepration<span></span></a></li>
-<li><a href="WE_13.html#gravity-model">7. Gravity model<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow<span></span></a>
+<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
 <ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example<span></span></a>
+<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
 <ul>
-<li><a href="WE_14.html#overview-3">1. Overview<span></span></a></li>
-<li><a href="WE_14.html#import-genotypes">2. Import Genotypes<span></span></a></li>
-<li><a href="WE_14.html#pollen-pool-genetic-structure">3. Pollen pool genetic structure<span></span></a></li>
-<li><a href="WE_14.html#paternity-analysis">4. Paternity analysis<span></span></a></li>
-<li><a href="WE_14.html#linking-paternity-to-ecological-variables">5. Linking paternity to ecological variables<span></span></a></li>
-<li><a href="WE_14.html#references-4">6. References<span></span></a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
+<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
+<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -528,7 +527,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>1. Overview of Bonus Materials<a href="bonus-10a.html#overview-of-bonus-materials-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This short tutorial provides an overview of the in-development R package <code>radish</code> created by Nate Pope and Bill Peterman.</p>
 <div id="a.-what-is-the-package-radish" class="section level4 unnumbered hasAnchor">
-<h4>a. What is the package ‘radish?’<a href="bonus-10a.html#a.-what-is-the-package-radish" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<h4>a. What is the package ‘radish’?<a href="bonus-10a.html#a.-what-is-the-package-radish" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>From the <code>README</code> file of the <a href="https://github.com/nspope/radish">Github repository</a>:</p>
 <p><em><code>radish</code> is an R package for maximum likelihood estimation of isolation-by-resistance models, where conductance is a function of spatial covariates, the observed data are genetic distances, and the likelihood of the “measurement process” is cheap to compute (e.g. regression of distance matrices, or generalized Wishart). It also provides fast computation of the gradient, Hessian matrix, and derivative-based leverage/influence measures. As currently implemented it is intended for moderate-sized problems (e.g. rasters with less than 1mil cells, where a sparse Cholesky decomposition of the graph Laplacian is feasible). Larger problems are possible (with sufficient memory), but slow.</em></p>
 <p>Ultimately, <code>radish</code> provides a user-friendly interface for optimizing landscape resistance models. Using this framework, the effects and contributions of independent landscape surfaces are estimated. In landscape genetics, we are frequently interested in how spatial covariates (temperature, altitude, and so on) influence the movement of organisms. One way to approach this problem is to discretize the landscape as a raster, model movement as a random walk between raster cells, and write the rates of transition between cells as a parameterized function of spatial covariates. For example, the resistance models in this tutorial have the form,</p>
@@ -536,22 +535,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>where <code>conductance[cell] = 1/resistance[cell]</code>. The parameters <code>coef_i</code> have a clear biological interpretation: if <code>coef_i &gt; 0</code>, then the associated covariate facilitates movement; if <code>coef_i &lt; 0</code> then it impedes movement; and if <code>coef_i = 0</code> then it has no effect on movement. “Isolation by distance” is the special case where <code>coef_i = 0</code> for all <code>i</code>: in other words, the landscape has no impact on movement.</p>
 <p>For a particular choice of values for <code>coef</code>, the “resistance distances” between cells on this raster can be calculated and compared to observed genetic distances via some sort of regression. This regression is referred to as a “measurement process” in the quote above, but maybe “error model” is a better term. The measurement/error model may involve any number of nuisance parameters (e.g. slope, intercept, and residual error), and provides a way to measure of goodness-of-fit between genetic and resistance distances (e.g. via the log-likelihood of the regression fit). <code>radish</code> optimizes the parameters of interest (e.g. <code>coef</code>) so as to maximize goodness-of-fit, while profiling out the nuisance parameters.</p>
 <p>A visualization of this framework is shown in Figures 1 &amp; 2. This is a depiction of parameter space for a landscape resistance model with two spatial covariates: the x-axis/y-axis are values of <code>coef[1]</code> and <code>coef[2]</code> in the equation above. At any given point in this space, resistance distance can be calculated and regressed with observed genetic distance (or a measure of divergence like Fst). Thus for the two sub-panels in Figure 1, the regressions use the same dependent variable (in this case Fst) but different resistance distances (corresponding to the values of <code>coef</code> at each point). The likelihood (goodness-of-fit) of the regressions over the entire parameter space creates a likelihood surface. The values of <code>coef</code> that maximize this likelihood surface are the maximum likelihood estimates (MLE) of the parameters. Reduced models follow from restricting one or both of <code>coef</code> to 0, effectively dropping the associated spatial covariates from the model. Rather than exhaustively searching parameter space for the MLE, <code>radish</code> uses an efficient optimization algorithm.</p>
-<pre><code>## Warning in knitr::include_graphics(&quot;/Users/hhwagner1/Desktop/R_GitHub_Projects/
-## LandGenCourse_book/vignettes/radish_tutorial_fig1A.png&quot;): It is highly
-## recommended to use relative paths for images. You had absolute paths: &quot;/
-## Users/hhwagner1/Desktop/R_GitHub_Projects/LandGenCourse_book/vignettes/
-## radish_tutorial_fig1A.png&quot;</code></pre>
 <div class="figure"><span style="display:block;" id="fig:figure1"></span>
 <img src="vignettes/radish_tutorial_fig1A.png" alt="*Points in parameter space for a loglinear conductance model with two spatial covariates. At each point, resistance distance can be calculated and regressed with genetic distance/divergence.*" width="825" />
 <p class="caption">
 Figure 13.1: <em>Points in parameter space for a loglinear conductance model with two spatial covariates. At each point, resistance distance can be calculated and regressed with genetic distance/divergence.</em>
 </p>
 </div>
-<pre><code>## Warning in knitr::include_graphics(&quot;/Users/hhwagner1/Desktop/R_GitHub_Projects/
-## LandGenCourse_book/vignettes/radish_tutorial_fig1B.png&quot;): It is highly
-## recommended to use relative paths for images. You had absolute paths: &quot;/
-## Users/hhwagner1/Desktop/R_GitHub_Projects/LandGenCourse_book/vignettes/
-## radish_tutorial_fig1B.png&quot;</code></pre>
 <div class="figure"><span style="display:block;" id="fig:figure2"></span>
 <img src="vignettes/radish_tutorial_fig1B.png" alt="*If the log-likelihood (goodness-of-fit) of the regression is measured across parameter space, this creates a likelihood surface. The parameter values at the maximum of the surface are the maximum likelihood estimates. Reduced models follow from restricting one or both parameters to 0.*" width="975" />
 <p class="caption">
@@ -574,51 +563,55 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 </ul>
 <p><strong>Sampling locations:</strong> We will model landscape resistance between the ponds from which Colombia spotted frogs were sampled. The spatial coordinates and site data are available in the <code>GeNEtIt</code> package in the form of a <code>SpatialPointsDataFrame</code> <code>ralu.site</code>. The slot <code>@coords</code> contains UTM coordinates (zone 11), and the slot <code>@data</code> contains 17 site variables for 31 sites. For meta data type: <code>?GeNetIt::ralu.site</code>.</p>
 </div>
-<div id="c.-required-r-packages-10" class="section level4 unnumbered hasAnchor">
-<h4>c. Required R packages<a href="bonus-10a.html#c.-required-r-packages-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="c.-required-r-packages-9" class="section level4 unnumbered hasAnchor">
+<h4>c. Required R packages<a href="bonus-10a.html#c.-required-r-packages-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Both <code>corMLPE</code> and <code>radish</code> packages require compiling.</p>
 <p>Note: If using a Windows machine, this requires Rtools. Thus, if you get error messages, install <a href="https://cran.r-project.org/bin/windows/Rtools/rtools40.html">Rtools</a>. Be sure to follow the necessary steps so that Rtools is in your system <code>PATH</code></p>
-<div class="sourceCode" id="cb1149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1149-1"><a href="bonus-10a.html#cb1149-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span>
-<span id="cb1149-2"><a href="bonus-10a.html#cb1149-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1149-3"><a href="bonus-10a.html#cb1149-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span>
-<span id="cb1149-4"><a href="bonus-10a.html#cb1149-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1149-5"><a href="bonus-10a.html#cb1149-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;radish&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/radish&quot;</span>)</span>
-<span id="cb1149-6"><a href="bonus-10a.html#cb1149-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1149-7"><a href="bonus-10a.html#cb1149-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(radish)</span></code></pre></div>
+<div class="sourceCode" id="cb1177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1177-1"><a href="bonus-10a.html#cb1177-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;GeNetIt&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jeffreyevans/GeNetIt&quot;</span>)</span>
+<span id="cb1177-2"><a href="bonus-10a.html#cb1177-2" tabindex="-1"></a></span>
+<span id="cb1177-3"><a href="bonus-10a.html#cb1177-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span>
+<span id="cb1177-4"><a href="bonus-10a.html#cb1177-4" tabindex="-1"></a></span>
+<span id="cb1177-5"><a href="bonus-10a.html#cb1177-5" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;radish&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/radish&quot;</span>)</span>
+<span id="cb1177-6"><a href="bonus-10a.html#cb1177-6" tabindex="-1"></a></span>
+<span id="cb1177-7"><a href="bonus-10a.html#cb1177-7" tabindex="-1"></a><span class="fu">library</span>(radish)</span></code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
-<div class="sourceCode" id="cb1151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1151-1"><a href="bonus-10a.html#cb1151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code></pre></div>
+<div class="sourceCode" id="cb1179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1179-1"><a href="bonus-10a.html#cb1179-1" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
+<div class="sourceCode" id="cb1181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1181-1"><a href="bonus-10a.html#cb1181-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
+<pre><code>## terra 1.7.65</code></pre>
+<div class="sourceCode" id="cb1183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1183-1"><a href="bonus-10a.html#cb1183-1" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div>
+<pre><code>## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
+<div class="sourceCode" id="cb1185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1185-1"><a href="bonus-10a.html#cb1185-1" tabindex="-1"></a><span class="fu">library</span>(sp)</span></code></pre></div>
 </div>
 </div>
 <div id="import-data" class="section level3 unnumbered hasAnchor">
 <h3>2. Import data<a href="bonus-10a.html#import-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="a.-import-raster-data" class="section level4 unnumbered hasAnchor">
 <h4>a. Import raster data<a href="bonus-10a.html#a.-import-raster-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Load the raster data as a <code>SpatialPixelsDataFrame</code> and convert them in to a raster stack. As of this writing, <code>radish</code> requires that raster surfaces be provided as a <code>RasterStack</code>. The names of the layers within the stack will be your independent variable(s) when fitting the <code>radish</code> model. We’ll make an object called <code>covariates</code> for use with <code>radish</code>.</p>
-<div class="sourceCode" id="cb1153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1153-1"><a href="bonus-10a.html#cb1153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rasters, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
-<span id="cb1153-2"><a href="bonus-10a.html#cb1153-2" aria-hidden="true" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(rasters)</span></code></pre></div>
+<p>Load the raster data as a <code>SpatRaster</code> (package <code>terra</code>) with multiple layers. The names of the layers will be your independent variable(s) when fitting the <code>radish</code> model. We’ll make an object called <code>covariates</code> for use with <code>radish</code>.</p>
+<div class="sourceCode" id="cb1186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1186-1"><a href="bonus-10a.html#cb1186-1" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata/covariates.tif&quot;</span>, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>))</span></code></pre></div>
 </div>
 <div id="b.-import-sampling-location-data" class="section level4 unnumbered hasAnchor">
 <h4>b. Import sampling location data<a href="bonus-10a.html#b.-import-sampling-location-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb1154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1154-1"><a href="bonus-10a.html#cb1154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
-<span id="cb1154-2"><a href="bonus-10a.html#cb1154-2" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
+<div class="sourceCode" id="cb1187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1187-1"><a href="bonus-10a.html#cb1187-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>)</span>
+<span id="cb1187-2"><a href="bonus-10a.html#cb1187-2" tabindex="-1"></a>sites <span class="ot">&lt;-</span> ralu.site</span></code></pre></div>
 </div>
 <div id="c.-import-genetic-data" class="section level4 unnumbered hasAnchor">
 <h4>c. Import genetic data<a href="bonus-10a.html#c.-import-genetic-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Using the raw genetic data (i.e. <code>ralu.loci</code>) from the <code>LandGenCourse</code> package, we created a <code>genpop</code> data object and then calculated Chord Distance using the <code>adegenet</code> package. Load this square distance matrix.</p>
-<div class="sourceCode" id="cb1155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1155-1"><a href="bonus-10a.html#cb1155-1" aria-hidden="true" tabindex="-1"></a>ralu.dc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;ralu_dc.csv&quot;</span>, </span>
-<span id="cb1155-2"><a href="bonus-10a.html#cb1155-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb1188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1188-1"><a href="bonus-10a.html#cb1188-1" tabindex="-1"></a>ralu.dc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;ralu_dc.csv&quot;</span>, </span>
+<span id="cb1188-2"><a href="bonus-10a.html#cb1188-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="d.-selecting-sites" class="section level4 unnumbered hasAnchor">
 <h4>d. Selecting sites<a href="bonus-10a.html#d.-selecting-sites" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Because the genetic data are a subset of the larger data set, we need to select the 12 sites (ponds) from the <code>sites</code> point object that match those included in our genetic distance matrix. We’ll then convert the <code>SpatialPointsDataFrame</code> to a <code>SpatialPoints</code> object and map our results to confirm everything lines up.</p>
-<div class="sourceCode" id="cb1156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1156-1"><a href="bonus-10a.html#cb1156-1" aria-hidden="true" tabindex="-1"></a>sites_select <span class="ot">&lt;-</span> sites[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>,<span class="dv">21</span>,<span class="dv">23</span>,<span class="dv">25</span><span class="sc">:</span><span class="dv">26</span>),]</span>
-<span id="cb1156-2"><a href="bonus-10a.html#cb1156-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1156-3"><a href="bonus-10a.html#cb1156-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Must be a SpatialPoints object</span></span>
-<span id="cb1156-4"><a href="bonus-10a.html#cb1156-4" aria-hidden="true" tabindex="-1"></a>sites_select <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(sites_select)</span>
-<span id="cb1156-5"><a href="bonus-10a.html#cb1156-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1156-6"><a href="bonus-10a.html#cb1156-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(covariates<span class="sc">$</span>hli, <span class="at">legend=</span><span class="cn">FALSE</span>)</span>
-<span id="cb1156-7"><a href="bonus-10a.html#cb1156-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(sites_select, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1189-1"><a href="bonus-10a.html#cb1189-1" tabindex="-1"></a>sites_select <span class="ot">&lt;-</span> sites[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>,<span class="dv">21</span>,<span class="dv">23</span>,<span class="dv">25</span><span class="sc">:</span><span class="dv">26</span>),]</span>
+<span id="cb1189-2"><a href="bonus-10a.html#cb1189-2" tabindex="-1"></a></span>
+<span id="cb1189-3"><a href="bonus-10a.html#cb1189-3" tabindex="-1"></a><span class="do">## Must be a SpatialPoints object</span></span>
+<span id="cb1189-4"><a href="bonus-10a.html#cb1189-4" tabindex="-1"></a>sites_select <span class="ot">&lt;-</span> sp<span class="sc">::</span><span class="fu">SpatialPoints</span>(sf<span class="sc">::</span><span class="fu">as_Spatial</span>(sites_select))</span>
+<span id="cb1189-5"><a href="bonus-10a.html#cb1189-5" tabindex="-1"></a></span>
+<span id="cb1189-6"><a href="bonus-10a.html#cb1189-6" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(covariates[[<span class="st">&quot;hli&quot;</span>]])</span>
+<span id="cb1189-7"><a href="bonus-10a.html#cb1189-7" tabindex="-1"></a><span class="fu">points</span>(sites_select, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/select-1.png" width="672" /></p>
 </div>
 </div>
@@ -627,22 +620,22 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 <div id="a.-preparing-radish-objects" class="section level4 unnumbered hasAnchor">
 <h4>a. Preparing ‘radish’ objects<a href="bonus-10a.html#a.-preparing-radish-objects" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To fit a <code>radish</code> model, we need to create a parameterized conductance surface. Before doing so, we are going to scale our covariates. This will (hopefully) reduce numeric overflow issues during optimization as well as make effect sizes of parameter estimates of the final model comparable.</p>
-<div class="sourceCode" id="cb1157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1157-1"><a href="bonus-10a.html#cb1157-1" aria-hidden="true" tabindex="-1"></a>scale_covs <span class="ot">&lt;-</span> <span class="fu">stack</span>(<span class="fu">scale</span>(covariates)) <span class="do">## Must be a raster stack</span></span>
-<span id="cb1157-2"><a href="bonus-10a.html#cb1157-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1157-3"><a href="bonus-10a.html#cb1157-3" aria-hidden="true" tabindex="-1"></a>surface <span class="ot">&lt;-</span> <span class="fu">conductance_surface</span>(<span class="at">covariates =</span> scale_covs,</span>
-<span id="cb1157-4"><a href="bonus-10a.html#cb1157-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">coords =</span> sites_select,</span>
-<span id="cb1157-5"><a href="bonus-10a.html#cb1157-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">directions =</span> <span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1190-1"><a href="bonus-10a.html#cb1190-1" tabindex="-1"></a>scale_covs <span class="ot">&lt;-</span> <span class="fu">stack</span>(<span class="fu">scale</span>(covariates)) <span class="do">## Must be a raster stack</span></span>
+<span id="cb1190-2"><a href="bonus-10a.html#cb1190-2" tabindex="-1"></a></span>
+<span id="cb1190-3"><a href="bonus-10a.html#cb1190-3" tabindex="-1"></a>surface <span class="ot">&lt;-</span> <span class="fu">conductance_surface</span>(<span class="at">covariates =</span> scale_covs,</span>
+<span id="cb1190-4"><a href="bonus-10a.html#cb1190-4" tabindex="-1"></a>                               <span class="at">coords =</span> sites_select,</span>
+<span id="cb1190-5"><a href="bonus-10a.html#cb1190-5" tabindex="-1"></a>                               <span class="at">directions =</span> <span class="dv">8</span>)</span></code></pre></div>
 <p>We’re now ready to use <code>radish</code> to fit a measurement model and optimize landscape conductance values!</p>
 </div>
 <div id="b.-fitting-radish-models" class="section level4 unnumbered hasAnchor">
 <h4>b. Fitting ‘radish’ models<a href="bonus-10a.html#b.-fitting-radish-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><code>radish</code> currently supports the fitting a few different measurement models (<code>?radish_measurement_model</code>). We’ll first use the MLPE model (<a href="https://link.springer.com/article/10.1198/108571102320">Clarke et al. 2002</a>) with a loglinear link of the spatial data to conductance. Note: this is quite a few covariates to estimate with only 12 populations sampled!</p>
-<div class="sourceCode" id="cb1158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1158-1"><a href="bonus-10a.html#cb1158-1" aria-hidden="true" tabindex="-1"></a>fit_mlpe <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
-<span id="cb1158-2"><a href="bonus-10a.html#cb1158-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> surface, </span>
-<span id="cb1158-3"><a href="bonus-10a.html#cb1158-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1158-4"><a href="bonus-10a.html#cb1158-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
-<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial covariates:
-## gsp nlcd</code></pre>
+<div class="sourceCode" id="cb1191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1191-1"><a href="bonus-10a.html#cb1191-1" tabindex="-1"></a>fit_mlpe <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
+<span id="cb1191-2"><a href="bonus-10a.html#cb1191-2" tabindex="-1"></a>                   <span class="at">data =</span> surface, </span>
+<span id="cb1191-3"><a href="bonus-10a.html#cb1191-3" tabindex="-1"></a>                   <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1191-4"><a href="bonus-10a.html#cb1191-4" tabindex="-1"></a>                   <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
+<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial
+## covariates: gsp nlcd</code></pre>
 <pre><code>## Projected Newton-Raphson with Hager-Zhang line search
 ## [1] f(x) = 1.551e+02   |f(x)-fold(x)| = 0.000e+00   max|f&#39;(x)| = 2.921e+01   |f&#39;&#39;(x)| = 2.244e+07 
 ## [2] f(x) = 1.583e+02   |f(x)-fold(x)| = 3.190e+00   max|f&#39;(x)| = 3.078e+01   |f&#39;&#39;(x)| = 4.608e+06 
@@ -651,10 +644,10 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## [5] f(x) = 1.639e+02   |f(x)-fold(x)| = 4.128e-01   max|f&#39;(x)| = 8.961e-01   |f&#39;&#39;(x)| = -2.238e+06 
 ## [6] f(x) = 1.639e+02   |f(x)-fold(x)| = 3.142e-02   max|f&#39;(x)| = 2.206e-01   |f&#39;&#39;(x)| = -1.455e+06 
 ## [7] f(x) = 1.639e+02   |f(x)-fold(x)| = 1.130e-04   max|f&#39;(x)| = 1.971e-04   |f&#39;&#39;(x)| = -1.464e+06 
-## [8] f(x) = 1.639e+02   |f(x)-fold(x)| = 5.864e-10   max|f&#39;(x)| = 8.798e-10   |f&#39;&#39;(x)| = -1.464e+06 
-## Solution on interior with `max(abs(gradient))` == 8.797941e-10 and `diff(f)` == 5.863967e-10</code></pre>
+## [8] f(x) = 1.639e+02   |f(x)-fold(x)| = 5.885e-10   max|f&#39;(x)| = 8.864e-10   |f&#39;&#39;(x)| = -1.464e+06 
+## Solution on interior with `max(abs(gradient))` == 8.864018e-10 and `diff(f)` == 5.884715e-10</code></pre>
 <p>Now lets look at the fitted model:</p>
-<div class="sourceCode" id="cb1161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1161-1"><a href="bonus-10a.html#cb1161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_mlpe)</span></code></pre></div>
+<div class="sourceCode" id="cb1194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1194-1"><a href="bonus-10a.html#cb1194-1" tabindex="-1"></a><span class="fu">summary</span>(fit_mlpe)</span></code></pre></div>
 <pre><code>## Conductance surface with 152508 vertices (12 focal) estimated by maximum likelihood
 ## Call:   radish(formula = ralu.dc ~ cti + err27 + ffp + hli, data = surface, 
 ##     conductance_model = radish::loglinear_conductance, measurement_model = radish::mlpe)
@@ -664,7 +657,7 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## 
 ## Number of function calls: 28 
 ## Number of Newton-Raphson steps: 8 
-## Norm of gradient at MLE: 1.069791e-09 
+## Norm of gradient at MLE: 1.072115e-09 
 ## 
 ## Nuisance parameters:
 ##   alpha     beta      tau      rho  
@@ -689,27 +682,27 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 <p>Temperature on the landscape, as measured by the heat load index, has the greatest effect on rates of movement between sampled populations. However, wetness (CTI) and elevational relief also affect movement. Movement rates (i.e. conductance) are estimated to be greatest in areas with lower temperatures, high moisture, and steeper slopes. These results are somewhat counter to the predictions and results of Murphy et al. (2010) in their more extensive analysis of these data using a different framework. Keeping in mind that genetic distances measured between populations are a reflection of a movement, survival, and demographic processes over multiple generations. As such, the long-term effects of landscape features on gene flow can result in unexpected patterns relative to our predictions and intuitions about the system (e.g., <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mec.12747">Peterman et al. 2014</a>). In particular, there is opportunity for our understanding of processes that occur over short temporal scales (e.g., annual reproduction, individual dispersal ability) to not be reflected in the landscape-scale processes that encompass multiple generations. This is one reason why optimization of landscape conductance/resistance values can be so enlightening. We are not constrained to only assessing <em>a priori</em> hypotheses about the direction and/or magnitude of effect that landscape variables have.</p>
 <p><strong>Questions</strong>:</p>
 <ul>
-<li>The example above models connectivity across the landscape following the ‘queen’s rule,’ meaning that movement can occur into any of the 8 adjacent cells. If we simplify and limit connectivity to 4 cells (rook’s rule), does this change the inferred effects of landscape covariates on conductance?</li>
+<li>The example above models connectivity across the landscape following the ‘queen’s rule’, meaning that movement can occur into any of the 8 adjacent cells. If we simplify and limit connectivity to 4 cells (rook’s rule), does this change the inferred effects of landscape covariates on conductance?</li>
 </ul>
 </div>
 <div id="c.-model-interactions" class="section level4 unnumbered hasAnchor">
 <h4>c. Model interactions<a href="bonus-10a.html#c.-model-interactions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><code>radish</code> provides a flexible user formula interface allowing for the easy fitting of interaction terms</p>
-<div class="sourceCode" id="cb1163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1163-1"><a href="bonus-10a.html#cb1163-1" aria-hidden="true" tabindex="-1"></a>fit_mlpe.int <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti<span class="sc">*</span>hli,</span>
-<span id="cb1163-2"><a href="bonus-10a.html#cb1163-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> surface, </span>
-<span id="cb1163-3"><a href="bonus-10a.html#cb1163-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1163-4"><a href="bonus-10a.html#cb1163-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
-<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial covariates:
-## err27 ffp gsp nlcd</code></pre>
+<div class="sourceCode" id="cb1196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1196-1"><a href="bonus-10a.html#cb1196-1" tabindex="-1"></a>fit_mlpe.int <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti<span class="sc">*</span>hli,</span>
+<span id="cb1196-2"><a href="bonus-10a.html#cb1196-2" tabindex="-1"></a>                       <span class="at">data =</span> surface, </span>
+<span id="cb1196-3"><a href="bonus-10a.html#cb1196-3" tabindex="-1"></a>                       <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1196-4"><a href="bonus-10a.html#cb1196-4" tabindex="-1"></a>                       <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
+<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial
+## covariates: err27 ffp gsp nlcd</code></pre>
 <pre><code>## Projected Newton-Raphson with Hager-Zhang line search
 ## [1] f(x) = 1.551e+02   |f(x)-fold(x)| = 0.000e+00   max|f&#39;(x)| = 1.408e+01   |f&#39;&#39;(x)| = 7.245e+03 
 ## [2] f(x) = 1.558e+02   |f(x)-fold(x)| = 6.670e-01   max|f&#39;(x)| = 6.968e-01   |f&#39;&#39;(x)| = 1.078e+04 
 ## [3] f(x) = 1.569e+02   |f(x)-fold(x)| = 1.101e+00   max|f&#39;(x)| = 1.361e+00   |f&#39;&#39;(x)| = -4.976e+01 
 ## [4] f(x) = 1.572e+02   |f(x)-fold(x)| = 2.492e-01   max|f&#39;(x)| = 3.029e-01   |f&#39;&#39;(x)| = -3.147e+02 
-## [5] f(x) = 1.572e+02   |f(x)-fold(x)| = 2.707e-02   max|f&#39;(x)| = 1.265e-02   |f&#39;&#39;(x)| = -3.950e+02 
+## [5] f(x) = 1.572e+02   |f(x)-fold(x)| = 2.707e-02   max|f&#39;(x)| = 1.266e-02   |f&#39;&#39;(x)| = -3.950e+02 
 ## [6] f(x) = 1.572e+02   |f(x)-fold(x)| = 1.800e-05   max|f&#39;(x)| = 2.224e-05   |f&#39;&#39;(x)| = -4.003e+02 
-## [7] f(x) = 1.572e+02   |f(x)-fold(x)| = 1.515e-11   max|f&#39;(x)| = 4.425e-11   |f&#39;&#39;(x)| = -4.002e+02 
-## Solution on interior with `max(abs(gradient))` == 4.425045e-11 and `diff(f)` == 1.514877e-11</code></pre>
+## [7] f(x) = 1.572e+02   |f(x)-fold(x)| = 1.955e-11   max|f&#39;(x)| = 3.406e-11   |f&#39;&#39;(x)| = -4.002e+02 
+## Solution on interior with `max(abs(gradient))` == 3.405514e-11 and `diff(f)` == 1.955414e-11</code></pre>
 <p><strong>Questions</strong>:</p>
 <ul>
 <li>Is there support for fitting for this model that includes interactions between <code>cti</code> and <code>hli</code>?</li>
@@ -722,11 +715,11 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 <div id="a.-isolation-by-distance" class="section level4 unnumbered hasAnchor">
 <h4>a. Isolation-by-Distance<a href="bonus-10a.html#a.-isolation-by-distance" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We can also fit an isolation-by-distance model (our canonical null model in landscape genetics) and compare its fit to our model with spatial covariates.</p>
-<div class="sourceCode" id="cb1166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1166-1"><a href="bonus-10a.html#cb1166-1" aria-hidden="true" tabindex="-1"></a>fit_ibd <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb1166-2"><a href="bonus-10a.html#cb1166-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> surface, </span>
-<span id="cb1166-3"><a href="bonus-10a.html#cb1166-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1166-4"><a href="bonus-10a.html#cb1166-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span>
-<span id="cb1166-5"><a href="bonus-10a.html#cb1166-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_ibd, fit_mlpe)</span></code></pre></div>
+<div class="sourceCode" id="cb1199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1199-1"><a href="bonus-10a.html#cb1199-1" tabindex="-1"></a>fit_ibd <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb1199-2"><a href="bonus-10a.html#cb1199-2" tabindex="-1"></a>                  <span class="at">data =</span> surface, </span>
+<span id="cb1199-3"><a href="bonus-10a.html#cb1199-3" tabindex="-1"></a>                  <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1199-4"><a href="bonus-10a.html#cb1199-4" tabindex="-1"></a>                  <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span>
+<span id="cb1199-5"><a href="bonus-10a.html#cb1199-5" tabindex="-1"></a><span class="fu">anova</span>(fit_ibd, fit_mlpe)</span></code></pre></div>
 <pre><code>## Likelihood ratio test
 ## Null: ~ 1
 ## Alt: ~ cti + err27 + ffp + hli
@@ -740,64 +733,67 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 <div id="b.-visualizing-results" class="section level4 unnumbered hasAnchor">
 <h4>b. Visualizing results<a href="bonus-10a.html#b.-visualizing-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>First, let’s take a look at the relationship between the genetic distance (chord distance) and the optimized resistance distance from our MLPE model.</p>
-<div class="sourceCode" id="cb1168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1168-1"><a href="bonus-10a.html#cb1168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(fit_mlpe, <span class="st">&quot;distance&quot;</span>), ralu.dc, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb1168-2"><a href="bonus-10a.html#cb1168-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Optimized resistance distance&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Dc&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1201-1"><a href="bonus-10a.html#cb1201-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(fit_mlpe, <span class="st">&quot;distance&quot;</span>), ralu.dc, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb1201-2"><a href="bonus-10a.html#cb1201-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Optimized resistance distance&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Dc&quot;</span>)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/visualize-1.png" width="672" /></p>
 <p>There’s a pretty clear positive relationship between chord distance and resistance distance. We can also visualize the optimized conductance surface. We’ll plot the log values of these to aid in visualization.</p>
-<div class="sourceCode" id="cb1169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1169-1"><a href="bonus-10a.html#cb1169-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot fitted conductance surface</span></span>
-<span id="cb1169-2"><a href="bonus-10a.html#cb1169-2" aria-hidden="true" tabindex="-1"></a>fitted_conductance <span class="ot">&lt;-</span> <span class="fu">conductance</span>(surface, fit_mlpe, <span class="at">quantile =</span> <span class="fl">0.95</span>)</span>
-<span id="cb1169-3"><a href="bonus-10a.html#cb1169-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1169-4"><a href="bonus-10a.html#cb1169-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(fitted_conductance[[<span class="st">&quot;est&quot;</span>]]), </span>
-<span id="cb1169-5"><a href="bonus-10a.html#cb1169-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Fitted conductance surface</span><span class="sc">\n</span><span class="st">(cti + err27 + hli + ffp)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1202-1"><a href="bonus-10a.html#cb1202-1" tabindex="-1"></a><span class="do">## Plot fitted conductance surface</span></span>
+<span id="cb1202-2"><a href="bonus-10a.html#cb1202-2" tabindex="-1"></a>fitted_conductance <span class="ot">&lt;-</span> <span class="fu">conductance</span>(surface, fit_mlpe, <span class="at">quantile =</span> <span class="fl">0.95</span>)</span>
+<span id="cb1202-3"><a href="bonus-10a.html#cb1202-3" tabindex="-1"></a></span>
+<span id="cb1202-4"><a href="bonus-10a.html#cb1202-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(fitted_conductance[[<span class="st">&quot;est&quot;</span>]]), </span>
+<span id="cb1202-5"><a href="bonus-10a.html#cb1202-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Fitted conductance surface</span><span class="sc">\n</span><span class="st">(cti + err27 + hli + ffp)&quot;</span>)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/surface-1.png" width="672" /></p>
 </div>
 <div id="c.-plot-effects" class="section level4 unnumbered hasAnchor">
 <h4>c. Plot effects<a href="bonus-10a.html#c.-plot-effects" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Using the coefficient estimates from the model, we can generate effects plots to better visualize how conductance estimates vary across the range of our covariates. To do so, we need to extract the coefficient estimates, get the range of values for each covariate, then estimate the conductance for each. Because we scaled and centered our covariates, the mean value for each is 0. As such, estimating the effects of one covariate while holding others at the mean value effectively drops the others from the equation. Heat load index had the greatest effect size in our model; let’s visualize that response plot below.</p>
-<div class="sourceCode" id="cb1170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1170-1"><a href="bonus-10a.html#cb1170-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Get fitted parameter estimates</span></span>
-<span id="cb1170-2"><a href="bonus-10a.html#cb1170-2" aria-hidden="true" tabindex="-1"></a>mod_tab <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit_mlpe)</span>
-<span id="cb1170-3"><a href="bonus-10a.html#cb1170-3" aria-hidden="true" tabindex="-1"></a>mod_tab <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mod_tab<span class="sc">$</span>ztable[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
-<span id="cb1170-4"><a href="bonus-10a.html#cb1170-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1170-5"><a href="bonus-10a.html#cb1170-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Get ranges of values for covariates</span></span>
-<span id="cb1170-6"><a href="bonus-10a.html#cb1170-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Using scaled values here</span></span>
-<span id="cb1170-7"><a href="bonus-10a.html#cb1170-7" aria-hidden="true" tabindex="-1"></a>hli_rng <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">cellStats</span>(scale_covs<span class="sc">$</span>hli, min),</span>
-<span id="cb1170-8"><a href="bonus-10a.html#cb1170-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">cellStats</span>(scale_covs<span class="sc">$</span>hli, max), <span class="at">length =</span> <span class="dv">100</span>)</span>
-<span id="cb1170-9"><a href="bonus-10a.html#cb1170-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1170-10"><a href="bonus-10a.html#cb1170-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculate estimated mean across range of values</span></span>
-<span id="cb1170-11"><a href="bonus-10a.html#cb1170-11" aria-hidden="true" tabindex="-1"></a>plot_hli <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">mean =</span> <span class="fu">exp</span>(mod_tab<span class="sc">$</span>Estimate[<span class="dv">4</span>] <span class="sc">*</span> hli_rng),</span>
-<span id="cb1170-12"><a href="bonus-10a.html#cb1170-12" aria-hidden="true" tabindex="-1"></a>                       hli_rng)</span>
-<span id="cb1170-13"><a href="bonus-10a.html#cb1170-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1170-14"><a href="bonus-10a.html#cb1170-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1170-15"><a href="bonus-10a.html#cb1170-15" aria-hidden="true" tabindex="-1"></a>(hli_effect <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_hli, <span class="fu">aes</span>(hli_rng, mean)) <span class="sc">+</span></span>
-<span id="cb1170-16"><a href="bonus-10a.html#cb1170-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb1170-17"><a href="bonus-10a.html#cb1170-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Heat Load Index&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Estimated conductance&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1170-18"><a href="bonus-10a.html#cb1170-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb1203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1203-1"><a href="bonus-10a.html#cb1203-1" tabindex="-1"></a><span class="do">## Get fitted parameter estimates</span></span>
+<span id="cb1203-2"><a href="bonus-10a.html#cb1203-2" tabindex="-1"></a>mod_tab <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit_mlpe)</span>
+<span id="cb1203-3"><a href="bonus-10a.html#cb1203-3" tabindex="-1"></a>mod_tab <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mod_tab<span class="sc">$</span>ztable[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb1203-4"><a href="bonus-10a.html#cb1203-4" tabindex="-1"></a></span>
+<span id="cb1203-5"><a href="bonus-10a.html#cb1203-5" tabindex="-1"></a><span class="do">## Get ranges of values for covariates</span></span>
+<span id="cb1203-6"><a href="bonus-10a.html#cb1203-6" tabindex="-1"></a><span class="do">## Using scaled values here</span></span>
+<span id="cb1203-7"><a href="bonus-10a.html#cb1203-7" tabindex="-1"></a>hli_rng <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">cellStats</span>(scale_covs<span class="sc">$</span>hli, min),</span>
+<span id="cb1203-8"><a href="bonus-10a.html#cb1203-8" tabindex="-1"></a>               <span class="fu">cellStats</span>(scale_covs<span class="sc">$</span>hli, max), <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb1203-9"><a href="bonus-10a.html#cb1203-9" tabindex="-1"></a></span>
+<span id="cb1203-10"><a href="bonus-10a.html#cb1203-10" tabindex="-1"></a><span class="do">## Calculate estimated mean across range of values</span></span>
+<span id="cb1203-11"><a href="bonus-10a.html#cb1203-11" tabindex="-1"></a>plot_hli <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">mean =</span> <span class="fu">exp</span>(mod_tab<span class="sc">$</span>Estimate[<span class="dv">4</span>] <span class="sc">*</span> hli_rng),</span>
+<span id="cb1203-12"><a href="bonus-10a.html#cb1203-12" tabindex="-1"></a>                       hli_rng)</span>
+<span id="cb1203-13"><a href="bonus-10a.html#cb1203-13" tabindex="-1"></a></span>
+<span id="cb1203-14"><a href="bonus-10a.html#cb1203-14" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1203-15"><a href="bonus-10a.html#cb1203-15" tabindex="-1"></a>(hli_effect <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_hli, <span class="fu">aes</span>(hli_rng, mean)) <span class="sc">+</span></span>
+<span id="cb1203-16"><a href="bonus-10a.html#cb1203-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb1203-17"><a href="bonus-10a.html#cb1203-17" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Heat Load Index&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Estimated conductance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1203-18"><a href="bonus-10a.html#cb1203-18" tabindex="-1"></a>  <span class="fu">theme_classic</span>())</span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
 <p><img src="10-Week10_files/figure-html/effects-1.png" width="672" /></p>
 </div>
 <div id="d.-other-measurement-models-generalized-wishart-and-least-squares" class="section level4 unnumbered hasAnchor">
 <h4>d. Other measurement models: Generalized Wishart and least squares<a href="bonus-10a.html#d.-other-measurement-models-generalized-wishart-and-least-squares" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>MLPE regression has become one of the most widely used error models when fitting models of pairwise genetic distance and effective landscape distance, but its justification is heuristic and not based on any explicit genetic or spatial process. The generalized Wishart is a less intuitive but more principled alternative (e.g., <a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.2012.724647">Hanks &amp; Hooten 2013</a>). Fitting of the generalized Wishart with <code>radish</code> is similar to the MLPE, except that we need to specify the number of loci measured as the <code>nu</code> argument.</p>
-<div class="sourceCode" id="cb1171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1171-1"><a href="bonus-10a.html#cb1171-1" aria-hidden="true" tabindex="-1"></a>fit_wish <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
-<span id="cb1171-2"><a href="bonus-10a.html#cb1171-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> surface, </span>
-<span id="cb1171-3"><a href="bonus-10a.html#cb1171-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nu =</span> <span class="dv">8</span>, <span class="co"># msat loci in original data</span></span>
-<span id="cb1171-4"><a href="bonus-10a.html#cb1171-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1171-5"><a href="bonus-10a.html#cb1171-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">measurement_model =</span> radish<span class="sc">::</span>generalized_wishart)</span></code></pre></div>
-<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial covariates:
-## gsp nlcd</code></pre>
+<div class="sourceCode" id="cb1205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1205-1"><a href="bonus-10a.html#cb1205-1" tabindex="-1"></a>fit_wish <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
+<span id="cb1205-2"><a href="bonus-10a.html#cb1205-2" tabindex="-1"></a>                   <span class="at">data =</span> surface, </span>
+<span id="cb1205-3"><a href="bonus-10a.html#cb1205-3" tabindex="-1"></a>                   <span class="at">nu =</span> <span class="dv">8</span>, <span class="co"># msat loci in original data</span></span>
+<span id="cb1205-4"><a href="bonus-10a.html#cb1205-4" tabindex="-1"></a>                   <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1205-5"><a href="bonus-10a.html#cb1205-5" tabindex="-1"></a>                   <span class="at">measurement_model =</span> radish<span class="sc">::</span>generalized_wishart)</span></code></pre></div>
+<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial
+## covariates: gsp nlcd</code></pre>
 <pre><code>## Projected Newton-Raphson with Hager-Zhang line search
 ## [1] f(x) = 3.198e+01   |f(x)-fold(x)| = 0.000e+00   max|f&#39;(x)| = 1.321e+00   |f&#39;&#39;(x)| = -1.155e+02 
 ## [2] f(x) = 3.265e+01   |f(x)-fold(x)| = 6.655e-01   max|f&#39;(x)| = 4.669e-01   |f&#39;&#39;(x)| = -2.153e-02 
 ## [3] f(x) = 3.284e+01   |f(x)-fold(x)| = 1.881e-01   max|f&#39;(x)| = 2.740e-01   |f&#39;&#39;(x)| = -8.498e-02 
 ## [4] f(x) = 3.291e+01   |f(x)-fold(x)| = 7.648e-02   max|f&#39;(x)| = 2.067e-01   |f&#39;&#39;(x)| = -5.140e-02 
-## ... switched to backtracking</code></pre>
-<pre><code>## Warning in .local(object, ...): Cholmod warning &#39;not positive definite&#39; at
-## file ../Cholesky/t_cholmod_rowfac.c, line 430</code></pre>
-<pre><code>## [5] f(x) = 3.305e+01   |f(x)-fold(x)| = 1.335e-01   max|f&#39;(x)| = 9.604e-02   |f&#39;&#39;(x)| = -3.017e+00 
-## [6] f(x) = 3.305e+01   |f(x)-fold(x)| = 6.131e-03   max|f&#39;(x)| = 5.234e-03   |f&#39;&#39;(x)| = -5.369e+00 
-## [7] f(x) = 3.305e+01   |f(x)-fold(x)| = 1.510e-05   max|f&#39;(x)| = 1.838e-05   |f&#39;&#39;(x)| = -5.323e+00 
-## [8] f(x) = 3.305e+01   |f(x)-fold(x)| = 1.255e-10   max|f&#39;(x)| = 6.127e-11   |f&#39;&#39;(x)| = -5.322e+00 
-## Solution on interior with `max(abs(gradient))` == 6.127307e-11 and `diff(f)` == 1.254818e-10</code></pre>
-<div class="sourceCode" id="cb1176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1176-1"><a href="bonus-10a.html#cb1176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_wish)</span></code></pre></div>
+## [5] f(x) = 3.302e+01   |f(x)-fold(x)| = 1.047e-01   max|f&#39;(x)| = 1.566e-01   |f&#39;&#39;(x)| = -6.416e-01 
+## [6] f(x) = 3.304e+01   |f(x)-fold(x)| = 2.347e-02   max|f&#39;(x)| = 1.133e-01   |f&#39;&#39;(x)| = -1.829e+00 
+## [7] f(x) = 3.305e+01   |f(x)-fold(x)| = 1.124e-02   max|f&#39;(x)| = 2.444e-02   |f&#39;&#39;(x)| = -4.731e+00 
+## [8] f(x) = 3.305e+01   |f(x)-fold(x)| = 2.066e-04   max|f&#39;(x)| = 1.683e-04   |f&#39;&#39;(x)| = -5.325e+00 
+## [9] f(x) = 3.305e+01   |f(x)-fold(x)| = 2.114e-08   max|f&#39;(x)| = 2.174e-08   |f&#39;&#39;(x)| = -5.322e+00 
+## Solution on interior with `max(abs(gradient))` == 2.173835e-08 and `diff(f)` == 2.113979e-08</code></pre>
+<div class="sourceCode" id="cb1208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1208-1"><a href="bonus-10a.html#cb1208-1" tabindex="-1"></a><span class="fu">summary</span>(fit_wish)</span></code></pre></div>
 <pre><code>## Conductance surface with 152508 vertices (12 focal) estimated by maximum likelihood
 ## Call:   radish(formula = ralu.dc ~ cti + err27 + ffp + hli, data = surface, 
 ##     conductance_model = radish::loglinear_conductance, measurement_model = radish::generalized_wishart, 
@@ -806,9 +802,9 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## Loglikelihood: 33.05447 (6 degrees freedom)
 ## AIC: -54.10893 
 ## 
-## Number of function calls: 29 
-## Number of Newton-Raphson steps: 8 
-## Norm of gradient at MLE: 7.729658e-11 
+## Number of function calls: 32 
+## Number of Newton-Raphson steps: 9 
+## Norm of gradient at MLE: 2.766979e-08 
 ## 
 ## Nuisance parameters:
 ##    tau   sigma  
@@ -823,27 +819,27 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## 
 ## Correlation of Coefficients:
 ##               cti       err27         ffp
-## err27  0.59009882                        
-## ffp   -0.04473058 -0.33159309            
-## hli    0.48199758 -0.20689370  0.35756758</code></pre>
+## err27  0.59009883                        
+## ffp   -0.04473057 -0.33159309            
+## hli    0.48199759 -0.20689369  0.35756759</code></pre>
 <p>Similarily, we could use a least squares regression instead of MLPE: this optimization problem is equivalent to maximizing the Pearson correlation between resistance distance and genetic distance. With least squares regression, the model assumes that pairwise genetic distances are <em>independent</em>, which is clearly not the case – thus, standard errors will be far too small (e.g. the measurement model assumes the data contain more information than is actually the case).</p>
-<div class="sourceCode" id="cb1178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1178-1"><a href="bonus-10a.html#cb1178-1" aria-hidden="true" tabindex="-1"></a>fit_lsq <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
-<span id="cb1178-2"><a href="bonus-10a.html#cb1178-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> surface, </span>
-<span id="cb1178-3"><a href="bonus-10a.html#cb1178-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1178-4"><a href="bonus-10a.html#cb1178-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">measurement_model =</span> radish<span class="sc">::</span>leastsquares)</span></code></pre></div>
-<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial covariates:
-## gsp nlcd</code></pre>
+<div class="sourceCode" id="cb1210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1210-1"><a href="bonus-10a.html#cb1210-1" tabindex="-1"></a>fit_lsq <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> cti <span class="sc">+</span> err27 <span class="sc">+</span> ffp <span class="sc">+</span> hli,</span>
+<span id="cb1210-2"><a href="bonus-10a.html#cb1210-2" tabindex="-1"></a>                  <span class="at">data =</span> surface, </span>
+<span id="cb1210-3"><a href="bonus-10a.html#cb1210-3" tabindex="-1"></a>                  <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1210-4"><a href="bonus-10a.html#cb1210-4" tabindex="-1"></a>                  <span class="at">measurement_model =</span> radish<span class="sc">::</span>leastsquares)</span></code></pre></div>
+<pre><code>## Warning in assemble_model_matrix(formula, x): Removed unused spatial
+## covariates: gsp nlcd</code></pre>
 <pre><code>## Projected Newton-Raphson with Hager-Zhang line search
 ## [1] f(x) = 1.522e+02   |f(x)-fold(x)| = 0.000e+00   max|f&#39;(x)| = 5.627e+01   |f&#39;&#39;(x)| = 7.833e+07 
-## [2] f(x) = 1.587e+02   |f(x)-fold(x)| = 6.527e+00   max|f&#39;(x)| = 2.318e+01   |f&#39;&#39;(x)| = -1.073e+10 
-## [3] f(x) = 1.599e+02   |f(x)-fold(x)| = 1.246e+00   max|f&#39;(x)| = 1.543e+01   |f&#39;&#39;(x)| = 1.844e+07 
-## [4] f(x) = 1.615e+02   |f(x)-fold(x)| = 1.608e+00   max|f&#39;(x)| = 2.522e+01   |f&#39;&#39;(x)| = -1.724e+07 
-## [5] f(x) = 1.623e+02   |f(x)-fold(x)| = 7.987e-01   max|f&#39;(x)| = 2.462e+00   |f&#39;&#39;(x)| = -2.250e+07 
-## [6] f(x) = 1.624e+02   |f(x)-fold(x)| = 1.865e-02   max|f&#39;(x)| = 4.643e-02   |f&#39;&#39;(x)| = -1.796e+07 
-## [7] f(x) = 1.624e+02   |f(x)-fold(x)| = 2.001e-05   max|f&#39;(x)| = 4.417e-05   |f&#39;&#39;(x)| = -1.806e+07 
-## [8] f(x) = 1.624e+02   |f(x)-fold(x)| = 4.633e-12   max|f&#39;(x)| = 3.133e-11   |f&#39;&#39;(x)| = -1.806e+07 
-## Solution on interior with `max(abs(gradient))` == 3.133086e-11 and `diff(f)` == 4.632739e-12</code></pre>
-<div class="sourceCode" id="cb1181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1181-1"><a href="bonus-10a.html#cb1181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lsq)</span></code></pre></div>
+## [2] f(x) = 1.587e+02   |f(x)-fold(x)| = 6.532e+00   max|f&#39;(x)| = 2.301e+01   |f&#39;&#39;(x)| = -1.079e+10 
+## [3] f(x) = 1.599e+02   |f(x)-fold(x)| = 1.243e+00   max|f&#39;(x)| = 1.544e+01   |f&#39;&#39;(x)| = 1.914e+07 
+## [4] f(x) = 1.615e+02   |f(x)-fold(x)| = 1.545e+00   max|f&#39;(x)| = 2.568e+01   |f&#39;&#39;(x)| = -1.758e+07 
+## [5] f(x) = 1.623e+02   |f(x)-fold(x)| = 8.605e-01   max|f&#39;(x)| = 2.296e+00   |f&#39;&#39;(x)| = -2.244e+07 
+## [6] f(x) = 1.624e+02   |f(x)-fold(x)| = 1.819e-02   max|f&#39;(x)| = 4.665e-02   |f&#39;&#39;(x)| = -1.798e+07 
+## [7] f(x) = 1.624e+02   |f(x)-fold(x)| = 1.696e-05   max|f&#39;(x)| = 1.983e-05   |f&#39;&#39;(x)| = -1.806e+07 
+## [8] f(x) = 1.624e+02   |f(x)-fold(x)| = 4.633e-12   max|f&#39;(x)| = 9.802e-12   |f&#39;&#39;(x)| = -1.806e+07 
+## Solution on interior with `max(abs(gradient))` == 9.801956e-12 and `diff(f)` == 4.632739e-12</code></pre>
+<div class="sourceCode" id="cb1213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1213-1"><a href="bonus-10a.html#cb1213-1" tabindex="-1"></a><span class="fu">summary</span>(fit_lsq)</span></code></pre></div>
 <pre><code>## Conductance surface with 152508 vertices (12 focal) estimated by maximum likelihood
 ## Call:   radish(formula = ralu.dc ~ cti + err27 + ffp + hli, data = surface, 
 ##     conductance_model = radish::loglinear_conductance, measurement_model = radish::leastsquares)
@@ -851,9 +847,9 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## Loglikelihood: 162.3573 (7 degrees freedom)
 ## AIC: -310.7146 
 ## 
-## Number of function calls: 30 
+## Number of function calls: 31 
 ## Number of Newton-Raphson steps: 8 
-## Norm of gradient at MLE: 3.791526e-11 
+## Norm of gradient at MLE: 1.115049e-11 
 ## 
 ## Nuisance parameters:
 ##  alpha    beta     tau  
@@ -883,25 +879,48 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 <div id="e.-categorical-surfaces" class="section level4 unnumbered hasAnchor">
 <h4>e. Categorical surfaces<a href="bonus-10a.html#e.-categorical-surfaces" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><code>radish</code> can be used to model the conductance of difference categories within raster surfaces too. This requires that the raster be provided with an associated RAT, see <code>?raster::ratify</code> . We’re going to discretize the continuous gsp (growing season precipitation) surface to have 3 categories: low, medium, &amp; high precipitation</p>
-<div class="sourceCode" id="cb1183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1183-1"><a href="bonus-10a.html#cb1183-1" aria-hidden="true" tabindex="-1"></a>lc <span class="ot">&lt;-</span> <span class="fu">cut</span>(raster<span class="sc">::</span><span class="fu">values</span>(covariates<span class="sc">$</span>gsp), <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">260</span>, <span class="dv">300</span>, <span class="cn">Inf</span>)) </span>
-<span id="cb1183-2"><a href="bonus-10a.html#cb1183-2" aria-hidden="true" tabindex="-1"></a>gsp_cat <span class="ot">&lt;-</span> </span>
-<span id="cb1183-3"><a href="bonus-10a.html#cb1183-3" aria-hidden="true" tabindex="-1"></a>  raster<span class="sc">::</span><span class="fu">ratify</span>(raster<span class="sc">::</span><span class="fu">setValues</span>(covariates<span class="sc">$</span>gsp, <span class="fu">as.numeric</span>(lc)))</span>
-<span id="cb1183-4"><a href="bonus-10a.html#cb1183-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1183-5"><a href="bonus-10a.html#cb1183-5" aria-hidden="true" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">levels</span>(gsp_cat)[[<span class="dv">1</span>]]</span>
-<span id="cb1183-6"><a href="bonus-10a.html#cb1183-6" aria-hidden="true" tabindex="-1"></a>RAT<span class="sc">$</span>VALUE <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;low precip.&quot;</span>, <span class="st">&quot;med precip.&quot;</span>, <span class="st">&quot;high precip.&quot;</span>)</span>
-<span id="cb1183-7"><a href="bonus-10a.html#cb1183-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(gsp_cat) <span class="ot">&lt;-</span> RAT</span>
-<span id="cb1183-8"><a href="bonus-10a.html#cb1183-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gsp_cat, <span class="at">main =</span> <span class="st">&quot;Landscape classification&quot;</span>)</span></code></pre></div>
-<p><img src="10-Week10_files/figure-html/categorical-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1215-1"><a href="bonus-10a.html#cb1215-1" tabindex="-1"></a>lc <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">classify</span>(covariates[[<span class="st">&quot;gsp&quot;</span>]], <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">260</span>, <span class="dv">300</span>, <span class="cn">Inf</span>), </span>
+<span id="cb1215-2"><a href="bonus-10a.html#cb1215-2" tabindex="-1"></a>                      <span class="at">include.lowest=</span><span class="cn">TRUE</span>, <span class="at">brackets=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1215-3"><a href="bonus-10a.html#cb1215-3" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">set.cats</span>(lc, <span class="at">layer=</span><span class="dv">1</span>, <span class="fu">c</span>(<span class="st">&quot;low precip.&quot;</span>, <span class="st">&quot;med precip.&quot;</span>, <span class="st">&quot;high precip.&quot;</span>), <span class="at">active=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Warning: [set.cats] setting categories like this is deprecated; use a
+## two-column data.frame instead</code></pre>
+<div class="sourceCode" id="cb1217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1217-1"><a href="bonus-10a.html#cb1217-1" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">cats</span>(lc)</span></code></pre></div>
+<pre><code>## [[1]]
+##   value     category
+## 1     0  low precip.
+## 2     1  med precip.
+## 3     2 high precip.</code></pre>
+<div class="sourceCode" id="cb1219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1219-1"><a href="bonus-10a.html#cb1219-1" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(lc)</span></code></pre></div>
+<p><img src="10-Week10_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p>The function <code>radish::conductance_surface</code> expects a raster stack (package <code>raster</code>) with a categorical variable. Hence we convert lc to a categorical <code>raster</code> object, <code>gsp_cat</code>. With the function ratify, we tell R that this is a categorical dataset, even though the values are coded numerically.</p>
+<div class="sourceCode" id="cb1220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1220-1"><a href="bonus-10a.html#cb1220-1" tabindex="-1"></a>gsp_cat <span class="ot">&lt;-</span> <span class="fu">ratify</span>(<span class="fu">raster</span>(lc))</span>
+<span id="cb1220-2"><a href="bonus-10a.html#cb1220-2" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> <span class="fu">levels</span>(gsp_cat)[[<span class="dv">1</span>]]</span>
+<span id="cb1220-3"><a href="bonus-10a.html#cb1220-3" tabindex="-1"></a>RAT<span class="sc">$</span>VALUE <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;low precip.&quot;</span>, <span class="st">&quot;med precip.&quot;</span>, <span class="st">&quot;high precip.&quot;</span>)</span>
+<span id="cb1220-4"><a href="bonus-10a.html#cb1220-4" tabindex="-1"></a><span class="fu">levels</span>(gsp_cat) <span class="ot">&lt;-</span> RAT</span></code></pre></div>
+<div class="sourceCode" id="cb1221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1221-1"><a href="bonus-10a.html#cb1221-1" tabindex="-1"></a>gsp_cat</span></code></pre></div>
+<pre><code>## class      : RasterLayer 
+## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
+## resolution : 30, 30  (x, y)
+## extent     : 683282.5, 694022.5, 4992833, 5005613  (xmin, xmax, ymin, ymax)
+## crs        : +proj=utm +zone=11 +datum=NAD83 +units=m +no_defs 
+## source     : memory
+## names      : gsp 
+## values     : 0, 2  (min, max)
+## attributes :
+##  ID        VALUE
+##   0  low precip.
+##   1  med precip.
+##   2 high precip.</code></pre>
 <p>Now we need to put everything together.</p>
-<div class="sourceCode" id="cb1184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1184-1"><a href="bonus-10a.html#cb1184-1" aria-hidden="true" tabindex="-1"></a>surface_gsp <span class="ot">&lt;-</span> <span class="fu">conductance_surface</span>(<span class="at">covariates =</span> <span class="fu">stack</span>(gsp_cat),</span>
-<span id="cb1184-2"><a href="bonus-10a.html#cb1184-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">coords =</span> sites_select,</span>
-<span id="cb1184-3"><a href="bonus-10a.html#cb1184-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">directions =</span> <span class="dv">8</span>)</span></code></pre></div>
-<pre><code>## Warning in conductance_surface(covariates = stack(gsp_cat), coords =
-## sites_select, : Treating covariates &quot;gsp&quot; as factors</code></pre>
-<div class="sourceCode" id="cb1186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1186-1"><a href="bonus-10a.html#cb1186-1" aria-hidden="true" tabindex="-1"></a>fit_mlpe_cat <span class="ot">&lt;-</span> <span class="fu">radish</span>(ralu.dc <span class="sc">~</span> gsp,</span>
-<span id="cb1186-2"><a href="bonus-10a.html#cb1186-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> surface_gsp, </span>
-<span id="cb1186-3"><a href="bonus-10a.html#cb1186-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
-<span id="cb1186-4"><a href="bonus-10a.html#cb1186-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
+<div class="sourceCode" id="cb1223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1223-1"><a href="bonus-10a.html#cb1223-1" tabindex="-1"></a>surface_gsp <span class="ot">&lt;-</span> radish<span class="sc">::</span><span class="fu">conductance_surface</span>(<span class="at">covariates =</span> raster<span class="sc">::</span><span class="fu">stack</span>(gsp_cat),</span>
+<span id="cb1223-2"><a href="bonus-10a.html#cb1223-2" tabindex="-1"></a>                                   <span class="at">coords =</span> sites_select,</span>
+<span id="cb1223-3"><a href="bonus-10a.html#cb1223-3" tabindex="-1"></a>                                   <span class="at">directions =</span> <span class="dv">8</span>)</span></code></pre></div>
+<pre><code>## Warning in radish::conductance_surface(covariates = raster::stack(gsp_cat), :
+## Treating covariates &quot;gsp&quot; as factors</code></pre>
+<div class="sourceCode" id="cb1225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1225-1"><a href="bonus-10a.html#cb1225-1" tabindex="-1"></a>fit_mlpe_cat <span class="ot">&lt;-</span> radish<span class="sc">::</span><span class="fu">radish</span>(ralu.dc <span class="sc">~</span> gsp,</span>
+<span id="cb1225-2"><a href="bonus-10a.html#cb1225-2" tabindex="-1"></a>                       <span class="at">data =</span> surface_gsp, </span>
+<span id="cb1225-3"><a href="bonus-10a.html#cb1225-3" tabindex="-1"></a>                       <span class="at">conductance_model =</span> radish<span class="sc">::</span>loglinear_conductance, </span>
+<span id="cb1225-4"><a href="bonus-10a.html#cb1225-4" tabindex="-1"></a>                       <span class="at">measurement_model =</span> radish<span class="sc">::</span>mlpe)</span></code></pre></div>
 <pre><code>## Projected Newton-Raphson with Hager-Zhang line search
 ## [1] f(x) = 1.551e+02   |f(x)-fold(x)| = 0.000e+00   max|f&#39;(x)| = 2.588e+00   |f&#39;&#39;(x)| = -2.204e-01 
 ## [2] f(x) = 1.631e+02   |f(x)-fold(x)| = 7.978e+00   max|f&#39;(x)| = 1.312e+00   |f&#39;&#39;(x)| = 1.615e-01 
@@ -911,11 +930,11 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## [6] f(x) = 1.650e+02   |f(x)-fold(x)| = 4.261e-01   max|f&#39;(x)| = 1.631e-01   |f&#39;&#39;(x)| = -5.350e-01 
 ## [7] f(x) = 1.651e+02   |f(x)-fold(x)| = 1.317e-02   max|f&#39;(x)| = 8.459e-03   |f&#39;&#39;(x)| = -4.571e-01 
 ## [8] f(x) = 1.651e+02   |f(x)-fold(x)| = 5.410e-05   max|f&#39;(x)| = 1.326e-05   |f&#39;&#39;(x)| = -4.553e-01 
-## [9] f(x) = 1.651e+02   |f(x)-fold(x)| = 1.078e-10   max|f&#39;(x)| = 2.418e-11   |f&#39;&#39;(x)| = -4.553e-01 
-## Solution on interior with `max(abs(gradient))` == 2.417573e-11 and `diff(f)` == 1.077751e-10</code></pre>
-<div class="sourceCode" id="cb1188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1188-1"><a href="bonus-10a.html#cb1188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_mlpe_cat)</span></code></pre></div>
+## [9] f(x) = 1.651e+02   |f(x)-fold(x)| = 1.026e-10   max|f&#39;(x)| = 2.569e-11   |f&#39;&#39;(x)| = -4.553e-01 
+## Solution on interior with `max(abs(gradient))` == 2.568577e-11 and `diff(f)` == 1.026024e-10</code></pre>
+<div class="sourceCode" id="cb1227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1227-1"><a href="bonus-10a.html#cb1227-1" tabindex="-1"></a><span class="fu">summary</span>(fit_mlpe_cat)</span></code></pre></div>
 <pre><code>## Conductance surface with 152508 vertices (12 focal) estimated by maximum likelihood
-## Call:   radish(formula = ralu.dc ~ gsp, data = surface_gsp, conductance_model = radish::loglinear_conductance, 
+## Call:   radish::radish(formula = ralu.dc ~ gsp, data = surface_gsp, conductance_model = radish::loglinear_conductance, 
 ##     measurement_model = radish::mlpe)
 ## 
 ## Loglikelihood: 165.062 (6 degrees freedom)
@@ -923,11 +942,11 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## 
 ## Number of function calls: 30 
 ## Number of Newton-Raphson steps: 9 
-## Norm of gradient at MLE: 2.966873e-11 
+## Norm of gradient at MLE: 2.937202e-11 
 ## 
 ## Nuisance parameters:
 ##     alpha       beta        tau        rho  
-##   0.02835   11.22434    6.00188  -43.46944  
+##   0.02835   11.22434    6.00188  -43.47003  
 ## 
 ## Coefficients:
 ##                Estimate Std. Error z value Pr(&gt;|z|)  
@@ -939,10 +958,10 @@ Figure 13.2: <em>If the log-likelihood (goodness-of-fit) of the regression is me
 ## Correlation of Coefficients:
 ##                gsplow precip.
 ## gspmed precip.     -0.6809079</code></pre>
-<div class="sourceCode" id="cb1190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1190-1"><a href="bonus-10a.html#cb1190-1" aria-hidden="true" tabindex="-1"></a>fitted_conductance_gsp <span class="ot">&lt;-</span> <span class="fu">conductance</span>(surface_gsp, fit_mlpe_cat)</span>
-<span id="cb1190-2"><a href="bonus-10a.html#cb1190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitted_conductance_gsp[[<span class="st">&quot;est&quot;</span>]], <span class="at">main =</span> <span class="st">&quot;Fitted conductance surface</span><span class="sc">\n</span><span class="st">(~gsp)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1229-1"><a href="bonus-10a.html#cb1229-1" tabindex="-1"></a>fitted_conductance_gsp <span class="ot">&lt;-</span> <span class="fu">conductance</span>(surface_gsp, fit_mlpe_cat)</span>
+<span id="cb1229-2"><a href="bonus-10a.html#cb1229-2" tabindex="-1"></a><span class="fu">plot</span>(fitted_conductance_gsp[[<span class="st">&quot;est&quot;</span>]], <span class="at">main =</span> <span class="st">&quot;Fitted conductance surface</span><span class="sc">\n</span><span class="st">(~gsp)&quot;</span>)</span></code></pre></div>
 <p><img src="10-Week10_files/figure-html/together-1.png" width="672" /></p>
-<p>Let’s interpret these results. Inclusion of a categorical covariate in <code>radish</code> is just like including a categorical variable in any other linear model. The first level of the covariate is estimated as the intercept, while all other levels are estimated as differences from this ‘baseline.’ <code>radish</code> holds the first level of the categorical surface (in this case, ‘high precip’ as it is the first factor alphabetically) to a value of 0 (<code>exp(0) = 1</code>). In this (contrived) example, rates of movement are inferred to be substantially higher in the low/medium precipitation classes as opposed to the high precipitation class.</p>
+<p>Let’s interpret these results. Inclusion of a categorical covariate in <code>radish</code> is just like including a categorical variable in any other linear model. The first level of the covariate is estimated as the intercept, while all other levels are estimated as differences from this ‘baseline’. <code>radish</code> holds the first level of the categorical surface (in this case, ‘high precip’ as it is the first factor alphabetically) to a value of 0 (<code>exp(0) = 1</code>). In this (contrived) example, rates of movement are inferred to be substantially higher in the low/medium precipitation classes as opposed to the high precipitation class.</p>
 <p><strong>Questions</strong>:</p>
 <ul>
 <li>How does the fit of this categorical model differ from one where the original, continuous covariate is used?</li>
@@ -1038,7 +1057,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

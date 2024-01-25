@@ -37,7 +37,7 @@ packages.CRAN <-
     "MASS", "Matrix", "microbenchmark", "mmod", "MuMIn", "nlme", "pegas", 
     "PopGenReport", "poppr", "predictmeans", "profvis", "purrr", "pwr", "raster", 
     "RColorBrewer", "readr","rio", "rmarkdown", "secr", "sf", "sfnetworks", "sp", 
-    "spatialEco", "spatialreg", "spdep", "spmoran", "Sunder", "terra", "tibble", 
+    "spatialEco", "spatialreg", "spdep", "spmoran", "terra", "tibble", 
     "tmap", "tmaptools", "usdm", "vcfR", "vegan")
 packages.github <- 
   c("gstudio", "popgraph", "QstFstComp", "lfmm", "radish", "corMLPE")

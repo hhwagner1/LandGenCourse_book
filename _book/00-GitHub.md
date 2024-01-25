@@ -47,6 +47,15 @@ Embedded video:
 [Download slides](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/docs/Video_slides/Week0_Slides.pdf)
 
 
+
+```
+## Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
 <img src="00-GitHub_files/figure-html/unnamed-chunk-1-1.png" width="768" />
 
 ### 4. Next steps {-} 
