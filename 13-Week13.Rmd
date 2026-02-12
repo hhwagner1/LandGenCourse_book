@@ -1,4 +1,4 @@
-# Week 13: Gravity Models {#Week13}
+# Lab 13: Gravity Models {#Week13}
 
 This week's lab applies graph theory to fit a gravity model that includes both at-site and between-site landscape data. 
 

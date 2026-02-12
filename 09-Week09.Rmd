@@ -1,5 +1,5 @@
 # (PART\*) Advanced Topics {-}
-# Week 9: Population Structure {#Week9}
+# Lab 9: Population Structure {#Week9}
 
 This week's lab is the first one in the Advanced Topics section. We will explore different ways of assessing spatial genetic structure and delineating genetic populations. 
 

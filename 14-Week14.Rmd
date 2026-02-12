@@ -1,4 +1,4 @@
-# Week 14: Contemporary Gene Flow {#Week14}
+# Lab 14: Contemporary Gene Flow {#Week14}
 
 This week's lab analyzes parent-offspring data to quantify contemporary gene flow through plant pollination.
 

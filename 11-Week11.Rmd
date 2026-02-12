@@ -1,4 +1,4 @@
-# Week 11: Detecting Adaptation {#Week11}
+# Lab 11: Detecting Adaptation {#Week11}
 
 This week's lab explores different methods for testing genotype-environment associations. 
 

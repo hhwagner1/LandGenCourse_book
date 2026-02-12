@@ -1,5 +1,5 @@
 # (PART\*) Basic Topics {-}
-# Week 1: Importing Genetic Data {#Week1}
+# Lab 1: Importing Genetic Data {#Week1}
 
 
 In this first regular computer lab of the course, we will explore different ways of importing genetic data into R. Along the way, we will learn about data models in R and how to avoid common errors. 
@@ -16,10 +16,10 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 1 video](https://sho.co/embed/19DCV)
+- External link: [Week 1 video](https://play.library.utoronto.ca/watch/be425027d7e9f77458d38a2eb439d4d7)
 - Transcript: [Download transcript](https://raw.githubusercontent.com/hhwagner1/DGS_LG_Labs/master/transcripts/Week1_script.pdf)
 
-<iframe width="800" height="513" src="https://sho.co/embed/19DCV" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/be425027d7e9f77458d38a2eb439d4d7" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 
 ### 2. Preview Slides {-}

@@ -1,4 +1,4 @@
-# Week 10: Landscape Resistance {#Week10}
+# Lab 10: Landscape Resistance {#Week10}
 
 This week's lab shows how to define cost surfaces and calculate cost distances. 
 

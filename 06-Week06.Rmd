@@ -1,4 +1,4 @@
-# Week 6: Quantitative Genetics {#Week6}
+# Lab 6: Quantitative Genetics {#Week6}
 
 In this week's computer lab, we will compare phenotypic and genotypic variation from a common garden experiment and test for adaptation. Along the way, we will learn how to specify, run and interpret linear mixed models.  
 
@@ -15,17 +15,17 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 6 video (Part 1)](https://sho.co/19YGU);  [Week 6 video (Part 2)](https://sho.co/19YM)
+- External link: [Week 6 video (Part 1)](https://play.library.utoronto.ca/watch/eee8b3169c5c76ba23aa89b6ec2ddce0);  [Week 6 video (Part 2)](https://play.library.utoronto.ca/watch/c997cdb674787215891f5036c23353ba)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week6_script_v5.pdf)
 
 
 ### Video, Part 1 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19YGU" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/eee8b3169c5c76ba23aa89b6ec2ddce0" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Video, Part 2 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19YMJ" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/c997cdb674787215891f5036c23353ba" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 
 ### Preview Slides {-}

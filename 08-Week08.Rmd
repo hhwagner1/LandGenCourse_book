@@ -1,4 +1,4 @@
-# Week 8: Simulation Experiments {#Week8}
+# Lab 8: Simulation Experiments {#Week8}
 
 In this week's computer lab, we will perform a landscape genetic simulation experiment. Along the way, we will learn how to design simulation experiments to test landscape genetic methods, and how to make our code more efficient (see also Bonus Vignette).  
 
@@ -15,17 +15,17 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 8 video (Part 1)](https://sho.co/1A44W);  [Week 8 video (Part 2)](https://sho.co/1ADVK)
+- External link: [Week 8 video (Part 1)](https://play.library.utoronto.ca/watch/beb55da6c7244b4839e27769846a454f);  [Week 8 video (Part 2)](https://play.library.utoronto.ca/watch/58b786b35b1c564ad4fb1c723d8279db)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week8_script_v7.pdf)
 
 
 ### Video, Part 1 {-}
 
-<iframe width="800" height="513" src="https://sho.co/1A44W" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/beb55da6c7244b4839e27769846a454f" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Video, Part 2 {-}
 
-<iframe width="800" height="513" src="https://sho.co/1ADVK" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/58b786b35b1c564ad4fb1c723d8279db" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 
 ### Preview Slides {-}

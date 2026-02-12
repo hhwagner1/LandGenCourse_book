@@ -1,4 +1,4 @@
-# Week 3: Genetic Diversity {#Week3}
+# Lab 3: Genetic Diversity {#Week3}
 
 In this week's computer lab, we will learn about how to perform basic population genetic analyses and quantify genetic diversity. Along the way, we will review hypothesis testing and learn about data manipulation in R.  
 
@@ -15,17 +15,17 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 3 video (Part 1)](https://sho.co/19UT5);  [Week 3 video (Part 2)](https://sho.co/19YDM)
+- External link: [Week 3 video (Part 1)](https://play.library.utoronto.ca/watch/03103f095f30e7bb09cd3226bc0bd39e);  [Week 3 video (Part 2)](https://play.library.utoronto.ca/watch/de43762f1e6ad29c8d4998e8aec5da02)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week3_script_v2.pdf)
 
 
 ### Video, Part 1 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19UT5" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/03103f095f30e7bb09cd3226bc0bd39e" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Video, Part 2 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19YDM" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/de43762f1e6ad29c8d4998e8aec5da02" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Preview Slides {-}
 

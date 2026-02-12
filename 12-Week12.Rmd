@@ -1,4 +1,4 @@
-# Week 12: Model Selection {#Week12}
+# Lab 12: Model Selection {#Week12}
 
 This week's lab shows how to create and analyzeg landscape genetic hypotheses using maximum likelihood population effect models and information theory.
 

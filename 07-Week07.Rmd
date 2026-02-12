@@ -1,4 +1,4 @@
-# Week 7: Spatial Linear Models {#Week7}
+# Lab 7: Spatial Linear Models {#Week7}
 
 In this week's computer lab, we will test the effect of landscape data on genetic data. Along the way, we will explore different ways how to build spatial autocorrelation into statistical models.  
 
@@ -16,17 +16,17 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 7 video (Part 1)](https://sho.co/1A1KH);  [Week 7 video (Part 2)](https://sho.co/1A1K)
+- External link: [Week 7 video (Part 1)](https://play.library.utoronto.ca/watch/eee8b3169c5c76ba23aa89b6ec2ddce0);  [Week 7 video (Part 2)](https://play.library.utoronto.ca/watch/52acdb5ee7ec28c2bcefcd5282a374c7)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week7_script_v3.pdf)
 
 
 ### Video, Part 1 {-}
 
-<iframe width="800" height="513" src="https://sho.co/1A1KH" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/eee8b3169c5c76ba23aa89b6ec2ddce0" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Video, Part 2 {-}
 
-<iframe width="800" height="513" src="https://sho.co/1A1KF" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/52acdb5ee7ec28c2bcefcd5282a374c7" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Preview Slides {-}
 

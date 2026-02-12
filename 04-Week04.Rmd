@@ -1,4 +1,4 @@
-# Week 4: Metapopulations {#Week4}
+# Lab 4: Metapopulations {#Week4}
 
 In this week's computer lab, we will test for genetic effects of metapopulation dynamics. Along the way, we will review regression analysis and learn how to create plots with the `ggplot2` package.  
 
@@ -15,17 +15,17 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 4 video (Part 1)](https://sho.co/19Y08);  [Week 4 video (Part 2)](https://sho.co/19Y09)
+- External link: [Week 4 video (Part 1)](https://play.library.utoronto.ca/watch/f6d9e3e8b341efdc63ec43cc59050312);  [Week 4 video (Part 2)](https://play.library.utoronto.ca/watch/516a408cced5cb70ea55513ccb205475)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week4_script_v3.pdf)
 
 
 ### Video, Part 1 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19Y08" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/f6d9e3e8b341efdc63ec43cc59050312" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Video, Part 2 {-}
 
-<iframe width="800" height="513" src="https://sho.co/19Y09" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/516a408cced5cb70ea55513ccb205475" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### Preview Slides {-}
 
