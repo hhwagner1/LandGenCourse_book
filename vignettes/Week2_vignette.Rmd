@@ -675,7 +675,7 @@ Check out this week's bonus material to see:
 - How to import and export ESRI shapefiles.
 - How to plot a categorical raster map with a predefined color scheme, using `tmap` and `terra`. package).
 
-## R Exercise Week 2 {-}
+## R Exercise Week 2
 
 **Task:** Create a bubble plot of the number of genotyped individuals in the dataset `pulsatilla_genotypes.csv`, using Latitude/Longitude coordinates.
 

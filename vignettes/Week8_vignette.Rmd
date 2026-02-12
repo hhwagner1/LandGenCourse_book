@@ -375,7 +375,7 @@ gen.vect <- as.vector(as.dist(gen.mat))
 Define the two vectors of population effects: 
 
 ```{r}
-Pop <- matrix(names(as.dist(eucl.mat)), nrow(eucl.mat), ncol(eucl.mat), byrow=F)
+Pop <- matrix(names(as.dist(eucl.mat))[[1]], nrow(eucl.mat), ncol(eucl.mat), byrow=F)
 pop1 <-Pop[lower.tri(Pop)]
 pop2 <-t(Pop)[lower.tri(Pop)]
 ```
@@ -415,7 +415,7 @@ Let's combine all of this into our own function to extract the vectors, define t
 ```{r}
 getMLPE <- function(gen=gen.mat, eucl=eucl.mat, cost=cost.mat)
 {
-  Pop <- matrix(names(as.dist(eucl)), nrow(eucl), ncol(eucl), byrow=F)
+  Pop <- matrix(names(as.dist(eucl))[[1]], nrow(eucl), ncol(eucl), byrow=F)
   Link.data <- data.frame(
     eucl.vect = as.vector(as.dist(eucl)),
     cost.vect = as.vector(as.dist(cost)),
@@ -705,7 +705,7 @@ Questions:
 Have fun and please give us feed back what you think about this Worked Example. [Bernd Gruber](mailto:bernd.gruber@canberra.edu.au), [Erin Landguth](erin.landguth@gmail.com), [Helene Wagner](mailto:helene.wagner@utoronto.ca).
 
 
-## R Exercise Week 8 {-}
+## R Exercise Week 8
 
 **Task:** Carry out a permutation test for the Mantel rank correlation to test for fine-scale spatial genetic structure in *Pulsatilla vulgaris* adults, using the pooled data from all seven patches. Use a one-sided alternative "greater", as we expect the Mantel rank correlation to be positive.
 

@@ -790,7 +790,7 @@ We can compare this to a model with fixed
 - The evidence is not conclusive, however, the observed patterns could also be explained by population size, which in this species seems to be associated with patch size. This makes sense if smaller patches contain smaller populations with higher rates of genetic drift.
 
 
-## R Exercise Week 7 {-}
+## R Exercise Week 7
 
 The *Pulsatilla vulgaris* dataset that we've been analyzing in the R exercises has two variables that were observed or calculated for each sampled mother plant (i.e., those plants from which seeds were collected; see DiLeo et al. 2017, Journal of Ecology):
 

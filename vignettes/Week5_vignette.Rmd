@@ -643,7 +643,7 @@ p.value = sapply(Frogs.moran, function(x) x$p.value)),3)
 - Sample size n had a negative value of Moran's I (obs). What does this mean?
 - Did all four variables show statistically significant spatial autocorrelation?
 
-## R Exercise Week 5 {-}
+## R Exercise Week 5
 
 **Task:** Assess fine-scale spatial genetic structure in *Pulsatilla vulgaris* within a single patch, A25: Test for IBD with Mantel rank correlation, and use a Mantel correlogram to assess the range of spatial autocorrelation. 
 

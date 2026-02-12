@@ -6,7 +6,7 @@
 Some code from Week 7 Worked Example for profiling.
 
 
-```r
+``` r
 library(LandGenCourse)
 library(nlme)
 library(dplyr)
@@ -18,12 +18,12 @@ library(tmap)
 ### a) Import data
 
 
-```r
+``` r
 data(Dianthus)
 ```
 
 
-```r
+``` r
 Dianthus.df <- data.frame(A=Dianthus$A, IBD=Dianthus$Eu_pj, 
                           IBR=Dianthus$Sheint_pj,
                           PatchSize=log(Dianthus$Ha),
@@ -57,7 +57,7 @@ Here we fit three multiple regression models to explain variation in allelic ric
 - **mod.lm.PatchSize**: log patch size and IBR model.
 
 
-```r
+``` r
 mod.lm.IBD <- lm(A ~ IBD, data = Dianthus.df)
 summary(mod.lm.IBD)
 ```
@@ -86,7 +86,7 @@ summary(mod.lm.IBD)
 This model does not fit the data at all!
 
 
-```r
+``` r
 mod.lm.IBR <- lm(A ~ IBR, data = Dianthus.df)
 summary(mod.lm.IBR)
 ```

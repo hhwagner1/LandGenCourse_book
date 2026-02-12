@@ -453,7 +453,7 @@ Hence, these particular results are inconclusive. There was a trend showing a la
 
 Note however that using additional evidence (e.g., population assignment tests), Lamy et al. (2012) concluded that extinctions were in fact less common in this system than previously assumed – in many cases of apparent extinction, individuals may still be present but just not detected.
 
-## R Exercise Week 4 {-}
+## R Exercise Week 4
 
 **Task:** Build on your previous exercises and plot the sites on a map downloaded from the internet. Explore the relationships between Hexp, census population size and percent forest cover within 500 m of the site (forest may act as a barrier for grassland plants). 
 

@@ -23,7 +23,7 @@ We will re-analyze a dataset from Goldberg and Waits (2010) using a maximum like
 
 Here's a map of the study area. The lines represent those pair-wise links between sampling locations that we will be considering here (graph model: Delaunay triangulation). 
  
-![Map of study area](/Users/helene/Desktop/R_Github_projects/LandGenCourse_book/vignettes/WE12_Fig1.png)
+![Map of study area](/Users/helene/Desktop/Github_Projects/LandGenCourse_book/vignettes/WE12_Fig1.png)
 
 #### b. Data set {-}
 

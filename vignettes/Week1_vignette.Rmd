@@ -428,7 +428,7 @@ SNP_genlight
 
 Note that instead of 44,137 alleles, we now have 21,719 binary SNPs. This is one of the ways by which the `genlight` object is more efficient than `genind`. Overall, the size has been reduced from 16.4 Mb to 2.2 Mb!
 
-## R exercise Week 1 {-}
+## R exercise Week 1
 
 **R Notebook:** Create a new R Notebook for each weekly exercise. Watch the course video "Week 0: Intro to R Notebooks" as needed. At the end, "knit" it to an html file and view it in your browser. 
 
