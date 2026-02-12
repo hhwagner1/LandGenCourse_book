@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.4 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R</title>
+  <title>5.5 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.4 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R" />
+  <meta property="og:title" content="5.5 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.4 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R" />
+  <meta name="twitter:title" content="5.5 Bonus: ‘sf’ and ‘terra’ | Landscape Genetic Data Analysis with R" />
   
   <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2024-01-25" />
+<meta name="date" content="2026-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="r-exercise-week-2.html"/>
 <link rel="next" href="Week3.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,6 +54,9 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -61,21 +64,21 @@
 <script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
 <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
-<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
-<script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
+<link href="libs/highlight-11.10.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-11.10.0/highlight.min.js"></script>
+<script src="libs/profvis-binding-0.4.0/profvis.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,7 +88,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -215,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Lab 1: Importing Genetic Data</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
@@ -236,9 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
@@ -258,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -268,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Lab 3: Genetic Diversity</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
@@ -285,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
 <li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Lab 4: Metapopulations</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
 <ul>
@@ -331,9 +334,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
 <ul>
@@ -357,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Lab 7: Spatial Linear Models</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
 <ul>
@@ -384,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -393,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Lab 8: Simulation Experiments</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
@@ -415,11 +418,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
 <ul>
@@ -429,75 +432,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
+<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
-<ul>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
+<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
+<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -520,8 +476,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bonus_2a" class="section level2 hasAnchor" number="5.4">
-<h2><span class="header-section-number">5.4</span> Bonus: ‘sf’ and ‘terra’<a href="bonus_2a.html#bonus_2a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="bonus_2a" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Bonus: ‘sf’ and ‘terra’<a href="bonus_2a.html#bonus_2a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Helene Wagner</p>
 <div id="overview-2" class="section level3 unnumbered hasAnchor">
 <h3>1. Overview<a href="bonus_2a.html#overview-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -539,27 +495,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="b.-required-r-packages" class="section level4 unnumbered hasAnchor">
 <h4>b. Required R packages<a href="bonus_2a.html#b.-required-r-packages" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="bonus_2a.html#cb456-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb456-2"><a href="bonus_2a.html#cb456-2" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb456-3"><a href="bonus_2a.html#cb456-3" tabindex="-1"></a><span class="fu">library</span>(GeNetIt)</span>
-<span id="cb456-4"><a href="bonus_2a.html#cb456-4" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb456-5"><a href="bonus_2a.html#cb456-5" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
-<span id="cb456-6"><a href="bonus_2a.html#cb456-6" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb456-7"><a href="bonus_2a.html#cb456-7" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb456-8"><a href="bonus_2a.html#cb456-8" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="bonus_2a.html#cb446-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb446-2"><a href="bonus_2a.html#cb446-2" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb446-3"><a href="bonus_2a.html#cb446-3" tabindex="-1"></a><span class="fu">library</span>(GeNetIt)</span>
+<span id="cb446-4"><a href="bonus_2a.html#cb446-4" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb446-5"><a href="bonus_2a.html#cb446-5" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb446-6"><a href="bonus_2a.html#cb446-6" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb446-7"><a href="bonus_2a.html#cb446-7" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb446-8"><a href="bonus_2a.html#cb446-8" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
 </div>
 </div>
 <div id="import-and-export-esri-shapefiles" class="section level3 unnumbered hasAnchor">
 <h3>2. Import and export ESRI shapefiles<a href="bonus_2a.html#import-and-export-esri-shapefiles" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>ESRI shapefiles are a widely used data format for sharing geospatial vector data. With the package sf, they are easy to import and export. Here’ we will export Sites.sf to a shapefile and then import it again.</p>
-<div id="a.-export-sf-object-to-shapefile" class="section level4 hasAnchor" number="5.4.0.1">
-<h4><span class="header-section-number">5.4.0.1</span> a. Export ‘sf’ object to shapefile<a href="bonus_2a.html#a.-export-sf-object-to-shapefile" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="a.-export-sf-object-to-shapefile" class="section level4 hasAnchor" number="5.5.0.1">
+<h4><span class="header-section-number">5.5.0.1</span> a. Export ‘sf’ object to shapefile<a href="bonus_2a.html#a.-export-sf-object-to-shapefile" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The following code may produce a warning that column names were abbreviated. It writes the component files for the ESRI shapefile into the pre-existing folder <code>output</code> (the first line will create it if does not exist yet). Remember to remove the hashtags ‘#’ to un-comment the code before running it.</p>
 <p>The argument <code>delete_dsn</code> specifies whether any existing file with the same name should be deleted first (i.e., overwritten).</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="bonus_2a.html#cb457-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
-<span id="cb457-2"><a href="bonus_2a.html#cb457-2" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
-<span id="cb457-3"><a href="bonus_2a.html#cb457-3" tabindex="-1"></a><span class="co">#dir.create(here(&quot;output/Sites&quot;))</span></span>
-<span id="cb457-4"><a href="bonus_2a.html#cb457-4" tabindex="-1"></a><span class="co">#st_write(ralu.site, here(&quot;output/Sites/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="bonus_2a.html#cb447-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb447-2"><a href="bonus_2a.html#cb447-2" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
+<span id="cb447-3"><a href="bonus_2a.html#cb447-3" tabindex="-1"></a><span class="co">#dir.create(here(&quot;output/Sites&quot;))</span></span>
+<span id="cb447-4"><a href="bonus_2a.html#cb447-4" tabindex="-1"></a><span class="co">#st_write(ralu.site, here(&quot;output/Sites/Sites.shp&quot;), delete_dsn = TRUE)</span></span></code></pre></div>
 <p>Navigate to the <code>Sites</code> folder in the <code>output</code> folder (Files tab). You should now see four component files of the shapefile. These four files are required parts of the shapefile, always keep (or share) them together! Some shapefiles will have additional, optional component files.</p>
 <ul>
 <li>Sites.dbf</li>
@@ -568,22 +524,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Sites.shx</li>
 </ul>
 </div>
-<div id="b.-import-shapefile-to-sf-object" class="section level4 hasAnchor" number="5.4.0.2">
-<h4><span class="header-section-number">5.4.0.2</span> b. Import shapefile to ‘sf’ object<a href="bonus_2a.html#b.-import-shapefile-to-sf-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="b.-import-shapefile-to-sf-object" class="section level4 hasAnchor" number="5.5.0.2">
+<h4><span class="header-section-number">5.5.0.2</span> b. Import shapefile to ‘sf’ object<a href="bonus_2a.html#b.-import-shapefile-to-sf-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Importing a shapefile is very easy with the function <code>st_read</code> from the <code>sf</code> package. While you only need to provide the path to the <code>.shp</code> file, the other files listed above must be in the same folder.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="bonus_2a.html#cb458-1" tabindex="-1"></a><span class="co">#Sites.sf_a &lt;- st_read(here(&quot;output/Sites/Sites.shp&quot;))</span></span>
-<span id="cb458-2"><a href="bonus_2a.html#cb458-2" tabindex="-1"></a><span class="co">#Sites.sf_a </span></span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="bonus_2a.html#cb448-1" tabindex="-1"></a><span class="co">#Sites.sf_a &lt;- st_read(here(&quot;output/Sites/Sites.shp&quot;))</span></span>
+<span id="cb448-2"><a href="bonus_2a.html#cb448-2" tabindex="-1"></a><span class="co">#Sites.sf_a </span></span></code></pre></div>
 </div>
 </div>
 <div id="compatibility-with-sp-and-raster-objects" class="section level3 unnumbered hasAnchor">
 <h3>3. Compatibility with <code>sp</code> and <code>raster</code> objects<a href="bonus_2a.html#compatibility-with-sp-and-raster-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The packages sf and terra recently replaced the older packages sp and raster. You may still encounter code that requires objects from these packages. Here we show how to convert between sf and sp, and between terra and raster. The conversion is easy, though please note that sp objects are S4 objects.</p>
-<div id="a.-converting-between-sf-and-sp" class="section level4 hasAnchor" number="5.4.0.3">
-<h4><span class="header-section-number">5.4.0.3</span> a. Converting between <code>sf</code> and <code>sp</code><a href="bonus_2a.html#a.-converting-between-sf-and-sp" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="a.-converting-between-sf-and-sp" class="section level4 hasAnchor" number="5.5.0.3">
+<h4><span class="header-section-number">5.5.0.3</span> a. Converting between <code>sf</code> and <code>sp</code><a href="bonus_2a.html#a.-converting-between-sf-and-sp" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>It is easy to convert an <code>sf</code> object into a <code>Spatial</code> object of package <code>sp</code>, using the function <code>as_Spatial</code> of the <code>sf</code> package. For point data, the resulting class will be a <code>SpatialPointsDataFrame</code>.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="bonus_2a.html#cb459-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
-<span id="cb459-2"><a href="bonus_2a.html#cb459-2" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">as_Spatial</span>(ralu.site)</span>
-<span id="cb459-3"><a href="bonus_2a.html#cb459-3" tabindex="-1"></a>Sites.sp</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="bonus_2a.html#cb449-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb449-2"><a href="bonus_2a.html#cb449-2" tabindex="-1"></a>Sites.sp <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">as_Spatial</span>(ralu.site)</span>
+<span id="cb449-3"><a href="bonus_2a.html#cb449-3" tabindex="-1"></a>Sites.sp</span></code></pre></div>
 <pre><code>## class       : SpatialPointsDataFrame 
 ## features    : 31 
 ## extent      : 686908.5, 690890.1, 4994089, 5004435  (xmin, xmax, ymin, ymax)
@@ -593,8 +549,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## min values  : AirplaneLake,  ClearCreek, Birdbill,    Cobble,                                   Lacustrine,        0,      0,       0,   0,    0,    0,     0,     0,     0,   0, ... 
 ## max values  :  WelcomeLake, WilsonCreek,   TipTop,      Silt, Riverine_UpperPerennial_UnconsolidatedBottom, 353898.1, 4312.9,    24.3,  20,    1, 0.11, 0.817, 0.463, 0.817,   1, ...</code></pre>
 <p>We can convert the <code>Spatial</code> object back to an <code>sf</code> object with the function <code>st_as_sf</code> of the <code>sf</code> package:</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="bonus_2a.html#cb461-1" tabindex="-1"></a>Sites.sf_b <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(Sites.sp)</span>
-<span id="cb461-2"><a href="bonus_2a.html#cb461-2" tabindex="-1"></a>Sites.sf_b</span></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="bonus_2a.html#cb451-1" tabindex="-1"></a>Sites.sf_b <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(Sites.sp)</span>
+<span id="cb451-2"><a href="bonus_2a.html#cb451-2" tabindex="-1"></a>Sites.sf_b</span></code></pre></div>
 <pre><code>## Simple feature collection with 31 features and 17 fields
 ## Geometry type: POINT
 ## Dimension:     XY
@@ -635,13 +591,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 9  0.000 0.000 0.000 0.000 0.000 POINT (688878.7 5004435)
 ## 10 0.000 0.000 1.000 0.000 0.000 POINT (688901.5 4996837)</code></pre>
 </div>
-<div id="b.-converting-between-terra-and-raster" class="section level4 hasAnchor" number="5.4.0.4">
-<h4><span class="header-section-number">5.4.0.4</span> b. Converting between <code>terra</code> and <code>raster</code><a href="bonus_2a.html#b.-converting-between-terra-and-raster" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="b.-converting-between-terra-and-raster" class="section level4 hasAnchor" number="5.5.0.4">
+<h4><span class="header-section-number">5.5.0.4</span> b. Converting between <code>terra</code> and <code>raster</code><a href="bonus_2a.html#b.-converting-between-terra-and-raster" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To convert a <code>SpatRaster</code> (<code>terra</code>) with multiple layers into <code>RasterStack</code> of the package <code>raster</code>, we use the function <code>stack</code> of the <code>raster</code> package:</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="bonus_2a.html#cb463-1" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata/covariates.tif&quot;</span>, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>))</span>
-<span id="cb463-2"><a href="bonus_2a.html#cb463-2" tabindex="-1"></a></span>
-<span id="cb463-3"><a href="bonus_2a.html#cb463-3" tabindex="-1"></a>RasterMaps.r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(RasterMaps)</span>
-<span id="cb463-4"><a href="bonus_2a.html#cb463-4" tabindex="-1"></a>RasterMaps.r </span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="bonus_2a.html#cb453-1" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata/covariates.tif&quot;</span>, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>))</span>
+<span id="cb453-2"><a href="bonus_2a.html#cb453-2" tabindex="-1"></a></span>
+<span id="cb453-3"><a href="bonus_2a.html#cb453-3" tabindex="-1"></a>RasterMaps.r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">stack</span>(RasterMaps)</span>
+<span id="cb453-4"><a href="bonus_2a.html#cb453-4" tabindex="-1"></a>RasterMaps.r </span></code></pre></div>
 <pre><code>## class      : RasterStack 
 ## dimensions : 426, 358, 152508, 6  (nrow, ncol, ncell, nlayers)
 ## resolution : 30, 30  (x, y)
@@ -651,8 +607,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## min values : 8.429851e-01, 3.906551e-02, 0.000000e+00, 2.270000e+02, 1.014000e+03, 1.100000e+01 
 ## max values :   23.7147598,    0.7637643,   51.0000000,  338.0696716, 9263.0000000,   95.0000000</code></pre>
 <p>To convert a single layer into a <code>RasterLayer</code> of the package <code>raster</code>, we would use the function <code>raster</code>:</p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="bonus_2a.html#cb465-1" tabindex="-1"></a>nlcd.r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">raster</span>(RasterMaps<span class="sc">$</span>nlcd)</span>
-<span id="cb465-2"><a href="bonus_2a.html#cb465-2" tabindex="-1"></a>nlcd.r </span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="bonus_2a.html#cb455-1" tabindex="-1"></a>nlcd.r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">raster</span>(RasterMaps<span class="sc">$</span>nlcd)</span>
+<span id="cb455-2"><a href="bonus_2a.html#cb455-2" tabindex="-1"></a>nlcd.r </span></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## band       : 6  (of  6  bands)
 ## dimensions : 426, 358, 152508  (nrow, ncol, ncell)
@@ -663,10 +619,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## names      : nlcd 
 ## values     : 11, 95  (min, max)</code></pre>
 <p>To convert from a <code>RasterLayer</code> (package <code>raster</code>) to a SpatRaster (package <code>terra</code>), we use the function <code>rast</code> of the <code>terra</code> package:</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="bonus_2a.html#cb467-1" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(nlcd.r)</span>
-<span id="cb467-2"><a href="bonus_2a.html#cb467-2" tabindex="-1"></a>nlcd</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="bonus_2a.html#cb457-1" tabindex="-1"></a>nlcd <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(nlcd.r)</span>
+<span id="cb457-2"><a href="bonus_2a.html#cb457-2" tabindex="-1"></a>nlcd</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
-## dimensions  : 426, 358, 1  (nrow, ncol, nlyr)
+## size        : 426, 358, 1  (nrow, ncol, nlyr)
 ## resolution  : 30, 30  (x, y)
 ## extent      : 683282.5, 694022.5, 4992833, 5005613  (xmin, xmax, ymin, ymax)
 ## coord. ref. : +proj=utm +zone=11 +datum=NAD83 +units=m +no_defs 
@@ -675,10 +631,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## min value   :   11 
 ## max value   :   95</code></pre>
 <p>We can use the same function to convert from a <code>RasterStack</code> (package <code>raster</code>) to a SpatRaster with multiple layers (package <code>terra</code>):</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="bonus_2a.html#cb469-1" tabindex="-1"></a>RasterMaps_b <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(RasterMaps.r)</span>
-<span id="cb469-2"><a href="bonus_2a.html#cb469-2" tabindex="-1"></a>RasterMaps_b</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="bonus_2a.html#cb459-1" tabindex="-1"></a>RasterMaps_b <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(RasterMaps.r)</span>
+<span id="cb459-2"><a href="bonus_2a.html#cb459-2" tabindex="-1"></a>RasterMaps_b</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
-## dimensions  : 426, 358, 6  (nrow, ncol, nlyr)
+## size        : 426, 358, 6  (nrow, ncol, nlyr)
 ## resolution  : 30, 30  (x, y)
 ## extent      : 683282.5, 694022.5, 4992833, 5005613  (xmin, xmax, ymin, ymax)
 ## coord. ref. : +proj=utm +zone=11 +datum=NAD83 +units=m +no_defs 
@@ -694,29 +650,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Plot geometry<a href="bonus_2a.html#a.-plot-geometry" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The package <code>sf</code> makes a clear distinction between the geometry information (spatial coordinates: where in space) and attribute information (what’s at these locations). Hence, when using the function <code>plot</code> with <code>sf</code> objects, we need to decide what we want to plot: geometry or attributes?</p>
 <p>To plot the geometry, we use function <code>st_geometry</code> to extract the geometry information from the <code>sf</code> object:</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="bonus_2a.html#cb471-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
-<span id="cb471-2"><a href="bonus_2a.html#cb471-2" tabindex="-1"></a>Sites.sf_c <span class="ot">&lt;-</span> ralu.site</span>
-<span id="cb471-3"><a href="bonus_2a.html#cb471-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(Sites.sf_c))</span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="bonus_2a.html#cb461-1" tabindex="-1"></a><span class="fu">data</span>(ralu.site)</span>
+<span id="cb461-2"><a href="bonus_2a.html#cb461-2" tabindex="-1"></a>Sites.sf_c <span class="ot">&lt;-</span> ralu.site</span>
+<span id="cb461-3"><a href="bonus_2a.html#cb461-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(Sites.sf_c))</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-126-1.png" alt="" width="672" /></p>
 </div>
 <div id="b.-plot-attributes-in-space" class="section level4 unnumbered hasAnchor">
 <h4>b. Plot attributes in space<a href="bonus_2a.html#b.-plot-attributes-in-space" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If we don’t extract the geometry, then R will assume that we want to plot attribute data. The default is to plot the first ten attributes.</p>
 <p>Here we set the point character <code>pch</code> to a filled circle, which is symbol #16. With <code>cex=2</code>, we define the symbol size.</p>
 <p>For an overview of ‘pch’ symbol numbers, and colors, check: <a href="http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/" class="uri">http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/</a></p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="bonus_2a.html#cb472-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb472-2"><a href="bonus_2a.html#cb472-2" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf_c, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="bonus_2a.html#cb462-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb462-2"><a href="bonus_2a.html#cb462-2" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf_c, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Warning: plotting the first 10 out of 17 attributes; use max.plot = 17 to plot
 ## all</code></pre>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-127-1.png" alt="" width="672" /></p>
 <p>This is pretty cool! Let’s have a closer look at two of the variables.</p>
 <ul>
 <li><code>Basin</code> (left): this is a factor, and each factor level is assigned a different color.</li>
 <li><code>Depth_m</code> (right): this is a quantitative variable, and R automatically uses a color ramp (from blue to pink to orange) to indicate variation in the values.</li>
 </ul>
 <p>Note: To learn about options for the <code>plot</code> function for <code>sf</code> objects, access the help file by typing <code>?plot</code> and select ‘Plot sf object’.</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="bonus_2a.html#cb474-1" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf_c[,<span class="fu">c</span>(<span class="st">&quot;Basin&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="bonus_2a.html#cb464-1" tabindex="-1"></a><span class="fu">plot</span>(Sites.sf_c[,<span class="fu">c</span>(<span class="st">&quot;Basin&quot;</span>, <span class="st">&quot;Depth_m&quot;</span>)], <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-128-1.png" alt="" width="672" /></p>
 </div>
 <div id="c.-create-a-static-bubble-plot-with-tmap" class="section level4 unnumbered hasAnchor">
 <h4>c. Create a static bubble plot with ‘tmap’<a href="bonus_2a.html#c.-create-a-static-bubble-plot-with-tmap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -728,59 +684,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Note: for the second part, there are many other functions for various types of data.</p>
 <p>If we use <code>tm_sf</code> without arguments (i.e., with the default settings), we get a plot of the geometry:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="bonus_2a.html#cb475-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
-<span id="cb475-2"><a href="bonus_2a.html#cb475-2" tabindex="-1"></a><span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span> <span class="fu">tm_sf</span>()</span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="bonus_2a.html#cb465-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
+<span id="cb465-2"><a href="bonus_2a.html#cb465-2" tabindex="-1"></a><span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span> <span class="fu">tm_sf</span>()</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-129-1.png" alt="" width="672" /></p>
 <p>We can indicate an attribute to plot it. Also, there is a special function <code>tm_bubbles</code> for bubble plots. Here we define the bubble size by wetland depth and bubble color by basin. In addition, we specify that the legend should be placed outside of the plot, on the right.</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="bonus_2a.html#cb476-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
-<span id="cb476-2"><a href="bonus_2a.html#cb476-2" tabindex="-1"></a><span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span> <span class="fu">tm_bubbles</span>(<span class="at">size=</span><span class="st">&quot;Depth_m&quot;</span>, <span class="at">col=</span><span class="st">&quot;Basin&quot;</span>) <span class="sc">+</span></span>
-<span id="cb476-3"><a href="bonus_2a.html#cb476-3" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="bonus_2a.html#cb466-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
+<span id="cb466-2"><a href="bonus_2a.html#cb466-2" tabindex="-1"></a><span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span> <span class="fu">tm_bubbles</span>(<span class="at">size=</span><span class="st">&quot;Depth_m&quot;</span>, <span class="at">col=</span><span class="st">&quot;Basin&quot;</span>) <span class="sc">+</span></span>
+<span id="cb466-3"><a href="bonus_2a.html#cb466-3" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-130-1.png" alt="" width="672" /></p>
 <p>Let’s make the boundary box (map extent) a little larger so that the symbols are not cut off. First we extract the boundary box of <code>Sites.sf_c</code> and save it as <code>Bbox</code>.</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="bonus_2a.html#cb477-1" tabindex="-1"></a>Bbox <span class="ot">=</span> <span class="fu">st_bbox</span>(Sites.sf_c)</span>
-<span id="cb477-2"><a href="bonus_2a.html#cb477-2" tabindex="-1"></a>Bbox</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="bonus_2a.html#cb467-1" tabindex="-1"></a>Bbox <span class="ot">=</span> <span class="fu">st_bbox</span>(Sites.sf_c)</span>
+<span id="cb467-2"><a href="bonus_2a.html#cb467-2" tabindex="-1"></a>Bbox</span></code></pre></div>
 <pre><code>##      xmin      ymin      xmax      ymax 
 ##  686908.5 4994089.3  690890.1 5004435.0</code></pre>
 <p>Then we define the range along x and y coordinates (<code>delta.x</code>, <code>delta.y</code>), set a zoom factor (<code>Zoom</code>) and add that fraction of the range on each side. Unfortunately, there is no dedicated function for this so we do this manually:</p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="bonus_2a.html#cb479-1" tabindex="-1"></a>delta.x <span class="ot">&lt;-</span> Bbox[<span class="dv">3</span>] <span class="sc">-</span> Bbox[<span class="dv">1</span>]</span>
-<span id="cb479-2"><a href="bonus_2a.html#cb479-2" tabindex="-1"></a>delta.y <span class="ot">&lt;-</span> Bbox[<span class="dv">4</span>] <span class="sc">-</span> Bbox[<span class="dv">2</span>]</span>
-<span id="cb479-3"><a href="bonus_2a.html#cb479-3" tabindex="-1"></a>Zoom <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb479-4"><a href="bonus_2a.html#cb479-4" tabindex="-1"></a>Bbox2 <span class="ot">&lt;-</span> Bbox <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span>delta.x, <span class="sc">-</span>delta.y, delta.x, delta.y) <span class="sc">*</span> Zoom</span>
-<span id="cb479-5"><a href="bonus_2a.html#cb479-5" tabindex="-1"></a>Bbox2</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="bonus_2a.html#cb469-1" tabindex="-1"></a>delta.x <span class="ot">&lt;-</span> Bbox[<span class="dv">3</span>] <span class="sc">-</span> Bbox[<span class="dv">1</span>]</span>
+<span id="cb469-2"><a href="bonus_2a.html#cb469-2" tabindex="-1"></a>delta.y <span class="ot">&lt;-</span> Bbox[<span class="dv">4</span>] <span class="sc">-</span> Bbox[<span class="dv">2</span>]</span>
+<span id="cb469-3"><a href="bonus_2a.html#cb469-3" tabindex="-1"></a>Zoom <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb469-4"><a href="bonus_2a.html#cb469-4" tabindex="-1"></a>Bbox2 <span class="ot">&lt;-</span> Bbox <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span>delta.x, <span class="sc">-</span>delta.y, delta.x, delta.y) <span class="sc">*</span> Zoom</span>
+<span id="cb469-5"><a href="bonus_2a.html#cb469-5" tabindex="-1"></a>Bbox2</span></code></pre></div>
 <pre><code>##      xmin      ymin      xmax      ymax 
 ##  686510.4 4993054.7  691288.2 5005469.6</code></pre>
 <p>Now we add the boundary box information as an argument <code>bbox</code> in function <code>tm_shape</code>.</p>
 <p>Note that we write the figure into an object, <code>Map1</code>, then plot the <code>Map1</code>. This will help e.g. with exporting the map, or we can later add more layers to this map object with <code>+</code>.</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="bonus_2a.html#cb481-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
-<span id="cb481-2"><a href="bonus_2a.html#cb481-2" tabindex="-1"></a>Map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(Sites.sf_c, <span class="at">bbox=</span>Bbox2) <span class="sc">+</span> </span>
-<span id="cb481-3"><a href="bonus_2a.html#cb481-3" tabindex="-1"></a>  <span class="fu">tm_bubbles</span>(<span class="at">size=</span><span class="st">&quot;Depth_m&quot;</span>, <span class="at">col=</span><span class="st">&quot;Basin&quot;</span>) <span class="sc">+</span></span>
-<span id="cb481-4"><a href="bonus_2a.html#cb481-4" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span>
-<span id="cb481-5"><a href="bonus_2a.html#cb481-5" tabindex="-1"></a>Map1</span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="bonus_2a.html#cb471-1" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)</span>
+<span id="cb471-2"><a href="bonus_2a.html#cb471-2" tabindex="-1"></a>Map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(Sites.sf_c, <span class="at">bbox=</span>Bbox2) <span class="sc">+</span> </span>
+<span id="cb471-3"><a href="bonus_2a.html#cb471-3" tabindex="-1"></a>  <span class="fu">tm_bubbles</span>(<span class="at">size=</span><span class="st">&quot;Depth_m&quot;</span>, <span class="at">col=</span><span class="st">&quot;Basin&quot;</span>) <span class="sc">+</span></span>
+<span id="cb471-4"><a href="bonus_2a.html#cb471-4" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span>
+<span id="cb471-5"><a href="bonus_2a.html#cb471-5" tabindex="-1"></a>Map1</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-133-1.png" alt="" width="672" /></p>
 </div>
 <div id="d.-create-an-interactive-bubble-plot-with-tmap" class="section level4 unnumbered hasAnchor">
 <h4>d. Create an interactive bubble plot with ‘tmap’<a href="bonus_2a.html#d.-create-an-interactive-bubble-plot-with-tmap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Creating an interactive map with a basemap from the internet is not difficult. Un-comment the code below by removing the hashtag (#) and run it. Go ahead and play with the interactive map!</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="bonus_2a.html#cb482-1" tabindex="-1"></a><span class="co">#tmap_mode(&quot;view&quot;)</span></span>
-<span id="cb482-2"><a href="bonus_2a.html#cb482-2" tabindex="-1"></a><span class="co">#tm_shape(Sites.sf_c) + tm_bubbles(size=&quot;Depth_m&quot;, col=&quot;Basin&quot;) </span></span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="bonus_2a.html#cb472-1" tabindex="-1"></a><span class="co">#tmap_mode(&quot;view&quot;)</span></span>
+<span id="cb472-2"><a href="bonus_2a.html#cb472-2" tabindex="-1"></a><span class="co">#tm_shape(Sites.sf_c) + tm_bubbles(size=&quot;Depth_m&quot;, col=&quot;Basin&quot;) </span></span></code></pre></div>
 <p>By default, R will include an interactive menu to toggle between “Esri.WorldGrayCanvas”, “OpenStreetMap”, and “Esri.WorldTopoMap”. We can add more base maps to this selection by providing a list of servers with the function <code>tm_basemap</code>. The first one listed will be shown by default.</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="bonus_2a.html#cb483-1" tabindex="-1"></a><span class="co">#tm_shape(Sites.sf_c) + tm_bubbles(size=&quot;Depth_m&quot;, col=&quot;Basin&quot;) +</span></span>
-<span id="cb483-2"><a href="bonus_2a.html#cb483-2" tabindex="-1"></a><span class="co">#tm_basemap(server = c(&quot;Esri.WorldTopoMap&quot;, &quot;Esri.WorldGrayCanvas&quot;, </span></span>
-<span id="cb483-3"><a href="bonus_2a.html#cb483-3" tabindex="-1"></a><span class="co">#                        &quot;OpenStreetMap&quot;, &quot;OpenTopoMap&quot;, &quot;Esri.WorldImagery&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="bonus_2a.html#cb473-1" tabindex="-1"></a><span class="co">#tm_shape(Sites.sf_c) + tm_bubbles(size=&quot;Depth_m&quot;, col=&quot;Basin&quot;) +</span></span>
+<span id="cb473-2"><a href="bonus_2a.html#cb473-2" tabindex="-1"></a><span class="co">#tm_basemap(server = c(&quot;Esri.WorldTopoMap&quot;, &quot;Esri.WorldGrayCanvas&quot;, </span></span>
+<span id="cb473-3"><a href="bonus_2a.html#cb473-3" tabindex="-1"></a><span class="co">#                        &quot;OpenStreetMap&quot;, &quot;OpenTopoMap&quot;, &quot;Esri.WorldImagery&quot;))</span></span></code></pre></div>
 <p>Let’s make a few more changes:</p>
 <ul>
 <li>We change the symbolization to fixed-size, filled circles with a black border, and plot them on top of filled circles that indicate the basin. Note that although both attributes are in the same dataset <code>Sites.sf_c</code>, we need to include a data statement for each attribute we add to the map (i.e., map layer), using <code>tm_shape(Sites.sf)</code>.</li>
 <li>We include the argument <code>bbox=Bbox2</code> for at least one of the map layers. This is not needed for the interactive map but will look better when exporting it as a static map.</li>
 </ul>
 <p>Un-comment the code below by removing the hashtag (#) and run it. Go ahead and toggle between the base maps in the map below! Different base maps are suitable for different situations (data type, symbol type, size of study area) and purposes.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="bonus_2a.html#cb484-1" tabindex="-1"></a><span class="co">#tmap_mode(&quot;view&quot;)</span></span>
-<span id="cb484-2"><a href="bonus_2a.html#cb484-2" tabindex="-1"></a></span>
-<span id="cb484-3"><a href="bonus_2a.html#cb484-3" tabindex="-1"></a><span class="co">#Map2 &lt;- tm_shape(Sites.sf_c, bbox=Bbox2) +  tm_sf(&quot;Basin&quot;, size=2, border.col=&quot;black&quot;) +</span></span>
-<span id="cb484-4"><a href="bonus_2a.html#cb484-4" tabindex="-1"></a><span class="co">#  tm_shape(Sites.sf_c) + tm_sf(size=0.8, col=&quot;Depth_m&quot;, </span></span>
-<span id="cb484-5"><a href="bonus_2a.html#cb484-5" tabindex="-1"></a><span class="co">#                             palette = &quot;Blues&quot;, border.col=&quot;black&quot;) +</span></span>
-<span id="cb484-6"><a href="bonus_2a.html#cb484-6" tabindex="-1"></a><span class="co">#  tm_basemap(server = c(&quot;Esri.WorldTopoMap&quot;, &quot;Esri.WorldGrayCanvas&quot;, </span></span>
-<span id="cb484-7"><a href="bonus_2a.html#cb484-7" tabindex="-1"></a><span class="co">#                        &quot;OpenStreetMap&quot;, &quot;OpenTopoMap&quot;, &quot;Esri.WorldImagery&quot;))</span></span>
-<span id="cb484-8"><a href="bonus_2a.html#cb484-8" tabindex="-1"></a><span class="co">#Map2</span></span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="bonus_2a.html#cb474-1" tabindex="-1"></a><span class="co">#tmap_mode(&quot;view&quot;)</span></span>
+<span id="cb474-2"><a href="bonus_2a.html#cb474-2" tabindex="-1"></a></span>
+<span id="cb474-3"><a href="bonus_2a.html#cb474-3" tabindex="-1"></a><span class="co">#Map2 &lt;- tm_shape(Sites.sf_c, bbox=Bbox2) +  tm_sf(&quot;Basin&quot;, size=2, border.col=&quot;black&quot;) +</span></span>
+<span id="cb474-4"><a href="bonus_2a.html#cb474-4" tabindex="-1"></a><span class="co">#  tm_shape(Sites.sf_c) + tm_sf(size=0.8, col=&quot;Depth_m&quot;, </span></span>
+<span id="cb474-5"><a href="bonus_2a.html#cb474-5" tabindex="-1"></a><span class="co">#                             palette = &quot;Blues&quot;, border.col=&quot;black&quot;) +</span></span>
+<span id="cb474-6"><a href="bonus_2a.html#cb474-6" tabindex="-1"></a><span class="co">#  tm_basemap(server = c(&quot;Esri.WorldTopoMap&quot;, &quot;Esri.WorldGrayCanvas&quot;, </span></span>
+<span id="cb474-7"><a href="bonus_2a.html#cb474-7" tabindex="-1"></a><span class="co">#                        &quot;OpenStreetMap&quot;, &quot;OpenTopoMap&quot;, &quot;Esri.WorldImagery&quot;))</span></span>
+<span id="cb474-8"><a href="bonus_2a.html#cb474-8" tabindex="-1"></a><span class="co">#Map2</span></span></code></pre></div>
 </div>
 <div id="e.-export-maps" class="section level4 unnumbered hasAnchor">
 <h4>e. Export maps<a href="bonus_2a.html#e.-export-maps" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -791,9 +747,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Static map saved to <code>png</code> file, with height = 7 inches. This drops the base map and retains only the symbolized data.</li>
 </ul>
 <p>Go ahead and check out the two files!</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="bonus_2a.html#cb485-1" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
-<span id="cb485-2"><a href="bonus_2a.html#cb485-2" tabindex="-1"></a><span class="co">#tmap_save(Map1, here::here(&quot;output/StaticMap.png&quot;), height=7)</span></span>
-<span id="cb485-3"><a href="bonus_2a.html#cb485-3" tabindex="-1"></a><span class="co">#tmap_save(Map2, here::here(&quot;output/InteractiveMap.html&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="bonus_2a.html#cb475-1" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
+<span id="cb475-2"><a href="bonus_2a.html#cb475-2" tabindex="-1"></a><span class="co">#tmap_save(Map1, here::here(&quot;output/StaticMap.png&quot;), height=7)</span></span>
+<span id="cb475-3"><a href="bonus_2a.html#cb475-3" tabindex="-1"></a><span class="co">#tmap_save(Map2, here::here(&quot;output/InteractiveMap.html&quot;))</span></span></code></pre></div>
 <p>Navigate to the folder <code>output</code> (Files tab) and check out the saved maps! For the dynamic map (Map2), select “open in a web browser”. You can share this file with others, who can open it in their browser and interact with the map without access to R or your data!</p>
 </div>
 </div>
@@ -804,11 +760,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now to a more tricky topic. Recall that the last raster layer in the Worked Example, <code>nlcd</code>, contains categorical land cover data that are coded numerically. The <code>terra</code> package actually misinterpreted them as numeric data.</p>
 <p>Let’s extract the categorical raster layer into a new object ‘NLCD’. We can use <code>as.factor</code> to tell R that this is a categorical raster layer.</p>
 <p>Here, we save the (numerical) raster layer <code>nlcd</code> as categorical raster (factor) <code>NLCD</code>.</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="bonus_2a.html#cb486-1" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata/covariates.tif&quot;</span>, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>))</span>
-<span id="cb486-2"><a href="bonus_2a.html#cb486-2" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.factor</span>(RasterMaps<span class="sc">$</span>nlcd)</span></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="bonus_2a.html#cb476-1" tabindex="-1"></a>RasterMaps <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata/covariates.tif&quot;</span>, <span class="at">package=</span><span class="st">&quot;GeNetIt&quot;</span>))</span>
+<span id="cb476-2"><a href="bonus_2a.html#cb476-2" tabindex="-1"></a>NLCD <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.factor</span>(RasterMaps<span class="sc">$</span>nlcd)</span></code></pre></div>
 <p>What values occur in the raster? These are codes for cover types.</p>
 <p>Here is a description of the cover types: <a href="https://www.mrlc.gov/data/legends/national-land-cover-database-2019-nlcd2019-legend" class="uri">https://www.mrlc.gov/data/legends/national-land-cover-database-2019-nlcd2019-legend</a></p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="bonus_2a.html#cb487-1" tabindex="-1"></a><span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="bonus_2a.html#cb477-1" tabindex="-1"></a><span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>##   ID nlcd
 ## 1 11   11
 ## 2 12   12
@@ -821,9 +777,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will import a table with predefined colors (using hex color code) from the file <code>Colortable_LULC.csv</code> that is included with <code>LandGenCourse</code>.</p>
 <p>This list has more entries (e.g., 21-24) than we need, because not all US land cover classes occur in the study area.</p>
 <p>Check in the table below that the colors and cover types are stored as ‘character’. (Luckily, since R 4.0, this is the new default for function <code>read.csv</code>). If they were coded as factors that could lead to errors later on.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="bonus_2a.html#cb489-1" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
-<span id="cb489-2"><a href="bonus_2a.html#cb489-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb489-3"><a href="bonus_2a.html#cb489-3" tabindex="-1"></a>ColTab</span></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="bonus_2a.html#cb479-1" tabindex="-1"></a>ColTab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Colortable_LULC.csv&quot;</span>, </span>
+<span id="cb479-2"><a href="bonus_2a.html#cb479-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb479-3"><a href="bonus_2a.html#cb479-3" tabindex="-1"></a>ColTab</span></code></pre></div>
 <pre><code>##    value   color                    attribute
 ## 1     11 #456DA8                   Open Water
 ## 2     12 #E6EEF9           Perennial Ice/Snow
@@ -852,14 +808,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Copy the values from variable <code>attribute</code> to variable <code>nlcd</code></li>
 <li>Select the variables that we will need.</li>
 </ul>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="bonus_2a.html#cb491-1" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]], ColTab, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span><span class="ot">=</span><span class="st">&quot;value&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb491-2"><a href="bonus_2a.html#cb491-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nlcd=</span>attribute) <span class="sc">%&gt;%</span> </span>
-<span id="cb491-3"><a href="bonus_2a.html#cb491-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ID, nlcd, color)</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="bonus_2a.html#cb481-1" tabindex="-1"></a>RAT <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="fu">levels</span>(NLCD)[[<span class="dv">1</span>]], ColTab, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span><span class="ot">=</span><span class="st">&quot;value&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb481-2"><a href="bonus_2a.html#cb481-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nlcd=</span>attribute) <span class="sc">%&gt;%</span> </span>
+<span id="cb481-3"><a href="bonus_2a.html#cb481-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ID, nlcd, color)</span></code></pre></div>
 <p>We replace the list of levels by the RAT:</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="bonus_2a.html#cb492-1" tabindex="-1"></a><span class="fu">levels</span>(NLCD) <span class="ot">&lt;-</span> RAT</span>
-<span id="cb492-2"><a href="bonus_2a.html#cb492-2" tabindex="-1"></a>NLCD</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="bonus_2a.html#cb482-1" tabindex="-1"></a><span class="fu">levels</span>(NLCD) <span class="ot">&lt;-</span> RAT</span>
+<span id="cb482-2"><a href="bonus_2a.html#cb482-2" tabindex="-1"></a>NLCD</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
-## dimensions  : 426, 358, 1  (nrow, ncol, nlyr)
+## size        : 426, 358, 1  (nrow, ncol, nlyr)
 ## resolution  : 30, 30  (x, y)
 ## extent      : 683282.5, 694022.5, 4992833, 5005613  (xmin, xmax, ymin, ymax)
 ## coord. ref. : NAD83 / UTM zone 11N (EPSG:26911) 
@@ -869,15 +825,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## min value   :                   Open Water 
 ## max value   : Emergent Herbaceous Wetlands</code></pre>
 </div>
-<div id="b.-plot-the-map-with-terraplot" class="section level4 hasAnchor" number="5.4.0.5">
-<h4><span class="header-section-number">5.4.0.5</span> b. Plot the map with <code>terra::plot</code><a href="bonus_2a.html#b.-plot-the-map-with-terraplot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="b.-plot-the-map-with-terraplot" class="section level4 hasAnchor" number="5.5.0.5">
+<h4><span class="header-section-number">5.5.0.5</span> b. Plot the map with <code>terra::plot</code><a href="bonus_2a.html#b.-plot-the-map-with-terraplot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Now we can plot the map with the predefined color palette, using the <code>plot</code> function for <code>SpatRaster</code> objects:</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="bonus_2a.html#cb494-1" tabindex="-1"></a><span class="fu">plot</span>(NLCD, <span class="at">col=</span>RAT<span class="sc">$</span>color)</span>
-<span id="cb494-2"><a href="bonus_2a.html#cb494-2" tabindex="-1"></a><span class="fu">points</span>(Sites.sf_c, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>)</span></code></pre></div>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="bonus_2a.html#cb484-1" tabindex="-1"></a><span class="fu">plot</span>(NLCD, <span class="at">col=</span>RAT<span class="sc">$</span>color)</span>
+<span id="cb484-2"><a href="bonus_2a.html#cb484-2" tabindex="-1"></a><span class="fu">points</span>(Sites.sf_c, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">bg=</span><span class="st">&quot;white&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-143-1.png" alt="" width="672" /></p>
 </div>
-<div id="c.-plot-the-map-with-tmap" class="section level4 hasAnchor" number="5.4.0.6">
-<h4><span class="header-section-number">5.4.0.6</span> c. Plot the map with <code>tmap</code><a href="bonus_2a.html#c.-plot-the-map-with-tmap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="c.-plot-the-map-with-tmap" class="section level4 hasAnchor" number="5.5.0.6">
+<h4><span class="header-section-number">5.5.0.6</span> c. Plot the map with <code>tmap</code><a href="bonus_2a.html#c.-plot-the-map-with-tmap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li>We first define the dataset with <code>tm_shape</code></li>
 <li>With <code>tm_raster</code>, we tell <code>tmap</code> that we want to plot raster values
@@ -890,13 +846,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>With tm_layout, we tell tmap where to place the legend (outside to the right of map)</li>
 <li>With <code>tm_grid(lines=FALSE)</code> we tell <code>tmap</code> to show the coordinates along x and y axes but to suppress grid lines that would be drawn on top of the map (change it to TRUE to see the effect)</li>
 </ul>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="bonus_2a.html#cb495-1" tabindex="-1"></a>Map3 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(NLCD) <span class="sc">+</span> </span>
-<span id="cb495-2"><a href="bonus_2a.html#cb495-2" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">style=</span><span class="st">&quot;cat&quot;</span>, <span class="at">palette=</span>RAT<span class="sc">$</span>color, <span class="at">labels=</span>RAT<span class="sc">$</span>nlcd,</span>
-<span id="cb495-3"><a href="bonus_2a.html#cb495-3" tabindex="-1"></a>            <span class="at">title=</span><span class="st">&quot;Land cover&quot;</span>) <span class="sc">+</span></span>
-<span id="cb495-4"><a href="bonus_2a.html#cb495-4" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span>
-<span id="cb495-5"><a href="bonus_2a.html#cb495-5" tabindex="-1"></a>Map3</span></code></pre></div>
-<pre><code>## Some legend labels were too wide. These labels have been resized to 0.65. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</code></pre>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="bonus_2a.html#cb485-1" tabindex="-1"></a>Map3 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(NLCD) <span class="sc">+</span> </span>
+<span id="cb485-2"><a href="bonus_2a.html#cb485-2" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">style=</span><span class="st">&quot;cat&quot;</span>, <span class="at">palette=</span>RAT<span class="sc">$</span>color, <span class="at">labels=</span>RAT<span class="sc">$</span>nlcd,</span>
+<span id="cb485-3"><a href="bonus_2a.html#cb485-3" tabindex="-1"></a>            <span class="at">title=</span><span class="st">&quot;Land cover&quot;</span>) <span class="sc">+</span></span>
+<span id="cb485-4"><a href="bonus_2a.html#cb485-4" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.outside=</span><span class="cn">TRUE</span>, <span class="at">legend.outside.position=</span><span class="st">&quot;right&quot;</span>) </span></code></pre></div>
+<pre><code>## </code></pre>
+<pre><code>## ── tmap v3 code detected ───────────────────────────────────────────────────────</code></pre>
+<pre><code>## [v3-&gt;v4] `tm_raster()`: instead of `style = &quot;cat&quot;`, use col.scale =
+## `tm_scale_categorical()`.
+## ℹ Migrate the argument(s) &#39;palette&#39; (rename to &#39;values&#39;), &#39;labels&#39; to
+##   &#39;tm_scale_categorical(&lt;HERE&gt;)&#39;
+## [v3-&gt;v4] `tm_raster()`: migrate the argument(s) related to the legend of the
+## visual variable `col` namely &#39;title&#39; to &#39;col.legend = tm_legend(&lt;HERE&gt;)&#39;</code></pre>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="bonus_2a.html#cb489-1" tabindex="-1"></a>Map3</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-144-1.png" alt="" width="672" /></p>
 <p>Let’s beef it up a bit. We can do so by adding layers to <code>Map3</code>:</p>
 <ul>
 <li>To add an additional layer with the sampling sites to the map, we define the data for the layer with <code>tm_shape</code>.</li>
@@ -904,15 +867,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We add a North arrow with <code>tm_compass</code> , using default settings.</li>
 <li>We add a scale bar with <code>tm_scale_bar</code> and set the background to a semitransparent (<code>bg.alpha=0.5</code>) light gray (<code>bg.color="lightgray"</code>).</li>
 </ul>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="bonus_2a.html#cb497-1" tabindex="-1"></a>Map4 <span class="ot">&lt;-</span> Map3 <span class="sc">+</span> <span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span></span>
-<span id="cb497-2"><a href="bonus_2a.html#cb497-2" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">size=</span><span class="fl">0.4</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">border.col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb497-3"><a href="bonus_2a.html#cb497-3" tabindex="-1"></a>  <span class="fu">tm_compass</span>() <span class="sc">+</span> <span class="fu">tm_scale_bar</span>(<span class="at">bg.color=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">bg.alpha=</span><span class="fl">0.5</span>)</span>
-<span id="cb497-4"><a href="bonus_2a.html#cb497-4" tabindex="-1"></a>Map4</span></code></pre></div>
-<pre><code>## Some legend labels were too wide. These labels have been resized to 0.65. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</code></pre>
-<p><img src="02-Week02_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="bonus_2a.html#cb490-1" tabindex="-1"></a>Map4 <span class="ot">&lt;-</span> Map3 <span class="sc">+</span> <span class="fu">tm_shape</span>(Sites.sf_c) <span class="sc">+</span></span>
+<span id="cb490-2"><a href="bonus_2a.html#cb490-2" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">size=</span><span class="fl">0.4</span>, <span class="at">col=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">border.col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb490-3"><a href="bonus_2a.html#cb490-3" tabindex="-1"></a>  <span class="fu">tm_compass</span>() <span class="sc">+</span> <span class="fu">tm_scale_bar</span>(<span class="at">bg.color=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">bg.alpha=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## </code></pre>
+<pre><code>## ── tmap v3 code detected ───────────────────────────────────────────────────────</code></pre>
+<pre><code>## [v3-&gt;v4] `symbols()`: use &#39;fill&#39; for the fill color of polygons/symbols
+## (instead of &#39;col&#39;), and &#39;col&#39; for the outlines (instead of &#39;border.col&#39;).
+## ! `tm_scale_bar()` is deprecated. Please use `tm_scalebar()` instead.
+## This message is displayed once every 8 hours.</code></pre>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="bonus_2a.html#cb494-1" tabindex="-1"></a>Map4</span></code></pre></div>
+<p><img src="02-Week02_files/figure-html/unnamed-chunk-145-1.png" alt="" width="672" /></p>
 <p>This time, we’ll export the map to a PDF file.</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="bonus_2a.html#cb499-1" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
-<span id="cb499-2"><a href="bonus_2a.html#cb499-2" tabindex="-1"></a><span class="co">#tmap_save(Map4, here::here(&quot;output/RasterMap.pdf&quot;), height=6, width=8)</span></span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="bonus_2a.html#cb495-1" tabindex="-1"></a><span class="co">#if(!dir.exists(here(&quot;output&quot;))) dir.create(here(&quot;output&quot;))</span></span>
+<span id="cb495-2"><a href="bonus_2a.html#cb495-2" tabindex="-1"></a><span class="co">#tmap_save(Map4, here::here(&quot;output/RasterMap.pdf&quot;), height=6, width=8)</span></span></code></pre></div>
 
 </div>
 </div>
@@ -938,42 +906,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

@@ -1,7 +1,7 @@
 --- 
 title: "Landscape Genetic Data Analysis with R"
 author: "Editor: Helene Wagner (University of Toronto)"
-date: "2024-01-25"
+date: "2026-01-21"
 output:
   bookdown::gitbook:
     includes:
@@ -126,7 +126,7 @@ http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/
 #### b) How to install (or update) 'LandGenCourse' {-}
 
 
-```r
+``` r
 if (!require("remotes")) install.packages("remotes")
 remotes::install_github("hhwagner1/LandGenCourse")
 library(LandGenCourse)
@@ -189,10 +189,10 @@ Notes:
 
 
 
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%;  margin-left: auto; margin-right: auto; font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;" class="table table-bordered table-striped table-condensed table-responsive table"><table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; "><table class=" lightable-paper table table-bordered table-striped table-condensed table-responsive table" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto; font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;'>
  <thead>
   <tr>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;position: sticky; top:0; background-color: #FFFFFF;">  </th>
    <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;position: sticky; top:0; background-color: #FFFFFF;"> B </th>
    <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;position: sticky; top:0; background-color: #FFFFFF;"> G </th>
    <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;position: sticky; top:0; background-color: #FFFFFF;"> 1 </th>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>15.1 Worked Example | Landscape Genetic Data Analysis with R</title>
+  <title>14.1 Worked Example | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="15.1 Worked Example | Landscape Genetic Data Analysis with R" />
+  <meta property="og:title" content="14.1 Worked Example | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="15.1 Worked Example | Landscape Genetic Data Analysis with R" />
+  <meta name="twitter:title" content="14.1 Worked Example | Landscape Genetic Data Analysis with R" />
   
   <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2024-01-25" />
+<meta name="date" content="2026-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,8 +31,8 @@
   
   
 <link rel="prev" href="Week12.html"/>
-<link rel="next" href="Week13.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<script src="libs/jquery-3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,6 +54,9 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -61,21 +64,21 @@
 <script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
 <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
-<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
-<script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
+<link href="libs/highlight-11.10.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-11.10.0/highlight.min.js"></script>
+<script src="libs/profvis-binding-0.4.0/profvis.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,7 +88,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -215,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Lab 1: Importing Genetic Data</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
@@ -236,9 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
@@ -258,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -268,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Lab 3: Genetic Diversity</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
@@ -285,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
 <li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Lab 4: Metapopulations</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
 <ul>
@@ -331,9 +334,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
 <ul>
@@ -357,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Lab 7: Spatial Linear Models</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
 <ul>
@@ -384,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -393,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Lab 8: Simulation Experiments</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
@@ -415,11 +418,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
 <ul>
@@ -429,75 +432,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
+<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
-<ul>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
+<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
+<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -520,11 +476,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="WE_12" class="section level2 hasAnchor" number="15.1">
-<h2><span class="header-section-number">15.1</span> Worked Example<a href="WE_12.html#WE_12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="WE_12" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">14.1</span> Worked Example<a href="WE_12.html#WE_12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Caren Goldberg and Helene Wagner</p>
-<div id="overview-of-worked-example-11" class="section level3 unnumbered hasAnchor">
-<h3>1. Overview of Worked Example<a href="WE_12.html#overview-of-worked-example-11" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="overview-of-worked-example-10" class="section level3 unnumbered hasAnchor">
+<h3>1. Overview of Worked Example<a href="WE_12.html#overview-of-worked-example-10" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="a.-goals-and-background" class="section level4 unnumbered hasAnchor">
 <h4>a. Goals and Background<a href="WE_12.html#a.-goals-and-background" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><strong>Goals</strong>: The goal of this worked example is for you to become familiar with creating and analyzing landscape genetic hypotheses using maximum likelihood population effect models (MLPE; Van Strien et al. 2012) and information theory. With this approach, we focus on evaluating evidence for the influence of the (intervening) landscape on link-based metrics (i.e. genetic distance). Incorporating node-based effects (i.e. pond size, etc.) will be covered in the gravity modeling lab.</p>
@@ -535,8 +491,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="figcaption">Map of study area</div>
 </div>
 </div>
-<div id="b.-data-set-10" class="section level4 unnumbered hasAnchor">
-<h4>b. Data set<a href="WE_12.html#b.-data-set-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="b.-data-set-9" class="section level4 unnumbered hasAnchor">
+<h4>b. Data set<a href="WE_12.html#b.-data-set-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>In previous labs, you have created genetic distance matrices, so here we are going to start with those data already complete, as are the landscape data. For MLPE, two vectors representing the nodes at the ends of each link must be created. These are already included in the data set (<code>pop1</code> and <code>pop2</code>).</p>
 <p>Each row in the file ‘CSF_network.csv’ represents a link between two pairs of sampling locations. The columns contain the following variables:</p>
 <ul>
@@ -561,20 +517,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-packages" class="section level4 unnumbered hasAnchor">
 <h4>c. Required packages<a href="WE_12.html#c.-required-packages" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Install corMLPE if it is not yet installed.</p>
-<div class="sourceCode" id="cb1290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1290-1"><a href="WE_12.html#cb1290-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb1290-2"><a href="WE_12.html#cb1290-2" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb1291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1291-1"><a href="WE_12.html#cb1291-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb1291-2"><a href="WE_12.html#cb1291-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1291-3"><a href="WE_12.html#cb1291-3" tabindex="-1"></a><span class="co">#library(nlme)</span></span>
-<span id="cb1291-4"><a href="WE_12.html#cb1291-4" tabindex="-1"></a><span class="co">#library(usdm)</span></span>
-<span id="cb1291-5"><a href="WE_12.html#cb1291-5" tabindex="-1"></a><span class="co">#library(corMLPE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1185-1"><a href="WE_12.html#cb1185-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb1185-2"><a href="WE_12.html#cb1185-2" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1186-1"><a href="WE_12.html#cb1186-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb1186-2"><a href="WE_12.html#cb1186-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1186-3"><a href="WE_12.html#cb1186-3" tabindex="-1"></a><span class="co">#library(nlme)</span></span>
+<span id="cb1186-4"><a href="WE_12.html#cb1186-4" tabindex="-1"></a><span class="co">#library(usdm)</span></span>
+<span id="cb1186-5"><a href="WE_12.html#cb1186-5" tabindex="-1"></a><span class="co">#library(corMLPE)</span></span></code></pre></div>
 </div>
 <div id="d.-import-data-1" class="section level4 unnumbered hasAnchor">
 <h4>d. Import data<a href="WE_12.html#d.-import-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>First, read in the dataset. It is named CSF (Columbia spotted frog) to differentiate it from the RALU dataset you have used in previous labs (same species, very different landscapes).</p>
-<div class="sourceCode" id="cb1292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1292-1"><a href="WE_12.html#cb1292-1" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
-<span id="cb1292-2"><a href="WE_12.html#cb1292-2" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
-<span id="cb1292-3"><a href="WE_12.html#cb1292-3" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
+<div class="sourceCode" id="cb1187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1187-1"><a href="WE_12.html#cb1187-1" tabindex="-1"></a>CSFdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;CSF_network.csv&quot;</span>, </span>
+<span id="cb1187-2"><a href="WE_12.html#cb1187-2" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span>
+<span id="cb1187-3"><a href="WE_12.html#cb1187-3" tabindex="-1"></a><span class="fu">head</span>(CSFdata) </span></code></pre></div>
 <pre><code>##   Id         Name  logDc.km   LENGTH     slope solarinso    soils         ag
 ## 1  1 CeGr to FeCr -5.664895 5449.643 11.328851  16332.75 thirteen 0.00000000
 ## 2  2 CeGr to FlCr -5.786712 8352.643 12.822890  16142.01      one 0.01351351
@@ -591,9 +547,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 0.20000000 0.21333333 0.2666667 0.3066667 0.01333333 0.5733333    5    1</code></pre>
 <p>The variable solarinso is on a very different scale, which can create problems with model fitting with some methods. To avoid this, we scale it.</p>
 <p>Note: we could use the scale function without specifying the arguments ‘center’ or ‘scale’, as both are ‘TRUE’ by default. The argument ‘center=TRUE’ centers the variable by subtracting the mean, the ‘scale=TRUE’ argument rescales the variables to unit variance by dividing each value by the standard deviation. The resulting variable has a mean of zero and a standard deviation and variance of one.</p>
-<div class="sourceCode" id="cb1294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1294-1"><a href="WE_12.html#cb1294-1" tabindex="-1"></a>CSFdata<span class="sc">$</span>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1189-1"><a href="WE_12.html#cb1189-1" tabindex="-1"></a>CSFdata<span class="sc">$</span>solarinsoz <span class="ot">&lt;-</span> <span class="fu">scale</span>(CSFdata<span class="sc">$</span>solarinso, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Take a look at the column names and make sure you and R agree on what everything is called, and on the data types (e.g., factor vs. character).</p>
-<div class="sourceCode" id="cb1295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1295-1"><a href="WE_12.html#cb1295-1" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
+<div class="sourceCode" id="cb1190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1190-1"><a href="WE_12.html#cb1190-1" tabindex="-1"></a><span class="fu">str</span>(CSFdata)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    48 obs. of  17 variables:
 ##  $ Id        : int  1 2 43 3 44 46 4 6 7 31 ...
 ##  $ Name      : chr  &quot;CeGr to FeCr&quot; &quot;CeGr to FlCr&quot; &quot;CeGr to Krum&quot; &quot;FlCr to Krum&quot; ...
@@ -641,8 +597,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>b. Check for multicollinearity<a href="WE_12.html#b.-check-for-multicollinearity" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Before we add predictor variables to a model, we should make sure that these variables do not have issues with multicollinearity, i.e., that they are not highly correlated among themselves. To this end, we calculate variance inflation factors, VIF.</p>
 <p>Make a dataframe of just the variables to test (note, you cannot use factors here):</p>
-<div class="sourceCode" id="cb1297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1297-1"><a href="WE_12.html#cb1297-1" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
-<span id="cb1297-2"><a href="WE_12.html#cb1297-2" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
+<div class="sourceCode" id="cb1192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1192-1"><a href="WE_12.html#cb1192-1" tabindex="-1"></a>CSF.df <span class="ot">&lt;-</span> <span class="fu">with</span>(CSFdata, <span class="fu">data.frame</span>(solarinsoz, forest, dev, shrub, ag))</span>
+<span id="cb1192-2"><a href="WE_12.html#cb1192-2" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(CSF.df)</span></code></pre></div>
 <pre><code>##    Variables      VIF
 ## 1 solarinsoz 1.479273
 ## 2     forest 3.127104
@@ -651,7 +607,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5         ag 2.532198</code></pre>
 <p>If you get an error that there is no package called ‘usdm’, use <code>install.packages("usdm")</code>.</p>
 <p>VIF values less than 10, or 3, or 4, depending on who you ask, are considered to not be collinear enough to affect model outcomes. So we are good to go here. What would happen if we added grass to this?</p>
-<div class="sourceCode" id="cb1299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1299-1"><a href="WE_12.html#cb1299-1" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
+<div class="sourceCode" id="cb1194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1194-1"><a href="WE_12.html#cb1194-1" tabindex="-1"></a>usdm<span class="sc">::</span><span class="fu">vif</span>(<span class="fu">cbind</span>(CSF.df, <span class="at">grass=</span>CSFdata<span class="sc">$</span>grass))</span></code></pre></div>
 <pre><code>##    Variables       VIF
 ## 1 solarinsoz  1.541954
 ## 2     forest 97.167730
@@ -662,7 +618,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Question 1</strong>: Why would adding in the last land cover cause a high amount of collinearity? Consider how these data were calculated.</p>
 <p>The variables ‘forest’, ‘dev’, ‘shrub’, ‘ag’ and ‘grass’ together cover almost all land cover types in the study area. Each is measured as percent area, and together, they make up 100% or close to 100% of the land cover types along each link. Thus if we know e.g. that all ‘forest’, ‘dev’, ‘shrub’ and ‘ag’ together cover 80% along a link, then it is a good bet that ‘grass’ will cover the remaining 20%.</p>
 <p>With such sets of compositional data, we need to omit one variable to avoid multi-collinearity (where a variable is a linear combination of other variables), even though the pairwise correlations may be low. For example, there the variable ‘grass’ showed relatively low correlations with the other variables:</p>
-<div class="sourceCode" id="cb1301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1301-1"><a href="WE_12.html#cb1301-1" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
+<div class="sourceCode" id="cb1196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1196-1"><a href="WE_12.html#cb1196-1" tabindex="-1"></a><span class="fu">cor</span>(CSF.df, CSFdata<span class="sc">$</span>grass)</span></code></pre></div>
 <pre><code>##                   [,1]
 ## solarinsoz  0.10394523
 ## forest     -0.41341968
@@ -675,12 +631,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The R package <code>corMLPE</code> makes it easy to fit an MLPE model to our dataset. We use the function <code>gls</code> from package <code>nlme</code> to fit a “generalized least squares” model to the data.</p>
 <p>This is similar to a spatial regression model we’ve seen in Week 7. The main difference is how we define the correlation structure of the errors: instead of using a function of the spatial coordinates, we use a function of the population indicators: <code>correlation=corMLPE(form=~pop1+pop2)</code>.</p>
 <p>Note: for linear mixed models, see Week 6 videos. For gls models, see Week 7 videos.</p>
-<div class="sourceCode" id="cb1303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1303-1"><a href="WE_12.html#cb1303-1" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev, </span>
-<span id="cb1303-2"><a href="WE_12.html#cb1303-2" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
-<span id="cb1303-3"><a href="WE_12.html#cb1303-3" tabindex="-1"></a>                  <span class="at">data=</span>CSFdata, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1198-1"><a href="WE_12.html#cb1198-1" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(logDc.km <span class="sc">~</span> solarinsoz <span class="sc">+</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev, </span>
+<span id="cb1198-2"><a href="WE_12.html#cb1198-2" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
+<span id="cb1198-3"><a href="WE_12.html#cb1198-3" tabindex="-1"></a>                  <span class="at">data=</span>CSFdata, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <p>This is the closest to a full model in our dataset (although our models are not completely nested), so we will take a look at the residuals.</p>
-<div class="sourceCode" id="cb1304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1304-1"><a href="WE_12.html#cb1304-1" tabindex="-1"></a><span class="fu">plot</span>(mod1, <span class="at">abline=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) </span></code></pre></div>
-<p><img src="12-Week12_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1199-1"><a href="WE_12.html#cb1199-1" tabindex="-1"></a><span class="fu">plot</span>(mod1, <span class="at">abline=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) </span></code></pre></div>
+<p><img src="12-Week12_files/figure-html/unnamed-chunk-13-1.png" alt="" width="672" /></p>
 <p>Residuals are centered around zero and do not show large groupings or patterns, although there is some increase in variation at larger numbers (heteroscedasticity: the plot thickens). Here, this means that the model is having a more difficult time predicting larger genetic distances per km. We will keep that in mind as we move on.</p>
 <p>Next we will check to make sure the residuals are normally distributed. This is an important assumption for models fitted with (Restricted) Maximum Likelihood.</p>
 <p>We’ll check this with two plots:</p>
@@ -688,19 +644,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Histogram (left): we want to see a symmetric, bell-shaped distribution.</li>
 <li>Normal probability plot (right): we want to see the points fall on a straight line, without systematic deviations.</li>
 </ul>
-<div class="sourceCode" id="cb1305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1305-1"><a href="WE_12.html#cb1305-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb1305-2"><a href="WE_12.html#cb1305-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(mod1)) </span>
-<span id="cb1305-3"><a href="WE_12.html#cb1305-3" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(mod1))</span></code></pre></div>
-<p><img src="12-Week12_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1306-1"><a href="WE_12.html#cb1306-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1200-1"><a href="WE_12.html#cb1200-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1200-2"><a href="WE_12.html#cb1200-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(mod1)) </span>
+<span id="cb1200-3"><a href="WE_12.html#cb1200-3" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(mod1))</span></code></pre></div>
+<p><img src="12-Week12_files/figure-html/unnamed-chunk-14-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb1201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1201-1"><a href="WE_12.html#cb1201-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>These residuals look okay so we will move on (but if this were a publication we would do a closer examination of the shape of the data at the ends of the distribution).</p>
 <p>Recall that mod1 had the following formula:
 <code>logDc.km ~ solarinsoz + forest + ag + shrub + dev</code>.</p>
 <p>Here we’ll use the function <code>update</code> to change the list of predictors in the model (i.e., the right-hand side of the formula, starting with the tilde symbol <code>~</code>).</p>
-<div class="sourceCode" id="cb1307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1307-1"><a href="WE_12.html#cb1307-1" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev)</span>
-<span id="cb1307-2"><a href="WE_12.html#cb1307-2" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> ag <span class="sc">+</span> dev)</span>
-<span id="cb1307-3"><a href="WE_12.html#cb1307-3" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev)</span>
-<span id="cb1307-4"><a href="WE_12.html#cb1307-4" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz)</span></code></pre></div>
+<div class="sourceCode" id="cb1202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1202-1"><a href="WE_12.html#cb1202-1" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> forest <span class="sc">+</span> ag <span class="sc">+</span> shrub <span class="sc">+</span> dev)</span>
+<span id="cb1202-2"><a href="WE_12.html#cb1202-2" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> ag <span class="sc">+</span> dev)</span>
+<span id="cb1202-3"><a href="WE_12.html#cb1202-3" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> slope <span class="sc">+</span> shrub <span class="sc">+</span> dev)</span>
+<span id="cb1202-4"><a href="WE_12.html#cb1202-4" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="sc">~</span> soils <span class="sc">+</span> slope <span class="sc">+</span> solarinsoz)</span></code></pre></div>
 </div>
 <div id="d.-compare-evidence-for-models" class="section level4 unnumbered hasAnchor">
 <h4>d. Compare evidence for models<a href="WE_12.html#d.-compare-evidence-for-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -711,18 +667,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use REML for parameter estimates of fixed effects.</li>
 </ul>
 <p>We can use the function update again, this time to change the fitting method from <code>method="REML"</code> to <code>method="ML"</code>.</p>
-<div class="sourceCode" id="cb1308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1308-1"><a href="WE_12.html#cb1308-1" tabindex="-1"></a>mod1noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb1308-2"><a href="WE_12.html#cb1308-2" tabindex="-1"></a>mod2noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod2, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb1308-3"><a href="WE_12.html#cb1308-3" tabindex="-1"></a>mod3noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod3, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb1308-4"><a href="WE_12.html#cb1308-4" tabindex="-1"></a>mod4noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod4, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb1308-5"><a href="WE_12.html#cb1308-5" tabindex="-1"></a>mod5noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod5, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1203-1"><a href="WE_12.html#cb1203-1" tabindex="-1"></a>mod1noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod1, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb1203-2"><a href="WE_12.html#cb1203-2" tabindex="-1"></a>mod2noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod2, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb1203-3"><a href="WE_12.html#cb1203-3" tabindex="-1"></a>mod3noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod3, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb1203-4"><a href="WE_12.html#cb1203-4" tabindex="-1"></a>mod4noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod4, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb1203-5"><a href="WE_12.html#cb1203-5" tabindex="-1"></a>mod5noREML <span class="ot">&lt;-</span> <span class="fu">update</span>(mod5, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
 <p>In information theory, we use information criteria (AIC, BIC) to evaluate the relative distance of our hypothesis from truth. For more information, see Burnham and Anderson (2002).</p>
 <p>Note: package MuMIn will do this for you, but for this exercise it is useful to see all the pieces of what goes into your evaluation.</p>
-<div class="sourceCode" id="cb1309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1309-1"><a href="WE_12.html#cb1309-1" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1noREML, <span class="at">Landcover=</span>mod2noREML, <span class="at">HumanFootprint=</span>mod3noREML, </span>
-<span id="cb1309-2"><a href="WE_12.html#cb1309-2" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4noREML, <span class="at">Historical=</span>mod5noREML)</span>
-<span id="cb1309-3"><a href="WE_12.html#cb1309-3" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
-<span id="cb1309-4"><a href="WE_12.html#cb1309-4" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
-<span id="cb1309-5"><a href="WE_12.html#cb1309-5" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb1204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1204-1"><a href="WE_12.html#cb1204-1" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1noREML, <span class="at">Landcover=</span>mod2noREML, <span class="at">HumanFootprint=</span>mod3noREML, </span>
+<span id="cb1204-2"><a href="WE_12.html#cb1204-2" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4noREML, <span class="at">Historical=</span>mod5noREML)</span>
+<span id="cb1204-3"><a href="WE_12.html#cb1204-3" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">AIC =</span> <span class="fu">sapply</span>(Models, AIC),</span>
+<span id="cb1204-4"><a href="WE_12.html#cb1204-4" tabindex="-1"></a>                     <span class="at">BIC =</span> <span class="fu">sapply</span>(Models, BIC)) </span>
+<span id="cb1204-5"><a href="WE_12.html#cb1204-5" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC
 ## Full               115.9620 130.9316
 ## Landcover          113.9757 127.0742
@@ -732,8 +688,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We now have some results, great!</p>
 <p>Now we will work with these a bit. First, because we do not have an infinite number of samples, we will convert AIC to AICc (which adds a small-sample correction to AIC).</p>
 <p>First, find the k parameters used in the model and add them to the table.</p>
-<div class="sourceCode" id="cb1311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1311-1"><a href="WE_12.html#cb1311-1" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
-<span id="cb1311-2"><a href="WE_12.html#cb1311-2" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb1206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1206-1"><a href="WE_12.html#cb1206-1" tabindex="-1"></a>CSF.IC <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CSF.IC, <span class="at">k =</span> <span class="fu">sapply</span>(Models, <span class="cf">function</span>(ls) <span class="fu">attr</span>(<span class="fu">logLik</span>(ls), <span class="st">&quot;df&quot;</span>)))</span>
+<span id="cb1206-2"><a href="WE_12.html#cb1206-2" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC k
 ## Full               115.9620 130.9316 8
 ## Landcover          113.9757 127.0742 7
@@ -747,9 +703,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>More generally, more research is needed to establish whether delta values and evidence weights calculated from MLPE are indeed valid.</li>
 </ul>
 <p>Calculate AICc and add it to the dataframe (experimental, see disclaimer above):</p>
-<div class="sourceCode" id="cb1313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1313-1"><a href="WE_12.html#cb1313-1" tabindex="-1"></a>N <span class="ot">=</span> <span class="fu">nrow</span>(CSFdata)  <span class="co"># Number of unique pairs</span></span>
-<span id="cb1313-2"><a href="WE_12.html#cb1313-2" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(N<span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
-<span id="cb1313-3"><a href="WE_12.html#cb1313-3" tabindex="-1"></a>CSF.IC</span></code></pre></div>
+<div class="sourceCode" id="cb1208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1208-1"><a href="WE_12.html#cb1208-1" tabindex="-1"></a>N <span class="ot">=</span> <span class="fu">nrow</span>(CSFdata)  <span class="co"># Number of unique pairs</span></span>
+<span id="cb1208-2"><a href="WE_12.html#cb1208-2" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICc <span class="ot">&lt;-</span> CSF.IC<span class="sc">$</span>AIC <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>CSF.IC<span class="sc">$</span>k<span class="sc">*</span>(CSF.IC<span class="sc">$</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span>(N<span class="sc">-</span>CSF.IC<span class="sc">$</span>k<span class="dv">-1</span>)</span>
+<span id="cb1208-3"><a href="WE_12.html#cb1208-3" tabindex="-1"></a>CSF.IC</span></code></pre></div>
 <pre><code>##                         AIC      BIC k     AICc
 ## Full               115.9620 130.9316 8 119.6543
 ## Landcover          113.9757 127.0742 7 116.7757
@@ -761,16 +717,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>e. Calculate evidence weights<a href="WE_12.html#e.-calculate-evidence-weights" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Next we calculate evidence weights for each model based on AICc and BIC. If all assumptions are met, these can be interpreted as the probability that the model is the closest to truth in the candidate model set.</p>
 <p>Calculate model weights for AICc (experimental, see disclaimer above):</p>
-<div class="sourceCode" id="cb1315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1315-1"><a href="WE_12.html#cb1315-1" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
-<span id="cb1315-2"><a href="WE_12.html#cb1315-2" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
-<span id="cb1315-3"><a href="WE_12.html#cb1315-3" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
-<span id="cb1315-4"><a href="WE_12.html#cb1315-4" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICcmin <span class="ot">&lt;-</span> RL<span class="sc">/</span>sumRL</span></code></pre></div>
+<div class="sourceCode" id="cb1210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1210-1"><a href="WE_12.html#cb1210-1" tabindex="-1"></a>AICcmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>AICc)</span>
+<span id="cb1210-2"><a href="WE_12.html#cb1210-2" tabindex="-1"></a>RL <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>AICc <span class="sc">-</span> AICcmin))</span>
+<span id="cb1210-3"><a href="WE_12.html#cb1210-3" tabindex="-1"></a>sumRL <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL)</span>
+<span id="cb1210-4"><a href="WE_12.html#cb1210-4" tabindex="-1"></a>CSF.IC<span class="sc">$</span>AICcmin <span class="ot">&lt;-</span> RL<span class="sc">/</span>sumRL</span></code></pre></div>
 <p>Calculate model weights for BIC (experimental, see disclaimer above):</p>
-<div class="sourceCode" id="cb1316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1316-1"><a href="WE_12.html#cb1316-1" tabindex="-1"></a>BICmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>BIC)</span>
-<span id="cb1316-2"><a href="WE_12.html#cb1316-2" tabindex="-1"></a>RL.B <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>BIC <span class="sc">-</span> BICmin))</span>
-<span id="cb1316-3"><a href="WE_12.html#cb1316-3" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
-<span id="cb1316-4"><a href="WE_12.html#cb1316-4" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
-<span id="cb1316-5"><a href="WE_12.html#cb1316-5" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1211-1"><a href="WE_12.html#cb1211-1" tabindex="-1"></a>BICmin <span class="ot">&lt;-</span> <span class="fu">min</span>(CSF.IC<span class="sc">$</span>BIC)</span>
+<span id="cb1211-2"><a href="WE_12.html#cb1211-2" tabindex="-1"></a>RL.B <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>(CSF.IC<span class="sc">$</span>BIC <span class="sc">-</span> BICmin))</span>
+<span id="cb1211-3"><a href="WE_12.html#cb1211-3" tabindex="-1"></a>sumRL.B <span class="ot">&lt;-</span> <span class="fu">sum</span>(RL.B)</span>
+<span id="cb1211-4"><a href="WE_12.html#cb1211-4" tabindex="-1"></a>CSF.IC<span class="sc">$</span>BICew <span class="ot">&lt;-</span> RL.B<span class="sc">/</span>sumRL.B</span>
+<span id="cb1211-5"><a href="WE_12.html#cb1211-5" tabindex="-1"></a><span class="fu">round</span>(CSF.IC,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##                        AIC     BIC k    AICc AICcmin BICew
 ## Full               115.962 130.932 8 119.654   0.047 0.012
 ## Landcover          113.976 127.074 7 116.776   0.200 0.085
@@ -791,22 +747,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>f. Confidence intervals for predictors<a href="WE_12.html#f.-confidence-intervals-for-predictors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <code>summary</code> function for the model fitted with “ML” provides a model summary that includes a table with t-tests for each fixed effect in a Frequentist approach (see Week 6 Worked Example). Here we stay within the information-theoretic approach and use a different approach than significance testing to identify the most important predictors.</p>
 <p>According to Row et al. (2017), we can use the confidence interval from the variables in the models to identify those that are contributing to landscape resistance. Looking at models 2 and 3, we have some evidence that shrub and forest cover matter, but it’s not as strong as the evidence for ag and development. Let’s look at the parameter estimates to understand more. Note that for parameter estimation we use the REML estimates.</p>
-<div class="sourceCode" id="cb1318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1318-1"><a href="WE_12.html#cb1318-1" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
-<span id="cb1318-2"><a href="WE_12.html#cb1318-2" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
+<div class="sourceCode" id="cb1213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1213-1"><a href="WE_12.html#cb1213-1" tabindex="-1"></a>ModelsREML <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Full=</span>mod1, <span class="at">Landcover=</span>mod2, <span class="at">HumanFootprint=</span>mod3,</span>
+<span id="cb1213-2"><a href="WE_12.html#cb1213-2" tabindex="-1"></a>               <span class="at">EnergyConservation=</span>mod4, <span class="at">Historical=</span>mod5)</span></code></pre></div>
 <p>Now we’ll estimate the 95% confidence interval for these estimates:</p>
-<div class="sourceCode" id="cb1319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1319-1"><a href="WE_12.html#cb1319-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1214-1"><a href="WE_12.html#cb1214-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>Landcover, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                 2.5 %     97.5 %
 ## (Intercept) -5.412493 -3.9372220
 ## forest      -1.234534  0.8980824
 ## ag          -2.767849 -0.2789160
 ## shrub       -4.335188  0.4391631
 ## dev         -1.077595  1.4292393</code></pre>
-<div class="sourceCode" id="cb1321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1321-1"><a href="WE_12.html#cb1321-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1216-1"><a href="WE_12.html#cb1216-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>HumanFootprint, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                  2.5 %     97.5 %
 ## (Intercept) -5.3193590 -4.5159303
 ## ag          -2.0215023 -0.1997056
 ## dev         -0.6843463  1.5082812</code></pre>
-<div class="sourceCode" id="cb1323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1323-1"><a href="WE_12.html#cb1323-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1218-1"><a href="WE_12.html#cb1218-1" tabindex="-1"></a><span class="fu">confint</span>(ModelsREML<span class="sc">$</span>EnergyConservation, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>)</span></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## (Intercept) -6.83962997 -5.3057702
 ## slope        0.02028322  0.1725869
@@ -835,20 +791,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Jaffe et al. (2019) proposed nested MLPE (NMLPE) to account for an additional level of hierarchical sampling. In their example, they had sampled multiple sites (clusters), and within each site, multiple colonies (populations).</p>
 <p>When they fitted a MLPE model that did not account for the hierarchical level of sites, there was unaccounted autocorrelation in the residuals. They tested for this by sorting the pairwise distances by site and then calculating an autocorrelation function (ACF) as a function of lag distance along rows (i.e., the lag represented how many rows apart to values were in the dataset). The following pseudo-code is based on code in the supplementary material of Jaffe et al. (2019).</p>
 <p>Sort data frame with pairwise data by site, then by pop (pseudo-code). Note: this is only needed for the ACF analysis.</p>
-<div class="sourceCode" id="cb1325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1325-1"><a href="WE_12.html#cb1325-1" tabindex="-1"></a><span class="do">## d. &lt;- df[order(df$site, df$pop1, df$pop2),]</span></span></code></pre></div>
+<div class="sourceCode" id="cb1220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1220-1"><a href="WE_12.html#cb1220-1" tabindex="-1"></a><span class="do">## d. &lt;- df[order(df$site, df$pop1, df$pop2),]</span></span></code></pre></div>
 <p>MLPE model (pseudo-code):</p>
-<div class="sourceCode" id="cb1326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1326-1"><a href="WE_12.html#cb1326-1" tabindex="-1"></a><span class="co"># m1 &lt;- gls(Genetic.distance ~ Predictor.distance, </span></span>
-<span id="cb1326-2"><a href="WE_12.html#cb1326-2" tabindex="-1"></a><span class="co">#           correlation = corMLPE(form = ~ pop1+pop2), data = df)</span></span>
-<span id="cb1326-3"><a href="WE_12.html#cb1326-3" tabindex="-1"></a><span class="do">## a.f(resid(m1, type=&#39;normalized&#39;)) ## Autocorrelation function</span></span></code></pre></div>
+<div class="sourceCode" id="cb1221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1221-1"><a href="WE_12.html#cb1221-1" tabindex="-1"></a><span class="co"># m1 &lt;- gls(Genetic.distance ~ Predictor.distance, </span></span>
+<span id="cb1221-2"><a href="WE_12.html#cb1221-2" tabindex="-1"></a><span class="co">#           correlation = corMLPE(form = ~ pop1+pop2), data = df)</span></span>
+<span id="cb1221-3"><a href="WE_12.html#cb1221-3" tabindex="-1"></a><span class="do">## a.f(resid(m1, type=&#39;normalized&#39;)) ## Autocorrelation function</span></span></code></pre></div>
 <p>The package corMLPE contains another function, corNMLPE2, where we can specify cluster as an additional hierarchical level of non-independence in the data. The ACF of this model did not show any autocorrelation anymore.</p>
 <p>NMLPE model (pseudo-code)</p>
-<div class="sourceCode" id="cb1327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1327-1"><a href="WE_12.html#cb1327-1" tabindex="-1"></a><span class="co"># m2 &lt;- gls(Genetic.distance ~ Predictor.distance, </span></span>
-<span id="cb1327-2"><a href="WE_12.html#cb1327-2" tabindex="-1"></a><span class="co">#           correlation = corMLPE(form = ~ pop1+pop2, clusters = site), data = df)</span></span>
-<span id="cb1327-3"><a href="WE_12.html#cb1327-3" tabindex="-1"></a><span class="do">## a.f(resid(m2, type=&#39;normalized&#39;)) ## Autocorrelation function</span></span></code></pre></div>
+<div class="sourceCode" id="cb1222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1222-1"><a href="WE_12.html#cb1222-1" tabindex="-1"></a><span class="co"># m2 &lt;- gls(Genetic.distance ~ Predictor.distance, </span></span>
+<span id="cb1222-2"><a href="WE_12.html#cb1222-2" tabindex="-1"></a><span class="co">#           correlation = corMLPE(form = ~ pop1+pop2, clusters = site), data = df)</span></span>
+<span id="cb1222-3"><a href="WE_12.html#cb1222-3" tabindex="-1"></a><span class="do">## a.f(resid(m2, type=&#39;normalized&#39;)) ## Autocorrelation function</span></span></code></pre></div>
 <p>Note that this is a method to account for hierarchical sampling designs. It does not explicitly account for spatial autocorrelation - indeed, no spatial information is included, unless Euclidean distance is included as a predictor in the model.</p>
 </div>
-<div id="references-3" class="section level3 unnumbered hasAnchor">
-<h3>5. References<a href="WE_12.html#references-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="references-1" class="section level3 unnumbered hasAnchor">
+<h3>5. References<a href="WE_12.html#references-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Burnham KP and DR Anderson. 2002. Model Selection and Multimodel Inference: A Practical Information Theoretic Approach. Chapter 8, p. 437-454. Springer-Verlag, New York.</p></li>
 <li><p>Goldberg CS and LP Waits (2010). Comparative landscape genetics of two pond-breeding amphibian species in a highly modified agricultural landscape. Molecular Ecology 19: 3650-3663.</p></li>
@@ -860,13 +816,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <!-- </div> -->
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="Week12.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="Week13.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Week12.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -880,42 +842,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

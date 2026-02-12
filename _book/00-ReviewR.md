@@ -53,7 +53,7 @@ See also video "Week 0: Intro to R Notebooks" for options how to work this this 
 Install packages needed for this worked example. Note: `popgraph` needs to be installed before installing `gstudio`.
 
 
-```r
+``` r
 if(!requireNamespace("popgraph", quietly = TRUE))
 {
   install.packages(c("RgoogleMaps", "geosphere", "proto", "sampling", 
@@ -64,21 +64,6 @@ if(!requireNamespace("popgraph", quietly = TRUE))
 if(!requireNamespace("gstudio", quietly = TRUE)) remotes::install_github("dyerlab/gstudio")
 ```
 
-```
-## Warning: replacing previous import 'dplyr::union' by 'raster::union' when
-## loading 'gstudio'
-```
-
-```
-## Warning: replacing previous import 'dplyr::intersect' by 'raster::intersect'
-## when loading 'gstudio'
-```
-
-```
-## Warning: replacing previous import 'dplyr::select' by 'raster::select' when
-## loading 'gstudio'
-```
-
 
 ### 2. Data Types {-} 
 
@@ -87,7 +72,7 @@ The data we work with comes in many forms—integers, stratum, categories, genot
 The very first hurdle you need to get over is the oddness in the way in which R assigns values to variables.
 
 
-```r
+``` r
 variable <- value
 ```
 
@@ -96,21 +81,21 @@ Yes that is a less-than and dash character.  This is the assignment operator tha
 If you are unaware of what type a particular variable may be, you can always use the `type()` function and R will tell you.
 
 
-```r
+``` r
 class( variable )
 ```
 
 R also has a pretty good help system built into itself.  You can get help for any function by typing a question mark in front of the function name.  This is a particularly awesome features because at the end of the help file, there is often examples of its usage, which are priceless.  Here is the documentation for the ‘help' function as given by:
 
 
-```r
+``` r
 ?help
 ```
 
 There are also package vignettes available (for most packages you download) that provide additional information on the routines, data sets, and other items included in these packages. You can get a list of vignettes currently installed on your machine by:
 
 
-```r
+``` r
 vignette()
 ```
 
@@ -125,7 +110,7 @@ The quantitative measurements we make are often numeric, in that they can be rep
 Assigning a value to a variable is easy
 
 
-```r
+``` r
 x <- 3
 x
 ```
@@ -137,7 +122,7 @@ x
 By default, R automatically outputs whole numbers numbers within decimal values appropriately.
 
 
-```r
+``` r
 y <- 22/7
 y
 ```
@@ -149,7 +134,7 @@ y
 If there is a mix of whole numbers and numbers with decimals together in a container such as
 
 
-```r
+``` r
 c(x,y)
 ```
 
@@ -162,7 +147,7 @@ then both are shown with decimals. The `c()` part here is a function that combin
 A word of caution should be made about numeric data types on any computer.  Consider the following example.
 
 
-```r
+``` r
 x <- .3 / 3
 x
 ```
@@ -174,7 +159,7 @@ x
 which is exactly what we'd expect.  However, the way in which computers store decimal numbers plays off our notion of significant digits pretty well.  Look what happens when I print out x but carry out the number of decimal places.
 
 
-```r
+``` r
 print(x, digits=20)
 ```
 
@@ -186,48 +171,48 @@ Not quite 0.1 is it?  Not that far away from it but not exact.  That is a genera
 You can make random sets of numeric data by using using functions describing various distributions.  For example, some random numbers from the normal distribution are:
 
 
-```r
+``` r
 rnorm(10)
 ```
 
 ```
-##  [1] -1.4536045  0.8214666  0.8180848 -0.4739079  0.4793438 -0.4942676
-##  [7]  1.2114168 -0.2578364 -0.5980222  0.2196772
+##  [1] -0.79157820  0.64983440 -1.32962235 -0.50246365  1.08349866  0.12816213
+##  [7]  0.88600990  0.92590182  0.01727144 -0.51566101
 ```
 
 from the normal distribution with designated mean and standard deviation:
 
 
-```r
+``` r
 rnorm(10,mean=42,sd=12)
 ```
 
 ```
-##  [1] 45.12538 49.60240 36.00652 30.63791 29.60983 42.27913 33.96392 41.09913
-##  [9] 49.76500 45.32885
+##  [1] 38.58979 38.13407 60.11725 48.01066 42.69456 48.54586 53.59720 45.01358
+##  [9] 45.73550 40.32697
 ```
 
 A poisson distribution with mean 2:
 
 
-```r
+``` r
 rpois(10,lambda = 2)
 ```
 
 ```
-##  [1] 3 2 3 4 2 1 3 3 2 3
+##  [1] 6 3 2 1 2 5 1 2 1 2
 ```
 
 and the $\chi^2$ distribution with 1 degree of freedom:
 
 
-```r
+``` r
 rchisq(10, df=1)
 ```
 
 ```
-##  [1] 0.005732619 0.313665841 0.177228279 2.642739027 3.724465188 0.912656404
-##  [7] 3.006614943 0.145557780 1.308283382 0.146935513
+##  [1] 0.01094670 0.00732484 0.14994298 2.10658821 0.07749988 0.43336323
+##  [7] 3.72981901 1.53207955 0.49904789 0.14133199
 ```
 
 There are several more distributions that if you need to access random numbers, quantiles, probability densities, and cumulative density values are available.
@@ -239,7 +224,7 @@ All data types have the potential ability to take another variable and coerce it
 Here is an example of coercion of some data that is initially defined as a set of characters
 
 
-```r
+``` r
 x <- c("42","99")
 x
 ```
@@ -251,7 +236,7 @@ x
 and is coerced into a numeric type using the as.numeric() function. 
 
 
-```r
+``` r
 y <- as.numeric( x )
 y
 ```
@@ -264,7 +249,7 @@ y
 It is a built-in feature of the data types in R that they all have (or should have if someone is producing a new data type and is being courteous to their users) an `as.X()` function.  This is where the data type decides if the values asked to be coerced are reasonable or if you need to be reminded that what you are asking is not possible.  Here is an example where I try to coerce a non-numeric variable into a number.
 
 
-```r
+``` r
 x <- "The night is dark and full of terrors..."
 as.numeric( x )
 ```
@@ -287,7 +272,7 @@ By default, the result should be NA (missing data/non-applicable) if you ask for
 A collection of letters, number, and or punctuation is represented as a character data type.  These are enclosed in either single or double quotes and are considered a single entity.  For example, my name can be represented as:
 
 
-```r
+``` r
 prof <- "Rodney J. Dyer"
 prof
 ```
@@ -299,7 +284,7 @@ prof
 In R, character variables are considered to be a single entity, that is the entire prof variable is a single unit, not a collection of characters.  This is in part due to the way in which vectors of variables are constructed in the language.  For example, if you are looking at the length of the variable I assigned my name to you see
 
 
-```r
+``` r
 length(prof)
 ```
 
@@ -310,7 +295,7 @@ length(prof)
 which shows that there is only one ‘character' variable.  If, as is often the case, you are interested in knowing how many characters are in the variable prof, then you use the 
 
 
-```r
+``` r
 nchar(prof)
 ```
 
@@ -322,7 +307,7 @@ nchar(prof)
 function instead.  This returns the number of characters (even the non-printing ones like tabs and spaces.
 
 
-```r
+``` r
 nchar(" \t ")
 ```
 
@@ -333,7 +318,7 @@ nchar(" \t ")
 As all other data types, you can define a vector of character values using the `c()` function.
 
 
-```r
+``` r
 x <- "I am"
 y <- "not"
 z <- 'a looser'
@@ -347,7 +332,7 @@ terms
 
 And looking at the `length()` and `nchar()` of this you can see how these operations differ.
 
-```r
+``` r
 length(terms)
 ```
 
@@ -355,7 +340,7 @@ length(terms)
 ## [1] 3
 ```
 
-```r
+``` r
 nchar(terms)
 ```
 
@@ -369,7 +354,7 @@ nchar(terms)
 Another common use of characters is concatenating them into single sequences.  Here we use the function `paste()` and can set the separators (or characters that are inserted between entities when we collapse vectors).  Here is an example, entirely fictional and only provided for instructional purposes only.
 
 
-```r
+``` r
 paste(terms, collapse=" ")
 ```
 
@@ -379,7 +364,7 @@ paste(terms, collapse=" ")
 
 
 
-```r
+``` r
 paste(x,z)
 ```
 
@@ -389,7 +374,7 @@ paste(x,z)
 
 
 
-```r
+``` r
 paste(x,z,sep=" not ")
 ```
 
@@ -404,7 +389,7 @@ A character data type is often the most basal type of data you can work with.  F
 Here is an example of coercing a numeric type into a character type using the `as.character()` function.  
 
 
-```r
+``` r
 x <- 42
 x
 ```
@@ -414,7 +399,7 @@ x
 ```
 
 
-```r
+``` r
 y <- as.character(x)
 y
 ```
@@ -434,7 +419,7 @@ Since factors are categorical, it is in your best interest to make sure you labe
 To define a factor type, you use the function `factor()` and pass it a vector of values.
 
 
-```r
+``` r
 region <- c("North","North","South","East","East","South","West","West","West")
 region <- factor( region )
 region
@@ -449,7 +434,7 @@ region
 When you print out the values, it shows you all the levels present for the factor.  If you have levels that are not present in your data set, when you define it, you can tell R to consider additional levels of this factor by passing the optional levels= argument as:
 
 
-```r
+``` r
 region <- factor( region, levels=c("North","South","East","West","Central"))
 region
 ```
@@ -462,7 +447,7 @@ region
 If you try to add a data point to a factor list that does not have the factor that you are adding, it will give you an error (or ‘barf' as I like to say).
 
 
-```r
+``` r
 region[1] <- "Bob"
 ```
 
@@ -476,14 +461,14 @@ Now, I have to admit that the Error message in its entirety, with its `“[<-.fa
 Unfortunately, the error above changed the first element of the region vector to NA (missing data). I'll turn it back before we move too much further.
 
 
-```r
+``` r
 region[1] <- "North"
 ```
 
 Factors in R can be either unordered (as say locale may be since locale A is not `>`, `=`, or `<` locale B) or they may be ordered categories as in `Small < Medium < Large < X-Large`.  When you create the factor, you need to indicate if it is an ordered type (by default it is not).   If the factors are ordered in some way, you can also create an ordination on the data.  If you do not pass a levels= option to the `factors()` function, it will take the order in which they occur in data you pass to it.  If you want to specify an order for the factors specifically, pass the optional `levels=` and they will be ordinated in the order given there.
 
 
-```r
+``` r
 region <- factor( region, ordered=TRUE, levels = c("West", "North", "South", "East") )
 region
 ```
@@ -498,7 +483,7 @@ region
 There are times when you have a subset of data that do not have all the potential categories. 
 
 
-```r
+``` r
 subregion <- region[ 3:9 ]
 subregion
 ```
@@ -509,7 +494,7 @@ subregion
 ```
 
 
-```r
+``` r
 table( subregion )
 ```
 
@@ -525,7 +510,7 @@ table( subregion )
 A logical type is either TRUE or FALSE, there is no in-between.  It is common to use these types in making decisions (see if-else decisions) to check a specific condition being satisfied.  To define logical variables you can either use the TRUE or FALSE directly
 
 
-```r
+``` r
 canThrow <- c(FALSE, TRUE, FALSE, FALSE, FALSE)
 canThrow
 ```
@@ -537,7 +522,7 @@ canThrow
 or can implement some logical condition
 
 
-```r
+``` r
 stable <- c( "RGIII" == 0, nchar("Marshawn") == 8)
 stable
 ```
@@ -551,41 +536,41 @@ on the variables.  Notice here how each of the items is actually evaluated as to
 It is common to use logical types to serve as indices for vectors.  Say for example, you have a vector of data that you want to select some subset from.
 
 
-```r
+``` r
 data <- rnorm(20)
 data
 ```
 
 ```
-##  [1] -1.24817464  1.41759325 -1.55245434 -0.76435741 -0.21367202  0.80792427
-##  [7] -0.16317123 -2.51914574  0.45488117  0.65176826  1.26707634 -1.28207154
-## [13] -0.84972286  1.21481639  0.80761489 -0.07055671  0.11816398  0.86460699
-## [19]  0.70392130  0.65619901
+##  [1] -0.9348844  0.8203106 -1.6352834  0.1502384  0.6057883 -0.4257914
+##  [7]  2.1458429 -2.0645585  0.4874247 -0.5602449 -0.6403197 -2.4885485
+## [13]  1.3607995 -0.5153664  0.7724645  1.0403607 -0.3148372  0.6555180
+## [19] -1.5640644 -0.1097257
 ```
 
 
 Perhaps you are on interested in the non-negative values
 
 
-```r
+``` r
 data[ data > 0 ]
 ```
 
 ```
-##  [1] 1.4175932 0.8079243 0.4548812 0.6517683 1.2670763 1.2148164 0.8076149
-##  [8] 0.1181640 0.8646070 0.7039213 0.6561990
+## [1] 0.8203106 0.1502384 0.6057883 2.1458429 0.4874247 1.3607995 0.7724645
+## [8] 1.0403607 0.6555180
 ```
 
 If you look at the condition being passed to as the index
 
 
-```r
+``` r
 data > 0
 ```
 
 ```
-##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
-## [13] FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE
+##  [1] FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
+## [13]  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE
 ```
 
 you see that individually, each value in the data vector is being evaluated as a logical value, satisfying the condition that it is strictly greater than zero.  When you pass that as indices to a vector it only shows the indices that are `TRUE`.  
@@ -593,7 +578,7 @@ you see that individually, each value in the data vector is being evaluated as a
 You can coerce a value into a logical if you understand the rules.  Numeric types that equal 0 (zero) are `FALSE`, always.  Any non-zero value is considered `TRUE`.  Here I use the modulus operator, `%%`, which provides the remainder of a division. 
 
 
-```r
+``` r
 1:20 %% 2
 ```
 
@@ -604,13 +589,13 @@ You can coerce a value into a logical if you understand the rules.  Numeric type
 which used as indices give us
 
 
-```r
+``` r
 data[ (1:20 %% 2) > 0 ]
 ```
 
 ```
-##  [1] -1.2481746 -1.5524543 -0.2136720 -0.1631712  0.4548812  1.2670763
-##  [7] -0.8497229  0.8076149  0.1181640  0.7039213
+##  [1] -0.9348844 -1.6352834  0.6057883  2.1458429  0.4874247 -0.6403197
+##  [7]  1.3607995  0.7724645 -0.3148372 -1.5640644
 ```
 
 You can get as complicated in the creation of indices as you like, even using logical operators such as OR and AND. I leave that as an example for you to play with.  
@@ -625,7 +610,7 @@ We almost never work with a single datum^[The word *data* is plural, datum is si
 We have already seen several examples of several vectors in action (see the introduction to Numeric data types for example).  A vector of objects is simply a collection of them, often created using the `c()` function (*c* for combine).  Vectorized data is restricted to having homogeneous data types---you cannot mix character and numeric types in the same vector.  If you try to mix types, R will either coerce your data into a reasonable type
 
 
-```r
+``` r
 x <- c(1,2,3)
 x
 ```
@@ -634,7 +619,7 @@ x
 ## [1] 1 2 3
 ```
 
-```r
+``` r
 y <- c(TRUE,TRUE,FALSE)
 y
 ```
@@ -643,7 +628,7 @@ y
 ## [1]  TRUE  TRUE FALSE
 ```
 
-```r
+``` r
 z <- c("I","am","not","a","looser")
 z
 ```
@@ -656,7 +641,7 @@ z
 or coearce them into one type that is amenable to all the types of data that you have given it.  In this example, a Logical, Character, Constant, and Function are combined resulting in a vector output of type Character.
 
 
-```r
+``` r
 w <- c(TRUE, "1", pi, ls())
 w
 ```
@@ -668,7 +653,7 @@ w
 ## [13] "y"                "yml_metadata"     "z"
 ```
 
-```r
+``` r
 class(w)
 ```
 
@@ -679,7 +664,7 @@ class(w)
 Accessing elements within a vector are done using the square bracket `[]` notation.  All indices (for vectors and matrices) start at 1 (not zero as is the case for some languages).  Getting and setting the components within a vector are accomplished using numeric indices with the assignment operators just like we do for variables containing a single value.
 
 
-```r
+``` r
 x
 ```
 
@@ -687,7 +672,7 @@ x
 ## [1] 1 2 3
 ```
 
-```r
+``` r
 x[1] <- 2
 x[3] <- 1
 x
@@ -697,7 +682,7 @@ x
 ## [1] 2 2 1
 ```
 
-```r
+``` r
 x[2]
 ```
 
@@ -708,7 +693,7 @@ x[2]
 A common type of vector is that of a sequences.  We use sequences all the time, to iterate through a list, to counting generations, etc.  There are a few ways to generate sequences, depending upon the step sequence.  For a sequence of whole numbers, the easiest is through the use of the colon operator.
 
 
-```r
+``` r
 x <- 1:6
 x
 ```
@@ -720,7 +705,7 @@ x
 This provides a nice shorthand for getting the values X:Y from X to Y, inclusive.  It is also possible to go backwards using this operator, counting down from X to Y as in:
 
 
-```r
+``` r
 x <- 5:2
 x
 ```
@@ -732,7 +717,7 @@ x
 The only constraint here is that we are limited to a step size of 1.0.  It is possible to use non-integers as the bounds, it will just count up by 1.0 each time.
 
 
-```r
+``` r
 x <- 3.2:8.4
 x
 ```
@@ -744,7 +729,7 @@ x
 If you are interested in making a sequence with a step other than 1.0, you can use the `seq()` function.  If you do not provide a step value, it defaults to 1.0.
 
 
-```r
+``` r
 y <- seq(1,6)
 y
 ```
@@ -756,7 +741,7 @@ y
 But if you do, it will use that instead.
 
 
-```r
+``` r
 z <- seq(1,20,by=2)
 z
 ```
@@ -768,7 +753,7 @@ z
 It is also possible to create a vector of objects as repetitions using the `rep()` (for repeat) function.
 
 
-```r
+``` r
 rep("Beetlejuice",3)
 ```
 
@@ -779,7 +764,7 @@ rep("Beetlejuice",3)
 If you pass a vector of items to `rep()`, it can repeat these as either a vector being repeated (the default value)
 
 
-```r
+``` r
 x <- c("No","Free","Lunch")
 rep(x,time=3)
 ```
@@ -791,7 +776,7 @@ rep(x,time=3)
 or as each item in the vector repeated.
 
 
-```r
+``` r
 rep(x,each=3)
 ```
 
@@ -807,7 +792,7 @@ A matrix is a 2- or higher dimensional container, most commonly used to store nu
 You can define a matrix by giving it a set of values and an indication of the number of rows and columns you want.  The easiest matrix to try is one with empty values:
 
 
-```r
+``` r
 matrix(nrow=2, ncol=2)
 ```
 
@@ -820,7 +805,7 @@ matrix(nrow=2, ncol=2)
 Perhaps more useful is one that is pre-populated with values.
 
 
-```r
+``` r
 matrix(1:4, nrow=2 )
 ```
 
@@ -833,7 +818,7 @@ matrix(1:4, nrow=2 )
 Notice that here, there were four entries and I only specified the number of rows required.  By default the ‘filling-in' of the matrix will proceed down column (*by-column*).  In this example, we have the first column with the first two entries and the last two entries down the second column.  If you want it to fill by row, you can pass the optional argument
 
 
-```r
+``` r
 matrix(1:4, nrow=2, byrow=TRUE)
 ```
 
@@ -848,7 +833,7 @@ and it will fill *by-row*.
 When filling matrices, the default size and the size of the data being added to the matrix are critical.  For example, I can create a matrix as:
 
 
-```r
+``` r
 Y <- matrix(c(1,2,3,4,5,6),ncol=2,byrow=TRUE)
 Y
 ```
@@ -863,7 +848,7 @@ Y
 or 
 
 
-```r
+``` r
 X <- matrix(c(1,2,3,4,5,6),nrow=2)
 X
 ```
@@ -877,7 +862,7 @@ X
 and both produce a similar matrix, only transposed.
 
 
-```r
+``` r
 X == t(Y)
 ```
 
@@ -890,7 +875,7 @@ X == t(Y)
 In the example above, the number of rows (or columns) was a clean multiple of the number of entries.  However, if it is not, R will fill in values.
 
 
-```r
+``` r
 X <- matrix(c(1,2,3,4,5,6),ncol=4, byrow=TRUE)
 ```
 
@@ -902,7 +887,7 @@ X <- matrix(c(1,2,3,4,5,6),ncol=4, byrow=TRUE)
 Notice how you get a warning from the interpreter.  But that does not stop it from filling in the remaining slots by starting over in the sequence of numbers you passed to it.
 
 
-```r
+``` r
 X
 ```
 
@@ -915,7 +900,7 @@ X
 The dimensionality of a matrix (and `data.frame` as we will see shortly) is returned by the `dim()` function.  This will provide the number of rows and columns as a vector.
 
 
-```r
+``` r
 dim(X)
 ```
 
@@ -926,7 +911,7 @@ dim(X)
 Accessing elements to retrieve or set their values within a matrix is done using the square brackets just like for a vector but you need to give `[row,col]` indices.  Again, these are 1-based so that 
 
 
-```r
+``` r
 X[1,3]
 ```
 
@@ -939,7 +924,7 @@ is the entry in the 1st row and 3rd column.
 You can also use ‘slices' through a matrix to get the rows
 
 
-```r
+``` r
 X[1,]
 ```
 
@@ -950,7 +935,7 @@ X[1,]
 or columns
 
 
-```r
+``` r
 X[,3]
 ```
 
@@ -961,7 +946,7 @@ X[,3]
 of data. Here you just omit the index for the entity you want to span.  Notice that when you grab a slice, even if it is a column, is given as a vector.  
 
 
-```r
+``` r
 length(X[,3])
 ```
 
@@ -972,7 +957,7 @@ length(X[,3])
 You can grab a sub-matrix using slices if you give a range (or sequence) of indices.
 
 
-```r
+``` r
 X[,2:3]
 ```
 
@@ -985,7 +970,7 @@ X[,2:3]
 If you ask for values from a matrix that exceed its dimensions, R will give you an error.
  
 
-```r
+``` r
 X[1,8]
 ```
 
@@ -1004,7 +989,7 @@ There are a few cool extensions of the `rep()` function that can be used to crea
 In combination, these can be quite helpful.  Here is an example using numeric sequences in which it is necessary to find the index of all entries in a 3x2 matrix.  To make the indices, I bind two columns together using `cbind()`.  There is a matching row binding function, denoted as `rbind()` (perhaps not so surprisingly).  What is returned is a matrix
 
 
-```r
+``` r
 indices <- cbind( rep(1:2, each=3), rep(1:3,times=2), rep(5,length.out=6)  )
 indices
 ```
@@ -1025,7 +1010,7 @@ indices
 A list is a type of vector but is indexed by ‘keys' rather than by numeric indices.  Moreover, lists can contain heterogeneous types of data (e.g., values of different `class`), which is not possible in a vector type.  For example, consider the list
 
 
-```r
+``` r
 theList <- list( x=seq(2,40, by=2), dog=LETTERS[1:5], hasStyle=logical(5) )
 summary(theList)
 ```
@@ -1040,7 +1025,7 @@ summary(theList)
 which is defined with a numeric, a character, and a logical component.  Each of these entries can be different in length as well as type.  Once defined, the entries may be observed as:
 
 
-```r
+``` r
 theList
 ```
 
@@ -1058,21 +1043,21 @@ theList
 Once created, you can add variables to the list using the $-operator followed by the name of the key for the new entry.
 
 
-```r
+``` r
 theList$my_favoriate_number <- 2.9 + 3i
 ```
 
 or use double brackets and the name of the variable as a character string.
 
 
-```r
+``` r
 theList[["lotto numbers"]] <- rpois(7,lambda=42)
 ```
 
 The keys currently in the list are given by the `names()` function
 
 
-```r
+``` r
 names(theList)
 ```
 
@@ -1084,7 +1069,7 @@ names(theList)
 Getting and setting values within a list are done the same way using either the `$`-operator
 
 
-```r
+``` r
 theList$x
 ```
 
@@ -1092,7 +1077,7 @@ theList$x
 ##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40
 ```
 
-```r
+``` r
 theList$x[2] <- 42
 theList$x
 ```
@@ -1104,7 +1089,7 @@ theList$x
 or the double brackets
 
 
-```r
+``` r
 theList[["x"]]
 ```
 
@@ -1115,7 +1100,7 @@ theList[["x"]]
 or using a numeric index, but that numeric index is looks to the results of `names()` to figure out which key to use.
 
 
-```r
+``` r
 theList[[2]]
 ```
 
@@ -1126,7 +1111,7 @@ theList[[2]]
 The use of the double brackets in essence provides a direct link to the variable in the list whose name is second in the `names()` function (*dog* in this case).  If you want to access elements within that variable, then you add a second set of brackets on after the double ones.  
 
 
-```r
+``` r
 theList[[1]][3]
 ```
 
@@ -1137,7 +1122,7 @@ theList[[1]][3]
 This deviates from the matrix approach as well as from how we access entries in a `data.frame` (described next).  It is not a single square bracket with two indices, that gives you an error:
 
 
-```r
+``` r
 theList[1,3] 
 ```
 
@@ -1158,42 +1143,42 @@ The `data.frame` is the default data container in R.   It is analogous to both a
 On a spreadsheet, each column has a unified data type, either quantified with a value or as a missing value, `NA`, in each row.  Rows typically represent the sampling unit, perhaps individual or site, along which all of these various items have been measured or determined.  A `data.frame` is similar to this, at least conceptually.  You define a `data.frame` by designating the columns of data to be used.  You do not need to define all of them, more can be added later.  The values passed can be sequences, collections of values, or computed parameters.  For example:
 
 
-```r
+``` r
 df <- data.frame( ID=1:5, Names=c("Bob","Alice","Vicki","John","Sarah"), Score=100 - rpois(5,lambda=10))
 df
 ```
 
 ```
 ##   ID Names Score
-## 1  1   Bob    94
-## 2  2 Alice    90
-## 3  3 Vicki    90
-## 4  4  John    87
-## 5  5 Sarah    92
+## 1  1   Bob    93
+## 2  2 Alice    94
+## 3  3 Vicki    89
+## 4  4  John    91
+## 5  5 Sarah    88
 ```
 
 You can see that each column is a unified type of data and each row is equivalent to a record.  Additional data columns may be added to an existing data.frame as:
 
 
-```r
+``` r
 df$Passed_Class <- c(TRUE,TRUE,TRUE,FALSE,TRUE)
 ```
 
 Since we may have many (thousands?) of rows of observations, a `summary()` of the data.frame can provide a more compact description.
 
 
-```r
+``` r
 summary(df)
 ```
 
 ```
-##        ID       Names               Score      Passed_Class   
-##  Min.   :1   Length:5           Min.   :87.0   Mode :logical  
-##  1st Qu.:2   Class :character   1st Qu.:90.0   FALSE:1        
-##  Median :3   Mode  :character   Median :90.0   TRUE :4        
-##  Mean   :3                      Mean   :90.6                  
-##  3rd Qu.:4                      3rd Qu.:92.0                  
-##  Max.   :5                      Max.   :94.0
+##        ID       Names               Score    Passed_Class   
+##  Min.   :1   Length:5           Min.   :88   Mode :logical  
+##  1st Qu.:2   Class :character   1st Qu.:89   FALSE:1        
+##  Median :3   Mode  :character   Median :91   TRUE :4        
+##  Mean   :3                      Mean   :91                  
+##  3rd Qu.:4                      3rd Qu.:93                  
+##  Max.   :5                      Max.   :94
 ```
 
 
@@ -1204,41 +1189,41 @@ We can add columns of data to the data.frame after the fact using the `$`-operat
 You can access individual items within a `data.frame` by numeric index such as:
 
 
-```r
+``` r
 df[1,3]
 ```
 
 ```
-## [1] 94
+## [1] 93
 ```
 
 You can slide indices along rows (which return a new `data.frame` for you)
 
 
-```r
+``` r
 df[1,]
 ```
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    94         TRUE
+## 1  1   Bob    93         TRUE
 ```
 
 or along columns (which give you a vector of data)
 
 
-```r
+``` r
 df[,3]
 ```
 
 ```
-## [1] 94 90 90 87 92
+## [1] 93 94 89 91 88
 ```
 
 or use the `$`-operator as you did for the list data type to get direct access to a either all the data or a specific subset therein.
 
 
-```r
+``` r
 df$Names[3]
 ```
 
@@ -1249,26 +1234,26 @@ df$Names[3]
 Indices are ordered just like for matrices, rows first then columns.  You can also pass a set of indices such as:
 
 
-```r
+``` r
 df[1:3,]
 ```
 
 ```
 ##   ID Names Score Passed_Class
-## 1  1   Bob    94         TRUE
-## 2  2 Alice    90         TRUE
-## 3  3 Vicki    90         TRUE
+## 1  1   Bob    93         TRUE
+## 2  2 Alice    94         TRUE
+## 3  3 Vicki    89         TRUE
 ```
 
 It is also possible to use logical operators as indices.  Here I select only those names in the data.frame whose score was >90 and they passed popgen.
 
 
-```r
+``` r
 df$Names[df$Score > 90 & df$Passed_Class==TRUE]
 ```
 
 ```
-## [1] "Bob"   "Sarah"
+## [1] "Bob"   "Alice"
 ```
 
 
@@ -1283,7 +1268,7 @@ One of the strengths of R as an analysis platform is that it is a language rathe
 Here we look at how to create an R function.  Writing small functions like this is a huge benefit to you as an analyst and this is a great place to start.  A function in R is defined as:
 
 
-```r
+``` r
 function_name <- function( arguments ) { Stuff you want the function to do }
 ```
 
@@ -1294,7 +1279,7 @@ The key to understanding functions is that they are encapsulations of code—a s
 Here is an example of some code that I'm going to develop into a function.  This function will allow me to determine if one genotype could possibly be the offspring of the other genotype.  
 
 
-```r
+``` r
 library(gstudio)
 loc1 <- locus( c(128,130) )
 loc2 <- locus( c(128,128) )
@@ -1309,7 +1294,7 @@ cat( loc1, loc2 )
 We start out with two loci, a `128:130` heterozygote and a `128:128` homozygote.  These may represent repeat motifs at a microsatellite locus or some other co-dominant genotype.  First, I'll break the locus into a vector of genotypes.
 
 
-```r
+``` r
 off.alleles <- alleles( loc1 )
 off.alleles
 ```
@@ -1318,7 +1303,7 @@ off.alleles
 ## [1] "128" "130"
 ```
 
-```r
+``` r
 mom.alleles <- alleles( loc2 )
 mom.alleles
 ```
@@ -1331,7 +1316,7 @@ mom.alleles
 To be a valid potential offspring there should be at least one of the alleles in the parent that matches the allele in the offspring.  The `intersect()` function returns the set of values common to both vectors.
 
 
-```r
+``` r
 shared <- intersect( off.alleles, mom.alleles )
 shared
 ```
@@ -1344,7 +1329,7 @@ shared
 If it has at least one of the alleles present (it could have both if parent and offspring are both the same heterozygote) then you cannot exclude this individual as a potential offspring.  If there are no alleles in common, then the value returned is an empty vector.
 
 
-```r
+``` r
 loc3 <- locus( c(132,132))
 dad.alleles <- alleles( loc3 )
 intersect( mom.alleles, dad.alleles )
@@ -1357,7 +1342,7 @@ intersect( mom.alleles, dad.alleles )
 This logic can be shoved into a function.  You have to wrap it into a set of curly brackets.  I use the length of the result from the intersect() to return from the function.  Potential values for 
 
 
-```r
+``` r
 potential_offspring <- function( parent, offspring ) {
   off <- alleles( offspring )
   par <- alleles( loc2 )
@@ -1368,7 +1353,7 @@ potential_offspring <- function( parent, offspring ) {
 Now, you can call this function anytime you need, just passing it two genotypes.  If they can be offspring it returns TRUE, as in the comparison between 128:130 and 128:128 genotypes.
 
 
-```r
+``` r
 potential_offspring(loc1, loc2)
 ```
 
@@ -1377,7 +1362,7 @@ potential_offspring(loc1, loc2)
 ```
 And it returns FALSE for the comparison between 128:128 and 132:132.
 
-```r
+``` r
 potential_offspring(loc2, loc3)
 ```
 
@@ -1389,14 +1374,14 @@ potential_offspring(loc2, loc3)
 
 There is a lot more information on writing functions and we will get into that as we progress through the text.  However, it is important that I bring this up now.  The value assigned to a variable is defined by its scope.  Consider the following code
 
-```r
+``` r
 x <- 10
 ```
 
 and the function defined as 
 
 
-```r
+``` r
 do_it <- function( x ) {
   x <- x + 10
   return( x )
@@ -1414,7 +1399,7 @@ We interact with our data in many ways and introspection of the values we have i
 The most basic version of decision making is asking a single question and if the answer is TRUE then do something.  The `if(){}` function does this and has the form
 
 
-```r
+``` r
 if( CRITERIA ) {
 	DO_SOMETHING
 }
@@ -1425,7 +1410,7 @@ You pass a logical statement (or something that can be coerced into a logical ty
 Here we can test this out using the loci defined above along with the is_heterozygote() function.  This function takes one or more locus objects and returns TRUE/FALSE if they are or are not a heterozygote.
 
 
-```r
+``` r
 is_heterozygote( c(loc1, loc2) )
 ```
 
@@ -1436,7 +1421,7 @@ is_heterozygote( c(loc1, loc2) )
 If we shove that function into the `if()` parameters we can use its evaluation of the heterozygous state of the locus to do something interesting, say tell us it is a heterozygote—it is admittedly a contrived example, but hey you try to make easy examples, it is not easy.
 
 
-```r
+``` r
 if( is_heterozygote(loc1) ){
   print("It's a het!")
 }
@@ -1449,7 +1434,7 @@ if( is_heterozygote(loc1) ){
 If the `is_heterozygote()` function returns a value of FALSE, then the contents of the `if()` function (the stuff within the curly brackets is skipped entirely.
 
 
-```r
+``` r
 if( is_heterozygote(loc2) ){
   print("It's a het!")
 }
@@ -1460,7 +1445,7 @@ The if-else Pattern
 If there are more than on thing you want to potentially do when making a decision, you can add an else clause after the if pattern.  Here if is_heterozygote() returns FALSE, the contents of the else{} clause will be executed.  Here is the heterozygote example
 
 
-```r
+``` r
 if( is_heterozygote(loc1) ) {
   cat(loc1, "is a heterozygote")
 } else {
@@ -1475,7 +1460,7 @@ if( is_heterozygote(loc1) ) {
 and the homozygote one
 
 
-```r
+``` r
 if( is_heterozygote(loc2) ) {
   cat(loc2, "is a heterozygote")
 } else {
@@ -1490,7 +1475,7 @@ if( is_heterozygote(loc2) ) {
 There is a slightly shorter version of this that is available for the lazy programmer and lets be honest, all programmers are lazy and the more you can accomplish with fewer strokes on the keyboard the better (this is how we got emacs and vim).  I generally don't teach the shortcuts up front, but this one is short and readily apparent so it may be more helpful than confusing.  The `ifelse()` function has three parts, the condition, the result if `TRUE`, and the result if `FALSE`.
 
 
-```r
+``` r
 ans <- ifelse( is_heterozygote( c(loc1, loc2)) , "heterozygote", "Not")
 ans
 ```
@@ -1512,7 +1497,7 @@ It is possible to test many conditions in a single sequence by stringing togethe
 Here is the function.
 
 
-```r
+``` r
 which_is_het <- function( A, B) {
   if( is_heterozygote(A) & !is_heterozygote(B) ) {
     print("First is heterozygote")
@@ -1535,7 +1520,7 @@ Flow control is the process of iterating across objects and perhaps doing operat
 ##### a. The `for()` Loop {-}
 
 
-```r
+``` r
 x <- c(3,8,5,4,6)
 x
 ```
@@ -1547,7 +1532,7 @@ x
 You can iterate through this vector using a for() loop.  This is a simple function that has the form:
 
 
-```r
+``` r
 for( SOME_SEQUENCE ){
   DO_SOMETHING
 }
@@ -1557,7 +1542,7 @@ for( SOME_SEQUENCE ){
 Where the `SOME_SEQUENCE` component is a sequence of values either specified OR calculated and the `DO_SOMETHING` is the thing you want to do with each of the values in the sequence.  Usually, there is a variable defined in the `SOME_SEQUENCE` component and the value of that variable is used.  Here are a few examples. The first goes through the existing vector directly and assigns (in sequential order) the entries of ‘x' to the variable val. We can then do whatever we want with the value in val (though if we change it, nothing happens to the original x vector).
 
 
-```r
+``` r
 for( val in x ){
   print(val)
 }
@@ -1574,7 +1559,7 @@ for( val in x ){
 We can also specify a sequence directly and then use it as an index.  Here I use an index variable named i to take on the integer seqeunce equal in length to the length of the original `x` variable.  Then I can iterate through the original vector and use that index variable to grab the value I want.
 
 
-```r
+``` r
 for( i in 1:length(x)){
   print( x[i] )
 }
@@ -1592,7 +1577,7 @@ for( i in 1:length(x)){
 Both give us the same output, namely a way to go through the variable `x`. However, there may be a need to use the latter approach in your calculations.  For example, perhaps I want to do some other operation on the values.  In this very contrived example that follows, I want to perform operations on the values in `x` depending on if they are even or odd.  For the odd ones, I add the corresponding value in `y` and if not I subtract it.  Sure, this is totally contrived and I cannot think of a reason why I would be doing this, but if I need to know what index (row, column or whatever) an entry is during the iteration process, then I need to use this approach over the `for( val in x)` approach.
 
 
-```r
+``` r
 y <- 1:5
 for( i in 1:length(x)){
   if( x[i] %% 2)
@@ -1617,7 +1602,7 @@ It is possible to short circuit the looping process using the keywords next and 
 The next keyword basically stops all commands after that during the current iteration of the loop.  It does not terminate the loop itself, it just stops the commands that follow it this time through.  Here is an example that uses the modulus operator, `%%` (e.g., the remainder after division), to print out only those numbers that are divisible by three.
 
 
-```r
+``` r
 for( i in 1:20 ){
   if( i %% 3 )
     next
@@ -1637,7 +1622,7 @@ for( i in 1:20 ){
 The use of break to exit the loop entirely is perhaps more commonly encountered.  When this keyword is encountered, the loop terminates immediately, as if it reached the send of the sequence.  
 
 
-```r
+``` r
 for( i in 1:10){
   if( i > 2 )
     break
@@ -1683,7 +1668,7 @@ One of the most critical features of data analysis is the ability to present you
 We are going to use the venerable iris dataset that was used by Anderson (1935) and Fisher (1936). These data are measurements of four morphological variables (Sepal Length, Sepal Width, Petal Length, and Petal Width) measured on fifty individual iris plants from three recognized species.  Here is a summary of this data set.
 
 
-```r
+``` r
 summary(iris)
 ```
 
@@ -1717,7 +1702,7 @@ In the normal plotting routines discussed before, configuration of these layers 
 Required packages:
 
 
-```r
+``` r
 library(ggplot2)
 library(RColorBrewer)
 ```
@@ -1729,7 +1714,7 @@ library(RColorBrewer)
 Univariate data can represent either counts (e.g., integers) of items or vectors of data that have decimal components (e.g., frequency distributions, etc.).  If the sampling units are discrete, then a the `barplot()` function can make a nice visual representation.  Here is an example using some fictions data.
 
 
-```r
+``` r
 x <- c(2, 3, 6, 3, 2, 4)
 names(x) <- c("Bob", "Alice", "Jane", "Fred", "Barney", "Lucy")
 x
@@ -1743,24 +1728,24 @@ x
 From this, a barplot can be constructed where the x-axis has discrete entities for each name and the y-axis represents the magnitude of whatever it is we are measuring.
 
 
-```r
+``` r
 barplot(x, xlab = "People", ylab = "Thinn-A-Ma-Jigs")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-242-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-242-1.png" alt="" width="672" />
 
 Notice here that I included labels for both the x- and y-axes.  You do this by inserting these arguments into the parameters passed to the `barplot()` (it is the same for all built-in plotting as we will see below).
 
 To use `ggplot` for displaying this, you have to present the data in a slightly different way.  There are shortcuts using the `qplot()` function but I prefer to use the more verbose approach.  Here is how we would plot the same output using ggplot.
 
 
-```r
+``` r
 library(ggplot2)
 df <- data.frame(Thinn_A_Ma_Jigs=x,names=names(x))
 ggplot( df, aes(x=names,y=Thinn_A_Ma_Jigs)) + geom_bar(stat="identity")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-243-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-243-1.png" alt="" width="672" />
 
 There are a couple of things to point out about this.   
 
@@ -1773,16 +1758,16 @@ There are a couple of things to point out about this.
 If the data on the x-axis is not discrete but measured on a single variable, then the `hist()` function can take the data and categorize it into groups based upon the density of the underlying data.
 
 
-```r
+``` r
 h <- hist(iris$Sepal.Length)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-244-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-244-1.png" alt="" width="672" />
 
 The `hist()` function itself returns a bit of information that may be of interest.  It is not necessary that you capture these data, R will ignore it if you do not assign it to a variable.  What is of interest though is that it returns a `list()` object with the following keys:
 
 
-```r
+``` r
 names(h)
 ```
 
@@ -1793,7 +1778,7 @@ names(h)
 The data within these keys can be accessed directly as:
 
 
-```r
+``` r
 h
 ```
 
@@ -1826,11 +1811,11 @@ and provide the basic information on how to construct the histogram as shown bel
 The corresponding `ggplot` approach is
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Length)) + geom_bar()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-247-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-247-1.png" alt="" width="672" />
 
 which also takes a few liberties with the default binning parameters.  
 
@@ -1847,12 +1832,12 @@ Additional options are given in tabular form in the next section.
 Here is another plot of the same data but spiffied up a bit. 
 
 
-```r
+``` r
 x <- hist( iris$Sepal.Length,xlab="Sepal Length (cm)", 
            ylab="Count", main="", col="lightblue")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-248-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-248-1.png" alt="" width="672" />
 
 A few things to notice:
 
@@ -1862,12 +1847,12 @@ A few things to notice:
 In `ggplot` we add those additional components either to the geometry where it is defined (e.g., the color in the geom_bar) or to the overall plot (as in the addition of labels on the axes).
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Length)) + geom_bar(fill="lightblue") + 
   xlab("Sepal Length (cm)") + ylab("Count")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-249-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-249-1.png" alt="" width="672" />
 
 
 #### 2.2. Plotting Parameters {-}
@@ -1899,15 +1884,15 @@ ylab     | ylab="Frequency" | Sets the label attached to the y-axis.
 Another way of looking at the distribution of univariate data is through the use of the `density()` function. This function takes a vector of values and creates a probability density function of it returning an object of class "density". 
 
 
-```r
+``` r
 d <- density( iris$Sepal.Length) 
 attributes(d)
 ```
 
 ```
 ## $names
-## [1] "x"         "y"         "bw"        "n"         "call"      "data.name"
-## [7] "has.na"   
+## [1] "x"          "y"          "bw"         "n"          "old.coords"
+## [6] "call"       "data.name"  "has.na"    
 ## 
 ## $class
 ## [1] "density"
@@ -1918,22 +1903,22 @@ The `density()` function takes the univariate data and fits its density (interna
 A plot can be produced using d as the variables as follows (with a bit of extra plotting parameters as depicted in the previous table).
 
 
-```r
+``` r
 plot( d, col = "red", lwd = 2, 
       xlab = "Value of X", ylab = "Frequency", 
       bty = "n", main = "Density Plot")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-251-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-251-1.png" alt="" width="672" />
 
 The corresponding `ggplot` approach is:
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Length)) + geom_density()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-252-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-252-1.png" alt="" width="672" />
 
 ### 3. Bivariate plots {-}
 
@@ -1944,14 +1929,14 @@ The data in the previous density plot represents the sepal lengths across all th
 Lets look at the data and see if the mean length differs across species. I do this using the `by()` command, which takes three parameters; the first parameter is the raw data you want to examine, the second one is the way you would like to partition that data, and the third one is the function you want to call on those groupings of raw data.  This general form
 
 
-```r
+``` r
 by( data, grouping, function )
 ```
 
 mixing both data and functions to be used, is pretty common in R and you will see it over and over again.  The generic call below asks to take the sepal data and partition it by species and estimate the mean.
 
 
-```r
+``` r
 by( iris$Sepal.Length, iris$Species, mean)
 ```
 
@@ -1969,7 +1954,7 @@ by( iris$Sepal.Length, iris$Species, mean)
 So there may be differences.  Lets pull the data out and create density plots for each.
 
 
-```r
+``` r
 d.setosa <- iris$Sepal.Length[ iris$Species=="setosa" ]
 d.versicolor <- iris$Sepal.Length[ iris$Species=="versicolor" ]
 d.virginica <- iris$Sepal.Length[ iris$Species=="virginica" ]
@@ -1983,7 +1968,7 @@ I can now plot the densities independently.  After the first `plot()` function i
 Here I plot the setosa data first, specify the `xlim` (limits of the x-axis), set the color, and labels.  On subsequent plotting calls, I do not specify labels but set alternative colors.  Then a nice legend is placed on the graph, the coordinates of which are specified on the values of the x- and y-axis (I also dislike the boxes around graphic so I remove them as well with `bty="n"`).
 
 
-```r
+``` r
 plot(d.se,xlim=c(4,8),col="red", lwd=2, bty="n", 
      xlab="Sepal Length (cm)", main="Sepal Lengths")
 lines( d.ve, xlim=c(4,8), col="green",lwd=2, bty="n")
@@ -1992,32 +1977,32 @@ legend( 6.5,1.1,c("I. setosa", "I. versicolor", "I. virginica"),
         col=c("red","green","blue"), lwd=2,bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-256-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-256-1.png" alt="" width="672" />
 
 A lot of that background material is unnecessary using `geom_density()` because we can specify to the plotting commands that the data are partitioned by the values contained in the `Species` column of the `data.frame`. This allows us to make this plot
 
 
-```r
+``` r
 ggplot(iris, aes(Sepal.Length,color=Species)) + geom_density()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-257-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-257-1.png" alt="" width="672" />
 
 or a correpsonding one using `fill=Species` instead (I set the alpha transparency to allow you to see the plots in the background).
 
 
-```r
+``` r
 ggplot(iris, aes(Sepal.Length,fill=Species)) + geom_density( alpha=0.8)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-258-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-258-1.png" alt="" width="672" />
 
 We can use the `barplot()` function here as well and either stack or stagger the density of sepal lengths using discrete bars.   
 
 Here I make a matrix of bins using the `hist()` function with a specified set of breaks and then use it to plot discrete bin counts using the `barplot()` function.  I include this example here because there are times when you want to produce a stacked bar plot (rarely) or a staggered barplot (more common) for some univariate data source and I always forget how to specifically do that.
 
 
-```r
+``` r
 breaks <- seq(4,8,by=0.2)
 h.se <- hist(d.setosa, breaks=breaks, plot = FALSE)
 h.ve <- hist(d.versicolor, breaks=breaks, plot=FALSE)
@@ -2042,21 +2027,21 @@ vals
 The matrix of data 
 
 
-```r
+``` r
 barplot(vals,xlab="Sepal Length", ylab="Frequency")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-260-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-260-1.png" alt="" width="672" />
 
 Stacked barplots may or may not be that informative, depending upon the complexity of your underlying data.  It is helpful though to be able to stagger them.  In the basic `barplot()` function allows you to specify the bars to be spaced beside each other as:
 
 
-```r
+``` r
 barplot(vals,xlab="Sepal Length", ylab="Frequency", col=c("red","green","blue"), beside=TRUE)
 legend(60, 10, c("I. setosa", "I. versicolor", "I. virginica"), fill = c("red", "green", "blue"), bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-261-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-261-1.png" alt="" width="672" />
 
 For plotting onto a barplot object, the x-axis number is not based upon the labels on the x-axis. It is an integer that relates to the number of bar-widths and separations. In this example, there are three bars for each category plus one separator (e.g., the area between two categories). So I had to plot the legend at 60 units on the x-coordinate, which puts it just after the 15th category (e.g., 15*4=60).
 
@@ -2064,28 +2049,28 @@ For plotting onto a barplot object, the x-axis number is not based upon the labe
 We can do the same thing with `geom_histogram()`, though again with a bit less typing involved.  Here is the raw plot (which by default stacks just like in the `barplot()` example)
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Length, fill=Species)) + geom_histogram()
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-262-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-262-1.png" alt="" width="672" />
 
 and the correspondingly staggered plot with bars positioned next to eachother.
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Length, fill=Species)) + geom_histogram(position="dodge")
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-263-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-263-1.png" alt="" width="672" />
 
 Notice how we add the fill color to the `aes()` function because the categories for assigning colors will be extracted from the `data.frame`, whereas when we just wanted to set them all light blue, the color is specified outside the `aes()` function.  Also notice when we specify something to the `aes()` command in this way, we do not quote the name of the column, we call it just as if it were a normal variable.
 
@@ -2105,33 +2090,33 @@ The default display for boxplots in R provides the requires a factor and a numer
 Here is how the sepal length can be plot as a function of the Iris species.
 
 
-```r
+``` r
 boxplot(Sepal.Length ~ Species, data=iris, notch=TRUE, 
         xlab="Species", ylab="Sepal Length (cm)", 
         frame.plot=FALSE)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-264-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-264-1.png" alt="" width="672" />
 
 A couple of things should be noted on this plot call.  First, I used a ‘functional' form for the relationship between the continuous variable (`Sepal.Length`) and the factor (`Species`) with the response variable indicated on the left side of the tilde and the predictor variables on the right side.  It is just as reasonable to use `boxplot(Species,Sepal.Length, ...)` in the call as x- and y- variables in the first two positions.  However, it reads a bit better to do it as a function, like a regression.  Also, it should be noted that I added the optional term, `data=iris`, to the call.  This allowed me to reference the columns in the iris data.frame without the dollar sign notation.  Without that I would have had to write `boxplot( data$Sepal.Length ~ data$Species, ...)`, a much more verbose way of doing it but most programmers are relatively lazy and anything they can do to get more functionality out of less typing...  Finally, I set `frame.plot=FALSE` to remove the box around the plot since the `bty="n"` does not work on boxplots (big shout out for consistency!).  I don't know why these are different, I just hate the box.
 
 The corresponding `ggplot` approach is the same as the `boxplot()` one, we just have to specify the `notch=TRUE` in the `geom_boxplot()` function.
 
 
-```r
+``` r
 ggplot(iris, aes(x=Species, y=Sepal.Length)) + 
   geom_boxplot(notch = TRUE) + 
   xlab("Iris Species") + ylab("Sepal Width (cm)")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-265-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-265-1.png" alt="" width="672" />
 
 #### 3.3. Scatter Plots {-}
 
 With two sets of continuous data, we can produce scatter plots.  These consist of 2- (or 3-) coordinates where we can plot our data.  With the addition of alternative colors (`col=`) and/or plot shapes (`pch=`) passed to the generic plot() command, we can make really informative graphical output. Here I plot two characteristics of the iris data set, sepal length and width, and use the species to indicate alternative symbols.
 
 
-```r
+``` r
 plot( iris$Sepal.Length, iris$Sepal.Width, 
       pch=as.numeric(iris$Species), bty="n", 
       xlab="Sepal Length (cm)", ylab="Sepal Width (cm)")
@@ -2139,27 +2124,27 @@ legend( 6.75, 4.3, c("I. setosa", "I. versicolor", "I. virginica"),
         pch=1:3, bty="n")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-266-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-266-1.png" alt="" width="672" />
 
 The call to `pch=` that I used coerced a factor into a numeric data type.  By default, this will create a numeric sequence (starting at 1) for all levels of the factor, including ones that may not be in the data you are doing the conversion on.  The parameter passed to `pch` is an integer that determines the shape of the symbol being plot. I typically forget which numbers correspond to which symbols (there are 25 of them in total ) and have to look them up when I need them.  One of the easiest ways is just to plot them as:
 
 
-```r
+``` r
 plot(1:25,1:25,pch=1:25, bty="n", xlab="pch", ylab="pch")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-267-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-267-1.png" alt="" width="672" />
 
 which produces the following figure where you can choose the appropriate symbols for your plotting needs.
 
 A scatter plot in `ggplot` is created using the `geom_point()` layer.
 
 
-```r
+``` r
 ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width, shape=Species)) + geom_point()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-268-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-268-1.png" alt="" width="672" />
 
 and the shapes are specified automatically.
 
@@ -2172,13 +2157,13 @@ The last figure was a bit confusing.  You can see a few points where the three s
 In `ggplot`, there is a facet geometry that can be added to a plot that can pull apart the individual species plots (in this case) and plot them either next to each other (if you are looking at y-axis differences), on top of each other (for x-axis comparisons), or as a grid (for both x- and y- axis comparisons).  This layer is added to the plot using `facet_grid()` and take a functional argument (as I used for the boxplot example above) on which factors will define rows and columns of plots.  Here is an example where I stack plots by species.
 
 
-```r
+``` r
 ggplot( iris, aes(x=Sepal.Width, y=Sepal.Length ) ) + 
   geom_point() + facet_grid(Species~.) + 
   xlab("Sepal Width (cm)") + ylab("Sepal Length")
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-269-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-269-1.png" alt="" width="672" />
 
 The `Species ~ .` means that the rows will be defined by the levels indicatd in `iris$Species` and all the plotting (the period part) will be done as columns.  If you have more than one factor, you can specify `RowFactor ~ ColumnFactor` and it will make the corresponding grid. 
 
@@ -2187,7 +2172,7 @@ I would argue that this is a much more intuitive display of differences in width
 You can achieve a similar effect using built-in plotting functions as well.  To do this, we need to mess around a bit with the plotting attributes.  These are default parameters (hence the name `par`) for plotting that are used each time we make a new graphic.  Here are all of them (consult with the previous Table for some of the meanings).
 
 
-```r
+``` r
 names( par() )
 ```
 
@@ -2209,7 +2194,7 @@ names( par() )
 To create multiple plots on one graphic, we need to modify either the mfrow or mfcol property (either will do).  They represent the number of figures to plot as a 2-integer vector for rows and columns.  By default, it is set to
 
 
-```r
+``` r
 par()$mfrow
 ```
 
@@ -2220,12 +2205,12 @@ par()$mfrow
 because there is only 1 row and 1 column in the plot.  To change this, we simply pass a new value to the `par()` command and then do the plotting.  In the following example, I plot the results of a linear model (`lm()`) function call. This returns four plots looking at the normality of the data, residuals, etc.  This time, instead of seeing them one at a time, I'm going to plot all four into one figure.
 
 
-```r
+``` r
 par(mfrow=c(2,2))
 plot( lm( Sepal.Length ~ Sepal.Width, data=iris))
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-272-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-272-1.png" alt="" width="672" />
 
 
 #### 4.2. Color Palettes {-}
@@ -2233,7 +2218,7 @@ plot( lm( Sepal.Length ~ Sepal.Width, data=iris))
 The default plotting colors in R are black and white.  However, there is a rich set of colors available for your plotting needs.  The easiest set are named colors.  At the time of this writing, there are 
 
 
-```r
+``` r
 length(colors())
 ```
 
@@ -2244,22 +2229,22 @@ length(colors())
 different colors available for your use. Not all are distinct as some overlap.  However the benefit of these colors is that they have specific names, making it easier for you to remember than RGB or hex representations.  Here are a random set of 20 color names.
 
 
-```r
+``` r
 colors()[ sample.int( length(colors()), size=20) ]
 ```
 
 ```
-##  [1] "khaki1"          "purple2"         "royalblue"       "grey"           
-##  [5] "royalblue3"      "lightgoldenrod"  "grey75"          "darkolivegreen4"
-##  [9] "honeydew"        "mediumblue"      "seashell4"       "orangered"      
-## [13] "brown"           "gray35"          "tomato3"         "royalblue1"     
-## [17] "lightgray"       "deepskyblue2"    "paleturquoise"   "gray71"
+##  [1] "gray75"         "orchid4"        "grey62"         "khaki1"        
+##  [5] "darkslategray2" "gray61"         "grey39"         "gray45"        
+##  [9] "gray43"         "grey94"         "darkcyan"       "grey58"        
+## [13] "plum1"          "deepskyblue1"   "grey40"         "indianred3"    
+## [17] "ivory1"         "darkslategray4" "burlywood2"     "darkseagreen3"
 ```
 
 To use these colors you can call them by name in the col= option to a plot.  Here is an example where I define three named colors and then coerce the `iris$Species` variable into an integer to select the color by species and plot it in a scatter plot (another version of the `pch=` example previously).
 
 
-```r
+``` r
 colors <- c("royalblue1", "orange1", "green3")
 cols <- colors[ iris$Species ]
 plot( Sepal.Width ~ Sepal.Length, data=iris, 
@@ -2267,7 +2252,7 @@ plot( Sepal.Width ~ Sepal.Length, data=iris,
       bty="n", pch=16)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-275-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-275-1.png" alt="" width="672" />
 
 
 There is a lot of colors to choose from, and you are undoubtedly able to fit any color scheme on any presentation you may encounter.
@@ -2285,7 +2270,7 @@ and are displayed in the following figure.
 The individual palette functions return the hex value for an equally separated number of colors along the palette, you only need to ask for the number of colors you are requesting.  Here is an example from the `rainbow()` function.
 
 
-```r
+``` r
 rainbow(10)
 ```
 
@@ -2302,25 +2287,25 @@ The ggplot2 library has a slightly more interesting color palette, but it too is
 To start, the RColorBrewer library provides several palettes for plotting either quantitative, qualitative, or divergent data.  These three groups and the names of individual color palettes can be viewed as:
 
 
-```r
+``` r
 library(RColorBrewer)
 display.brewer.all()
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-277-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-277-1.png" alt="" width="672" />
 
 In ggplot, we can use these palettes as follows.
 
 You can change the default palette in ggplot output adding the `scale_color_brewer()` (and `scale_fill_brewer()` if you are doing fill colors like in a barplot) to the plot.  Here is an example where I change the default palette to the 6th divergent palette.
 
 
-```r
+``` r
 p <- ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width, color=Species)) + geom_point() 
 p <- p + xlab("Sepal Length (cm)") + ylab("Sepal Width (cm)")
 p + scale_color_brewer(type="div", palette=6)
 ```
 
-<img src="00-ReviewR_files/figure-html/unnamed-chunk-278-1.png" width="672" />
+<img src="00-ReviewR_files/figure-html/unnamed-chunk-278-1.png" alt="" width="672" />
 
 
 #### 4.4. Saving Imagery {-}
@@ -2352,7 +2337,7 @@ These are the default values.  If you need a transparent background, it is easie
 To create the image, call the appropriate function above, and a file will be created for your plotting.  You must then call the plotting functions to create your graphic.  Instead of showing up in a graphical display window, they will instead be plot to the file. When done you must tell R that your plotting is now finished and it can close the graphics file.  This is done by calling dev.off().  Here is an example workflow saving an image of a scatter plot with a smoothed line through it using ggplot.
 
 
-```r
+``` r
 png( filename = "MyCoolGraphic.png", quality=300, bg="transparent", width=1080, height=1080)
 ggplot( df, aes(x=PredictorVar, y=ResponseVar)) + geom_point() + stat_smooth(method="loess") + theme_bw()
 dev.off()
@@ -2363,7 +2348,7 @@ This will create a file MyCoolGraphic.png saved in the same folder as the curren
 To use `dev.copy()` instead, you first make the graphic and then copy the current graphic to a file.  For this example, it would be:
 
 
-```r
+``` r
 ggplot( df, aes(x=PredictorVar, y=ResponseVar)) + geom_point() + stat_smooth(method="loess") + theme_bw()
 dev.copy(device=png,file="MyDevCopyGraphic.png")
 dev.off()
@@ -2374,7 +2359,7 @@ In general, I prefer the first method as it allows me to specify the specifics o
 If you are using ggplot2 graphics, there is a built-in function ggsave() that can also be used to save your currently displaying graphic (or others if you so specify) to file.  Here are the specifics on that function call.
 
 
-```r
+``` r
 ggsave(filename = default_name(plot), plot = last_plot(),
   device = default_device(filename), path = NULL, scale = 1,
   width = par("din")[1], height = par("din")[2], units = c("in", "cm",

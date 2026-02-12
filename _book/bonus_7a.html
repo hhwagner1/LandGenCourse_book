@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.4 Bonus: Si index | Landscape Genetic Data Analysis with R</title>
+  <title>10.5 Bonus: Si index | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.4 Bonus: Si index | Landscape Genetic Data Analysis with R" />
+  <meta property="og:title" content="10.5 Bonus: Si index | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.4 Bonus: Si index | Landscape Genetic Data Analysis with R" />
+  <meta name="twitter:title" content="10.5 Bonus: Si index | Landscape Genetic Data Analysis with R" />
   
   <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2024-01-25" />
+<meta name="date" content="2026-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="r-exercise-week-7.html"/>
 <link rel="next" href="Week8.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,6 +54,9 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -61,21 +64,21 @@
 <script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
 <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
-<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
-<script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
+<link href="libs/highlight-11.10.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-11.10.0/highlight.min.js"></script>
+<script src="libs/profvis-binding-0.4.0/profvis.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,7 +88,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -215,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Lab 1: Importing Genetic Data</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
@@ -236,9 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
@@ -258,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -268,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Lab 3: Genetic Diversity</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
@@ -285,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
 <li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Lab 4: Metapopulations</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
 <ul>
@@ -331,9 +334,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
 <ul>
@@ -357,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Lab 7: Spatial Linear Models</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
 <ul>
@@ -384,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -393,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Lab 8: Simulation Experiments</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
@@ -415,11 +418,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
 <ul>
@@ -429,75 +432,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
+<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
-<ul>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
+<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
+<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -520,8 +476,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bonus_7a" class="section level2 hasAnchor" number="10.4">
-<h2><span class="header-section-number">10.4</span> Bonus: Si index<a href="bonus_7a.html#bonus_7a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="bonus_7a" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Bonus: Si index<a href="bonus_7a.html#bonus_7a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Yessica Rico and Helene Wagner</p>
 <div id="overview-of-bonus-materials" class="section level3 unnumbered hasAnchor">
 <h3>1. Overview of Bonus Materials<a href="bonus_7a.html#overview-of-bonus-materials" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -541,9 +497,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>pop09</strong>: population size in 2009 (categorical, 4 levels, see below).</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb921-1"><a href="bonus_7a.html#cb921-1" tabindex="-1"></a><span class="co">#library(tibble)</span></span>
-<span id="cb921-2"><a href="bonus_7a.html#cb921-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb921-3"><a href="bonus_7a.html#cb921-3" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span></code></pre></div>
+<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb915-1"><a href="bonus_7a.html#cb915-1" tabindex="-1"></a><span class="co">#library(tibble)</span></span>
+<span id="cb915-2"><a href="bonus_7a.html#cb915-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb915-3"><a href="bonus_7a.html#cb915-3" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span></code></pre></div>
 </div>
 <div id="import-ecological-distance-matrices" class="section level3 unnumbered hasAnchor">
 <h3>2. Import ecological distance matrices<a href="bonus_7a.html#import-ecological-distance-matrices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -557,10 +513,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Forest</strong>: This model is similar to Eu but considers forest as a barrier.</li>
 </ul>
 <p>Here, we import these distance matrices as a list of <code>dist</code> objects and check their names and dimensions: each has 106 rows and columns.</p>
-<div class="sourceCode" id="cb922"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb922-1"><a href="bonus_7a.html#cb922-1" tabindex="-1"></a>dModels <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dModels.rds&quot;</span>, </span>
-<span id="cb922-2"><a href="bonus_7a.html#cb922-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)) </span>
-<span id="cb922-3"><a href="bonus_7a.html#cb922-3" tabindex="-1"></a></span>
-<span id="cb922-4"><a href="bonus_7a.html#cb922-4" tabindex="-1"></a><span class="fu">lapply</span>(dModels, <span class="cf">function</span>(ls) <span class="fu">dim</span>(<span class="fu">as.matrix</span>(ls)))</span></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb916-1"><a href="bonus_7a.html#cb916-1" tabindex="-1"></a>dModels <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dModels.rds&quot;</span>, </span>
+<span id="cb916-2"><a href="bonus_7a.html#cb916-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>)) </span>
+<span id="cb916-3"><a href="bonus_7a.html#cb916-3" tabindex="-1"></a></span>
+<span id="cb916-4"><a href="bonus_7a.html#cb916-4" tabindex="-1"></a><span class="fu">lapply</span>(dModels, <span class="cf">function</span>(ls) <span class="fu">dim</span>(<span class="fu">as.matrix</span>(ls)))</span></code></pre></div>
 <pre><code>## $Eu
 ## [1] 106 106
 ## 
@@ -581,10 +537,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>3. Optimize the scaling parameter alpha<a href="bonus_7a.html#optimize-the-scaling-parameter-alpha" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In order to calculate Hanski’s index, we first need to optimize the value of alpha for each distance model, using presence-absence data for the two time steps of 1989 and 2009.</p>
 <p>Import the patch-level data for all 106 patches in the study area.</p>
-<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb924-1"><a href="bonus_7a.html#cb924-1" tabindex="-1"></a>Patches <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;PATCH_XY_Dianthus.csv&quot;</span>, </span>
-<span id="cb924-2"><a href="bonus_7a.html#cb924-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
-<span id="cb924-3"><a href="bonus_7a.html#cb924-3" tabindex="-1"></a>         <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb924-4"><a href="bonus_7a.html#cb924-4" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(Patches)</span></code></pre></div>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb918-1"><a href="bonus_7a.html#cb918-1" tabindex="-1"></a>Patches <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;PATCH_XY_Dianthus.csv&quot;</span>, </span>
+<span id="cb918-2"><a href="bonus_7a.html#cb918-2" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>),</span>
+<span id="cb918-3"><a href="bonus_7a.html#cb918-3" tabindex="-1"></a>         <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb918-4"><a href="bonus_7a.html#cb918-4" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(Patches)</span></code></pre></div>
 <pre><code>## # A tibble: 106 × 20
 ##    patch    id Elements2008 Elements2008.4 cat   type      Ha   area        x
 ##    &lt;chr&gt; &lt;int&gt;        &lt;int&gt;          &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
@@ -603,10 +559,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #   pj08 &lt;dbl&gt;, pj89 &lt;dbl&gt;, pop09 &lt;int&gt;, grazing &lt;int&gt;, Dc.89 &lt;int&gt;,
 ## #   Dc.09 &lt;int&gt;, Sampled &lt;int&gt;</code></pre>
 <p>Check that the patch IDs match between <code>Patches</code> and the distance matrices. Here we tabulate the number of rows for which the patch names match perfectly. This is the case for all 106 rows, which is great.</p>
-<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb926-1"><a href="bonus_7a.html#cb926-1" tabindex="-1"></a><span class="fu">table</span>(Patches<span class="sc">$</span>patch <span class="sc">==</span> <span class="fu">rownames</span>(dModels<span class="sc">$</span>Eu))</span></code></pre></div>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb920-1"><a href="bonus_7a.html#cb920-1" tabindex="-1"></a><span class="fu">table</span>(Patches<span class="sc">$</span>patch <span class="sc">==</span> <span class="fu">rownames</span>(dModels<span class="sc">$</span>Eu))</span></code></pre></div>
 <pre><code>## 
-## FALSE  TRUE 
-##   105     1</code></pre>
+## TRUE 
+##  106</code></pre>
 <p>The function ‘get.alphafit’ optimizes alpha for each model and stores the values in table ’table.alpha.</p>
 <ul>
 <li>First, we create an empty matrix (with a single column and five rows, one per model) to hold the optimized alpha value for each model (i.e., for each distance matrix).</li>
@@ -619,36 +575,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>Op</code>: number of surveys (out of two) that the species was recorded in the patch.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="bonus_7a.html#cb928-1" tabindex="-1"></a>table.alpha <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span><span class="dv">5</span>)</span>
-<span id="cb928-2"><a href="bonus_7a.html#cb928-2" tabindex="-1"></a><span class="fu">dimnames</span>(table.alpha) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">models=</span>(<span class="fu">names</span>(dModels)))</span>
-<span id="cb928-3"><a href="bonus_7a.html#cb928-3" tabindex="-1"></a></span>
-<span id="cb928-4"><a href="bonus_7a.html#cb928-4" tabindex="-1"></a>nseq <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb928-5"><a href="bonus_7a.html#cb928-5" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="fl">2.5</span>, <span class="at">length =</span> nseq)</span>
-<span id="cb928-6"><a href="bonus_7a.html#cb928-6" tabindex="-1"></a></span>
-<span id="cb928-7"><a href="bonus_7a.html#cb928-7" tabindex="-1"></a>get.alphafit <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, d, pj, Op)</span>
-<span id="cb928-8"><a href="bonus_7a.html#cb928-8" tabindex="-1"></a>{</span>
-<span id="cb928-9"><a href="bonus_7a.html#cb928-9" tabindex="-1"></a>  expo<span class="ot">&lt;-</span><span class="fu">exp</span>(<span class="sc">-</span>alpha<span class="sc">*</span> d )</span>
-<span id="cb928-10"><a href="bonus_7a.html#cb928-10" tabindex="-1"></a>  <span class="fu">diag</span>(expo)<span class="ot">&lt;-</span><span class="dv">0</span></span>
-<span id="cb928-11"><a href="bonus_7a.html#cb928-11" tabindex="-1"></a>  matr<span class="ot">&lt;-</span><span class="fu">sweep</span>(expo,<span class="dv">2</span>, pj, <span class="st">&quot;*&quot;</span>)</span>
-<span id="cb928-12"><a href="bonus_7a.html#cb928-12" tabindex="-1"></a>  Si <span class="ot">&lt;-</span><span class="fu">rowSums</span>(<span class="fu">sweep</span>(matr, <span class="dv">2</span>, Op<span class="sc">/</span><span class="dv">2</span>, <span class="st">&quot;*&quot;</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb928-13"><a href="bonus_7a.html#cb928-13" tabindex="-1"></a>  mod<span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(Op,<span class="dv">2</span> <span class="sc">-</span>Op) <span class="sc">~</span> Si, <span class="at">family=</span>binomial)</span>
-<span id="cb928-14"><a href="bonus_7a.html#cb928-14" tabindex="-1"></a>  <span class="fu">deviance</span>(mod)</span>
-<span id="cb928-15"><a href="bonus_7a.html#cb928-15" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb922"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb922-1"><a href="bonus_7a.html#cb922-1" tabindex="-1"></a>table.alpha <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span><span class="dv">5</span>)</span>
+<span id="cb922-2"><a href="bonus_7a.html#cb922-2" tabindex="-1"></a><span class="fu">dimnames</span>(table.alpha) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">models=</span>(<span class="fu">names</span>(dModels)))</span>
+<span id="cb922-3"><a href="bonus_7a.html#cb922-3" tabindex="-1"></a></span>
+<span id="cb922-4"><a href="bonus_7a.html#cb922-4" tabindex="-1"></a>nseq <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb922-5"><a href="bonus_7a.html#cb922-5" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="fl">2.5</span>, <span class="at">length =</span> nseq)</span>
+<span id="cb922-6"><a href="bonus_7a.html#cb922-6" tabindex="-1"></a></span>
+<span id="cb922-7"><a href="bonus_7a.html#cb922-7" tabindex="-1"></a>get.alphafit <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, d, pj, Op)</span>
+<span id="cb922-8"><a href="bonus_7a.html#cb922-8" tabindex="-1"></a>{</span>
+<span id="cb922-9"><a href="bonus_7a.html#cb922-9" tabindex="-1"></a>  expo<span class="ot">&lt;-</span><span class="fu">exp</span>(<span class="sc">-</span>alpha<span class="sc">*</span> d )</span>
+<span id="cb922-10"><a href="bonus_7a.html#cb922-10" tabindex="-1"></a>  <span class="fu">diag</span>(expo)<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb922-11"><a href="bonus_7a.html#cb922-11" tabindex="-1"></a>  matr<span class="ot">&lt;-</span><span class="fu">sweep</span>(expo,<span class="dv">2</span>, pj, <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb922-12"><a href="bonus_7a.html#cb922-12" tabindex="-1"></a>  Si <span class="ot">&lt;-</span><span class="fu">rowSums</span>(<span class="fu">sweep</span>(matr, <span class="dv">2</span>, Op<span class="sc">/</span><span class="dv">2</span>, <span class="st">&quot;*&quot;</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb922-13"><a href="bonus_7a.html#cb922-13" tabindex="-1"></a>  mod<span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(Op,<span class="dv">2</span> <span class="sc">-</span>Op) <span class="sc">~</span> Si, <span class="at">family=</span>binomial)</span>
+<span id="cb922-14"><a href="bonus_7a.html#cb922-14" tabindex="-1"></a>  <span class="fu">deviance</span>(mod)</span>
+<span id="cb922-15"><a href="bonus_7a.html#cb922-15" tabindex="-1"></a>}</span></code></pre></div>
 <p>Apply the function to optimize alpha.</p>
-<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb929-1"><a href="bonus_7a.html#cb929-1" tabindex="-1"></a>pj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span></span>
-<span id="cb929-2"><a href="bonus_7a.html#cb929-2" tabindex="-1"></a>Op <span class="ot">&lt;-</span> (Patches<span class="sc">$</span>Dc<span class="fl">.89</span> <span class="sc">+</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span>)</span>
-<span id="cb929-3"><a href="bonus_7a.html#cb929-3" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dModels))</span>
-<span id="cb929-4"><a href="bonus_7a.html#cb929-4" tabindex="-1"></a>{</span>
-<span id="cb929-5"><a href="bonus_7a.html#cb929-5" tabindex="-1"></a>  table.alpha[m] <span class="ot">&lt;-</span> (<span class="fu">optimize</span>(get.alphafit, <span class="at">interval=</span>alpha,</span>
-<span id="cb929-6"><a href="bonus_7a.html#cb929-6" tabindex="-1"></a>                              <span class="at">d=</span><span class="fu">as.matrix</span>(dModels[[m]]), pj, Op)<span class="sc">$</span>minimum)</span>
-<span id="cb929-7"><a href="bonus_7a.html#cb929-7" tabindex="-1"></a>}</span>
-<span id="cb929-8"><a href="bonus_7a.html#cb929-8" tabindex="-1"></a>table.alpha</span></code></pre></div>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb923-1"><a href="bonus_7a.html#cb923-1" tabindex="-1"></a>pj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span></span>
+<span id="cb923-2"><a href="bonus_7a.html#cb923-2" tabindex="-1"></a>Op <span class="ot">&lt;-</span> (Patches<span class="sc">$</span>Dc<span class="fl">.89</span> <span class="sc">+</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span>)</span>
+<span id="cb923-3"><a href="bonus_7a.html#cb923-3" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dModels))</span>
+<span id="cb923-4"><a href="bonus_7a.html#cb923-4" tabindex="-1"></a>{</span>
+<span id="cb923-5"><a href="bonus_7a.html#cb923-5" tabindex="-1"></a>  table.alpha[m] <span class="ot">&lt;-</span> (<span class="fu">optimize</span>(get.alphafit, <span class="at">interval=</span>alpha,</span>
+<span id="cb923-6"><a href="bonus_7a.html#cb923-6" tabindex="-1"></a>                              <span class="at">d=</span><span class="fu">as.matrix</span>(dModels[[m]]), pj, Op)<span class="sc">$</span>minimum)</span>
+<span id="cb923-7"><a href="bonus_7a.html#cb923-7" tabindex="-1"></a>}</span>
+<span id="cb923-8"><a href="bonus_7a.html#cb923-8" tabindex="-1"></a>table.alpha</span></code></pre></div>
 <pre><code>##         
 ## models        [,1]
 ##   Eu     2.1708021
 ##   Shecte 0.6195857
 ##   Sheint 1.2055182
-##   Shenu  2.3661953
+##   Shenu  1.7221953
 ##   Forest 2.4999322</code></pre>
 <p>These are the optimized scaling parameters alpha of the distance term (related to dispersal ability) in the incidence function <span class="math inline">\(S_{i}\)</span>, where <span class="math inline">\(p_{j}\)</span> is 1 if the species is present in source population j and 0 if it is absent, and <span class="math inline">\(d_{ij}\)</span> is the pairwise distance between source patch j and focal patch i:</p>
 <p><span class="math inline">\(S_{i}\)</span> = <span class="math inline">\(\sum_{j\neq i} exp(-\alpha d_{ij})p_{j}\)</span></p>
@@ -668,40 +624,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>Note that here, <span class="math inline">\(N_{j}\)</span> is treated as a numeric variable. While this is an over-interpretation, though preliminary analyses showed that this linearized the relationships between variables.</p>
-<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb931-1"><a href="bonus_7a.html#cb931-1" tabindex="-1"></a>pj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span></span>
-<span id="cb931-2"><a href="bonus_7a.html#cb931-2" tabindex="-1"></a>Aj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Ha</span>
-<span id="cb931-3"><a href="bonus_7a.html#cb931-3" tabindex="-1"></a>Nj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>pop09</span></code></pre></div>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb925-1"><a href="bonus_7a.html#cb925-1" tabindex="-1"></a>pj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Dc<span class="fl">.09</span></span>
+<span id="cb925-2"><a href="bonus_7a.html#cb925-2" tabindex="-1"></a>Aj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>Ha</span>
+<span id="cb925-3"><a href="bonus_7a.html#cb925-3" tabindex="-1"></a>Nj <span class="ot">&lt;-</span> Patches<span class="sc">$</span>pop09</span></code></pre></div>
 <p>Compile three alternative source patch parameters for each patch. Note that we set the area Aj to zero of the species was not recorded in the patch. This is done by multiplication with pj.</p>
-<div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb932-1"><a href="bonus_7a.html#cb932-1" tabindex="-1"></a>Source<span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(<span class="fu">data.frame</span>(<span class="at">pj=</span>pj, <span class="at">Aj=</span>pj<span class="sc">*</span>Aj, <span class="at">Nj=</span>Nj))</span>
-<span id="cb932-2"><a href="bonus_7a.html#cb932-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb926-1"><a href="bonus_7a.html#cb926-1" tabindex="-1"></a>Source<span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(<span class="fu">data.frame</span>(<span class="at">pj=</span>pj, <span class="at">Aj=</span>pj<span class="sc">*</span>Aj, <span class="at">Nj=</span>Nj))</span>
+<span id="cb926-2"><a href="bonus_7a.html#cb926-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>))</span></code></pre></div>
 <p>Prepare an empty table Si to hold the connectivity indices <span class="math inline">\(S_{i}\)</span>, one for each combination of focal patch <em>i</em> (rows), distance model <span class="math inline">\(d_{ij}\)</span> and source patch parameter (15 columns: 5 distances x 3 parameters).</p>
-<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb933-1"><a href="bonus_7a.html#cb933-1" tabindex="-1"></a>Si <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="fu">nrow</span>(Patches),<span class="at">ncol=</span><span class="dv">15</span>))</span>
-<span id="cb933-2"><a href="bonus_7a.html#cb933-2" tabindex="-1"></a>     <span class="fu">dimnames</span>(Si) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(Patches),</span>
-<span id="cb933-3"><a href="bonus_7a.html#cb933-3" tabindex="-1"></a>     <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="fu">names</span>(dModels), <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>)), </span>
-<span id="cb933-4"><a href="bonus_7a.html#cb933-4" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;pj&quot;</span>, <span class="st">&quot;Aj&quot;</span>, <span class="st">&quot;Nj&quot;</span>),<span class="dv">5</span>), <span class="at">sep=</span><span class="st">&quot;_&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb927-1"><a href="bonus_7a.html#cb927-1" tabindex="-1"></a>Si <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="fu">nrow</span>(Patches),<span class="at">ncol=</span><span class="dv">15</span>))</span>
+<span id="cb927-2"><a href="bonus_7a.html#cb927-2" tabindex="-1"></a>     <span class="fu">dimnames</span>(Si) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(Patches),</span>
+<span id="cb927-3"><a href="bonus_7a.html#cb927-3" tabindex="-1"></a>     <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="fu">names</span>(dModels), <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>)), </span>
+<span id="cb927-4"><a href="bonus_7a.html#cb927-4" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;pj&quot;</span>, <span class="st">&quot;Aj&quot;</span>, <span class="st">&quot;Nj&quot;</span>),<span class="dv">5</span>), <span class="at">sep=</span><span class="st">&quot;_&quot;</span>))</span></code></pre></div>
 <p>Define function <code>get.Si</code> with three arguments:</p>
 <ul>
 <li><code>alpha</code>: the optimized alpha value from above</li>
 <li><code>d</code>: the distance matrix</li>
 <li><code>Ap</code>: the source patch parameter to be used.</li>
 </ul>
-<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb934-1"><a href="bonus_7a.html#cb934-1" tabindex="-1"></a>get.Si <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, d, Ap)</span>
-<span id="cb934-2"><a href="bonus_7a.html#cb934-2" tabindex="-1"></a>{</span>
-<span id="cb934-3"><a href="bonus_7a.html#cb934-3" tabindex="-1"></a>  expo<span class="ot">&lt;-</span><span class="fu">exp</span>(<span class="sc">-</span>alpha<span class="sc">*</span>d)</span>
-<span id="cb934-4"><a href="bonus_7a.html#cb934-4" tabindex="-1"></a>  <span class="fu">diag</span>(expo)<span class="ot">&lt;-</span><span class="dv">0</span></span>
-<span id="cb934-5"><a href="bonus_7a.html#cb934-5" tabindex="-1"></a>  matr<span class="ot">&lt;-</span><span class="fu">sweep</span>(expo,<span class="dv">2</span>, Ap, <span class="st">&quot;*&quot;</span>)</span>
-<span id="cb934-6"><a href="bonus_7a.html#cb934-6" tabindex="-1"></a>  S <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">sweep</span>(matr, <span class="dv">2</span>, Op<span class="sc">/</span><span class="dv">2</span>, <span class="st">&quot;*&quot;</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb934-7"><a href="bonus_7a.html#cb934-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="bonus_7a.html#cb928-1" tabindex="-1"></a>get.Si <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, d, Ap)</span>
+<span id="cb928-2"><a href="bonus_7a.html#cb928-2" tabindex="-1"></a>{</span>
+<span id="cb928-3"><a href="bonus_7a.html#cb928-3" tabindex="-1"></a>  expo<span class="ot">&lt;-</span><span class="fu">exp</span>(<span class="sc">-</span>alpha<span class="sc">*</span>d)</span>
+<span id="cb928-4"><a href="bonus_7a.html#cb928-4" tabindex="-1"></a>  <span class="fu">diag</span>(expo)<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb928-5"><a href="bonus_7a.html#cb928-5" tabindex="-1"></a>  matr<span class="ot">&lt;-</span><span class="fu">sweep</span>(expo,<span class="dv">2</span>, Ap, <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb928-6"><a href="bonus_7a.html#cb928-6" tabindex="-1"></a>  S <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">sweep</span>(matr, <span class="dv">2</span>, Op<span class="sc">/</span><span class="dv">2</span>, <span class="st">&quot;*&quot;</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb928-7"><a href="bonus_7a.html#cb928-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>Apply function <code>get.Si</code> to calculate <code>Si</code> values. <code>sb</code> indicates which column of <code>Ap</code> to use as source patch parameter.</p>
-<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb935-1"><a href="bonus_7a.html#cb935-1" tabindex="-1"></a>sb <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">5</span>)</span>
-<span id="cb935-2"><a href="bonus_7a.html#cb935-2" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(Si))</span>
-<span id="cb935-3"><a href="bonus_7a.html#cb935-3" tabindex="-1"></a>{</span>
-<span id="cb935-4"><a href="bonus_7a.html#cb935-4" tabindex="-1"></a>  Si[,n] <span class="ot">&lt;-</span> <span class="fu">get.Si</span>(<span class="at">alpha=</span>table.alpha[mod[n]], </span>
-<span id="cb935-5"><a href="bonus_7a.html#cb935-5" tabindex="-1"></a>                   <span class="at">d=</span><span class="fu">as.matrix</span>(dModels[[mod[n]]]),</span>
-<span id="cb935-6"><a href="bonus_7a.html#cb935-6" tabindex="-1"></a>                   <span class="at">Ap=</span>Source[,sb[n]])</span>
-<span id="cb935-7"><a href="bonus_7a.html#cb935-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb929-1"><a href="bonus_7a.html#cb929-1" tabindex="-1"></a>sb <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">5</span>)</span>
+<span id="cb929-2"><a href="bonus_7a.html#cb929-2" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(Si))</span>
+<span id="cb929-3"><a href="bonus_7a.html#cb929-3" tabindex="-1"></a>{</span>
+<span id="cb929-4"><a href="bonus_7a.html#cb929-4" tabindex="-1"></a>  Si[,n] <span class="ot">&lt;-</span> <span class="fu">get.Si</span>(<span class="at">alpha=</span>table.alpha[mod[n]], </span>
+<span id="cb929-5"><a href="bonus_7a.html#cb929-5" tabindex="-1"></a>                   <span class="at">d=</span><span class="fu">as.matrix</span>(dModels[[mod[n]]]),</span>
+<span id="cb929-6"><a href="bonus_7a.html#cb929-6" tabindex="-1"></a>                   <span class="at">Ap=</span>Source[,sb[n]])</span>
+<span id="cb929-7"><a href="bonus_7a.html#cb929-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>Table with results: values of Si. Column names are a combination of distance matrix and source patch parameter.</p>
-<div class="sourceCode" id="cb936"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb936-1"><a href="bonus_7a.html#cb936-1" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(Si)  </span></code></pre></div>
+<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb930-1"><a href="bonus_7a.html#cb930-1" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(Si)  </span></code></pre></div>
 <pre><code>## # A tibble: 106 × 15
 ##    Eu_pj Eu_Aj Eu_Nj Shecte_pj Shecte_Aj Shecte_Nj Sheint_pj Sheint_Aj Sheint_Nj
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -743,42 +699,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

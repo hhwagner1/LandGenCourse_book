@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11.3 Worked Example | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11.3 Worked Example | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2024-01-25" />
+<meta name="date" content="2026-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="tutorial_8.html"/>
 <link rel="next" href="r-exercise-week-8.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,6 +54,9 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -61,21 +64,21 @@
 <script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
 <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
-<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
-<script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
+<link href="libs/highlight-11.10.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-11.10.0/highlight.min.js"></script>
+<script src="libs/profvis-binding-0.4.0/profvis.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,7 +88,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -215,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Lab 1: Importing Genetic Data</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
@@ -236,9 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
@@ -258,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -268,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Lab 3: Genetic Diversity</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
@@ -285,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
 <li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Lab 4: Metapopulations</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
 <ul>
@@ -331,9 +334,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
 <ul>
@@ -357,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Lab 7: Spatial Linear Models</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
 <ul>
@@ -384,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -393,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Lab 8: Simulation Experiments</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
@@ -415,11 +418,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
 <ul>
@@ -429,75 +432,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
+<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
-<ul>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
+<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
+<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -541,38 +497,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="c.-required-r-packages-5" class="section level4 unnumbered hasAnchor">
 <h4>c. Required R packages<a href="WE_8.html#c.-required-r-packages-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb939-1"><a href="WE_8.html#cb939-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
-<span id="cb939-2"><a href="WE_8.html#cb939-2" tabindex="-1"></a><span class="fu">library</span>(PopGenReport )   <span class="co">#load the package</span></span>
-<span id="cb939-3"><a href="WE_8.html#cb939-3" tabindex="-1"></a><span class="fu">library</span>(secr)            <span class="co">#to create a random habitat</span></span>
-<span id="cb939-4"><a href="WE_8.html#cb939-4" tabindex="-1"></a><span class="co">#library(gdistance)</span></span>
-<span id="cb939-5"><a href="WE_8.html#cb939-5" tabindex="-1"></a><span class="co">#library(mmod)</span></span>
-<span id="cb939-6"><a href="WE_8.html#cb939-6" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
-<span id="cb939-7"><a href="WE_8.html#cb939-7" tabindex="-1"></a><span class="co">#library(tibble)</span></span>
-<span id="cb939-8"><a href="WE_8.html#cb939-8" tabindex="-1"></a><span class="co">#library(here)</span></span>
-<span id="cb939-9"><a href="WE_8.html#cb939-9" tabindex="-1"></a><span class="co">#library(ggplot2)</span></span>
-<span id="cb939-10"><a href="WE_8.html#cb939-10" tabindex="-1"></a><span class="co">#library(MLPE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb933-1"><a href="WE_8.html#cb933-1" tabindex="-1"></a><span class="fu">library</span>(LandGenCourse)</span>
+<span id="cb933-2"><a href="WE_8.html#cb933-2" tabindex="-1"></a><span class="fu">library</span>(PopGenReport )   <span class="co">#load the package</span></span>
+<span id="cb933-3"><a href="WE_8.html#cb933-3" tabindex="-1"></a><span class="fu">library</span>(secr)            <span class="co">#to create a random habitat</span></span>
+<span id="cb933-4"><a href="WE_8.html#cb933-4" tabindex="-1"></a><span class="co">#library(gdistance)</span></span>
+<span id="cb933-5"><a href="WE_8.html#cb933-5" tabindex="-1"></a><span class="co">#library(mmod)</span></span>
+<span id="cb933-6"><a href="WE_8.html#cb933-6" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb933-7"><a href="WE_8.html#cb933-7" tabindex="-1"></a><span class="co">#library(tibble)</span></span>
+<span id="cb933-8"><a href="WE_8.html#cb933-8" tabindex="-1"></a><span class="co">#library(here)</span></span>
+<span id="cb933-9"><a href="WE_8.html#cb933-9" tabindex="-1"></a><span class="co">#library(ggplot2)</span></span>
+<span id="cb933-10"><a href="WE_8.html#cb933-10" tabindex="-1"></a><span class="co">#library(MLPE)</span></span></code></pre></div>
 <p>Package <code>secr</code> not automatically installed with ‘LandGenCourse’:</p>
-<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb940-1"><a href="WE_8.html#cb940-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(secr)) <span class="fu">install.packages</span>(<span class="st">&quot;secr&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
-<span id="cb940-2"><a href="WE_8.html#cb940-2" tabindex="-1"></a><span class="co">#library(secr)</span></span></code></pre></div>
+<div class="sourceCode" id="cb934"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb934-1"><a href="WE_8.html#cb934-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(secr)) <span class="fu">install.packages</span>(<span class="st">&quot;secr&quot;</span>, <span class="at">repos=</span><span class="st">&#39;http://cran.us.r-project.org&#39;</span>)</span>
+<span id="cb934-2"><a href="WE_8.html#cb934-2" tabindex="-1"></a><span class="co">#library(secr)</span></span></code></pre></div>
 <p>Install <code>gstudio</code> if missing:</p>
-<div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb941-1"><a href="WE_8.html#cb941-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;popgraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb941-2"><a href="WE_8.html#cb941-2" tabindex="-1"></a>{</span>
-<span id="cb941-3"><a href="WE_8.html#cb941-3" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;RgoogleMaps&quot;</span>, <span class="st">&quot;geosphere&quot;</span>, <span class="st">&quot;proto&quot;</span>, <span class="st">&quot;sampling&quot;</span>, </span>
-<span id="cb941-4"><a href="WE_8.html#cb941-4" tabindex="-1"></a>                      <span class="st">&quot;seqinr&quot;</span>, <span class="st">&quot;spacetime&quot;</span>, <span class="st">&quot;spdep&quot;</span>), <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span>
-<span id="cb941-5"><a href="WE_8.html#cb941-5" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/popgraph&quot;</span>)</span>
-<span id="cb941-6"><a href="WE_8.html#cb941-6" tabindex="-1"></a>}</span>
-<span id="cb941-7"><a href="WE_8.html#cb941-7" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;gstudio&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/gstudio&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: replacing previous import &#39;dplyr::union&#39; by &#39;raster::union&#39; when
-## loading &#39;gstudio&#39;</code></pre>
-<pre><code>## Warning: replacing previous import &#39;dplyr::intersect&#39; by &#39;raster::intersect&#39;
-## when loading &#39;gstudio&#39;</code></pre>
-<pre><code>## Warning: replacing previous import &#39;dplyr::select&#39; by &#39;raster::select&#39; when
-## loading &#39;gstudio&#39;</code></pre>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb935-1"><a href="WE_8.html#cb935-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;popgraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb935-2"><a href="WE_8.html#cb935-2" tabindex="-1"></a>{</span>
+<span id="cb935-3"><a href="WE_8.html#cb935-3" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;RgoogleMaps&quot;</span>, <span class="st">&quot;geosphere&quot;</span>, <span class="st">&quot;proto&quot;</span>, <span class="st">&quot;sampling&quot;</span>, </span>
+<span id="cb935-4"><a href="WE_8.html#cb935-4" tabindex="-1"></a>                      <span class="st">&quot;seqinr&quot;</span>, <span class="st">&quot;spacetime&quot;</span>, <span class="st">&quot;spdep&quot;</span>), <span class="at">dependencies=</span><span class="cn">TRUE</span>)</span>
+<span id="cb935-5"><a href="WE_8.html#cb935-5" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/popgraph&quot;</span>)</span>
+<span id="cb935-6"><a href="WE_8.html#cb935-6" tabindex="-1"></a>}</span>
+<span id="cb935-7"><a href="WE_8.html#cb935-7" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;gstudio&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dyerlab/gstudio&quot;</span>)</span></code></pre></div>
 <pre><code>## Registered S3 method overwritten by &#39;gstudio&#39;:
 ##   method      from    
 ##   print.locus genetics</code></pre>
 <p>The following ‘setup chunk’ is used to set the root address of file paths to the root of the project folder.</p>
-<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="WE_8.html#cb946-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_knit<span class="sc">$</span><span class="fu">set</span>(<span class="at">root.dir =</span> <span class="fu">normalizePath</span>(<span class="st">&quot;..&quot;</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb937-1"><a href="WE_8.html#cb937-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_knit<span class="sc">$</span><span class="fu">set</span>(<span class="at">root.dir =</span> <span class="fu">normalizePath</span>(<span class="st">&quot;..&quot;</span>)) </span></code></pre></div>
 </div>
 </div>
 <div id="initialize-a-landscape" class="section level3 unnumbered hasAnchor">
@@ -582,26 +532,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will use the ‘randomHabitat’ function from the ‘secr’ package to create a random habitat map and assign resistance values to habitat and non-habitat. There are many alternative ways to define your map, e.g. simply load a png file or any other file format using the ‘raster’ function from package ‘raster’ (?raster::raster, see the examples in there). If your map is categorical, assign resistance values to the different values in the raster as shown below for the missing values. If your map is already a resistance surface, skip this step.</p>
 <p>Here we use the function ‘set.seed’ at the beginning of the simulation to make sure we get the same sequence of random numbers everytime we run this code. This makes the exact results reproducible even though we use a random process.</p>
 <p>The function ‘make.grid’ here creates a landscape of nx=50 times xy=50 gridpoints spaced 1 unit (meter) apart. This is returned as a data frame ‘tempgrid’ with two columns that represent ‘x’ and ‘y’ grid coordinates.</p>
-<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb947-1"><a href="WE_8.html#cb947-1" tabindex="-1"></a>nx<span class="ot">=</span><span class="dv">50</span></span>
-<span id="cb947-2"><a href="WE_8.html#cb947-2" tabindex="-1"></a>ny<span class="ot">=</span><span class="dv">50</span></span>
-<span id="cb947-3"><a href="WE_8.html#cb947-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">555</span>) <span class="co">#(to make sure we have the same example running)</span></span>
-<span id="cb947-4"><a href="WE_8.html#cb947-4" tabindex="-1"></a><span class="co">#tempmask&lt;-secr::make.mask(nx=nx,ny=ny,spacing=1)</span></span>
-<span id="cb947-5"><a href="WE_8.html#cb947-5" tabindex="-1"></a>tempgrid<span class="ot">&lt;-</span>secr<span class="sc">::</span><span class="fu">make.grid</span>(<span class="at">nx=</span>nx,<span class="at">ny=</span>ny,<span class="at">spacing=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb938-1"><a href="WE_8.html#cb938-1" tabindex="-1"></a>nx<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb938-2"><a href="WE_8.html#cb938-2" tabindex="-1"></a>ny<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb938-3"><a href="WE_8.html#cb938-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">555</span>) <span class="co">#(to make sure we have the same example running)</span></span>
+<span id="cb938-4"><a href="WE_8.html#cb938-4" tabindex="-1"></a><span class="co">#tempmask&lt;-secr::make.mask(nx=nx,ny=ny,spacing=1)</span></span>
+<span id="cb938-5"><a href="WE_8.html#cb938-5" tabindex="-1"></a>tempgrid<span class="ot">&lt;-</span>secr<span class="sc">::</span><span class="fu">make.grid</span>(<span class="at">nx=</span>nx,<span class="at">ny=</span>ny,<span class="at">spacing=</span><span class="dv">1</span>)</span></code></pre></div>
 <p>In the function ‘randomHabitat’, the argument ‘A’ specifies the expected proportion of habitat, and ‘p’ controls the level of fragmentation, i.e., degree of spatial aggregation (sorry this is naming may be a bit confusing, but that’s what it says in the help file: ?randomHabitat). The function simulates a map with these parameters and returns a data frame with only those points from ‘tempgrid’ that are habitat. It expects an input object of class ‘mask’ (an object type specific to the ‘secr’ package), hence we pass ‘as.mask(tempgrid)’.</p>
 <p>Finally, we create a <code>raster</code> object (package <code>raster``) called</code>r` with the simulated habitat.</p>
-<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="WE_8.html#cb948-1" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> secr<span class="sc">::</span><span class="fu">randomHabitat</span>(secr<span class="sc">::</span><span class="fu">as.mask</span>(tempgrid), <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">A =</span> <span class="fl">0.5</span>)</span>
-<span id="cb948-2"><a href="WE_8.html#cb948-2" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tempgrid) </span>
-<span id="cb948-3"><a href="WE_8.html#cb948-3" tabindex="-1"></a>r<span class="sc">$</span>resistance <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb948-4"><a href="WE_8.html#cb948-4" tabindex="-1"></a>r<span class="sc">$</span>resistance[<span class="fu">as.numeric</span>(<span class="fu">row.names</span>(tmp))] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb948-5"><a href="WE_8.html#cb948-5" tabindex="-1"></a>r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">rasterFromXYZ</span>(r)</span></code></pre></div>
+<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb939-1"><a href="WE_8.html#cb939-1" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> secr<span class="sc">::</span><span class="fu">randomHabitat</span>(secr<span class="sc">::</span><span class="fu">as.mask</span>(tempgrid), <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">A =</span> <span class="fl">0.5</span>)</span>
+<span id="cb939-2"><a href="WE_8.html#cb939-2" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tempgrid) </span>
+<span id="cb939-3"><a href="WE_8.html#cb939-3" tabindex="-1"></a>r<span class="sc">$</span>resistance <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb939-4"><a href="WE_8.html#cb939-4" tabindex="-1"></a>r<span class="sc">$</span>resistance[<span class="fu">as.numeric</span>(<span class="fu">row.names</span>(tmp))] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb939-5"><a href="WE_8.html#cb939-5" tabindex="-1"></a>r <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">rasterFromXYZ</span>(r)</span></code></pre></div>
 <p>Let’s verify that we have two values in the raster: 1 for habitat, 10 for non-habitat</p>
-<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb949-1"><a href="WE_8.html#cb949-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">values</span>(r), <span class="at">exclude=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb940-1"><a href="WE_8.html#cb940-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">values</span>(r), <span class="at">exclude=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##    1   10 
 ## 1309 1191</code></pre>
 <p>Plot the habitat map</p>
-<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb951-1"><a href="WE_8.html#cb951-1" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code></pre></div>
-<p><img src="08-Week08_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb942-1"><a href="WE_8.html#cb942-1" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code></pre></div>
+<p><img src="08-Week08_files/figure-html/unnamed-chunk-17-1.png" alt="" width="672" /></p>
 <p>We have thus created a numeric raster with a resistance surface where habitat cells (grey) have a resistance value of 1 and non-habitat cells (green) have a resistance value of 10.</p>
 </div>
 <div id="b.-add-populations-to-the-landscape-using-minimal-distance" class="section level4 unnumbered hasAnchor">
@@ -627,33 +577,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li>If requested, the raster map is plotted, cell coordinates for all populations (Selected) are extracted and added to the map as points with point symbol pch=16 (filled circle).</li>
 </ul>
-<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb952-1"><a href="WE_8.html#cb952-1" tabindex="-1"></a>createpops <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">minDist=</span><span class="dv">5</span>, <span class="at">landscape=</span>r, <span class="at">habitat=</span><span class="dv">1</span>, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
-<span id="cb952-2"><a href="WE_8.html#cb952-2" tabindex="-1"></a>{ </span>
-<span id="cb952-3"><a href="WE_8.html#cb952-3" tabindex="-1"></a>  HabitatCells <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">values</span>(landscape)))[<span class="fu">values</span>(landscape)<span class="sc">==</span>habitat]</span>
-<span id="cb952-4"><a href="WE_8.html#cb952-4" tabindex="-1"></a>  Selected <span class="ot">&lt;-</span> <span class="fu">sample</span>(HabitatCells, <span class="dv">1</span>)</span>
-<span id="cb952-5"><a href="WE_8.html#cb952-5" tabindex="-1"></a>  Remaining <span class="ot">&lt;-</span> HabitatCells[<span class="sc">!</span><span class="fu">is.element</span>(HabitatCells, Selected)]</span>
-<span id="cb952-6"><a href="WE_8.html#cb952-6" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(Selected) <span class="sc">&lt;</span> n <span class="sc">&amp;</span> <span class="fu">length</span>(Remaining) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb952-7"><a href="WE_8.html#cb952-7" tabindex="-1"></a>  {</span>
-<span id="cb952-8"><a href="WE_8.html#cb952-8" tabindex="-1"></a>    Candidate <span class="ot">&lt;-</span> <span class="fu">sample</span>(Remaining, <span class="dv">1</span>)</span>
-<span id="cb952-9"><a href="WE_8.html#cb952-9" tabindex="-1"></a>    Remaining <span class="ot">&lt;-</span> Remaining[<span class="sc">!</span><span class="fu">is.element</span>(Remaining, Candidate)]</span>
-<span id="cb952-10"><a href="WE_8.html#cb952-10" tabindex="-1"></a>    Distances <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">pointDistance</span>(raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, Candidate), </span>
-<span id="cb952-11"><a href="WE_8.html#cb952-11" tabindex="-1"></a>                               raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, Selected), </span>
-<span id="cb952-12"><a href="WE_8.html#cb952-12" tabindex="-1"></a>                               <span class="at">lonlat=</span><span class="cn">FALSE</span>)</span>
-<span id="cb952-13"><a href="WE_8.html#cb952-13" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">min</span>(Distances) <span class="sc">&gt;</span> minDist)</span>
-<span id="cb952-14"><a href="WE_8.html#cb952-14" tabindex="-1"></a>    {</span>
-<span id="cb952-15"><a href="WE_8.html#cb952-15" tabindex="-1"></a>      Selected <span class="ot">&lt;-</span> <span class="fu">append</span>(Selected, Candidate)</span>
-<span id="cb952-16"><a href="WE_8.html#cb952-16" tabindex="-1"></a>    }</span>
-<span id="cb952-17"><a href="WE_8.html#cb952-17" tabindex="-1"></a>  }</span>
-<span id="cb952-18"><a href="WE_8.html#cb952-18" tabindex="-1"></a>  <span class="cf">if</span>(plot<span class="sc">==</span><span class="cn">TRUE</span>) </span>
-<span id="cb952-19"><a href="WE_8.html#cb952-19" tabindex="-1"></a>  {</span>
-<span id="cb952-20"><a href="WE_8.html#cb952-20" tabindex="-1"></a>    <span class="fu">plot</span>(landscape)  </span>
-<span id="cb952-21"><a href="WE_8.html#cb952-21" tabindex="-1"></a>    <span class="fu">points</span>(<span class="fu">xyFromCell</span>(landscape, Selected), <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb952-22"><a href="WE_8.html#cb952-22" tabindex="-1"></a>  }</span>
-<span id="cb952-23"><a href="WE_8.html#cb952-23" tabindex="-1"></a>  <span class="fu">return</span>(Selected)</span>
-<span id="cb952-24"><a href="WE_8.html#cb952-24" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb943-1"><a href="WE_8.html#cb943-1" tabindex="-1"></a>createpops <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">minDist=</span><span class="dv">5</span>, <span class="at">landscape=</span>r, <span class="at">habitat=</span><span class="dv">1</span>, <span class="at">plot=</span><span class="cn">TRUE</span>)</span>
+<span id="cb943-2"><a href="WE_8.html#cb943-2" tabindex="-1"></a>{ </span>
+<span id="cb943-3"><a href="WE_8.html#cb943-3" tabindex="-1"></a>  HabitatCells <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">values</span>(landscape)))[<span class="fu">values</span>(landscape)<span class="sc">==</span>habitat]</span>
+<span id="cb943-4"><a href="WE_8.html#cb943-4" tabindex="-1"></a>  Selected <span class="ot">&lt;-</span> <span class="fu">sample</span>(HabitatCells, <span class="dv">1</span>)</span>
+<span id="cb943-5"><a href="WE_8.html#cb943-5" tabindex="-1"></a>  Remaining <span class="ot">&lt;-</span> HabitatCells[<span class="sc">!</span><span class="fu">is.element</span>(HabitatCells, Selected)]</span>
+<span id="cb943-6"><a href="WE_8.html#cb943-6" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(Selected) <span class="sc">&lt;</span> n <span class="sc">&amp;</span> <span class="fu">length</span>(Remaining) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb943-7"><a href="WE_8.html#cb943-7" tabindex="-1"></a>  {</span>
+<span id="cb943-8"><a href="WE_8.html#cb943-8" tabindex="-1"></a>    Candidate <span class="ot">&lt;-</span> <span class="fu">sample</span>(Remaining, <span class="dv">1</span>)</span>
+<span id="cb943-9"><a href="WE_8.html#cb943-9" tabindex="-1"></a>    Remaining <span class="ot">&lt;-</span> Remaining[<span class="sc">!</span><span class="fu">is.element</span>(Remaining, Candidate)]</span>
+<span id="cb943-10"><a href="WE_8.html#cb943-10" tabindex="-1"></a>    Distances <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">pointDistance</span>(raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, Candidate), </span>
+<span id="cb943-11"><a href="WE_8.html#cb943-11" tabindex="-1"></a>                               raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, Selected), </span>
+<span id="cb943-12"><a href="WE_8.html#cb943-12" tabindex="-1"></a>                               <span class="at">lonlat=</span><span class="cn">FALSE</span>)</span>
+<span id="cb943-13"><a href="WE_8.html#cb943-13" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">min</span>(Distances) <span class="sc">&gt;</span> minDist)</span>
+<span id="cb943-14"><a href="WE_8.html#cb943-14" tabindex="-1"></a>    {</span>
+<span id="cb943-15"><a href="WE_8.html#cb943-15" tabindex="-1"></a>      Selected <span class="ot">&lt;-</span> <span class="fu">append</span>(Selected, Candidate)</span>
+<span id="cb943-16"><a href="WE_8.html#cb943-16" tabindex="-1"></a>    }</span>
+<span id="cb943-17"><a href="WE_8.html#cb943-17" tabindex="-1"></a>  }</span>
+<span id="cb943-18"><a href="WE_8.html#cb943-18" tabindex="-1"></a>  <span class="cf">if</span>(plot<span class="sc">==</span><span class="cn">TRUE</span>) </span>
+<span id="cb943-19"><a href="WE_8.html#cb943-19" tabindex="-1"></a>  {</span>
+<span id="cb943-20"><a href="WE_8.html#cb943-20" tabindex="-1"></a>    <span class="fu">plot</span>(landscape)  </span>
+<span id="cb943-21"><a href="WE_8.html#cb943-21" tabindex="-1"></a>    <span class="fu">points</span>(<span class="fu">xyFromCell</span>(landscape, Selected), <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb943-22"><a href="WE_8.html#cb943-22" tabindex="-1"></a>  }</span>
+<span id="cb943-23"><a href="WE_8.html#cb943-23" tabindex="-1"></a>  <span class="fu">return</span>(Selected)</span>
+<span id="cb943-24"><a href="WE_8.html#cb943-24" tabindex="-1"></a>}</span></code></pre></div>
 <p>Test the function above:</p>
-<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb953-1"><a href="WE_8.html#cb953-1" tabindex="-1"></a><span class="fu">createpops</span>(<span class="at">n=</span><span class="dv">8</span>, <span class="at">minDist =</span> <span class="dv">3</span>, <span class="at">landscape =</span> r, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="08-Week08_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="WE_8.html#cb944-1" tabindex="-1"></a><span class="fu">createpops</span>(<span class="at">n=</span><span class="dv">8</span>, <span class="at">minDist =</span> <span class="dv">3</span>, <span class="at">landscape =</span> r, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="08-Week08_files/figure-html/unnamed-chunk-19-1.png" alt="" width="672" /></p>
 <pre><code>## [1] 1328  476  395 2497  440  683  601 1189</code></pre>
 </div>
 <div id="c.-initialise-a-metapopulation" class="section level4 unnumbered hasAnchor">
@@ -667,67 +617,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-define-your-metapopulation" class="section level4 unnumbered hasAnchor">
 <h4>a. Define your metapopulation<a href="WE_8.html#a.-define-your-metapopulation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Define metapopulation:</p>
-<div class="sourceCode" id="cb955"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb955-1"><a href="WE_8.html#cb955-1" tabindex="-1"></a>para<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb955-2"><a href="WE_8.html#cb955-2" tabindex="-1"></a><span class="co">#Define populations (dynamics)</span></span>
-<span id="cb955-3"><a href="WE_8.html#cb955-3" tabindex="-1"></a>para<span class="sc">$</span>n.pops<span class="ot">=</span><span class="dv">8</span></span>
-<span id="cb955-4"><a href="WE_8.html#cb955-4" tabindex="-1"></a>para<span class="sc">$</span>n.ind<span class="ot">=</span><span class="dv">100</span></span>
-<span id="cb955-5"><a href="WE_8.html#cb955-5" tabindex="-1"></a></span>
-<span id="cb955-6"><a href="WE_8.html#cb955-6" tabindex="-1"></a>para<span class="sc">$</span>sex.ratio <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb955-7"><a href="WE_8.html#cb955-7" tabindex="-1"></a><span class="co">#age distribution....</span></span>
-<span id="cb955-8"><a href="WE_8.html#cb955-8" tabindex="-1"></a></span>
-<span id="cb955-9"><a href="WE_8.html#cb955-9" tabindex="-1"></a>para<span class="sc">$</span>n.cov <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
-<span id="cb955-10"><a href="WE_8.html#cb955-10" tabindex="-1"></a><span class="co">#number of covariates (before the loci in the data.frame, do not change this!!)</span></span></code></pre></div>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="WE_8.html#cb946-1" tabindex="-1"></a>para<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb946-2"><a href="WE_8.html#cb946-2" tabindex="-1"></a><span class="co">#Define populations (dynamics)</span></span>
+<span id="cb946-3"><a href="WE_8.html#cb946-3" tabindex="-1"></a>para<span class="sc">$</span>n.pops<span class="ot">=</span><span class="dv">8</span></span>
+<span id="cb946-4"><a href="WE_8.html#cb946-4" tabindex="-1"></a>para<span class="sc">$</span>n.ind<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb946-5"><a href="WE_8.html#cb946-5" tabindex="-1"></a></span>
+<span id="cb946-6"><a href="WE_8.html#cb946-6" tabindex="-1"></a>para<span class="sc">$</span>sex.ratio <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb946-7"><a href="WE_8.html#cb946-7" tabindex="-1"></a><span class="co">#age distribution....</span></span>
+<span id="cb946-8"><a href="WE_8.html#cb946-8" tabindex="-1"></a></span>
+<span id="cb946-9"><a href="WE_8.html#cb946-9" tabindex="-1"></a>para<span class="sc">$</span>n.cov <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
+<span id="cb946-10"><a href="WE_8.html#cb946-10" tabindex="-1"></a><span class="co">#number of covariates (before the loci in the data.frame, do not change this!!)</span></span></code></pre></div>
 <p>Define population dynamics:</p>
-<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb956-1"><a href="WE_8.html#cb956-1" tabindex="-1"></a><span class="co">#reproduction</span></span>
-<span id="cb956-2"><a href="WE_8.html#cb956-2" tabindex="-1"></a>para<span class="sc">$</span>n.offspring <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb956-3"><a href="WE_8.html#cb956-3" tabindex="-1"></a></span>
-<span id="cb956-4"><a href="WE_8.html#cb956-4" tabindex="-1"></a><span class="co">#migration</span></span>
-<span id="cb956-5"><a href="WE_8.html#cb956-5" tabindex="-1"></a>para<span class="sc">$</span>mig.rate <span class="ot">&lt;-</span> <span class="fl">0.1</span> </span>
-<span id="cb956-6"><a href="WE_8.html#cb956-6" tabindex="-1"></a></span>
-<span id="cb956-7"><a href="WE_8.html#cb956-7" tabindex="-1"></a><span class="co">#dispersal: exponential dispersal with maximal distance in map units</span></span>
-<span id="cb956-8"><a href="WE_8.html#cb956-8" tabindex="-1"></a>para<span class="sc">$</span>disp.max<span class="ot">=</span><span class="dv">50</span>   <span class="co">#average  dispersal of an individual in meters</span></span>
-<span id="cb956-9"><a href="WE_8.html#cb956-9" tabindex="-1"></a>para<span class="sc">$</span>disp.rate <span class="ot">=</span> <span class="fl">0.05</span> <span class="co">#proportion of dispersing individuals</span></span>
-<span id="cb956-10"><a href="WE_8.html#cb956-10" tabindex="-1"></a></span>
-<span id="cb956-11"><a href="WE_8.html#cb956-11" tabindex="-1"></a><span class="co">#Define genetics</span></span>
-<span id="cb956-12"><a href="WE_8.html#cb956-12" tabindex="-1"></a>para<span class="sc">$</span>n.allels <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb956-13"><a href="WE_8.html#cb956-13" tabindex="-1"></a>para<span class="sc">$</span>n.loci <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb956-14"><a href="WE_8.html#cb956-14" tabindex="-1"></a>para<span class="sc">$</span>mut.rate <span class="ot">&lt;-</span> <span class="fl">0.001</span></span></code></pre></div>
+<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb947-1"><a href="WE_8.html#cb947-1" tabindex="-1"></a><span class="co">#reproduction</span></span>
+<span id="cb947-2"><a href="WE_8.html#cb947-2" tabindex="-1"></a>para<span class="sc">$</span>n.offspring <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb947-3"><a href="WE_8.html#cb947-3" tabindex="-1"></a></span>
+<span id="cb947-4"><a href="WE_8.html#cb947-4" tabindex="-1"></a><span class="co">#migration</span></span>
+<span id="cb947-5"><a href="WE_8.html#cb947-5" tabindex="-1"></a>para<span class="sc">$</span>mig.rate <span class="ot">&lt;-</span> <span class="fl">0.1</span> </span>
+<span id="cb947-6"><a href="WE_8.html#cb947-6" tabindex="-1"></a></span>
+<span id="cb947-7"><a href="WE_8.html#cb947-7" tabindex="-1"></a><span class="co">#dispersal: exponential dispersal with maximal distance in map units</span></span>
+<span id="cb947-8"><a href="WE_8.html#cb947-8" tabindex="-1"></a>para<span class="sc">$</span>disp.max<span class="ot">=</span><span class="dv">50</span>   <span class="co">#average  dispersal of an individual in meters</span></span>
+<span id="cb947-9"><a href="WE_8.html#cb947-9" tabindex="-1"></a>para<span class="sc">$</span>disp.rate <span class="ot">=</span> <span class="fl">0.05</span> <span class="co">#proportion of dispersing individuals</span></span>
+<span id="cb947-10"><a href="WE_8.html#cb947-10" tabindex="-1"></a></span>
+<span id="cb947-11"><a href="WE_8.html#cb947-11" tabindex="-1"></a><span class="co">#Define genetics</span></span>
+<span id="cb947-12"><a href="WE_8.html#cb947-12" tabindex="-1"></a>para<span class="sc">$</span>n.allels <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb947-13"><a href="WE_8.html#cb947-13" tabindex="-1"></a>para<span class="sc">$</span>n.loci <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb947-14"><a href="WE_8.html#cb947-14" tabindex="-1"></a>para<span class="sc">$</span>mut.rate <span class="ot">&lt;-</span> <span class="fl">0.001</span></span></code></pre></div>
 <p>Define cost distance method:</p>
-<div class="sourceCode" id="cb957"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb957-1"><a href="WE_8.html#cb957-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb957-2"><a href="WE_8.html#cb957-2" tabindex="-1"></a>para<span class="sc">$</span>method <span class="ot">&lt;-</span> <span class="st">&quot;leastcost&quot;</span> <span class="co">#rSPDdistance, commute</span></span>
-<span id="cb957-3"><a href="WE_8.html#cb957-3" tabindex="-1"></a>para<span class="sc">$</span>NN <span class="ot">&lt;-</span> <span class="dv">8</span>  <span class="co">#number of neighbours for the cost distance method</span></span>
-<span id="cb957-4"><a href="WE_8.html#cb957-4" tabindex="-1"></a></span>
-<span id="cb957-5"><a href="WE_8.html#cb957-5" tabindex="-1"></a><span class="co"># Initialize simulation of populations from scratch</span></span>
-<span id="cb957-6"><a href="WE_8.html#cb957-6" tabindex="-1"></a></span>
-<span id="cb957-7"><a href="WE_8.html#cb957-7" tabindex="-1"></a> landscape<span class="ot">&lt;-</span> r  <span class="co">#&lt;-raster(system.file(&quot;external/rlogo.grd&quot;, package=&quot;raster&quot;))</span></span>
-<span id="cb957-8"><a href="WE_8.html#cb957-8" tabindex="-1"></a></span>
-<span id="cb957-9"><a href="WE_8.html#cb957-9" tabindex="-1"></a><span class="co"># Define x and y locations</span></span>
-<span id="cb957-10"><a href="WE_8.html#cb957-10" tabindex="-1"></a> </span>
-<span id="cb957-11"><a href="WE_8.html#cb957-11" tabindex="-1"></a> para<span class="sc">$</span>cells <span class="ot">&lt;-</span> <span class="fu">createpops</span>(<span class="at">n=</span>para<span class="sc">$</span>n.pops, <span class="at">minDist =</span> <span class="dv">3</span>, </span>
-<span id="cb957-12"><a href="WE_8.html#cb957-12" tabindex="-1"></a>                         <span class="at">landscape =</span> landscape, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb957-13"><a href="WE_8.html#cb957-13" tabindex="-1"></a> para<span class="sc">$</span>locs <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, para<span class="sc">$</span>cells)</span>
-<span id="cb957-14"><a href="WE_8.html#cb957-14" tabindex="-1"></a> </span>
-<span id="cb957-15"><a href="WE_8.html#cb957-15" tabindex="-1"></a> <span class="co">#give the population some names </span></span>
-<span id="cb957-16"><a href="WE_8.html#cb957-16" tabindex="-1"></a> <span class="fu">rownames</span>(para<span class="sc">$</span>locs) <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span>para<span class="sc">$</span>n.pops]</span>
-<span id="cb957-17"><a href="WE_8.html#cb957-17" tabindex="-1"></a>  </span>
-<span id="cb957-18"><a href="WE_8.html#cb957-18" tabindex="-1"></a>  </span>
-<span id="cb957-19"><a href="WE_8.html#cb957-19" tabindex="-1"></a><span class="co"># Create a matrix of pairwise cost distances...  </span></span>
-<span id="cb957-20"><a href="WE_8.html#cb957-20" tabindex="-1"></a> </span>
-<span id="cb957-21"><a href="WE_8.html#cb957-21" tabindex="-1"></a>  cost.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">costdistances</span>(landscape, para<span class="sc">$</span>locs, </span>
-<span id="cb957-22"><a href="WE_8.html#cb957-22" tabindex="-1"></a>                                          para<span class="sc">$</span>method, para<span class="sc">$</span>NN)</span>
-<span id="cb957-23"><a href="WE_8.html#cb957-23" tabindex="-1"></a>  </span>
-<span id="cb957-24"><a href="WE_8.html#cb957-24" tabindex="-1"></a><span class="co"># ... and a matrix of pairwise Euclidean distances</span></span>
-<span id="cb957-25"><a href="WE_8.html#cb957-25" tabindex="-1"></a>  </span>
-<span id="cb957-26"><a href="WE_8.html#cb957-26" tabindex="-1"></a>  eucl.mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(para<span class="sc">$</span>locs))  <span class="co">#needed for the analysis later</span></span>
-<span id="cb957-27"><a href="WE_8.html#cb957-27" tabindex="-1"></a></span>
-<span id="cb957-28"><a href="WE_8.html#cb957-28" tabindex="-1"></a><span class="co"># Plot your landscape with the populations....</span></span>
-<span id="cb957-29"><a href="WE_8.html#cb957-29" tabindex="-1"></a>  <span class="fu">plot</span>(landscape)</span>
-<span id="cb957-30"><a href="WE_8.html#cb957-30" tabindex="-1"></a>  <span class="fu">points</span>(para<span class="sc">$</span>locs[,<span class="dv">1</span>], para<span class="sc">$</span>locs[,<span class="dv">2</span>], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;orange&quot;</span>)</span>
-<span id="cb957-31"><a href="WE_8.html#cb957-31" tabindex="-1"></a>  <span class="fu">text</span>(para<span class="sc">$</span>locs[,<span class="dv">1</span>],para<span class="sc">$</span>locs[,<span class="dv">2</span>], <span class="fu">row.names</span>(para<span class="sc">$</span>locs), <span class="at">cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
-<p><img src="08-Week08_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb958-1"><a href="WE_8.html#cb958-1" tabindex="-1"></a><span class="co"># Check the parameter list</span></span>
-<span id="cb958-2"><a href="WE_8.html#cb958-2" tabindex="-1"></a>  </span>
-<span id="cb958-3"><a href="WE_8.html#cb958-3" tabindex="-1"></a>  para</span></code></pre></div>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="WE_8.html#cb948-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb948-2"><a href="WE_8.html#cb948-2" tabindex="-1"></a>para<span class="sc">$</span>method <span class="ot">&lt;-</span> <span class="st">&quot;leastcost&quot;</span> <span class="co">#rSPDdistance, commute</span></span>
+<span id="cb948-3"><a href="WE_8.html#cb948-3" tabindex="-1"></a>para<span class="sc">$</span>NN <span class="ot">&lt;-</span> <span class="dv">8</span>  <span class="co">#number of neighbours for the cost distance method</span></span>
+<span id="cb948-4"><a href="WE_8.html#cb948-4" tabindex="-1"></a></span>
+<span id="cb948-5"><a href="WE_8.html#cb948-5" tabindex="-1"></a><span class="co"># Initialize simulation of populations from scratch</span></span>
+<span id="cb948-6"><a href="WE_8.html#cb948-6" tabindex="-1"></a></span>
+<span id="cb948-7"><a href="WE_8.html#cb948-7" tabindex="-1"></a> landscape<span class="ot">&lt;-</span> r  <span class="co">#&lt;-raster(system.file(&quot;external/rlogo.grd&quot;, package=&quot;raster&quot;))</span></span>
+<span id="cb948-8"><a href="WE_8.html#cb948-8" tabindex="-1"></a></span>
+<span id="cb948-9"><a href="WE_8.html#cb948-9" tabindex="-1"></a><span class="co"># Define x and y locations</span></span>
+<span id="cb948-10"><a href="WE_8.html#cb948-10" tabindex="-1"></a> </span>
+<span id="cb948-11"><a href="WE_8.html#cb948-11" tabindex="-1"></a> para<span class="sc">$</span>cells <span class="ot">&lt;-</span> <span class="fu">createpops</span>(<span class="at">n=</span>para<span class="sc">$</span>n.pops, <span class="at">minDist =</span> <span class="dv">3</span>, </span>
+<span id="cb948-12"><a href="WE_8.html#cb948-12" tabindex="-1"></a>                         <span class="at">landscape =</span> landscape, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb948-13"><a href="WE_8.html#cb948-13" tabindex="-1"></a> para<span class="sc">$</span>locs <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">xyFromCell</span>(landscape, para<span class="sc">$</span>cells)</span>
+<span id="cb948-14"><a href="WE_8.html#cb948-14" tabindex="-1"></a> </span>
+<span id="cb948-15"><a href="WE_8.html#cb948-15" tabindex="-1"></a> <span class="co">#give the population some names </span></span>
+<span id="cb948-16"><a href="WE_8.html#cb948-16" tabindex="-1"></a> <span class="fu">rownames</span>(para<span class="sc">$</span>locs) <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span>para<span class="sc">$</span>n.pops]</span>
+<span id="cb948-17"><a href="WE_8.html#cb948-17" tabindex="-1"></a>  </span>
+<span id="cb948-18"><a href="WE_8.html#cb948-18" tabindex="-1"></a>  </span>
+<span id="cb948-19"><a href="WE_8.html#cb948-19" tabindex="-1"></a><span class="co"># Create a matrix of pairwise cost distances...  </span></span>
+<span id="cb948-20"><a href="WE_8.html#cb948-20" tabindex="-1"></a> </span>
+<span id="cb948-21"><a href="WE_8.html#cb948-21" tabindex="-1"></a>  cost.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">costdistances</span>(landscape, para<span class="sc">$</span>locs, </span>
+<span id="cb948-22"><a href="WE_8.html#cb948-22" tabindex="-1"></a>                                          para<span class="sc">$</span>method, para<span class="sc">$</span>NN)</span>
+<span id="cb948-23"><a href="WE_8.html#cb948-23" tabindex="-1"></a>  </span>
+<span id="cb948-24"><a href="WE_8.html#cb948-24" tabindex="-1"></a><span class="co"># ... and a matrix of pairwise Euclidean distances</span></span>
+<span id="cb948-25"><a href="WE_8.html#cb948-25" tabindex="-1"></a>  </span>
+<span id="cb948-26"><a href="WE_8.html#cb948-26" tabindex="-1"></a>  eucl.mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(para<span class="sc">$</span>locs))  <span class="co">#needed for the analysis later</span></span>
+<span id="cb948-27"><a href="WE_8.html#cb948-27" tabindex="-1"></a></span>
+<span id="cb948-28"><a href="WE_8.html#cb948-28" tabindex="-1"></a><span class="co"># Plot your landscape with the populations....</span></span>
+<span id="cb948-29"><a href="WE_8.html#cb948-29" tabindex="-1"></a>  <span class="fu">plot</span>(landscape)</span>
+<span id="cb948-30"><a href="WE_8.html#cb948-30" tabindex="-1"></a>  <span class="fu">points</span>(para<span class="sc">$</span>locs[,<span class="dv">1</span>], para<span class="sc">$</span>locs[,<span class="dv">2</span>], <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb948-31"><a href="WE_8.html#cb948-31" tabindex="-1"></a>  <span class="fu">text</span>(para<span class="sc">$</span>locs[,<span class="dv">1</span>],para<span class="sc">$</span>locs[,<span class="dv">2</span>], <span class="fu">row.names</span>(para<span class="sc">$</span>locs), <span class="at">cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="08-Week08_files/figure-html/unnamed-chunk-22-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb949-1"><a href="WE_8.html#cb949-1" tabindex="-1"></a><span class="co"># Check the parameter list</span></span>
+<span id="cb949-2"><a href="WE_8.html#cb949-2" tabindex="-1"></a>  </span>
+<span id="cb949-3"><a href="WE_8.html#cb949-3" tabindex="-1"></a>  para</span></code></pre></div>
 <pre><code>## $n.pops
 ## [1] 8
 ## 
@@ -784,13 +734,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-initialise-your-population-on-the-landscape" class="section level4 unnumbered hasAnchor">
 <h4>b. Initialise your population on the landscape<a href="WE_8.html#b.-initialise-your-population-on-the-landscape" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Now finally we can initialise our population using the init function. We’ll call it ‘simpops.0’ to indicate that this is the initial generation.</p>
-<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb960-1"><a href="WE_8.html#cb960-1" tabindex="-1"></a>simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind, </span>
-<span id="cb960-2"><a href="WE_8.html#cb960-2" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, </span>
-<span id="cb960-3"><a href="WE_8.html#cb960-3" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span></code></pre></div>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb951-1"><a href="WE_8.html#cb951-1" tabindex="-1"></a>simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind, </span>
+<span id="cb951-2"><a href="WE_8.html#cb951-2" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, </span>
+<span id="cb951-3"><a href="WE_8.html#cb951-3" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span></code></pre></div>
 <p>You may want to check the simpops object, which is simply a list of our subpopulation and each individual is coded in a single run in one of the subpopulations.</p>
-<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb961-1"><a href="WE_8.html#cb961-1" tabindex="-1"></a><span class="fu">names</span>(simpops<span class="fl">.0</span>)  <span class="co">#the names of the subpopulations</span></span></code></pre></div>
+<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb952-1"><a href="WE_8.html#cb952-1" tabindex="-1"></a><span class="fu">names</span>(simpops<span class="fl">.0</span>)  <span class="co">#the names of the subpopulations</span></span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot;</code></pre>
-<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb963-1"><a href="WE_8.html#cb963-1" tabindex="-1"></a><span class="fu">head</span>(simpops<span class="fl">.0</span><span class="sc">$</span>A[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]) <span class="do">## a.list of the first 6 individuals and columns of population A</span></span></code></pre></div>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb954-1"><a href="WE_8.html#cb954-1" tabindex="-1"></a><span class="fu">head</span>(simpops<span class="fl">.0</span><span class="sc">$</span>A[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]) <span class="do">## a.list of the first 6 individuals and columns of population A</span></span></code></pre></div>
 <pre><code>##   pop    sex age locus1A locus1B locus2A
 ## 1   1 female  NA       6      10       2
 ## 2   1 female  NA       4       3       6
@@ -800,8 +750,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6   1 female  NA       6       7       3</code></pre>
 <p>We can also analyse our simpop object. (e.g. calculate the pairwise Fst value between all the populations).</p>
 <p>To be able to do that we first need to convert it into a genind object (because many functions need this type of object as input).</p>
-<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb965-1"><a href="WE_8.html#cb965-1" tabindex="-1"></a>gsp <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops<span class="fl">.0</span>, <span class="at">locs =</span>para<span class="sc">$</span>locs)</span>
-<span id="cb965-2"><a href="WE_8.html#cb965-2" tabindex="-1"></a>gsp <span class="co">#check the genind object</span></span></code></pre></div>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb956-1"><a href="WE_8.html#cb956-1" tabindex="-1"></a>gsp <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops<span class="fl">.0</span>, <span class="at">locs =</span>para<span class="sc">$</span>locs)</span>
+<span id="cb956-2"><a href="WE_8.html#cb956-2" tabindex="-1"></a>gsp <span class="co">#check the genind object</span></span></code></pre></div>
 <pre><code>## /// GENIND OBJECT /////////
 ## 
 ##  // 800 individuals; 20 loci; 200 alleles; size: 738.5 Kb
@@ -818,7 +768,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  // Optional content
 ##    @pop: population of each individual (group size range: 100-100)
 ##    @other: a list containing: xy</code></pre>
-<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb967-1"><a href="WE_8.html#cb967-1" tabindex="-1"></a><span class="fu">summary</span>(gsp)  <span class="co">#some summary statistics</span></span></code></pre></div>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb958-1"><a href="WE_8.html#cb958-1" tabindex="-1"></a><span class="fu">summary</span>(gsp)  <span class="co">#some summary statistics</span></span></code></pre></div>
 <pre><code>## 
 ## // Number of individuals: 800
 ## // Group sizes: 100 100 100 100 100 100 100 100
@@ -827,7 +777,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## // Percentage of missing data: 0 %
 ## // Observed heterozygosity: 0.9 0.89 0.89 0.89 0.9 0.89 0.9 0.92 0.9 0.9 0.91 0.9 0.9 0.88 0.9 0.9 0.91 0.9 0.89 0.88
 ## // Expected heterozygosity: 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9 0.9</code></pre>
-<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb969-1"><a href="WE_8.html#cb969-1" tabindex="-1"></a><span class="fu">round</span>(mmod<span class="sc">::</span><span class="fu">pairwise_Gst_Nei</span>(gsp),<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb960-1"><a href="WE_8.html#cb960-1" tabindex="-1"></a><span class="fu">round</span>(mmod<span class="sc">::</span><span class="fu">pairwise_Gst_Nei</span>(gsp),<span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##          A        B        C        D        E        F        G
 ## B -0.00012                                                      
 ## C  0.00006  0.00001                                             
@@ -838,8 +788,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## H -0.00045 -0.00013 -0.00009 -0.00008 -0.00007 -0.00033 -0.00020</code></pre>
 <p>Is there an effect of the landscape on the population structure (there should not be after initialisation)?</p>
 <p>The function ‘pairwise.fstb’ is around 150 times faster than mmod::pairwise_Gst_Nei, but slightly different.</p>
-<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb971-1"><a href="WE_8.html#cb971-1" tabindex="-1"></a>gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(gsp)  </span>
-<span id="cb971-2"><a href="WE_8.html#cb971-2" tabindex="-1"></a><span class="fu">round</span>(gen.mat ,<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb962"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb962-1"><a href="WE_8.html#cb962-1" tabindex="-1"></a>gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(gsp)  </span>
+<span id="cb962-2"><a href="WE_8.html#cb962-2" tabindex="-1"></a><span class="fu">round</span>(gen.mat ,<span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##         A       B       C       D       E       F       G       H
 ## A 0.00000 0.00239 0.00256 0.00231 0.00260 0.00266 0.00231 0.00205
 ## B 0.00239 0.00000 0.00252 0.00191 0.00220 0.00220 0.00205 0.00238
@@ -853,8 +803,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Wassermann, T.N., Cushman, S. A., Schwartz, M. K. and Wallin, D. O. (2010). Spatial scaling and multi-model inference in landscape genetics: Martes americana in northern Idaho. Landscape Ecology, 25(10), 1601-1612.</li>
 </ul>
-<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb973-1"><a href="WE_8.html#cb973-1" tabindex="-1"></a>PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
-<span id="cb973-2"><a href="WE_8.html#cb973-2" tabindex="-1"></a>                           <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span></code></pre></div>
+<div class="sourceCode" id="cb964"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb964-1"><a href="WE_8.html#cb964-1" tabindex="-1"></a>PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
+<span id="cb964-2"><a href="WE_8.html#cb964-2" tabindex="-1"></a>                           <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span></code></pre></div>
 <pre><code>##                   model       r     p
 ## 1 Gen ~cost | Euclidean  0.2056 0.157
 ## 2 Gen ~Euclidean | cost -0.0571 0.603</code></pre>
@@ -872,21 +822,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>a. Run your simulation over multiple time steps (years)<a href="WE_8.html#a.-run-your-simulation-over-multiple-time-steps-years" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Now we can run our simulation by simply passing our object ‘simpops’ to the function ‘run.popgensim’, with some additional parameters that are needed for the simulation. We specify the number of generations the simulation should run with the steps parameter. (Check ?run.popgensim for a description of all parameters).</p>
 <p>Important to understand is the idea of the cost.mat (which is the cost matrix that is used for the distance between subpopulation). The n.alleles, n.ind cannot be different from the initialisation.</p>
-<div class="sourceCode" id="cb975"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb975-1"><a href="WE_8.html#cb975-1" tabindex="-1"></a>simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, <span class="at">steps=</span><span class="dv">3</span>, cost.mat, </span>
-<span id="cb975-2"><a href="WE_8.html#cb975-2" tabindex="-1"></a>                         <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
-<span id="cb975-3"><a href="WE_8.html#cb975-3" tabindex="-1"></a>                         para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
-<span id="cb975-4"><a href="WE_8.html#cb975-4" tabindex="-1"></a>                         para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
-<span id="cb975-5"><a href="WE_8.html#cb975-5" tabindex="-1"></a>                         <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb966"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb966-1"><a href="WE_8.html#cb966-1" tabindex="-1"></a>simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, <span class="at">steps=</span><span class="dv">3</span>, cost.mat, </span>
+<span id="cb966-2"><a href="WE_8.html#cb966-2" tabindex="-1"></a>                         <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
+<span id="cb966-3"><a href="WE_8.html#cb966-3" tabindex="-1"></a>                         para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
+<span id="cb966-4"><a href="WE_8.html#cb966-4" tabindex="-1"></a>                         para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
+<span id="cb966-5"><a href="WE_8.html#cb966-5" tabindex="-1"></a>                         <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p>In essence we were running a metapopulation with 100 individuals per subpopulation on our resistance landscape for 3 generations. The question is now was that enough time to create an effect on population structure?</p>
 </div>
 <div id="b.-analyse-your-simulated-population-with-a-partial-mantel-test" class="section level4 unnumbered hasAnchor">
 <h4>b. Analyse your simulated population with a partial Mantel test<a href="WE_8.html#b.-analyse-your-simulated-population-with-a-partial-mantel-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s check the pairwise Fst values and then do a landscape genetic analysis using partial Mantel tests.</p>
 <p>Convert to genind to calculate pairwise Fst.</p>
-<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="WE_8.html#cb976-1" tabindex="-1"></a>gsp <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov)</span></code></pre></div>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb967-1"><a href="WE_8.html#cb967-1" tabindex="-1"></a>gsp <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov)</span></code></pre></div>
 <p>Calculate your genetic distance matrix e.g. fst or D.</p>
-<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb977-1"><a href="WE_8.html#cb977-1" tabindex="-1"></a>gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(gsp)   </span>
-<span id="cb977-2"><a href="WE_8.html#cb977-2" tabindex="-1"></a><span class="fu">round</span>(gen.mat ,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb968"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb968-1"><a href="WE_8.html#cb968-1" tabindex="-1"></a>gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(gsp)   </span>
+<span id="cb968-2"><a href="WE_8.html#cb968-2" tabindex="-1"></a><span class="fu">round</span>(gen.mat ,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##       A     B     C     D     E     F     G     H
 ## A 0.000 0.006 0.007 0.006 0.007 0.008 0.008 0.007
 ## B 0.006 0.000 0.008 0.007 0.006 0.008 0.008 0.008
@@ -897,34 +847,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## G 0.008 0.008 0.007 0.007 0.007 0.008 0.000 0.008
 ## H 0.007 0.008 0.008 0.007 0.008 0.007 0.008 0.000</code></pre>
 <p>Partial Mantel test:</p>
-<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="WE_8.html#cb979-1" tabindex="-1"></a>PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
-<span id="cb979-2"><a href="WE_8.html#cb979-2" tabindex="-1"></a>             <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span></code></pre></div>
+<div class="sourceCode" id="cb970"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb970-1"><a href="WE_8.html#cb970-1" tabindex="-1"></a>PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
+<span id="cb970-2"><a href="WE_8.html#cb970-2" tabindex="-1"></a>             <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span></code></pre></div>
 <pre><code>##                   model       r     p
 ## 2 Gen ~Euclidean | cost  0.1857 0.161
 ## 1 Gen ~cost | Euclidean -0.1086  0.74</code></pre>
 <p>We can extract a specific value from this result, e.g., the p-value of the test “Gen ~cost | Euclidean”. (Note that every time we call the function ‘wassermann’, a permutation test is performed (default: ‘nperm = 999’), and the p-value may thus vary somewhat).</p>
-<div class="sourceCode" id="cb981"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb981-1"><a href="WE_8.html#cb981-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, </span>
-<span id="cb981-2"><a href="WE_8.html#cb981-2" tabindex="-1"></a>                                <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
-<span id="cb981-3"><a href="WE_8.html#cb981-3" tabindex="-1"></a>                                <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span>
-<span id="cb981-4"><a href="WE_8.html#cb981-4" tabindex="-1"></a>res[res<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~cost | Euclidean&quot;</span>, <span class="st">&quot;p&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb972"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb972-1"><a href="WE_8.html#cb972-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(<span class="at">eucl.mat =</span> eucl.mat, </span>
+<span id="cb972-2"><a href="WE_8.html#cb972-2" tabindex="-1"></a>                                <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>cost.mat), </span>
+<span id="cb972-3"><a href="WE_8.html#cb972-3" tabindex="-1"></a>                                <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span>
+<span id="cb972-4"><a href="WE_8.html#cb972-4" tabindex="-1"></a>res[res<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~cost | Euclidean&quot;</span>, <span class="st">&quot;p&quot;</span>]</span></code></pre></div>
 <pre><code>## [1] &quot;0.717&quot;</code></pre>
 </div>
 <div id="c.-optional-analyze-your-simulated-populations-with-mlpe" class="section level4 unnumbered hasAnchor">
 <h4>c. Optional: Analyze your simulated populations with MLPE<a href="WE_8.html#c.-optional-analyze-your-simulated-populations-with-mlpe" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We will cover this method, and model selection, in more detail in Week 12.</p>
 <p>Install package <code>corMLPE</code> if needed:</p>
-<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb983-1"><a href="WE_8.html#cb983-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb983-2"><a href="WE_8.html#cb983-2" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb974-1"><a href="WE_8.html#cb974-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;corMLPE&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb974-2"><a href="WE_8.html#cb974-2" tabindex="-1"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nspope/corMLPE&quot;</span>)</span></code></pre></div>
 <p>To run the model, we need to extract the vector of pairwise distances from the three distance matrices:</p>
-<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb984-1"><a href="WE_8.html#cb984-1" tabindex="-1"></a>eucl.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(eucl.mat))</span>
-<span id="cb984-2"><a href="WE_8.html#cb984-2" tabindex="-1"></a>cost.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(cost.mat))</span>
-<span id="cb984-3"><a href="WE_8.html#cb984-3" tabindex="-1"></a>gen.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(gen.mat))</span></code></pre></div>
+<div class="sourceCode" id="cb975"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb975-1"><a href="WE_8.html#cb975-1" tabindex="-1"></a>eucl.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(eucl.mat))</span>
+<span id="cb975-2"><a href="WE_8.html#cb975-2" tabindex="-1"></a>cost.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(cost.mat))</span>
+<span id="cb975-3"><a href="WE_8.html#cb975-3" tabindex="-1"></a>gen.vect <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(gen.mat))</span></code></pre></div>
 <p>Define the two vectors of population effects:</p>
-<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="WE_8.html#cb985-1" tabindex="-1"></a>Pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">names</span>(<span class="fu">as.dist</span>(eucl.mat)), <span class="fu">nrow</span>(eucl.mat), <span class="fu">ncol</span>(eucl.mat), <span class="at">byrow=</span>F)</span>
-<span id="cb985-2"><a href="WE_8.html#cb985-2" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span>Pop[<span class="fu">lower.tri</span>(Pop)]</span>
-<span id="cb985-3"><a href="WE_8.html#cb985-3" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span><span class="fu">t</span>(Pop)[<span class="fu">lower.tri</span>(Pop)]</span></code></pre></div>
+<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="WE_8.html#cb976-1" tabindex="-1"></a>Pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">names</span>(<span class="fu">as.dist</span>(eucl.mat))[[<span class="dv">1</span>]], <span class="fu">nrow</span>(eucl.mat), <span class="fu">ncol</span>(eucl.mat), <span class="at">byrow=</span>F)</span>
+<span id="cb976-2"><a href="WE_8.html#cb976-2" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span>Pop[<span class="fu">lower.tri</span>(Pop)]</span>
+<span id="cb976-3"><a href="WE_8.html#cb976-3" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span><span class="fu">t</span>(Pop)[<span class="fu">lower.tri</span>(Pop)]</span></code></pre></div>
 <p>Assemble the link-based dataset:</p>
-<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="WE_8.html#cb986-1" tabindex="-1"></a>Link.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(gen.vect, eucl.vect, cost.vect, pop1, pop2)</span></code></pre></div>
+<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb977-1"><a href="WE_8.html#cb977-1" tabindex="-1"></a>Link.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(gen.vect, eucl.vect, cost.vect, pop1, pop2)</span></code></pre></div>
 <p>Fit and compare three models:</p>
 <ul>
 <li><strong>G</strong>: Geographic distance model (IBD)</li>
@@ -932,41 +882,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>GE</strong>: Both</li>
 </ul>
 <p>We will compare the three models by <code>AICc</code>, the small-sample version of AIC (see Week 12). The lower the value of AICc, the better is the model fit. The method includes a correction for the number of predictors in the model, so that we can make a fair comparison between GE (two predictors) to G and E (one predictor each). Note that because we are comparing models with the same random effects (population effects <code>pop1</code> and <code>pop2</code>, but with different fixed effects, we fit the models with maximum likelihood, <code>ML</code> (see Week 6).</p>
-<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="WE_8.html#cb987-1" tabindex="-1"></a>GE <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(gen.vect <span class="sc">~</span> eucl.vect <span class="sc">+</span> cost.vect, </span>
-<span id="cb987-2"><a href="WE_8.html#cb987-2" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
-<span id="cb987-3"><a href="WE_8.html#cb987-3" tabindex="-1"></a>                  <span class="at">data=</span>Link.data, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb987-4"><a href="WE_8.html#cb987-4" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> eucl.vect)</span>
-<span id="cb987-5"><a href="WE_8.html#cb987-5" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> cost.vect)</span>
-<span id="cb987-6"><a href="WE_8.html#cb987-6" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span></code></pre></div>
+<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb978-1"><a href="WE_8.html#cb978-1" tabindex="-1"></a>GE <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(gen.vect <span class="sc">~</span> eucl.vect <span class="sc">+</span> cost.vect, </span>
+<span id="cb978-2"><a href="WE_8.html#cb978-2" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
+<span id="cb978-3"><a href="WE_8.html#cb978-3" tabindex="-1"></a>                  <span class="at">data=</span>Link.data, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb978-4"><a href="WE_8.html#cb978-4" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> eucl.vect)</span>
+<span id="cb978-5"><a href="WE_8.html#cb978-5" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> cost.vect)</span>
+<span id="cb978-6"><a href="WE_8.html#cb978-6" tabindex="-1"></a>MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span></code></pre></div>
 <pre><code>##    df      AICc
 ## GE  5 -329.2276
 ## G   4 -331.9044
 ## E   4 -330.7569</code></pre>
 <p>Which is the best model?</p>
-<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb989-1"><a href="WE_8.html#cb989-1" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span>
-<span id="cb989-2"><a href="WE_8.html#cb989-2" tabindex="-1"></a><span class="fu">row.names</span>(tmp)[tmp<span class="sc">$</span>AICc <span class="sc">==</span> <span class="fu">min</span>(tmp<span class="sc">$</span>AICc)]</span></code></pre></div>
+<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb980-1"><a href="WE_8.html#cb980-1" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span>
+<span id="cb980-2"><a href="WE_8.html#cb980-2" tabindex="-1"></a><span class="fu">row.names</span>(tmp)[tmp<span class="sc">$</span>AICc <span class="sc">==</span> <span class="fu">min</span>(tmp<span class="sc">$</span>AICc)]</span></code></pre></div>
 <pre><code>## [1] &quot;G&quot;</code></pre>
 <p>Let’s combine all of this into our own function to extract the vectors, define the population effects, run MLPE, and extract the name of the best fitting model</p>
-<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="WE_8.html#cb991-1" tabindex="-1"></a>getMLPE <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">gen=</span>gen.mat, <span class="at">eucl=</span>eucl.mat, <span class="at">cost=</span>cost.mat)</span>
-<span id="cb991-2"><a href="WE_8.html#cb991-2" tabindex="-1"></a>{</span>
-<span id="cb991-3"><a href="WE_8.html#cb991-3" tabindex="-1"></a>  Pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">names</span>(<span class="fu">as.dist</span>(eucl)), <span class="fu">nrow</span>(eucl), <span class="fu">ncol</span>(eucl), <span class="at">byrow=</span>F)</span>
-<span id="cb991-4"><a href="WE_8.html#cb991-4" tabindex="-1"></a>  Link.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb991-5"><a href="WE_8.html#cb991-5" tabindex="-1"></a>    <span class="at">eucl.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(eucl)),</span>
-<span id="cb991-6"><a href="WE_8.html#cb991-6" tabindex="-1"></a>    <span class="at">cost.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(cost)),</span>
-<span id="cb991-7"><a href="WE_8.html#cb991-7" tabindex="-1"></a>    <span class="at">gen.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(gen)),</span>
-<span id="cb991-8"><a href="WE_8.html#cb991-8" tabindex="-1"></a>    <span class="at">pop1 =</span> Pop[<span class="fu">lower.tri</span>(Pop)],</span>
-<span id="cb991-9"><a href="WE_8.html#cb991-9" tabindex="-1"></a>    <span class="at">pop2 =</span> <span class="fu">t</span>(Pop)[<span class="fu">lower.tri</span>(Pop)]</span>
-<span id="cb991-10"><a href="WE_8.html#cb991-10" tabindex="-1"></a>  )</span>
-<span id="cb991-11"><a href="WE_8.html#cb991-11" tabindex="-1"></a>  GE <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(gen.vect <span class="sc">~</span> eucl.vect <span class="sc">+</span> cost.vect, </span>
-<span id="cb991-12"><a href="WE_8.html#cb991-12" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
-<span id="cb991-13"><a href="WE_8.html#cb991-13" tabindex="-1"></a>                  <span class="at">data=</span>Link.data, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
-<span id="cb991-14"><a href="WE_8.html#cb991-14" tabindex="-1"></a>  G <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> eucl.vect)</span>
-<span id="cb991-15"><a href="WE_8.html#cb991-15" tabindex="-1"></a>  E <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> cost.vect)</span>
-<span id="cb991-16"><a href="WE_8.html#cb991-16" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span>
-<span id="cb991-17"><a href="WE_8.html#cb991-17" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">row.names</span>(tmp)[tmp<span class="sc">$</span>AICc <span class="sc">==</span> <span class="fu">min</span>(tmp<span class="sc">$</span>AICc)])</span>
-<span id="cb991-18"><a href="WE_8.html#cb991-18" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb982-1"><a href="WE_8.html#cb982-1" tabindex="-1"></a>getMLPE <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">gen=</span>gen.mat, <span class="at">eucl=</span>eucl.mat, <span class="at">cost=</span>cost.mat)</span>
+<span id="cb982-2"><a href="WE_8.html#cb982-2" tabindex="-1"></a>{</span>
+<span id="cb982-3"><a href="WE_8.html#cb982-3" tabindex="-1"></a>  Pop <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">names</span>(<span class="fu">as.dist</span>(eucl))[[<span class="dv">1</span>]], <span class="fu">nrow</span>(eucl), <span class="fu">ncol</span>(eucl), <span class="at">byrow=</span>F)</span>
+<span id="cb982-4"><a href="WE_8.html#cb982-4" tabindex="-1"></a>  Link.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb982-5"><a href="WE_8.html#cb982-5" tabindex="-1"></a>    <span class="at">eucl.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(eucl)),</span>
+<span id="cb982-6"><a href="WE_8.html#cb982-6" tabindex="-1"></a>    <span class="at">cost.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(cost)),</span>
+<span id="cb982-7"><a href="WE_8.html#cb982-7" tabindex="-1"></a>    <span class="at">gen.vect =</span> <span class="fu">as.vector</span>(<span class="fu">as.dist</span>(gen)),</span>
+<span id="cb982-8"><a href="WE_8.html#cb982-8" tabindex="-1"></a>    <span class="at">pop1 =</span> Pop[<span class="fu">lower.tri</span>(Pop)],</span>
+<span id="cb982-9"><a href="WE_8.html#cb982-9" tabindex="-1"></a>    <span class="at">pop2 =</span> <span class="fu">t</span>(Pop)[<span class="fu">lower.tri</span>(Pop)]</span>
+<span id="cb982-10"><a href="WE_8.html#cb982-10" tabindex="-1"></a>  )</span>
+<span id="cb982-11"><a href="WE_8.html#cb982-11" tabindex="-1"></a>  GE <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(gen.vect <span class="sc">~</span> eucl.vect <span class="sc">+</span> cost.vect, </span>
+<span id="cb982-12"><a href="WE_8.html#cb982-12" tabindex="-1"></a>                  <span class="at">correlation=</span>corMLPE<span class="sc">::</span><span class="fu">corMLPE</span>(<span class="at">form=</span><span class="sc">~</span>pop1<span class="sc">+</span>pop2), </span>
+<span id="cb982-13"><a href="WE_8.html#cb982-13" tabindex="-1"></a>                  <span class="at">data=</span>Link.data, <span class="at">method=</span><span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb982-14"><a href="WE_8.html#cb982-14" tabindex="-1"></a>  G <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> eucl.vect)</span>
+<span id="cb982-15"><a href="WE_8.html#cb982-15" tabindex="-1"></a>  E <span class="ot">&lt;-</span> <span class="fu">update</span>(GE,  <span class="sc">~</span> cost.vect)</span>
+<span id="cb982-16"><a href="WE_8.html#cb982-16" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> MuMIn<span class="sc">::</span><span class="fu">AICc</span>(GE, G, E)</span>
+<span id="cb982-17"><a href="WE_8.html#cb982-17" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">row.names</span>(tmp)[tmp<span class="sc">$</span>AICc <span class="sc">==</span> <span class="fu">min</span>(tmp<span class="sc">$</span>AICc)])</span>
+<span id="cb982-18"><a href="WE_8.html#cb982-18" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s test it:</p>
-<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="WE_8.html#cb992-1" tabindex="-1"></a><span class="fu">getMLPE</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb983-1"><a href="WE_8.html#cb983-1" tabindex="-1"></a><span class="fu">getMLPE</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;G&quot;</code></pre>
 </div>
 </div>
@@ -1007,12 +957,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a.-specify-and-record-the-parameter-combinations" class="section level4 unnumbered hasAnchor">
 <h4>a. Specify and record the parameter combinations<a href="WE_8.html#a.-specify-and-record-the-parameter-combinations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s define the varying numbers of time steps we would like to run the simulations. Here we define a sequence from 5 to 45 in steps of 20, which results in a series c(5, 25, 45). We will interpret these values as numeric, therefore we don’t convert to ‘factor’.</p>
-<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="WE_8.html#cb994-1" tabindex="-1"></a>timesteps <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">5</span> , <span class="at">to=</span><span class="dv">45</span>, <span class="at">by=</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="WE_8.html#cb985-1" tabindex="-1"></a>timesteps <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">5</span> , <span class="at">to=</span><span class="dv">45</span>, <span class="at">by=</span><span class="dv">20</span>)</span></code></pre></div>
 <p>We also specify the number of repeats (replicate simulation runs). We want to do five replicate simulation runs per for each level of ‘time’, and we will label replicates from 1 through 5. These are essentially labels and we’ll save them as a factor:</p>
-<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="WE_8.html#cb995-1" tabindex="-1"></a>repeats <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="WE_8.html#cb986-1" tabindex="-1"></a>repeats <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
 <p>Now we would like to have a data frame that stores all possible combinations for those two parameters. As simple way to do that in R, is to use the ‘expand.grid’ function.</p>
-<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="WE_8.html#cb996-1" tabindex="-1"></a>para.space <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">rep=</span>repeats, <span class="at">time=</span>timesteps)</span>
-<span id="cb996-2"><a href="WE_8.html#cb996-2" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(para.space)</span></code></pre></div>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="WE_8.html#cb987-1" tabindex="-1"></a>para.space <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">rep=</span>repeats, <span class="at">time=</span>timesteps)</span>
+<span id="cb987-2"><a href="WE_8.html#cb987-2" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(para.space)</span></code></pre></div>
 <pre><code>## # A tibble: 15 × 2
 ##    rep    time
 ##    &lt;fct&gt; &lt;dbl&gt;
@@ -1037,16 +987,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>b. Run the simulator over every parameter combination<a href="WE_8.html#b.-run-the-simulator-over-every-parameter-combination" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Remember our parameters are all defined in the ‘para’ object (a list) and we want to keep them constant, except for running the simulation for different number of years. This means that we only need to modify the argument ‘steps’.</p>
 <p>Summarizing the code from above, a single run of our simulator runs via:</p>
-<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="WE_8.html#cb998-1" tabindex="-1"></a><span class="co">#initialize</span></span>
-<span id="cb998-2"><a href="WE_8.html#cb998-2" tabindex="-1"></a>simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind,</span>
-<span id="cb998-3"><a href="WE_8.html#cb998-3" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, </span>
-<span id="cb998-4"><a href="WE_8.html#cb998-4" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span>
-<span id="cb998-5"><a href="WE_8.html#cb998-5" tabindex="-1"></a><span class="co">#run for 20 generations</span></span>
-<span id="cb998-6"><a href="WE_8.html#cb998-6" tabindex="-1"></a>simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, <span class="at">steps=</span><span class="dv">20</span>, cost.mat, </span>
-<span id="cb998-7"><a href="WE_8.html#cb998-7" tabindex="-1"></a>                         <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
-<span id="cb998-8"><a href="WE_8.html#cb998-8" tabindex="-1"></a>                         para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
-<span id="cb998-9"><a href="WE_8.html#cb998-9" tabindex="-1"></a>                         para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
-<span id="cb998-10"><a href="WE_8.html#cb998-10" tabindex="-1"></a>                         <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb989-1"><a href="WE_8.html#cb989-1" tabindex="-1"></a><span class="co">#initialize</span></span>
+<span id="cb989-2"><a href="WE_8.html#cb989-2" tabindex="-1"></a>simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind,</span>
+<span id="cb989-3"><a href="WE_8.html#cb989-3" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, </span>
+<span id="cb989-4"><a href="WE_8.html#cb989-4" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span>
+<span id="cb989-5"><a href="WE_8.html#cb989-5" tabindex="-1"></a><span class="co">#run for 20 generations</span></span>
+<span id="cb989-6"><a href="WE_8.html#cb989-6" tabindex="-1"></a>simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, <span class="at">steps=</span><span class="dv">20</span>, cost.mat, </span>
+<span id="cb989-7"><a href="WE_8.html#cb989-7" tabindex="-1"></a>                         <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
+<span id="cb989-8"><a href="WE_8.html#cb989-8" tabindex="-1"></a>                         para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
+<span id="cb989-9"><a href="WE_8.html#cb989-9" tabindex="-1"></a>                         para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
+<span id="cb989-10"><a href="WE_8.html#cb989-10" tabindex="-1"></a>                         <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p>We adapt this code as follows:</p>
 <ul>
 <li>Create a ‘for’ loop that cycles through every row ‘i’ in ‘para.space’</li>
@@ -1057,21 +1007,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>We are not running the code just yet, hence it is commented-out with ‘#’.</p>
-<div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="WE_8.html#cb999-1" tabindex="-1"></a><span class="co">#for (i in 1:nrow(para.space))</span></span>
-<span id="cb999-2"><a href="WE_8.html#cb999-2" tabindex="-1"></a><span class="co">#{</span></span>
-<span id="cb999-3"><a href="WE_8.html#cb999-3" tabindex="-1"></a><span class="co">#  #initialize</span></span>
-<span id="cb999-4"><a href="WE_8.html#cb999-4" tabindex="-1"></a><span class="co">#  simpops.0 &lt;- PopGenReport::init.popgensim(para$n.pops, para$n.ind, </span></span>
-<span id="cb999-5"><a href="WE_8.html#cb999-5" tabindex="-1"></a><span class="co">#                           para$sex.ratio, para$n.loci, para$n.allels, </span></span>
-<span id="cb999-6"><a href="WE_8.html#cb999-6" tabindex="-1"></a><span class="co">#                           para$locs, para$n.cov )</span></span>
-<span id="cb999-7"><a href="WE_8.html#cb999-7" tabindex="-1"></a><span class="co">#  </span></span>
-<span id="cb999-8"><a href="WE_8.html#cb999-8" tabindex="-1"></a><span class="co">#  #run for para.space$time[i] generations</span></span>
-<span id="cb999-9"><a href="WE_8.html#cb999-9" tabindex="-1"></a><span class="co">#  simpops &lt;- PopGenReport::run.popgensim(simpops.0, </span></span>
-<span id="cb999-10"><a href="WE_8.html#cb999-10" tabindex="-1"></a><span class="co">#                           steps=para.space$time[i], cost.mat,</span></span>
-<span id="cb999-11"><a href="WE_8.html#cb999-11" tabindex="-1"></a><span class="co">#                           n.offspring=para$n.offspring, n.ind=para$n.ind,</span></span>
-<span id="cb999-12"><a href="WE_8.html#cb999-12" tabindex="-1"></a><span class="co">#                           para$mig.rate, para$disp.max, para$disp.rate, </span></span>
-<span id="cb999-13"><a href="WE_8.html#cb999-13" tabindex="-1"></a><span class="co">#                           para$n.allels, para$mut.rate,</span></span>
-<span id="cb999-14"><a href="WE_8.html#cb999-14" tabindex="-1"></a><span class="co">#                           n.cov=para$n.cov, rec=&quot;none&quot;)</span></span>
-<span id="cb999-15"><a href="WE_8.html#cb999-15" tabindex="-1"></a><span class="co">#}</span></span></code></pre></div>
+<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb990-1"><a href="WE_8.html#cb990-1" tabindex="-1"></a><span class="co">#for (i in 1:nrow(para.space))</span></span>
+<span id="cb990-2"><a href="WE_8.html#cb990-2" tabindex="-1"></a><span class="co">#{</span></span>
+<span id="cb990-3"><a href="WE_8.html#cb990-3" tabindex="-1"></a><span class="co">#  #initialize</span></span>
+<span id="cb990-4"><a href="WE_8.html#cb990-4" tabindex="-1"></a><span class="co">#  simpops.0 &lt;- PopGenReport::init.popgensim(para$n.pops, para$n.ind, </span></span>
+<span id="cb990-5"><a href="WE_8.html#cb990-5" tabindex="-1"></a><span class="co">#                           para$sex.ratio, para$n.loci, para$n.allels, </span></span>
+<span id="cb990-6"><a href="WE_8.html#cb990-6" tabindex="-1"></a><span class="co">#                           para$locs, para$n.cov )</span></span>
+<span id="cb990-7"><a href="WE_8.html#cb990-7" tabindex="-1"></a><span class="co">#  </span></span>
+<span id="cb990-8"><a href="WE_8.html#cb990-8" tabindex="-1"></a><span class="co">#  #run for para.space$time[i] generations</span></span>
+<span id="cb990-9"><a href="WE_8.html#cb990-9" tabindex="-1"></a><span class="co">#  simpops &lt;- PopGenReport::run.popgensim(simpops.0, </span></span>
+<span id="cb990-10"><a href="WE_8.html#cb990-10" tabindex="-1"></a><span class="co">#                           steps=para.space$time[i], cost.mat,</span></span>
+<span id="cb990-11"><a href="WE_8.html#cb990-11" tabindex="-1"></a><span class="co">#                           n.offspring=para$n.offspring, n.ind=para$n.ind,</span></span>
+<span id="cb990-12"><a href="WE_8.html#cb990-12" tabindex="-1"></a><span class="co">#                           para$mig.rate, para$disp.max, para$disp.rate, </span></span>
+<span id="cb990-13"><a href="WE_8.html#cb990-13" tabindex="-1"></a><span class="co">#                           para$n.allels, para$mut.rate,</span></span>
+<span id="cb990-14"><a href="WE_8.html#cb990-14" tabindex="-1"></a><span class="co">#                           n.cov=para$n.cov, rec=&quot;none&quot;)</span></span>
+<span id="cb990-15"><a href="WE_8.html#cb990-15" tabindex="-1"></a><span class="co">#}</span></span></code></pre></div>
 <p>Have a close look at the change.</p>
 <p>Question: what changes between replicate runs, and what not? Consider the following aspects:</p>
 <ul>
@@ -1109,65 +1059,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>gi</strong>: the genind object that contains the genotypes at the end of the simulation.</li>
 </ul>
 <p>First we make sure the folder <code>simout</code> exists within the <code>output</code> folder in the R project:</p>
-<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="WE_8.html#cb1000-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
-<span id="cb1000-2"><a href="WE_8.html#cb1000-2" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
-<span id="cb1000-3"><a href="WE_8.html#cb1000-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>)))</span>
-<span id="cb1000-4"><a href="WE_8.html#cb1000-4" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1001-1"><a href="WE_8.html#cb1001-1" tabindex="-1"></a><span class="do">## c.eate a timer (just to know how long it will take roughly)</span></span>
-<span id="cb1001-2"><a href="WE_8.html#cb1001-2" tabindex="-1"></a>timer0 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>],<span class="dv">2</span>)</span>
-<span id="cb1001-3"><a href="WE_8.html#cb1001-3" tabindex="-1"></a></span>
-<span id="cb1001-4"><a href="WE_8.html#cb1001-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(para.space))</span>
-<span id="cb1001-5"><a href="WE_8.html#cb1001-5" tabindex="-1"></a>{</span>
-<span id="cb1001-6"><a href="WE_8.html#cb1001-6" tabindex="-1"></a>  <span class="do">## i.itialize</span></span>
-<span id="cb1001-7"><a href="WE_8.html#cb1001-7" tabindex="-1"></a>  simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind, </span>
-<span id="cb1001-8"><a href="WE_8.html#cb1001-8" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, para<span class="sc">$</span>n.allels, </span>
-<span id="cb1001-9"><a href="WE_8.html#cb1001-9" tabindex="-1"></a>                           para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span>
-<span id="cb1001-10"><a href="WE_8.html#cb1001-10" tabindex="-1"></a>  </span>
-<span id="cb1001-11"><a href="WE_8.html#cb1001-11" tabindex="-1"></a>  <span class="co"># run for para.space$time[i] generations</span></span>
-<span id="cb1001-12"><a href="WE_8.html#cb1001-12" tabindex="-1"></a>  simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, </span>
-<span id="cb1001-13"><a href="WE_8.html#cb1001-13" tabindex="-1"></a>                           <span class="at">steps=</span>para.space<span class="sc">$</span>time[i], cost.mat, </span>
-<span id="cb1001-14"><a href="WE_8.html#cb1001-14" tabindex="-1"></a>                           <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
-<span id="cb1001-15"><a href="WE_8.html#cb1001-15" tabindex="-1"></a>                           para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
-<span id="cb1001-16"><a href="WE_8.html#cb1001-16" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
-<span id="cb1001-17"><a href="WE_8.html#cb1001-17" tabindex="-1"></a>                           <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb1001-18"><a href="WE_8.html#cb1001-18" tabindex="-1"></a>  </span>
-<span id="cb1001-19"><a href="WE_8.html#cb1001-19" tabindex="-1"></a>  <span class="do">## c.nvert to genind object (smaller)</span></span>
-<span id="cb1001-20"><a href="WE_8.html#cb1001-20" tabindex="-1"></a>  gi <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops)</span>
-<span id="cb1001-21"><a href="WE_8.html#cb1001-21" tabindex="-1"></a>  </span>
-<span id="cb1001-22"><a href="WE_8.html#cb1001-22" tabindex="-1"></a>  <span class="do">## c.eate a list of all I want to collect</span></span>
-<span id="cb1001-23"><a href="WE_8.html#cb1001-23" tabindex="-1"></a>  sim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">para.space=</span>para.space[i,], <span class="at">para=</span>para, </span>
-<span id="cb1001-24"><a href="WE_8.html#cb1001-24" tabindex="-1"></a>              <span class="at">landscape=</span>landscape, <span class="at">cost.mat=</span>cost.mat, <span class="at">gi=</span>gi)</span>
-<span id="cb1001-25"><a href="WE_8.html#cb1001-25" tabindex="-1"></a>  </span>
-<span id="cb1001-26"><a href="WE_8.html#cb1001-26" tabindex="-1"></a>  <span class="co"># save everything in an output folder (with a consecutive number, with three leading zeros, so the file sorting is nicer)</span></span>
-<span id="cb1001-27"><a href="WE_8.html#cb1001-27" tabindex="-1"></a></span>
-<span id="cb1001-28"><a href="WE_8.html#cb1001-28" tabindex="-1"></a>  <span class="fu">save</span>(sim, <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout/sim_time5-45_rep5_&quot;</span>,</span>
-<span id="cb1001-29"><a href="WE_8.html#cb1001-29" tabindex="-1"></a>                          <span class="fu">sprintf</span>(<span class="st">&quot;%03i&quot;</span>,i) ,<span class="st">&quot;.RData&quot;</span>))</span>
-<span id="cb1001-30"><a href="WE_8.html#cb1001-30" tabindex="-1"></a>  </span>
-<span id="cb1001-31"><a href="WE_8.html#cb1001-31" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished run: &quot;</span>, i,<span class="st">&quot; out of &quot;</span>,<span class="fu">nrow</span>(para.space),</span>
-<span id="cb1001-32"><a href="WE_8.html#cb1001-32" tabindex="-1"></a>            <span class="st">&quot;. So far, it took: &quot;</span>, <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>]<span class="sc">-</span>timer0,<span class="dv">2</span>),<span class="st">&quot; sec.</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb1001-33"><a href="WE_8.html#cb1001-33" tabindex="-1"></a>  <span class="fu">flush.console</span>()</span>
-<span id="cb1001-34"><a href="WE_8.html#cb1001-34" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## Finished run: 1 out of 15. So far, it took: 0.44 sec.
-## Finished run: 2 out of 15. So far, it took: 0.86 sec.
-## Finished run: 3 out of 15. So far, it took: 1.27 sec.
-## Finished run: 4 out of 15. So far, it took: 1.67 sec.
-## Finished run: 5 out of 15. So far, it took: 2.1 sec.
-## Finished run: 6 out of 15. So far, it took: 3.92 sec.
-## Finished run: 7 out of 15. So far, it took: 6.09 sec.
-## Finished run: 8 out of 15. So far, it took: 7.85 sec.
-## Finished run: 9 out of 15. So far, it took: 9.64 sec.
-## Finished run: 10 out of 15. So far, it took: 11.43 sec.
-## Finished run: 11 out of 15. So far, it took: 14.59 sec.
-## Finished run: 12 out of 15. So far, it took: 17.82 sec.
-## Finished run: 13 out of 15. So far, it took: 21.03 sec.
-## Finished run: 14 out of 15. So far, it took: 24.21 sec.
-## Finished run: 15 out of 15. So far, it took: 27.4 sec.</code></pre>
+<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="WE_8.html#cb991-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))) </span>
+<span id="cb991-2"><a href="WE_8.html#cb991-2" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output&quot;</span>))</span>
+<span id="cb991-3"><a href="WE_8.html#cb991-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>)))</span>
+<span id="cb991-4"><a href="WE_8.html#cb991-4" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="WE_8.html#cb992-1" tabindex="-1"></a><span class="do">## c.eate a timer (just to know how long it will take roughly)</span></span>
+<span id="cb992-2"><a href="WE_8.html#cb992-2" tabindex="-1"></a>timer0 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>],<span class="dv">2</span>)</span>
+<span id="cb992-3"><a href="WE_8.html#cb992-3" tabindex="-1"></a></span>
+<span id="cb992-4"><a href="WE_8.html#cb992-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(para.space))</span>
+<span id="cb992-5"><a href="WE_8.html#cb992-5" tabindex="-1"></a>{</span>
+<span id="cb992-6"><a href="WE_8.html#cb992-6" tabindex="-1"></a>  <span class="do">## i.itialize</span></span>
+<span id="cb992-7"><a href="WE_8.html#cb992-7" tabindex="-1"></a>  simpops<span class="fl">.0</span> <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">init.popgensim</span>(para<span class="sc">$</span>n.pops, para<span class="sc">$</span>n.ind, </span>
+<span id="cb992-8"><a href="WE_8.html#cb992-8" tabindex="-1"></a>                           para<span class="sc">$</span>sex.ratio, para<span class="sc">$</span>n.loci, para<span class="sc">$</span>n.allels, </span>
+<span id="cb992-9"><a href="WE_8.html#cb992-9" tabindex="-1"></a>                           para<span class="sc">$</span>locs, para<span class="sc">$</span>n.cov )  </span>
+<span id="cb992-10"><a href="WE_8.html#cb992-10" tabindex="-1"></a>  </span>
+<span id="cb992-11"><a href="WE_8.html#cb992-11" tabindex="-1"></a>  <span class="co"># run for para.space$time[i] generations</span></span>
+<span id="cb992-12"><a href="WE_8.html#cb992-12" tabindex="-1"></a>  simpops <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">run.popgensim</span>(simpops<span class="fl">.0</span>, </span>
+<span id="cb992-13"><a href="WE_8.html#cb992-13" tabindex="-1"></a>                           <span class="at">steps=</span>para.space<span class="sc">$</span>time[i], cost.mat, </span>
+<span id="cb992-14"><a href="WE_8.html#cb992-14" tabindex="-1"></a>                           <span class="at">n.offspring=</span>para<span class="sc">$</span>n.offspring, <span class="at">n.ind=</span>para<span class="sc">$</span>n.ind,</span>
+<span id="cb992-15"><a href="WE_8.html#cb992-15" tabindex="-1"></a>                           para<span class="sc">$</span>mig.rate, para<span class="sc">$</span>disp.max, para<span class="sc">$</span>disp.rate, </span>
+<span id="cb992-16"><a href="WE_8.html#cb992-16" tabindex="-1"></a>                           para<span class="sc">$</span>n.allels, para<span class="sc">$</span>mut.rate,</span>
+<span id="cb992-17"><a href="WE_8.html#cb992-17" tabindex="-1"></a>                           <span class="at">n.cov=</span>para<span class="sc">$</span>n.cov, <span class="at">rec=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb992-18"><a href="WE_8.html#cb992-18" tabindex="-1"></a>  </span>
+<span id="cb992-19"><a href="WE_8.html#cb992-19" tabindex="-1"></a>  <span class="do">## c.nvert to genind object (smaller)</span></span>
+<span id="cb992-20"><a href="WE_8.html#cb992-20" tabindex="-1"></a>  gi <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pops2genind</span>(simpops)</span>
+<span id="cb992-21"><a href="WE_8.html#cb992-21" tabindex="-1"></a>  </span>
+<span id="cb992-22"><a href="WE_8.html#cb992-22" tabindex="-1"></a>  <span class="do">## c.eate a list of all I want to collect</span></span>
+<span id="cb992-23"><a href="WE_8.html#cb992-23" tabindex="-1"></a>  sim <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">para.space=</span>para.space[i,], <span class="at">para=</span>para, </span>
+<span id="cb992-24"><a href="WE_8.html#cb992-24" tabindex="-1"></a>              <span class="at">landscape=</span>landscape, <span class="at">cost.mat=</span>cost.mat, <span class="at">gi=</span>gi)</span>
+<span id="cb992-25"><a href="WE_8.html#cb992-25" tabindex="-1"></a>  </span>
+<span id="cb992-26"><a href="WE_8.html#cb992-26" tabindex="-1"></a>  <span class="co"># save everything in an output folder (with a consecutive number, with three leading zeros, so the file sorting is nicer)</span></span>
+<span id="cb992-27"><a href="WE_8.html#cb992-27" tabindex="-1"></a></span>
+<span id="cb992-28"><a href="WE_8.html#cb992-28" tabindex="-1"></a>  <span class="fu">save</span>(sim, <span class="at">file =</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">&quot;/output/simout/sim_time5-45_rep5_&quot;</span>,</span>
+<span id="cb992-29"><a href="WE_8.html#cb992-29" tabindex="-1"></a>                          <span class="fu">sprintf</span>(<span class="st">&quot;%03i&quot;</span>,i) ,<span class="st">&quot;.RData&quot;</span>))</span>
+<span id="cb992-30"><a href="WE_8.html#cb992-30" tabindex="-1"></a>  </span>
+<span id="cb992-31"><a href="WE_8.html#cb992-31" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished run: &quot;</span>, i,<span class="st">&quot; out of &quot;</span>,<span class="fu">nrow</span>(para.space),</span>
+<span id="cb992-32"><a href="WE_8.html#cb992-32" tabindex="-1"></a>            <span class="st">&quot;. So far, it took: &quot;</span>, <span class="fu">round</span>(<span class="fu">proc.time</span>()[<span class="dv">3</span>]<span class="sc">-</span>timer0,<span class="dv">2</span>),<span class="st">&quot; sec.</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb992-33"><a href="WE_8.html#cb992-33" tabindex="-1"></a>  <span class="fu">flush.console</span>()</span>
+<span id="cb992-34"><a href="WE_8.html#cb992-34" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Finished run: 1 out of 15. So far, it took: 0.31 sec.
+## Finished run: 2 out of 15. So far, it took: 0.65 sec.
+## Finished run: 3 out of 15. So far, it took: 0.95 sec.
+## Finished run: 4 out of 15. So far, it took: 1.26 sec.
+## Finished run: 5 out of 15. So far, it took: 1.56 sec.
+## Finished run: 6 out of 15. So far, it took: 2.88 sec.
+## Finished run: 7 out of 15. So far, it took: 4.25 sec.
+## Finished run: 8 out of 15. So far, it took: 5.58 sec.
+## Finished run: 9 out of 15. So far, it took: 6.91 sec.
+## Finished run: 10 out of 15. So far, it took: 8.25 sec.
+## Finished run: 11 out of 15. So far, it took: 10.61 sec.
+## Finished run: 12 out of 15. So far, it took: 13.34 sec.
+## Finished run: 13 out of 15. So far, it took: 15.72 sec.
+## Finished run: 14 out of 15. So far, it took: 18.07 sec.
+## Finished run: 15 out of 15. So far, it took: 20.37 sec.</code></pre>
 </div>
 <div id="d.-analyze-and-synthesize-results" class="section level4 unnumbered hasAnchor">
 <h4>d. Analyze and synthesize results<a href="WE_8.html#d.-analyze-and-synthesize-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If you check your output folder (simout) you should see 15 files.</p>
 <p>Note: File paths can be different when you execute a chunk in an R notebook compared to when you copy-paste the same line into the console! We avoid this problem by using the function ‘here’ from package ‘here’.</p>
-<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="WE_8.html#cb1003-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">dir</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="WE_8.html#cb994-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">dir</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout&quot;</span>)))</span></code></pre></div>
 <pre><code>## [1] &quot;sim_time5-45_rep5_001.RData&quot; &quot;sim_time5-45_rep5_002.RData&quot;
 ## [3] &quot;sim_time5-45_rep5_003.RData&quot; &quot;sim_time5-45_rep5_004.RData&quot;
 ## [5] &quot;sim_time5-45_rep5_005.RData&quot; &quot;sim_time5-45_rep5_006.RData&quot;</code></pre>
@@ -1188,42 +1138,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Perform ‘Sunder’ covariance analysis and extract which model is best supported (‘G’, ‘E’ or ‘GE’).</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1005-1"><a href="WE_8.html#cb1005-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rep=</span><span class="cn">NA</span>, <span class="at">time=</span><span class="cn">NA</span>, <span class="at">fst=</span><span class="cn">NA</span>, <span class="at">r.Eucl=</span><span class="cn">NA</span>, <span class="at">p.Eucl=</span><span class="cn">NA</span>, </span>
-<span id="cb1005-2"><a href="WE_8.html#cb1005-2" tabindex="-1"></a>                  <span class="at">r.cost=</span><span class="cn">NA</span>, <span class="at">p.cost=</span><span class="cn">NA</span>, <span class="at">MLPE=</span><span class="cn">NA</span>)</span>
-<span id="cb1005-3"><a href="WE_8.html#cb1005-3" tabindex="-1"></a></span>
-<span id="cb1005-4"><a href="WE_8.html#cb1005-4" tabindex="-1"></a><span class="co">#load all files in the folder</span></span>
-<span id="cb1005-5"><a href="WE_8.html#cb1005-5" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path=</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout&quot;</span>), <span class="at">pattern=</span><span class="st">&quot;sim&quot;</span>)</span>
-<span id="cb1005-6"><a href="WE_8.html#cb1005-6" tabindex="-1"></a></span>
-<span id="cb1005-7"><a href="WE_8.html#cb1005-7" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames))</span>
-<span id="cb1005-8"><a href="WE_8.html#cb1005-8" tabindex="-1"></a>{</span>
-<span id="cb1005-9"><a href="WE_8.html#cb1005-9" tabindex="-1"></a>  <span class="co">#creates a sim object</span></span>
-<span id="cb1005-10"><a href="WE_8.html#cb1005-10" tabindex="-1"></a>  <span class="fu">load</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout/&quot;</span>,filenames[i]))</span>
-<span id="cb1005-11"><a href="WE_8.html#cb1005-11" tabindex="-1"></a></span>
-<span id="cb1005-12"><a href="WE_8.html#cb1005-12" tabindex="-1"></a>  <span class="co">#now let us take what we need from the simulation</span></span>
-<span id="cb1005-13"><a href="WE_8.html#cb1005-13" tabindex="-1"></a>  res[i,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> sim<span class="sc">$</span>para.space</span>
-<span id="cb1005-14"><a href="WE_8.html#cb1005-14" tabindex="-1"></a>  </span>
-<span id="cb1005-15"><a href="WE_8.html#cb1005-15" tabindex="-1"></a>  <span class="co">#calculate a summary statistic: mean of pairwise fst values</span></span>
-<span id="cb1005-16"><a href="WE_8.html#cb1005-16" tabindex="-1"></a>  <span class="do">## h.re we only take the lower triangle of the matrix to avoid the diagonal values,</span></span>
-<span id="cb1005-17"><a href="WE_8.html#cb1005-17" tabindex="-1"></a>  <span class="co"># which are zero by definition (comparing each population to itself)</span></span>
-<span id="cb1005-18"><a href="WE_8.html#cb1005-18" tabindex="-1"></a>  gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(sim<span class="sc">$</span>gi)  </span>
-<span id="cb1005-19"><a href="WE_8.html#cb1005-19" tabindex="-1"></a>  res [i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(gen.mat[<span class="fu">lower.tri</span>(gen.mat)])</span>
-<span id="cb1005-20"><a href="WE_8.html#cb1005-20" tabindex="-1"></a>  </span>
-<span id="cb1005-21"><a href="WE_8.html#cb1005-21" tabindex="-1"></a>  <span class="co">#Distance matrices</span></span>
-<span id="cb1005-22"><a href="WE_8.html#cb1005-22" tabindex="-1"></a>  eucl.mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(sim<span class="sc">$</span>para<span class="sc">$</span>locs)</span>
-<span id="cb1005-23"><a href="WE_8.html#cb1005-23" tabindex="-1"></a>  cost.mats <span class="ot">=</span> <span class="fu">list</span>(<span class="at">cost=</span>sim<span class="sc">$</span>cost.mat)</span>
-<span id="cb1005-24"><a href="WE_8.html#cb1005-24" tabindex="-1"></a>  </span>
-<span id="cb1005-25"><a href="WE_8.html#cb1005-25" tabindex="-1"></a>  <span class="co">#partial Mantel tests</span></span>
-<span id="cb1005-26"><a href="WE_8.html#cb1005-26" tabindex="-1"></a>  wass <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(eucl.mat, </span>
-<span id="cb1005-27"><a href="WE_8.html#cb1005-27" tabindex="-1"></a>                                <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>sim<span class="sc">$</span>cost.mat), </span>
-<span id="cb1005-28"><a href="WE_8.html#cb1005-28" tabindex="-1"></a>                                <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span>
-<span id="cb1005-29"><a href="WE_8.html#cb1005-29" tabindex="-1"></a>  res[i,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> wass[wass<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~Euclidean | cost&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb1005-30"><a href="WE_8.html#cb1005-30" tabindex="-1"></a>  res[i,<span class="dv">6</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">&lt;-</span> wass[wass<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~cost | Euclidean&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb1005-31"><a href="WE_8.html#cb1005-31" tabindex="-1"></a>  </span>
-<span id="cb1005-32"><a href="WE_8.html#cb1005-32" tabindex="-1"></a>  <span class="co">#Sunder</span></span>
-<span id="cb1005-33"><a href="WE_8.html#cb1005-33" tabindex="-1"></a>  res[i,<span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fu">getMLPE</span>(<span class="at">gen=</span>gen.mat, <span class="at">eucl=</span>eucl.mat, <span class="at">cost=</span>sim<span class="sc">$</span>cost.mat)</span>
-<span id="cb1005-34"><a href="WE_8.html#cb1005-34" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="WE_8.html#cb996-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rep=</span><span class="cn">NA</span>, <span class="at">time=</span><span class="cn">NA</span>, <span class="at">fst=</span><span class="cn">NA</span>, <span class="at">r.Eucl=</span><span class="cn">NA</span>, <span class="at">p.Eucl=</span><span class="cn">NA</span>, </span>
+<span id="cb996-2"><a href="WE_8.html#cb996-2" tabindex="-1"></a>                  <span class="at">r.cost=</span><span class="cn">NA</span>, <span class="at">p.cost=</span><span class="cn">NA</span>, <span class="at">MLPE=</span><span class="cn">NA</span>)</span>
+<span id="cb996-3"><a href="WE_8.html#cb996-3" tabindex="-1"></a></span>
+<span id="cb996-4"><a href="WE_8.html#cb996-4" tabindex="-1"></a><span class="co">#load all files in the folder</span></span>
+<span id="cb996-5"><a href="WE_8.html#cb996-5" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path=</span> <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout&quot;</span>), <span class="at">pattern=</span><span class="st">&quot;sim&quot;</span>)</span>
+<span id="cb996-6"><a href="WE_8.html#cb996-6" tabindex="-1"></a></span>
+<span id="cb996-7"><a href="WE_8.html#cb996-7" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames))</span>
+<span id="cb996-8"><a href="WE_8.html#cb996-8" tabindex="-1"></a>{</span>
+<span id="cb996-9"><a href="WE_8.html#cb996-9" tabindex="-1"></a>  <span class="co">#creates a sim object</span></span>
+<span id="cb996-10"><a href="WE_8.html#cb996-10" tabindex="-1"></a>  <span class="fu">load</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;/output/simout/&quot;</span>,filenames[i]))</span>
+<span id="cb996-11"><a href="WE_8.html#cb996-11" tabindex="-1"></a></span>
+<span id="cb996-12"><a href="WE_8.html#cb996-12" tabindex="-1"></a>  <span class="co">#now let us take what we need from the simulation</span></span>
+<span id="cb996-13"><a href="WE_8.html#cb996-13" tabindex="-1"></a>  res[i,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> sim<span class="sc">$</span>para.space</span>
+<span id="cb996-14"><a href="WE_8.html#cb996-14" tabindex="-1"></a>  </span>
+<span id="cb996-15"><a href="WE_8.html#cb996-15" tabindex="-1"></a>  <span class="co">#calculate a summary statistic: mean of pairwise fst values</span></span>
+<span id="cb996-16"><a href="WE_8.html#cb996-16" tabindex="-1"></a>  <span class="do">## h.re we only take the lower triangle of the matrix to avoid the diagonal values,</span></span>
+<span id="cb996-17"><a href="WE_8.html#cb996-17" tabindex="-1"></a>  <span class="co"># which are zero by definition (comparing each population to itself)</span></span>
+<span id="cb996-18"><a href="WE_8.html#cb996-18" tabindex="-1"></a>  gen.mat <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">pairwise.fstb</span>(sim<span class="sc">$</span>gi)  </span>
+<span id="cb996-19"><a href="WE_8.html#cb996-19" tabindex="-1"></a>  res [i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(gen.mat[<span class="fu">lower.tri</span>(gen.mat)])</span>
+<span id="cb996-20"><a href="WE_8.html#cb996-20" tabindex="-1"></a>  </span>
+<span id="cb996-21"><a href="WE_8.html#cb996-21" tabindex="-1"></a>  <span class="co">#Distance matrices</span></span>
+<span id="cb996-22"><a href="WE_8.html#cb996-22" tabindex="-1"></a>  eucl.mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(sim<span class="sc">$</span>para<span class="sc">$</span>locs)</span>
+<span id="cb996-23"><a href="WE_8.html#cb996-23" tabindex="-1"></a>  cost.mats <span class="ot">=</span> <span class="fu">list</span>(<span class="at">cost=</span>sim<span class="sc">$</span>cost.mat)</span>
+<span id="cb996-24"><a href="WE_8.html#cb996-24" tabindex="-1"></a>  </span>
+<span id="cb996-25"><a href="WE_8.html#cb996-25" tabindex="-1"></a>  <span class="co">#partial Mantel tests</span></span>
+<span id="cb996-26"><a href="WE_8.html#cb996-26" tabindex="-1"></a>  wass <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">wassermann</span>(eucl.mat, </span>
+<span id="cb996-27"><a href="WE_8.html#cb996-27" tabindex="-1"></a>                                <span class="at">cost.mats =</span> <span class="fu">list</span>(<span class="at">cost=</span>sim<span class="sc">$</span>cost.mat), </span>
+<span id="cb996-28"><a href="WE_8.html#cb996-28" tabindex="-1"></a>                                <span class="at">gen.mat =</span> gen.mat, <span class="at">plot=</span>F)<span class="sc">$</span>mantel.tab</span>
+<span id="cb996-29"><a href="WE_8.html#cb996-29" tabindex="-1"></a>  res[i,<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> wass[wass<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~Euclidean | cost&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb996-30"><a href="WE_8.html#cb996-30" tabindex="-1"></a>  res[i,<span class="dv">6</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">&lt;-</span> wass[wass<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;Gen ~cost | Euclidean&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb996-31"><a href="WE_8.html#cb996-31" tabindex="-1"></a>  </span>
+<span id="cb996-32"><a href="WE_8.html#cb996-32" tabindex="-1"></a>  <span class="co">#Sunder</span></span>
+<span id="cb996-33"><a href="WE_8.html#cb996-33" tabindex="-1"></a>  res[i,<span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fu">getMLPE</span>(<span class="at">gen=</span>gen.mat, <span class="at">eucl=</span>eucl.mat, <span class="at">cost=</span>sim<span class="sc">$</span>cost.mat)</span>
+<span id="cb996-34"><a href="WE_8.html#cb996-34" tabindex="-1"></a>}</span></code></pre></div>
 <p>Look at the ‘res’ data frame and check the results.</p>
-<div class="sourceCode" id="cb1006"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1006-1"><a href="WE_8.html#cb1006-1" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb997"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb997-1"><a href="WE_8.html#cb997-1" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
 <pre><code>##   rep time         fst  r.Eucl p.Eucl  r.cost p.cost MLPE
 ## 1   1    5 0.009270325  0.0725  0.324 -0.0206  0.506    G
 ## 2   2    5 0.009484194 -0.2763  0.941  0.5356  0.013    E
@@ -1232,9 +1182,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5   5    5 0.009037522  0.1347  0.216 -0.0211  0.521    G
 ## 6   1   25 0.022749633 -0.3674  0.992  0.6932  0.003    E</code></pre>
 <p>The next step would be to visualise the results (e.g. plot runs over times and color by rep). A quick way to do that is to use the function ‘ggplot’ from the ‘ggplot2’ package. Here we add a jitter to keep points from overlapping too much.</p>
-<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="WE_8.html#cb1008-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(res, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>fst)) <span class="sc">+</span> </span>
-<span id="cb1008-2"><a href="WE_8.html#cb1008-2" tabindex="-1"></a>         ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(<span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_jitter</span>(<span class="at">w =</span> <span class="fl">0.5</span>))</span></code></pre></div>
-<p><img src="08-Week08_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="WE_8.html#cb999-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(res, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>fst)) <span class="sc">+</span> </span>
+<span id="cb999-2"><a href="WE_8.html#cb999-2" tabindex="-1"></a>         ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(<span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_jitter</span>(<span class="at">w =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="08-Week08_files/figure-html/unnamed-chunk-51-1.png" alt="" width="672" /></p>
 <p>Now it is again time for you to experiment. For example, why not set up a simulation that varies the number of loci. Or as you may have seen even after 100 generation there was no sign that the mean pairwise Fst value is levelling off. So how long do you have to run a simulation in terms of time to see this (be aware that simulation runs take longer if you increase the number of timesteps)?</p>
 <p>Questions:</p>
 <ul>
@@ -1265,42 +1215,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

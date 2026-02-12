@@ -33,14 +33,14 @@ This section explains the basics of version control: why it is important, and ho
 
 Note: the video mentions a worked example. This has been replaced by the external tutorials listed above.
 
-- External link: [Week 0 video](https://sho.co/19EFD)
+- External link: [Week 0 video](https://play.library.utoronto.ca/watch/2f75d14ac85ef005eb5141c2cdf57a68)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week0_Script.pdf)
 
 
 
 Embedded video:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/prXFvulWRGw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://play.library.utoronto.ca/embed/2f75d14ac85ef005eb5141c2cdf57a68" frameborder="0" allowfullscreen> iframe not supported </iframe>
 
 ### 3. Preview slides {-#slides}
 
@@ -51,12 +51,12 @@ Embedded video:
 ```
 ## Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
 ## ℹ Please use the `linewidth` argument instead.
-## This warning is displayed once every 8 hours.
+## This warning is displayed once per session.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 ## generated.
 ```
 
-<img src="00-GitHub_files/figure-html/unnamed-chunk-1-1.png" width="768" />
+<img src="00-GitHub_files/figure-html/unnamed-chunk-1-1.png" alt="" width="768" />
 
 ### 4. Next steps {-} 
 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.3 Worked Example | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.3 Worked Example | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2024-01-25" />
+<meta name="date" content="2026-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="tutorial_3.html"/>
 <link rel="next" href="r-exercise-week-3.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,6 +54,9 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -61,21 +64,21 @@
 <script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
 <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
 <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
-<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
-<script src="libs/highlight-6.2.0/highlight.js"></script>
-<script src="libs/profvis-binding-0.3.8/profvis.js"></script>
+<link href="libs/highlight-11.10.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-11.10.0/highlight.min.js"></script>
+<script src="libs/profvis-binding-0.4.0/profvis.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,7 +88,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -215,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Basic Topics</b></span></li>
-<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Week 1: Importing Genetic Data</a>
+<li class="chapter" data-level="4" data-path="Week1.html"><a href="Week1.html"><i class="fa fa-check"></i><b>4</b> Lab 1: Importing Genetic Data</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="video_1.html"><a href="video_1.html"><i class="fa fa-check"></i><b>4.1</b> View Course Video</a>
 <ul>
@@ -236,9 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
+<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Week 2: Spatial Data</a>
+<li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="video_2.html"><a href="video_2.html"><i class="fa fa-check"></i><b>5.1</b> View Course Video</a>
 <ul>
@@ -258,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -268,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#plot-a-categorical-map-with-predefined-color-scheme"><i class="fa fa-check"></i>5. Plot a categorical map with predefined color scheme</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Week 3: Genetic Diversity</a>
+<li class="chapter" data-level="6" data-path="Week3.html"><a href="Week3.html"><i class="fa fa-check"></i><b>6</b> Lab 3: Genetic Diversity</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="video_3.html"><a href="video_3.html"><i class="fa fa-check"></i><b>6.1</b> View Course Video</a>
 <ul>
@@ -285,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="WE_3.html"><a href="WE_3.html"><i class="fa fa-check"></i><b>6.3</b> Worked Example</a></li>
 <li class="chapter" data-level="6.4" data-path="r-exercise-week-3.html"><a href="r-exercise-week-3.html"><i class="fa fa-check"></i><b>6.4</b> R Exercise Week 3</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Week 4: Metapopulations</a>
+<li class="chapter" data-level="7" data-path="Week4.html"><a href="Week4.html"><i class="fa fa-check"></i><b>7</b> Lab 4: Metapopulations</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="video_4.html"><a href="video_4.html"><i class="fa fa-check"></i><b>7.1</b> View Course Video</a>
 <ul>
@@ -308,9 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
+<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Week 5: Spatial Statistics</a>
+<li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="video_5.html"><a href="video_5.html"><i class="fa fa-check"></i><b>8.1</b> View Course Video</a>
 <ul>
@@ -331,9 +334,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
+<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Week 6: Quantitative Genetics</a>
+<li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="video_6.html"><a href="video_6.html"><i class="fa fa-check"></i><b>9.1</b> View Course Video</a>
 <ul>
@@ -357,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="r-exercise-week-6.html"><a href="r-exercise-week-6.html"><i class="fa fa-check"></i>R Exercise Week 6</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Week 7: Spatial Linear Models</a>
+<li class="chapter" data-level="10" data-path="Week7.html"><a href="Week7.html"><i class="fa fa-check"></i><b>10</b> Lab 7: Spatial Linear Models</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="video_7.html"><a href="video_7.html"><i class="fa fa-check"></i><b>10.1</b> View Course Video</a>
 <ul>
@@ -384,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
+<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -393,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#calculate-hanskis-index-si-with-source-patch-parameters"><i class="fa fa-check"></i>4. Calculate Hanski’s index Si with source patch parameters</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Week 8: Simulation Experiments</a>
+<li class="chapter" data-level="11" data-path="Week8.html"><a href="Week8.html"><i class="fa fa-check"></i><b>11</b> Lab 8: Simulation Experiments</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="video_8.html"><a href="video_8.html"><i class="fa fa-check"></i><b>11.1</b> View Course Video</a>
 <ul>
@@ -415,11 +418,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
-<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Week 9: Population Structure</a>
+<li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="WE_9.html"><a href="WE_9.html"><i class="fa fa-check"></i><b>12.1</b> Worked Example</a>
 <ul>
@@ -429,75 +432,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Week 10: Landscape Resistance</a>
+<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
-<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bonus-10a.html"><a href="bonus-10a.html"><i class="fa fa-check"></i><b>13.2</b> Bonus: ‘radish’ tutorial</a>
-<ul>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#overview-of-bonus-materials-1"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#import-data"><i class="fa fa-check"></i>2. Import data</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#basic-model-fitting"><i class="fa fa-check"></i>3. Basic model fitting</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#advanced-modeling-topics"><i class="fa fa-check"></i>4. Advanced modeling topics</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#summary"><i class="fa fa-check"></i>5. Summary</a></li>
-<li class="chapter" data-level="" data-path="bonus-10a.html"><a href="bonus-10a.html#references-1"><i class="fa fa-check"></i>6. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Week 11: Detecting Adaptation</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-2"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Week 12: Model Selection</a>
+<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
+<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-3"><i class="fa fa-check"></i>5. References</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="Week13.html"><a href="Week13.html"><i class="fa fa-check"></i><b>16</b> Week 13: Gravity Models</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="WE_13.html"><a href="WE_13.html"><i class="fa fa-check"></i><b>16.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#overview-of-worked-example-12"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#setup"><i class="fa fa-check"></i>2. Setup</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-complex-data-preparation"><i class="fa fa-check"></i>3. Wetland complex data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#wetland-field-data-preparation"><i class="fa fa-check"></i>4. Wetland field-data preparation</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#saturated-graph"><i class="fa fa-check"></i>5. Saturated Graph</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#spatial-model-data-prepration"><i class="fa fa-check"></i>6. Spatial model data prepration</a></li>
-<li class="chapter" data-level="" data-path="WE_13.html"><a href="WE_13.html#gravity-model"><i class="fa fa-check"></i>7. Gravity model</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="Week14.html"><a href="Week14.html"><i class="fa fa-check"></i><b>17</b> Week 14: Contemporary Gene Flow</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="WE_14.html"><a href="WE_14.html"><i class="fa fa-check"></i><b>17.1</b> Worked Example</a>
-<ul>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#overview-3"><i class="fa fa-check"></i>1. Overview</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#import-genotypes"><i class="fa fa-check"></i>2. Import Genotypes</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#pollen-pool-genetic-structure"><i class="fa fa-check"></i>3. Pollen pool genetic structure</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#paternity-analysis"><i class="fa fa-check"></i>4. Paternity analysis</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#linking-paternity-to-ecological-variables"><i class="fa fa-check"></i>5. Linking paternity to ecological variables</a></li>
-<li class="chapter" data-level="" data-path="WE_14.html"><a href="WE_14.html#references-4"><i class="fa fa-check"></i>6. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -546,12 +502,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c.-required-r-packages-1" class="section level5 unnumbered hasAnchor">
 <h5>c. Required R packages<a href="WE_3.html#c.-required-r-packages-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>All required packages should have been installed already when you installed ‘LandGenCourse’.</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="WE_3.html#cb501-1" tabindex="-1"></a><span class="co">#require(adegenet)</span></span>
-<span id="cb501-2"><a href="WE_3.html#cb501-2" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
-<span id="cb501-3"><a href="WE_3.html#cb501-3" tabindex="-1"></a><span class="co">#require(pegas)       </span></span>
-<span id="cb501-4"><a href="WE_3.html#cb501-4" tabindex="-1"></a><span class="co">#require(PopGenReport)</span></span>
-<span id="cb501-5"><a href="WE_3.html#cb501-5" tabindex="-1"></a><span class="fu">require</span>(dplyr)</span>
-<span id="cb501-6"><a href="WE_3.html#cb501-6" tabindex="-1"></a><span class="fu">require</span>(poppr) </span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="WE_3.html#cb497-1" tabindex="-1"></a><span class="co">#require(adegenet)</span></span>
+<span id="cb497-2"><a href="WE_3.html#cb497-2" tabindex="-1"></a><span class="fu">require</span>(LandGenCourse)</span>
+<span id="cb497-3"><a href="WE_3.html#cb497-3" tabindex="-1"></a><span class="co">#require(pegas)       </span></span>
+<span id="cb497-4"><a href="WE_3.html#cb497-4" tabindex="-1"></a><span class="co">#require(PopGenReport)</span></span>
+<span id="cb497-5"><a href="WE_3.html#cb497-5" tabindex="-1"></a><span class="fu">require</span>(dplyr)</span>
+<span id="cb497-6"><a href="WE_3.html#cb497-6" tabindex="-1"></a><span class="fu">require</span>(poppr) </span></code></pre></div>
 </div>
 </div>
 <div id="basic-checking-of-markers-and-populations" class="section level4 unnumbered hasAnchor">
@@ -561,14 +517,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h5>a. Re-create genind object<a href="WE_3.html#a.-re-create-genind-object" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Adapted from Week 1 tutorial:</p>
 <p>Note: we use the double colon notation ‘package::function(argument)’ to indicate, for each function, which package it belongs to (see Week 2 video).</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="WE_3.html#cb502-1" tabindex="-1"></a><span class="fu">data</span>(ralu.loci, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span>
-<span id="cb502-2"><a href="WE_3.html#cb502-2" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID =</span> <span class="fu">paste</span>(<span class="fu">substr</span>(ralu.loci<span class="sc">$</span>Pop, <span class="dv">1</span>, <span class="dv">3</span>), </span>
-<span id="cb502-3"><a href="WE_3.html#cb502-3" tabindex="-1"></a>                                   <span class="fu">row.names</span>(ralu.loci), <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), ralu.loci)</span>
-<span id="cb502-4"><a href="WE_3.html#cb502-4" tabindex="-1"></a>Frogs.genind <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">df2genind</span>(<span class="at">X=</span>Frogs[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>)], <span class="at">sep=</span><span class="st">&quot;:&quot;</span>, <span class="at">ncode=</span><span class="cn">NULL</span>, </span>
-<span id="cb502-5"><a href="WE_3.html#cb502-5" tabindex="-1"></a>                          <span class="at">ind.names=</span> Frogs<span class="sc">$</span>FrogID, <span class="at">loc.names=</span><span class="cn">NULL</span>, </span>
-<span id="cb502-6"><a href="WE_3.html#cb502-6" tabindex="-1"></a>                          <span class="at">pop=</span>Frogs<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
-<span id="cb502-7"><a href="WE_3.html#cb502-7" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
-<span id="cb502-8"><a href="WE_3.html#cb502-8" tabindex="-1"></a>Frogs.genind</span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="WE_3.html#cb498-1" tabindex="-1"></a><span class="fu">data</span>(ralu.loci, <span class="at">package=</span><span class="st">&quot;LandGenCourse&quot;</span>)</span>
+<span id="cb498-2"><a href="WE_3.html#cb498-2" tabindex="-1"></a>Frogs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FrogID =</span> <span class="fu">paste</span>(<span class="fu">substr</span>(ralu.loci<span class="sc">$</span>Pop, <span class="dv">1</span>, <span class="dv">3</span>), </span>
+<span id="cb498-3"><a href="WE_3.html#cb498-3" tabindex="-1"></a>                                   <span class="fu">row.names</span>(ralu.loci), <span class="at">sep=</span><span class="st">&quot;.&quot;</span>), ralu.loci)</span>
+<span id="cb498-4"><a href="WE_3.html#cb498-4" tabindex="-1"></a>Frogs.genind <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">df2genind</span>(<span class="at">X=</span>Frogs[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>)], <span class="at">sep=</span><span class="st">&quot;:&quot;</span>, <span class="at">ncode=</span><span class="cn">NULL</span>, </span>
+<span id="cb498-5"><a href="WE_3.html#cb498-5" tabindex="-1"></a>                          <span class="at">ind.names=</span> Frogs<span class="sc">$</span>FrogID, <span class="at">loc.names=</span><span class="cn">NULL</span>, </span>
+<span id="cb498-6"><a href="WE_3.html#cb498-6" tabindex="-1"></a>                          <span class="at">pop=</span>Frogs<span class="sc">$</span>Pop, <span class="at">NA.char=</span><span class="st">&quot;NA&quot;</span>, <span class="at">ploidy=</span><span class="dv">2</span>, </span>
+<span id="cb498-7"><a href="WE_3.html#cb498-7" tabindex="-1"></a>                          <span class="at">type=</span><span class="st">&quot;codom&quot;</span>, <span class="at">strata=</span><span class="cn">NULL</span>, <span class="at">hierarchy=</span><span class="cn">NULL</span>)</span>
+<span id="cb498-8"><a href="WE_3.html#cb498-8" tabindex="-1"></a>Frogs.genind</span></code></pre></div>
 <pre><code>## /// GENIND OBJECT /////////
 ## 
 ##  // 181 individuals; 8 loci; 39 alleles; size: 55.5 Kb
@@ -591,7 +547,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="b.-check-that-markers-are-polymorphic" class="section level5 unnumbered hasAnchor">
 <h5>b. Check that markers are polymorphic<a href="WE_3.html#b.-check-that-markers-are-polymorphic" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>The genetic resolution depends on the number of markers and their polymorphism. The table above and the summary function for genind objects together provide this information. Now we run the summary function:</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="WE_3.html#cb504-1" tabindex="-1"></a><span class="fu">summary</span>(Frogs.genind)</span></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="WE_3.html#cb500-1" tabindex="-1"></a><span class="fu">summary</span>(Frogs.genind)</span></code></pre></div>
 <pre><code>## 
 ## // Number of individuals: 181
 ## // Group sizes: 21 8 14 13 7 17 9 20 19 13 17 23
@@ -620,24 +576,24 @@ In general, we don’t expect all of these assumptions to be met (e.g., if we wa
 <li><strong>Pr.exact</strong>: p-value from an exact test based on Monte Carlo permutation of alleles (for diploids only). The default is B = 1000 permutations (set B = 0 to skip this test).
 Here we use the function ‘round’ with argument ‘digits = 3’ to round all values to 3 decimals.</li>
 </ul>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="WE_3.html#cb506-1" tabindex="-1"></a><span class="fu">round</span>(pegas<span class="sc">::</span><span class="fu">hw.test</span>(Frogs.genind, <span class="at">B =</span> <span class="dv">1000</span>), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="WE_3.html#cb502-1" tabindex="-1"></a><span class="fu">round</span>(pegas<span class="sc">::</span><span class="fu">hw.test</span>(Frogs.genind, <span class="at">B =</span> <span class="dv">1000</span>), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##     chi^2 df Pr(chi^2 &gt;) Pr.exact
 ## A  40.462  3       0.000    0.000
-## B  17.135  6       0.009    0.029
+## B  17.135  6       0.009    0.034
 ## C 136.522  6       0.000    0.000
 ## D  83.338  6       0.000    0.000
 ## E 226.803 36       0.000    0.000
 ## F   0.024  3       0.999    1.000
-## G  12.349  6       0.055    0.006
+## G  12.349  6       0.055    0.008
 ## H  76.813 28       0.000    0.000</code></pre>
 <p>Both tests suggest that all loci except for locus “F” are out of HWE globally (across all 181 individuals). Next, we check for HWE of each locus in each population.</p>
 <p>Notes on the code: The curly brackets ‘{ }’ below are used to keep the output from multiple lines together in the html file. Function ‘seppop’ splits the genind object by population. We use ‘sapply’ to apply the function ‘hw.test’ from package ‘pegas’ to each population (see this week’s video and tutorial). We set ‘B=0’ to specify that we don’t need any permutations right now. The function ‘t’ takes the transpose of the resulting matrix, which means it flips rows and columns. This works on a matrix, not a data frame, hence we use ‘data.matrix’ to temporarily interpret the data frame as a matrix.</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="WE_3.html#cb508-1" tabindex="-1"></a><span class="co"># Chi-squared test: p-value</span></span>
-<span id="cb508-2"><a href="WE_3.html#cb508-2" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
-<span id="cb508-3"><a href="WE_3.html#cb508-3" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">0</span>)[,<span class="dv">3</span>]))</span>
-<span id="cb508-4"><a href="WE_3.html#cb508-4" tabindex="-1"></a>HWE.test.chisq <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
-<span id="cb508-5"><a href="WE_3.html#cb508-5" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Chi-squared test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb508-6"><a href="WE_3.html#cb508-6" tabindex="-1"></a><span class="fu">round</span>(HWE.test.chisq,<span class="dv">3</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="WE_3.html#cb504-1" tabindex="-1"></a><span class="co"># Chi-squared test: p-value</span></span>
+<span id="cb504-2"><a href="WE_3.html#cb504-2" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
+<span id="cb504-3"><a href="WE_3.html#cb504-3" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">0</span>)[,<span class="dv">3</span>]))</span>
+<span id="cb504-4"><a href="WE_3.html#cb504-4" tabindex="-1"></a>HWE.test.chisq <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
+<span id="cb504-5"><a href="WE_3.html#cb504-5" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Chi-squared test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb504-6"><a href="WE_3.html#cb504-6" tabindex="-1"></a><span class="fu">round</span>(HWE.test.chisq,<span class="dv">3</span>)}</span></code></pre></div>
 <pre><code>## Chi-squared test (p-values):</code></pre>
 <pre><code>##                A     B     C     D     E     F     G     H
 ## Airplane   0.092 0.359 1.000 0.427 0.680 1.000 0.178 0.051
@@ -653,32 +609,32 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## ShipIsland 0.807 0.497 1.000 0.521 0.006 1.000 0.498 0.403
 ## Skyhigh    0.915 0.493 0.063 0.001 0.155 1.000 0.126 0.078</code></pre>
 <p>Let’s repeat this with a Monte Carlo permutation test with B = 1000 replicates:</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="WE_3.html#cb511-1" tabindex="-1"></a><span class="co"># Monte Carlo: p-value</span></span>
-<span id="cb511-2"><a href="WE_3.html#cb511-2" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
-<span id="cb511-3"><a href="WE_3.html#cb511-3" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">1000</span>)[,<span class="dv">4</span>]))</span>
-<span id="cb511-4"><a href="WE_3.html#cb511-4" tabindex="-1"></a>HWE.test.MC <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
-<span id="cb511-5"><a href="WE_3.html#cb511-5" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;MC permuation test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb511-6"><a href="WE_3.html#cb511-6" tabindex="-1"></a><span class="fu">round</span>(HWE.test.MC,<span class="dv">3</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="WE_3.html#cb507-1" tabindex="-1"></a><span class="co"># Monte Carlo: p-value</span></span>
+<span id="cb507-2"><a href="WE_3.html#cb507-2" tabindex="-1"></a>HWE.test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), </span>
+<span id="cb507-3"><a href="WE_3.html#cb507-3" tabindex="-1"></a>                              <span class="cf">function</span>(ls) pegas<span class="sc">::</span><span class="fu">hw.test</span>(ls, <span class="at">B=</span><span class="dv">1000</span>)[,<span class="dv">4</span>]))</span>
+<span id="cb507-4"><a href="WE_3.html#cb507-4" tabindex="-1"></a>HWE.test.MC <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">data.matrix</span>(HWE.test))</span>
+<span id="cb507-5"><a href="WE_3.html#cb507-5" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;MC permuation test (p-values):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb507-6"><a href="WE_3.html#cb507-6" tabindex="-1"></a><span class="fu">round</span>(HWE.test.MC,<span class="dv">3</span>)}</span></code></pre></div>
 <pre><code>## MC permuation test (p-values):</code></pre>
 <pre><code>##                A     B     C     D     E F     G     H
-## Airplane   0.023 1.000 1.000 0.415 0.622 1 0.261 0.004
-## Bachelor   1.000 0.448 1.000 1.000 0.871 1 0.497 0.614
-## BarkingFox 1.000 0.210 0.074 1.000 0.733 1 1.000 0.163
-## Bob        1.000 1.000 1.000 1.000 0.018 1 1.000 0.271
-## Cache      1.000 0.395 0.153 1.000 1.000 1 1.000 0.587
-## Egg        1.000 1.000 1.000 1.000 0.103 1 0.546 0.445
-## Frog       1.000 1.000 0.072 1.000 0.447 1 1.000 0.159
-## GentianL   1.000 0.063 1.000 0.071 0.651 1 0.649 0.167
-## ParagonL   1.000 0.131 1.000 1.000 1.000 1 0.334 0.077
-## Pothole    1.000 1.000 1.000 1.000 0.532 1 0.535 1.000
-## ShipIsland 1.000 0.614 1.000 0.683 0.127 1 0.552 0.498
-## Skyhigh    1.000 0.374 0.167 0.097 0.127 1 0.072 0.030</code></pre>
+## Airplane   0.017 1.000 1.000 0.375 0.627 1 0.247 0.005
+## Bachelor   1.000 0.467 1.000 1.000 0.853 1 0.478 0.600
+## BarkingFox 1.000 0.224 0.072 1.000 0.765 1 1.000 0.164
+## Bob        1.000 1.000 1.000 1.000 0.022 1 1.000 0.249
+## Cache      1.000 0.382 0.128 1.000 1.000 1 1.000 0.580
+## Egg        1.000 1.000 1.000 1.000 0.077 1 0.522 0.519
+## Frog       1.000 1.000 0.083 1.000 0.439 1 1.000 0.174
+## GentianL   1.000 0.063 1.000 0.058 0.697 1 0.620 0.130
+## ParagonL   1.000 0.145 1.000 1.000 1.000 1 0.321 0.084
+## Pothole    1.000 1.000 1.000 1.000 0.544 1 0.518 1.000
+## ShipIsland 1.000 0.618 1.000 0.706 0.128 1 0.555 0.462
+## Skyhigh    1.000 0.355 0.183 0.096 0.110 1 0.074 0.029</code></pre>
 <p>To summarize, let’s calculate, for each locus, the proportion of populations where it was out of HWE. Here we’ll use the conservative cut-off of alpha = 0.05 for each test. There are various ways of modifying this, including a simple Bonferroni correction, where we divide alpha by the number of tests, which you can activate here by removing the ### i. front of the line.</p>
 <p>We write the results into a data frame ‘Prop.loci.out.of.HWE’ and use ‘=’ to specify the name for each column.</p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="WE_3.html#cb514-1" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span> <span class="co"># /96</span></span>
-<span id="cb514-2"><a href="WE_3.html#cb514-2" tabindex="-1"></a>Prop.loci.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean), </span>
-<span id="cb514-3"><a href="WE_3.html#cb514-3" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean))</span>
-<span id="cb514-4"><a href="WE_3.html#cb514-4" tabindex="-1"></a>Prop.loci.out.of.HWE             <span class="co"># Type this line again to see results table</span></span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="WE_3.html#cb510-1" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span> <span class="co"># /96</span></span>
+<span id="cb510-2"><a href="WE_3.html#cb510-2" tabindex="-1"></a>Prop.loci.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean), </span>
+<span id="cb510-3"><a href="WE_3.html#cb510-3" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">2</span>, mean))</span>
+<span id="cb510-4"><a href="WE_3.html#cb510-4" tabindex="-1"></a>Prop.loci.out.of.HWE             <span class="co"># Type this line again to see results table</span></span></code></pre></div>
 <pre><code>##        Chisq         MC
 ## A 0.00000000 0.08333333
 ## B 0.00000000 0.00000000
@@ -689,9 +645,9 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## G 0.00000000 0.00000000
 ## H 0.08333333 0.16666667</code></pre>
 <p>And similarly, for each population, the proportion of loci that were out of HWE:</p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="WE_3.html#cb516-1" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
-<span id="cb516-2"><a href="WE_3.html#cb516-2" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
-<span id="cb516-3"><a href="WE_3.html#cb516-3" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="WE_3.html#cb512-1" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
+<span id="cb512-2"><a href="WE_3.html#cb512-2" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
+<span id="cb512-3"><a href="WE_3.html#cb512-3" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
 <pre><code>##            Chisq    MC
 ## Airplane   0.000 0.250
 ## Bachelor   0.000 0.000
@@ -712,16 +668,16 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <li>No population is consistently out of HWE across loci (probably no recent major bottlenecks/ founder effects).</li>
 </ul>
 <p>Let’s repeat this with ‘false discovery rate’ correction for the number of tests. Here we use the function ‘p.adjust’ with the argument ‘method=“fdr”’ to adjust the p-values from the previous tests. This returns a vector of length 96 (the number of p-values used), which we convert back into a matrix of 12 rows (pops) by 8 columns (loci). Then we procede as above.</p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="WE_3.html#cb518-1" tabindex="-1"></a>Chisq.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.chisq,<span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
-<span id="cb518-2"><a href="WE_3.html#cb518-2" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.chisq))</span>
-<span id="cb518-3"><a href="WE_3.html#cb518-3" tabindex="-1"></a>MC.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.MC, <span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
-<span id="cb518-4"><a href="WE_3.html#cb518-4" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.MC))</span>
-<span id="cb518-5"><a href="WE_3.html#cb518-5" tabindex="-1"></a></span>
-<span id="cb518-6"><a href="WE_3.html#cb518-6" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
-<span id="cb518-7"><a href="WE_3.html#cb518-7" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
-<span id="cb518-8"><a href="WE_3.html#cb518-8" tabindex="-1"></a>           <span class="at">Chisq.fdr=</span><span class="fu">apply</span>(Chisq.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
-<span id="cb518-9"><a href="WE_3.html#cb518-9" tabindex="-1"></a>           <span class="at">MC.fdr=</span><span class="fu">apply</span>(MC.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
-<span id="cb518-10"><a href="WE_3.html#cb518-10" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="WE_3.html#cb514-1" tabindex="-1"></a>Chisq.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.chisq,<span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
+<span id="cb514-2"><a href="WE_3.html#cb514-2" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.chisq))</span>
+<span id="cb514-3"><a href="WE_3.html#cb514-3" tabindex="-1"></a>MC.fdr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">p.adjust</span>(HWE.test.MC, <span class="at">method=</span><span class="st">&quot;fdr&quot;</span>), </span>
+<span id="cb514-4"><a href="WE_3.html#cb514-4" tabindex="-1"></a>                    <span class="at">nrow=</span><span class="fu">nrow</span>(HWE.test.MC))</span>
+<span id="cb514-5"><a href="WE_3.html#cb514-5" tabindex="-1"></a></span>
+<span id="cb514-6"><a href="WE_3.html#cb514-6" tabindex="-1"></a>Prop.pops.out.of.HWE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Chisq=</span><span class="fu">apply</span>(HWE.test.chisq<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean), </span>
+<span id="cb514-7"><a href="WE_3.html#cb514-7" tabindex="-1"></a>           <span class="at">MC=</span><span class="fu">apply</span>(HWE.test.MC<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
+<span id="cb514-8"><a href="WE_3.html#cb514-8" tabindex="-1"></a>           <span class="at">Chisq.fdr=</span><span class="fu">apply</span>(Chisq.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean),</span>
+<span id="cb514-9"><a href="WE_3.html#cb514-9" tabindex="-1"></a>           <span class="at">MC.fdr=</span><span class="fu">apply</span>(MC.fdr<span class="sc">&lt;</span>alpha, <span class="dv">1</span>, mean))</span>
+<span id="cb514-10"><a href="WE_3.html#cb514-10" tabindex="-1"></a>Prop.pops.out.of.HWE             </span></code></pre></div>
 <pre><code>##            Chisq    MC Chisq.fdr MC.fdr
 ## Airplane   0.000 0.250     0.000      0
 ## Bachelor   0.000 0.000     0.000      0
@@ -745,11 +701,28 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <p>This step is especially important when developing a new set of markers. You may want to drop (the less informative) one marker of any pair of linked loci.</p>
 <p>Here, we start with performing an overall test of linkage disequilibrium (the null hypothesis is that there is no linkage among the set of markers). Two indices are calculated and tested: an index of association (Ia; Brown et al. 1980) and a measure of correlation (rbarD; Agapow and Burt 2001), which is less biased (see URL above). The number of permutations is specified by ‘sample = 199’.</p>
 <p>Overall, there is statistically significant association among the markers (p-value: prD = 0.005; also left figure). Recall that the power of a statistical test increases with sample size, and here we have n = 181, hence even a small effect may be statistically significant. Hence we look at effect size, i.e., the actual strength of the pairwise associations (right figure).</p>
-<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="WE_3.html#cb520-1" tabindex="-1"></a>poppr<span class="sc">::</span><span class="fu">ia</span>(Frogs.genind, <span class="at">sample=</span><span class="dv">199</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="WE_3.html#cb516-1" tabindex="-1"></a>poppr<span class="sc">::</span><span class="fu">ia</span>(Frogs.genind, <span class="at">sample=</span><span class="dv">199</span>)</span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the poppr package.
+##   Please report the issue at &lt;https://github.com/grunwaldlab/poppr/issues/&gt;.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## ℹ Please use tidy evaluation idioms with `aes()`.
+## ℹ See also `vignette(&quot;ggplot2-in-packages&quot;)` for more information.
+## ℹ The deprecated feature was likely used in the poppr package.
+##   Please report the issue at &lt;https://github.com/grunwaldlab/poppr/issues/&gt;.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
 <pre><code>##         Ia       p.Ia      rbarD       p.rD 
 ## 0.33744318 0.00500000 0.05366542 0.00500000</code></pre>
-<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="WE_3.html#cb522-1" tabindex="-1"></a>LD.pair <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">pair.ia</span>(Frogs.genind)</span>
-<span id="cb522-2"><a href="WE_3.html#cb522-2" tabindex="-1"></a>LD.pair</span></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="WE_3.html#cb520-1" tabindex="-1"></a>LD.pair <span class="ot">&lt;-</span> poppr<span class="sc">::</span><span class="fu">pair.ia</span>(Frogs.genind)</span></code></pre></div>
+<pre><code>## Warning: myTheme is not a valid theme.
+## Please use `theme()` to construct themes.</code></pre>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="WE_3.html#cb522-1" tabindex="-1"></a>LD.pair</span></code></pre></div>
 <pre><code>##          Ia   rbarD
 ## A:B  0.0485  0.0492
 ## A:C -0.0314 -0.0335
@@ -779,7 +752,7 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## F:G  0.0167  0.0299
 ## F:H  0.0296  0.0606
 ## G:H  0.0942  0.0953</code></pre>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-18-1.png" alt="" width="672" /></p>
 <p>The strongest correlation is around 0.2, for markers E and H.</p>
 <p>Effect size: If rbarD can be interpreted similarly to a linear correlation coefficient r, that would mean that less than 5% of the variation in one marker is shared with the other marker (recall from stats: the amount of variance explained in regression, Rsquared, is the square of the linear correlation coefficient). This is probably not large enough to worry about.</p>
 </div>
@@ -797,22 +770,19 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <p>Note: we are turning off warnings here (currently the code throws a warning for each sample, though results don’t seem to be affected).</p>
 <div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="WE_3.html#cb524-1" tabindex="-1"></a><span class="co"># Null alleles: depends on method! See help file.</span></span>
 <span id="cb524-2"><a href="WE_3.html#cb524-2" tabindex="-1"></a>Null.alleles <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">null.all</span>(Frogs.genind)</span></code></pre></div>
-<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
-##   method from   
-##   +.gg   ggplot2</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;genetics&#39;:
 ##   method      from 
 ##   [.haplotype pegas</code></pre>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="WE_3.html#cb527-1" tabindex="-1"></a>Null.alleles<span class="sc">$</span>homozygotes<span class="sc">$</span>probability.obs</span></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="WE_3.html#cb526-1" tabindex="-1"></a>Null.alleles<span class="sc">$</span>homozygotes<span class="sc">$</span>probability.obs</span></code></pre></div>
 <pre><code>##   Allele-1 Allele-2 Allele-3 Allele-4 Allele-5 Allele-6 Allele-7 Allele-8
-## A    0.128    0.000    0.028       NA       NA       NA       NA       NA
-## B    0.144    0.042    0.066    0.007       NA       NA       NA       NA
-## C    0.190    0.002    0.000    0.000       NA       NA       NA       NA
-## D    0.000    0.001    0.195    0.005       NA       NA       NA       NA
-## E    0.050    0.013    0.031    0.260    0.069    0.039    0.729    0.507
-## F    0.466    0.005    0.010       NA       NA       NA       NA       NA
-## G    0.092    0.077    0.021    0.000       NA       NA       NA       NA
-## H    0.463    0.085    0.007    0.024    0.271    0.307    0.003    0.000
+## A    0.112    0.000    0.038       NA       NA       NA       NA       NA
+## B    0.149    0.045    0.054    0.001       NA       NA       NA       NA
+## C    0.162    0.002    0.001    0.004       NA       NA       NA       NA
+## D    0.000    0.001    0.229    0.006       NA       NA       NA       NA
+## E    0.061    0.009    0.034    0.302    0.071    0.041    0.732    0.524
+## F    0.459    0.001    0.012       NA       NA       NA       NA       NA
+## G    0.077    0.071    0.011    0.000       NA       NA       NA       NA
+## H    0.439    0.083    0.011    0.024    0.286    0.319    0.006    0.004
 ##   Allele-9
 ## A       NA
 ## B       NA
@@ -829,22 +799,22 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 </ul>
 <p>From the help file: “Brookfield (1996) provides a brief discussion on which estimator should be used. In summary, it was recommended that Chakraborty et al. (1994)’s method (e.g. summary1) be used if there are individuals with no bands at a locus seen, but they are discounted as possible artefacts. If all individuals have one or more bands at a locus then Brookfield (1996)’s method (e.g. summary2) should be used.” In this case, we have many individuals with missing values for both alleles, hence better use summary1.</p>
 <p>Each summary table contains a summary with observed, median, 2.5th percentile and 97.5the percentile. The percentiles form a 95% confidence interval. From the help file: “If the 95% confidence interval includes zero, it indicates that the frequency of null alleles at a locus does not significantly differ from zero.”</p>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="WE_3.html#cb529-1" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot; summary1 (Chakraborty et al. 1994):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb529-2"><a href="WE_3.html#cb529-2" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary1,<span class="dv">2</span>)} </span></code></pre></div>
+<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="WE_3.html#cb528-1" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot; summary1 (Chakraborty et al. 1994):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb528-2"><a href="WE_3.html#cb528-2" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary1,<span class="dv">2</span>)} </span></code></pre></div>
 <pre><code>##  summary1 (Chakraborty et al. 1994):</code></pre>
 <pre><code>##                       A    B    C    D    E     F    G    H
 ## Observed frequency 0.24 0.08 0.23 0.25 0.06  0.00 0.11 0.04
-## Median frequency   0.24 0.08 0.23 0.24 0.06  0.00 0.11 0.04
-## 2.5th percentile   0.08 0.01 0.02 0.17 0.02 -0.01 0.01 0.00
-## 97.5th percentile  0.44 0.15 0.48 0.33 0.11  0.00 0.23 0.09</code></pre>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="WE_3.html#cb532-1" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;summary2 (Brookfield et al. 1996):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb532-2"><a href="WE_3.html#cb532-2" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary2,<span class="dv">2</span>)}   </span></code></pre></div>
+## Median frequency   0.23 0.08 0.23 0.24 0.06  0.00 0.11 0.04
+## 2.5th percentile   0.07 0.01 0.03 0.17 0.02 -0.01 0.02 0.00
+## 97.5th percentile  0.42 0.15 0.47 0.33 0.11  0.00 0.21 0.09</code></pre>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="WE_3.html#cb531-1" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;summary2 (Brookfield et al. 1996):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb531-2"><a href="WE_3.html#cb531-2" tabindex="-1"></a><span class="fu">round</span>(Null.alleles<span class="sc">$</span>null.allele.freq<span class="sc">$</span>summary2,<span class="dv">2</span>)}   </span></code></pre></div>
 <pre><code>## summary2 (Brookfield et al. 1996):</code></pre>
 <pre><code>##                       A    B    C    D    E F    G    H
 ## Observed frequency 0.06 0.05 0.05 0.17 0.05 0 0.07 0.04
 ## Median frequency   0.06 0.05 0.05 0.17 0.05 0 0.07 0.03
-## 2.5th percentile   0.02 0.01 0.00 0.12 0.02 0 0.01 0.00
-## 97.5th percentile  0.11 0.09 0.10 0.23 0.09 0 0.14 0.08</code></pre>
+## 2.5th percentile   0.01 0.01 0.01 0.12 0.02 0 0.01 0.00
+## 97.5th percentile  0.11 0.10 0.10 0.23 0.09 0 0.13 0.08</code></pre>
 <p>For this example, both methods suggest that there may be null alleles in most loci. However, the estimates of the frequency of null alleles differ a lot between the two methods.</p>
 <p>A different approach for estimating null alleles at microsatellite loci, based on the Estimation-Maximization algorithm, is implemented in <code>FreeNA</code> (outside of the R environment). <code>FreeNA</code> will directly provide Fst values and some other measurements using the corrected allele frequencies: <a href="https://www1.montpellier.inra.fr/CBGP/software/FreeNA/" class="uri">https://www1.montpellier.inra.fr/CBGP/software/FreeNA/</a></p>
 <p>Relevant papers for the Estimation-Maximization algorithm:</p>
@@ -873,55 +843,55 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <h5>a. Rarefied allelic richness<a href="WE_3.html#a.-rarefied-allelic-richness" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Both nominal sample size (number of frogs sampled) and valid sample size (e.g., for each locus, the number of frogs with non-missing genetic data) vary between sites. We would expect the number of alleles found in a population to increase with the number of individuals genotyped.</p>
 <p>We can check this by plotting the number of alleles against sample size. Here we create an object ‘Sum’ that contains the summary of the genind object, then we can access its elements by ‘$’ to plot what we need. The function ‘names’ lists the names of the elements, which reduced the guesswork.</p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="WE_3.html#cb535-1" tabindex="-1"></a>Sum <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">summary</span>(Frogs.genind)</span>
-<span id="cb535-2"><a href="WE_3.html#cb535-2" tabindex="-1"></a><span class="fu">names</span>(Sum)</span></code></pre></div>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="WE_3.html#cb534-1" tabindex="-1"></a>Sum <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">summary</span>(Frogs.genind)</span>
+<span id="cb534-2"><a href="WE_3.html#cb534-2" tabindex="-1"></a><span class="fu">names</span>(Sum)</span></code></pre></div>
 <pre><code>## [1] &quot;n&quot;         &quot;n.by.pop&quot;  &quot;loc.n.all&quot; &quot;pop.n.all&quot; &quot;NA.perc&quot;   &quot;Hobs&quot;     
 ## [7] &quot;Hexp&quot;</code></pre>
 <p>The site names are quite long, hence we print the labels vertically by setting ‘las=3’, and we modify the margins (‘mar’). The four numbers give the size of each margin in the following order: bottom, left, top, right.</p>
 <p>We add a regression line to the scatterplot with the function ‘abline’, where we specify the linear regression model with the function ‘lm’. In this case, we model the response ‘pop.n.all’ as a function of predictor ‘n.by.pop’.</p>
 <p>The barchart (left) shows that there is considerable variation among ponds in the number of alleles observed across all loci. The scatterplot (right) with the red regression line shows that the number of alleles increases with sample size.</p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="WE_3.html#cb537-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb537-2"><a href="WE_3.html#cb537-2" tabindex="-1"></a><span class="fu">barplot</span>(Sum<span class="sc">$</span>pop.n.all, <span class="at">las=</span><span class="dv">3</span>, </span>
-<span id="cb537-3"><a href="WE_3.html#cb537-3" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="WE_3.html#cb538-1" tabindex="-1"></a><span class="fu">plot</span>(Sum<span class="sc">$</span>n.by.pop, Sum<span class="sc">$</span>pop.n.all, </span>
-<span id="cb538-2"><a href="WE_3.html#cb538-2" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span>
-<span id="cb538-3"><a href="WE_3.html#cb538-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Sum<span class="sc">$</span>pop.n.all <span class="sc">~</span> Sum<span class="sc">$</span>n.by.pop), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="WE_3.html#cb536-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb536-2"><a href="WE_3.html#cb536-2" tabindex="-1"></a><span class="fu">barplot</span>(Sum<span class="sc">$</span>pop.n.all, <span class="at">las=</span><span class="dv">3</span>, </span>
+<span id="cb536-3"><a href="WE_3.html#cb536-3" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span></code></pre></div>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-23-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="WE_3.html#cb537-1" tabindex="-1"></a><span class="fu">plot</span>(Sum<span class="sc">$</span>n.by.pop, Sum<span class="sc">$</span>pop.n.all, </span>
+<span id="cb537-2"><a href="WE_3.html#cb537-2" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of alleles&quot;</span>)</span>
+<span id="cb537-3"><a href="WE_3.html#cb537-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Sum<span class="sc">$</span>pop.n.all <span class="sc">~</span> Sum<span class="sc">$</span>n.by.pop), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-24-1.png" alt="" width="672" /></p>
 <p>Hence we should not compare the number of alleles directly. Instead, we’ll use rarefied allelic richness (Ar).</p>
 <p>By default, the function ‘allel.rich’ finds the lowest valid sample size across all populations and loci, and multiplies it by the ploidy level. The number is stored as ‘Richness$alleles.sampled’ (here: 3 individuals * 2 alleles = 6 alleles). Alternatively, this number can be set with the ‘min.alleles’ argument.</p>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="WE_3.html#cb539-1" tabindex="-1"></a>Richness <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">allel.rich</span>(Frogs.genind, <span class="at">min.alleles =</span> <span class="cn">NULL</span>)</span>
-<span id="cb539-2"><a href="WE_3.html#cb539-2" tabindex="-1"></a>Richness<span class="sc">$</span>alleles.sampled</span></code></pre></div>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="WE_3.html#cb538-1" tabindex="-1"></a>Richness <span class="ot">&lt;-</span> PopGenReport<span class="sc">::</span><span class="fu">allel.rich</span>(Frogs.genind, <span class="at">min.alleles =</span> <span class="cn">NULL</span>)</span>
+<span id="cb538-2"><a href="WE_3.html#cb538-2" tabindex="-1"></a>Richness<span class="sc">$</span>alleles.sampled</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>Populations with more alleles are resampled to determine the average allelic richness among the minimum number of alleles. Here, this means that 6 alleles are sampled from each population, allelic richness is calculated, and the process is repeated many times to determine the average).</p>
 <p>Let’s plot the results again. The barchart shows that there is considerable variation in genetic diversity among ponds. The scatterplot against sample size (here: for each population, the average number of valid alleles across loci) suggests that the variation is not related to sample size. The regression line (red) is almost horizontal.</p>
 <p>Here we plot the average Ar across loci, so that the result does not depend on the number of loci used.</p>
-<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="WE_3.html#cb541-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb541-2"><a href="WE_3.html#cb541-2" tabindex="-1"></a><span class="fu">barplot</span>(Richness<span class="sc">$</span>mean.richness, <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
-<span id="cb541-3"><a href="WE_3.html#cb541-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes), Richness<span class="sc">$</span>mean.richness,</span>
-<span id="cb541-4"><a href="WE_3.html#cb541-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valid sample size&quot;</span>, </span>
-<span id="cb541-5"><a href="WE_3.html#cb541-5" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
-<span id="cb541-6"><a href="WE_3.html#cb541-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Richness<span class="sc">$</span>mean.richness <span class="sc">~</span> <span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes)), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-26-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="WE_3.html#cb540-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb540-2"><a href="WE_3.html#cb540-2" tabindex="-1"></a><span class="fu">barplot</span>(Richness<span class="sc">$</span>mean.richness, <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
+<span id="cb540-3"><a href="WE_3.html#cb540-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes), Richness<span class="sc">$</span>mean.richness,</span>
+<span id="cb540-4"><a href="WE_3.html#cb540-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valid sample size&quot;</span>, </span>
+<span id="cb540-5"><a href="WE_3.html#cb540-5" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Rarefied allelic richness (Ar)&quot;</span>)</span>
+<span id="cb540-6"><a href="WE_3.html#cb540-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Richness<span class="sc">$</span>mean.richness <span class="sc">~</span> <span class="fu">colMeans</span>(Richness<span class="sc">$</span>pop.sizes)), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-26-1.png" alt="" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-26-2.png" alt="" width="672" /></p>
 </div>
 <div id="b.-observed-and-expected-heterozygosity" class="section level5 unnumbered hasAnchor">
 <h5>b. Observed and expected heterozygosity<a href="WE_3.html#b.-observed-and-expected-heterozygosity" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Note: Writing the ‘genind’ summary into an object ‘Sum’ allows accessing its attributes by name.</p>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="WE_3.html#cb542-1" tabindex="-1"></a>  Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
-<span id="cb542-2"><a href="WE_3.html#cb542-2" tabindex="-1"></a>  <span class="fu">names</span>(Sum)</span></code></pre></div>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="WE_3.html#cb541-1" tabindex="-1"></a>  Sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(Frogs.genind)</span>
+<span id="cb541-2"><a href="WE_3.html#cb541-2" tabindex="-1"></a>  <span class="fu">names</span>(Sum)</span></code></pre></div>
 <pre><code>## [1] &quot;n&quot;         &quot;n.by.pop&quot;  &quot;loc.n.all&quot; &quot;pop.n.all&quot; &quot;NA.perc&quot;   &quot;Hobs&quot;     
 ## [7] &quot;Hexp&quot;</code></pre>
 <p>Expected heterozygosity (here: Hexp) is the heterozygosity expected in a population under HWE, and observed heterozygosity (here: Hobs) is the observed number of heterozygotes at a locus divided by the total number of genotyped individuals. Here are the global values (pooled across all populations):</p>
-<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="WE_3.html#cb544-1" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb544-2"><a href="WE_3.html#cb544-2" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hexp, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
-<span id="cb544-3"><a href="WE_3.html#cb544-3" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hobs, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-28-1.png" width="384" /><img src="03-Week03_files/figure-html/unnamed-chunk-28-2.png" width="384" /></p>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="WE_3.html#cb543-1" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">4.5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb543-2"><a href="WE_3.html#cb543-2" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hexp, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
+<span id="cb543-3"><a href="WE_3.html#cb543-3" tabindex="-1"></a>  <span class="fu">barplot</span>(Sum<span class="sc">$</span>Hobs, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-28-1.png" alt="" width="384" /><img src="03-Week03_files/figure-html/unnamed-chunk-28-2.png" alt="" width="384" /></p>
 <p>By locus and population:</p>
 <p>Here we use ‘seppop’ to split the genind object by population, then ‘sapply’ to apply function ‘summary’ to each population.</p>
-<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="WE_3.html#cb545-1" tabindex="-1"></a>  Hobs <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hobs))</span>
-<span id="cb545-2"><a href="WE_3.html#cb545-2" tabindex="-1"></a>  Hexp <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hexp))</span>
-<span id="cb545-3"><a href="WE_3.html#cb545-3" tabindex="-1"></a>  {<span class="fu">cat</span>(<span class="st">&quot;Expected heterozygosity (Hexp):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb545-4"><a href="WE_3.html#cb545-4" tabindex="-1"></a>  <span class="fu">round</span>(Hexp, <span class="dv">2</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="WE_3.html#cb544-1" tabindex="-1"></a>  Hobs <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hobs))</span>
+<span id="cb544-2"><a href="WE_3.html#cb544-2" tabindex="-1"></a>  Hexp <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seppop</span>(Frogs.genind), <span class="cf">function</span>(ls) <span class="fu">summary</span>(ls)<span class="sc">$</span>Hexp))</span>
+<span id="cb544-3"><a href="WE_3.html#cb544-3" tabindex="-1"></a>  {<span class="fu">cat</span>(<span class="st">&quot;Expected heterozygosity (Hexp):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb544-4"><a href="WE_3.html#cb544-4" tabindex="-1"></a>  <span class="fu">round</span>(Hexp, <span class="dv">2</span>)}</span></code></pre></div>
 <pre><code>## Expected heterozygosity (Hexp):</code></pre>
 <pre><code>##               A    B    C    D    E    F    G    H
 ## Airplane   0.49 0.28 0.00 0.36 0.67 0.00 0.23 0.72
@@ -936,8 +906,8 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## Pothole    0.00 0.00 0.00 0.28 0.38 0.00 0.58 0.63
 ## ShipIsland 0.44 0.49 0.00 0.51 0.60 0.00 0.44 0.66
 ## Skyhigh    0.04 0.49 0.20 0.34 0.63 0.00 0.52 0.62</code></pre>
-<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="WE_3.html#cb548-1" tabindex="-1"></a>  {<span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Observed heterozygosity (Hobs):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb548-2"><a href="WE_3.html#cb548-2" tabindex="-1"></a>  <span class="fu">round</span>(Hobs, <span class="dv">2</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="WE_3.html#cb547-1" tabindex="-1"></a>  {<span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Observed heterozygosity (Hobs):&quot;</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb547-2"><a href="WE_3.html#cb547-2" tabindex="-1"></a>  <span class="fu">round</span>(Hobs, <span class="dv">2</span>)}</span></code></pre></div>
 <pre><code>## 
 ##  Observed heterozygosity (Hobs):</code></pre>
 <pre><code>##               A    B    C    D    E    F    G    H
@@ -956,21 +926,21 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <p>Locus F shows variation only in two populations (i.e., Hexp = 0 in 10 populations).</p>
 <p>Let’s plot the average across all loci for each population:</p>
 <p>Here we use ‘apply’ to apply the function ‘mean’ to the rows (MARGIN = 1). For columns, use ‘MARGIN = 2’.</p>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="WE_3.html#cb551-1" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb551-2"><a href="WE_3.html#cb551-2" tabindex="-1"></a>  Hobs.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hobs, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> mean)</span>
-<span id="cb551-3"><a href="WE_3.html#cb551-3" tabindex="-1"></a>  Hexp.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hexp, <span class="dv">1</span>, mean) </span>
-<span id="cb551-4"><a href="WE_3.html#cb551-4" tabindex="-1"></a>  <span class="fu">barplot</span>(Hexp.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
-<span id="cb551-5"><a href="WE_3.html#cb551-5" tabindex="-1"></a>  <span class="fu">barplot</span>(Hobs.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
-<p><img src="03-Week03_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="WE_3.html#cb550-1" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb550-2"><a href="WE_3.html#cb550-2" tabindex="-1"></a>  Hobs.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hobs, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> mean)</span>
+<span id="cb550-3"><a href="WE_3.html#cb550-3" tabindex="-1"></a>  Hexp.pop <span class="ot">&lt;-</span> <span class="fu">apply</span>(Hexp, <span class="dv">1</span>, mean) </span>
+<span id="cb550-4"><a href="WE_3.html#cb550-4" tabindex="-1"></a>  <span class="fu">barplot</span>(Hexp.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Expected heterozygosity&quot;</span>)</span>
+<span id="cb550-5"><a href="WE_3.html#cb550-5" tabindex="-1"></a>  <span class="fu">barplot</span>(Hobs.pop, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">las=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">&quot;Observed heterozygosity&quot;</span>)</span></code></pre></div>
+<p><img src="03-Week03_files/figure-html/unnamed-chunk-30-1.png" alt="" width="672" /><img src="03-Week03_files/figure-html/unnamed-chunk-30-2.png" alt="" width="672" /></p>
 </div>
 <div id="c.-create-table-with-sitel-level-genetic-diversity-measures" class="section level5 unnumbered hasAnchor">
 <h5>c. Create table with sitel-level genetic diversity measures<a href="WE_3.html#c.-create-table-with-sitel-level-genetic-diversity-measures" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="WE_3.html#cb552-1" tabindex="-1"></a>Frogs.diversity <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pop =</span> <span class="fu">names</span>(Hobs.pop),</span>
-<span id="cb552-2"><a href="WE_3.html#cb552-2" tabindex="-1"></a>                              <span class="at">n =</span> Sum<span class="sc">$</span>n.by.pop,</span>
-<span id="cb552-3"><a href="WE_3.html#cb552-3" tabindex="-1"></a>                              <span class="at">Hobs =</span> Hobs.pop,</span>
-<span id="cb552-4"><a href="WE_3.html#cb552-4" tabindex="-1"></a>                              <span class="at">Hexp =</span> Hexp.pop,</span>
-<span id="cb552-5"><a href="WE_3.html#cb552-5" tabindex="-1"></a>                              <span class="at">Ar =</span> Richness<span class="sc">$</span>mean.richness)</span>
-<span id="cb552-6"><a href="WE_3.html#cb552-6" tabindex="-1"></a>Frogs.diversity</span></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="WE_3.html#cb551-1" tabindex="-1"></a>Frogs.diversity <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pop =</span> <span class="fu">names</span>(Hobs.pop),</span>
+<span id="cb551-2"><a href="WE_3.html#cb551-2" tabindex="-1"></a>                              <span class="at">n =</span> Sum<span class="sc">$</span>n.by.pop,</span>
+<span id="cb551-3"><a href="WE_3.html#cb551-3" tabindex="-1"></a>                              <span class="at">Hobs =</span> Hobs.pop,</span>
+<span id="cb551-4"><a href="WE_3.html#cb551-4" tabindex="-1"></a>                              <span class="at">Hexp =</span> Hexp.pop,</span>
+<span id="cb551-5"><a href="WE_3.html#cb551-5" tabindex="-1"></a>                              <span class="at">Ar =</span> Richness<span class="sc">$</span>mean.richness)</span>
+<span id="cb551-6"><a href="WE_3.html#cb551-6" tabindex="-1"></a>Frogs.diversity</span></code></pre></div>
 <pre><code>##                   Pop  n      Hobs      Hexp       Ar
 ## Airplane     Airplane 21 0.3038064 0.3433019 1.939629
 ## Bachelor     Bachelor  8 0.3729167 0.3651953 2.003673
@@ -985,28 +955,28 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## ShipIsland ShipIsland 17 0.3755252 0.3918983 1.949255
 ## Skyhigh       Skyhigh 23 0.3632542 0.3552167 1.953610</code></pre>
 <p>You can save the R object ‘Frogs.diversity’ with the code below (need to uncomment by removing the hashtags ‘#’):</p>
-<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="WE_3.html#cb554-1" tabindex="-1"></a><span class="co">#require(here)</span></span>
-<span id="cb554-2"><a href="WE_3.html#cb554-2" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
-<span id="cb554-3"><a href="WE_3.html#cb554-3" tabindex="-1"></a><span class="co">#save(Frogs.diversity, file = paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span>
-<span id="cb554-4"><a href="WE_3.html#cb554-4" tabindex="-1"></a><span class="co">#load(paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="WE_3.html#cb553-1" tabindex="-1"></a><span class="co">#require(here)</span></span>
+<span id="cb553-2"><a href="WE_3.html#cb553-2" tabindex="-1"></a><span class="co">#if(!dir.exists(paste0(here(),&quot;/output&quot;))) dir.create(paste0(here(),&quot;/output&quot;))</span></span>
+<span id="cb553-3"><a href="WE_3.html#cb553-3" tabindex="-1"></a><span class="co">#save(Frogs.diversity, file = paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span>
+<span id="cb553-4"><a href="WE_3.html#cb553-4" tabindex="-1"></a><span class="co">#load(paste0(here(),&quot;/output/Frogs.diversity.RData&quot;))</span></span></code></pre></div>
 </div>
 </div>
 <div id="aggregate-genetic-data-at-population-level-allele-frequencies" class="section level4 unnumbered hasAnchor">
 <h4>4. Aggregate genetic data at population level (allele frequencies)<a href="WE_3.html#aggregate-genetic-data-at-population-level-allele-frequencies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>For some analyses, we will need to aggregate data from the individual to the population level, e.g. as a table of allele frequencies per population.</p>
 <p>Here we convert the ‘genind’ object to a ‘genpop’ object (NOT the same as a ‘genepop’ object!). This is defined in the package ‘adegenet’ to hold population-level genetic data. The function ‘genind2genpop’ obviously converts from ‘genind’ to ‘genpop’.</p>
-<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="WE_3.html#cb555-1" tabindex="-1"></a>Frogs.genpop <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">genind2genpop</span>(Frogs.genind)</span></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="WE_3.html#cb554-1" tabindex="-1"></a>Frogs.genpop <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">genind2genpop</span>(Frogs.genind)</span></code></pre></div>
 <pre><code>## 
 ##  Converting data from a genind to a genpop object... 
 ## 
 ## ...done.</code></pre>
 <p>The function ‘makefreq’ extracts the table with allele frequencies from the ‘genpop’ object. We’ll plot just a few lines and alleles.</p>
-<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="WE_3.html#cb557-1" tabindex="-1"></a>Freq <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">makefreq</span>(Frogs.genpop)</span></code></pre></div>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="WE_3.html#cb556-1" tabindex="-1"></a>Freq <span class="ot">&lt;-</span> adegenet<span class="sc">::</span><span class="fu">makefreq</span>(Frogs.genpop)</span></code></pre></div>
 <pre><code>## 
 ##  Finding allelic frequencies from a genpop object... 
 ## 
 ## ...done.</code></pre>
-<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="WE_3.html#cb559-1" tabindex="-1"></a><span class="fu">round</span>(Freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="WE_3.html#cb558-1" tabindex="-1"></a><span class="fu">round</span>(Freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##             A.1  A.2  A.3  B.1  B.3  B.2  B.4  C.1  C.2 C.4
 ## Airplane   0.62 0.35 0.03 0.83 0.17 0.00 0.00 1.00 0.00   0
 ## Bachelor   1.00 0.00 0.00 0.56 0.06 0.38 0.00 0.80 0.20   0
@@ -1015,7 +985,7 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 ## Cache      1.00 0.00 0.00 0.42 0.00 0.50 0.08 0.75 0.25   0
 ## Egg        1.00 0.00 0.00 0.74 0.00 0.26 0.00 1.00 0.00   0</code></pre>
 <p>The allele frequencies of all alleles from the same locus (e.g., A.1, A.2 and A.3) should sum to 1 for each population. With eight loci, the row sums should thus add to 8.</p>
-<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="WE_3.html#cb561-1" tabindex="-1"></a><span class="fu">apply</span>(Freq, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> sum)    <span class="co"># Just checking</span></span></code></pre></div>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="WE_3.html#cb560-1" tabindex="-1"></a><span class="fu">apply</span>(Freq, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> sum)    <span class="co"># Just checking</span></span></code></pre></div>
 <pre><code>##   Airplane   Bachelor BarkingFox        Bob      Cache        Egg       Frog 
 ##          8          8          8          8          8          8          8 
 ##   GentianL   ParagonL    Pothole ShipIsland    Skyhigh 
@@ -1042,42 +1012,42 @@ Here we use the function ‘round’ with argument ‘digits = 3’ to round all
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
