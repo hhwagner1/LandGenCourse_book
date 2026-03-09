@@ -15,7 +15,7 @@ Note: Weeks 1 - 8 (Basic Topics) form a streamlined program to aimed at building
 
 ### 1. Embedded Video {-}
 
-- External link: [Week 5 video](https://play.library.utoronto.ca/watch/516a408cced5cb70ea55513ccb205475);  [Week 5 video (Part 2)](https://sho.co/19Y09)
+- External link: [Week 5 video](https://play.library.utoronto.ca/watch/516a408cced5cb70ea55513ccb205475);  [Week 5 video (Part 2)](https://youtu.be/bnvFF8N-Vq4)
 - Transcript: [Download transcript](https://github.com/hhwagner1/DGS_LG_Labs/raw/master/transcripts/Week5_script.pdf)
 
 
