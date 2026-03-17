@@ -1,7 +1,7 @@
 --- 
 title: "Landscape Genetic Data Analysis with R"
 author: "Editor: Helene Wagner (University of Toronto)"
-date: "2026-01-21"
+date: "2026-03-17"
 output:
   bookdown::gitbook:
     includes:

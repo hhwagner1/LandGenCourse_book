@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11.5 Bonus: Efficient R | Landscape Genetic Data Analysis with R</title>
+  <title>11.4 Bonus: Efficient R | Landscape Genetic Data Analysis with R</title>
   <meta name="description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11.5 Bonus: Efficient R | Landscape Genetic Data Analysis with R" />
+  <meta property="og:title" content="11.4 Bonus: Efficient R | Landscape Genetic Data Analysis with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   <meta name="github-repo" content="hhwagner1/LandGenCourse_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11.5 Bonus: Efficient R | Landscape Genetic Data Analysis with R" />
+  <meta name="twitter:title" content="11.4 Bonus: Efficient R | Landscape Genetic Data Analysis with R" />
   
   <meta name="twitter:description" content="This is a web-interface to the teaching materials for the lab course ‘Landscape Genetic Data Analysis with R’ associated with the distributed graduate course ‘DGS Landscape Genetics’. The output format is bookdown::gitbook." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Editor: Helene Wagner (University of Toronto)" />
 
 
-<meta name="date" content="2026-01-21" />
+<meta name="date" content="2026-03-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -77,8 +77,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -88,7 +89,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -239,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#import-data-with-gstudio-package"><i class="fa fa-check"></i>5. Import data with ‘gstudio’ package</a></li>
 <li class="chapter" data-level="" data-path="WE_1.html"><a href="WE_1.html#importing-snp-data"><i class="fa fa-check"></i>6. Importing SNP data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i><b>4.4</b> R exercise Week 1</a></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-1.html"><a href="r-exercise-week-1.html"><i class="fa fa-check"></i>R exercise Week 1</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="Week2.html"><a href="Week2.html"><i class="fa fa-check"></i><b>5</b> Lab 2: Spatial Data</a>
 <ul>
@@ -261,8 +262,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#calculate-landscape-metrics"><i class="fa fa-check"></i>4. Calculate landscape metrics</a></li>
 <li class="chapter" data-level="" data-path="WE_2.html"><a href="WE_2.html#sample-landscape-metrics-within-buffer-around-sampling-locations"><i class="fa fa-check"></i>5. Sample landscape metrics within buffer around sampling locations</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i><b>5.4</b> R Exercise Week 2</a></li>
-<li class="chapter" data-level="5.5" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.5</b> Bonus: ‘sf’ and ‘terra’</a>
+<li class="chapter" data-level="" data-path="r-exercise-week-2.html"><a href="r-exercise-week-2.html"><i class="fa fa-check"></i>R Exercise Week 2</a></li>
+<li class="chapter" data-level="5.4" data-path="bonus_2a.html"><a href="bonus_2a.html"><i class="fa fa-check"></i><b>5.4</b> Bonus: ‘sf’ and ‘terra’</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#overview-2"><i class="fa fa-check"></i>1. Overview</a></li>
 <li class="chapter" data-level="" data-path="bonus_2a.html"><a href="bonus_2a.html#import-and-export-esri-shapefiles"><i class="fa fa-check"></i>2. Import and export ESRI shapefiles</a></li>
@@ -311,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#are-genetic-differentiation-and-diversity-related"><i class="fa fa-check"></i>5. Are genetic differentiation and diversity related?</a></li>
 <li class="chapter" data-level="" data-path="WE_4.html"><a href="WE_4.html#effect-of-recent-extinction-events"><i class="fa fa-check"></i>6. Effect of recent extinction events</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i><b>7.4</b> R Exercise Week 4</a></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-4.html"><a href="r-exercise-week-4.html"><i class="fa fa-check"></i>R Exercise Week 4</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="Week5.html"><a href="Week5.html"><i class="fa fa-check"></i><b>8</b> Lab 5: Spatial Statistics</a>
 <ul>
@@ -334,7 +335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#create-mantel-correlogram-for-genetic-data"><i class="fa fa-check"></i>5. Create Mantel correlogram for genetic data</a></li>
 <li class="chapter" data-level="" data-path="WE_5.html"><a href="WE_5.html#specify-spatial-weights-and-calculate-morans-i"><i class="fa fa-check"></i>6. Specify spatial weights and calculate Moran’s I</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i><b>8.4</b> R Exercise Week 5</a></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-5.html"><a href="r-exercise-week-5.html"><i class="fa fa-check"></i>R Exercise Week 5</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="Week6.html"><a href="Week6.html"><i class="fa fa-check"></i><b>9</b> Lab 6: Quantitative Genetics</a>
 <ul>
@@ -387,8 +388,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#model-with-ibr-only"><i class="fa fa-check"></i>Model with IBR only</a></li>
 <li class="chapter" data-level="" data-path="WE_7.html"><a href="WE_7.html#conclusions"><i class="fa fa-check"></i>8. Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="10.4" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i><b>10.4</b> R Exercise Week 7</a></li>
-<li class="chapter" data-level="10.5" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.5</b> Bonus: Si index</a>
+<li class="chapter" data-level="" data-path="r-exercise-week-7.html"><a href="r-exercise-week-7.html"><i class="fa fa-check"></i>R Exercise Week 7</a></li>
+<li class="chapter" data-level="10.4" data-path="bonus_7a.html"><a href="bonus_7a.html"><i class="fa fa-check"></i><b>10.4</b> Bonus: Si index</a>
 <ul>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#overview-of-bonus-materials"><i class="fa fa-check"></i>1. Overview of Bonus Materials</a></li>
 <li class="chapter" data-level="" data-path="bonus_7a.html"><a href="bonus_7a.html#import-ecological-distance-matrices"><i class="fa fa-check"></i>2. Import ecological distance matrices</a></li>
@@ -418,8 +419,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulations-and-analyze-results"><i class="fa fa-check"></i>4. Run simulations and analyze results</a></li>
 <li class="chapter" data-level="" data-path="WE_8.html"><a href="WE_8.html#run-simulator-using-a-previously-defined-parameter-set"><i class="fa fa-check"></i>5. Run simulator using a previously defined parameter set</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i><b>11.4</b> R Exercise Week 8</a></li>
-<li class="chapter" data-level="11.5" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.5</b> Bonus: Efficient R</a></li>
+<li class="chapter" data-level="" data-path="r-exercise-week-8.html"><a href="r-exercise-week-8.html"><i class="fa fa-check"></i>R Exercise Week 8</a></li>
+<li class="chapter" data-level="11.4" data-path="bonus_8a.html"><a href="bonus_8a.html"><i class="fa fa-check"></i><b>11.4</b> Bonus: Efficient R</a></li>
 </ul></li>
 <li class="part"><span><b>Advanced Topics</b></span></li>
 <li class="chapter" data-level="12" data-path="Week9.html"><a href="Week9.html"><i class="fa fa-check"></i><b>12</b> Lab 9: Population Structure</a>
@@ -432,28 +433,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="WE_9.html"><a href="WE_9.html#empirical-data-threespine-sticklebacks"><i class="fa fa-check"></i>4. Empirical data: Threespine sticklebacks</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>13</b> Lab 11: Detecting Adaptation</a>
+<li class="chapter" data-level="13" data-path="Week10.html"><a href="Week10.html"><i class="fa fa-check"></i><b>13</b> Lab 10: Landscape Resistance</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
+<li class="chapter" data-level="13.1" data-path="WE_10.html"><a href="WE_10.html"><i class="fa fa-check"></i><b>13.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#overview-of-worked-example-9"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#explore-the-data-set"><i class="fa fa-check"></i>2. Explore the data set</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#setting-cost-values-and-calculating-conductance"><i class="fa fa-check"></i>3. Setting cost values and calculating conductance</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#convert-conductance-into-effective-distance"><i class="fa fa-check"></i>4. Convert conductance into effective distance</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#create-cost-distance-matrices"><i class="fa fa-check"></i>5. Create cost-distance matrices</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#how-does-changing-resolution-affect-these-metrics"><i class="fa fa-check"></i>6. How does changing resolution affect these metrics?</a></li>
+<li class="chapter" data-level="" data-path="WE_10.html"><a href="WE_10.html#references"><i class="fa fa-check"></i>7. References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="Week11.html"><a href="Week11.html"><i class="fa fa-check"></i><b>14</b> Lab 11: Detecting Adaptation</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="WE_11.html"><a href="WE_11.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
+<ul>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#import-and-prepare-the-data"><i class="fa fa-check"></i>2. Import and prepare the data</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#latent-factor-mixed-models-lfmm-a-univariate-gea"><i class="fa fa-check"></i>3. Latent Factor Mixed Models (LFMM): a univariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#redundancy-analysis-rda-a-multivariate-gea"><i class="fa fa-check"></i>4. Redundancy Analysis (RDA): a multivariate GEA</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#compare-lfmm-and-rda-candidates"><i class="fa fa-check"></i>5. Compare LFMM and RDA candidates</a></li>
 <li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#a-quick-note-on-controlling-for-population-structure-in-rda"><i class="fa fa-check"></i>6. A quick note on controlling for population structure in RDA</a></li>
-<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references"><i class="fa fa-check"></i>7. References</a></li>
+<li class="chapter" data-level="" data-path="WE_11.html"><a href="WE_11.html#references-1"><i class="fa fa-check"></i>7. References</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>14</b> Lab 12: Model Selection</a>
+<li class="chapter" data-level="15" data-path="Week12.html"><a href="Week12.html"><i class="fa fa-check"></i><b>15</b> Lab 12: Model Selection</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>14.1</b> Worked Example</a>
+<li class="chapter" data-level="15.1" data-path="WE_12.html"><a href="WE_12.html"><i class="fa fa-check"></i><b>15.1</b> Worked Example</a>
 <ul>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-10"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#overview-of-worked-example-11"><i class="fa fa-check"></i>1. Overview of Worked Example</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#fitting-candidate-models"><i class="fa fa-check"></i>2. Fitting candidate models</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#your-turn-to-test-additional-hypotheses"><i class="fa fa-check"></i>3. Your turn to test additional hypotheses!</a></li>
 <li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#nested-model-nmlpe-for-hierarchical-sampling-designs"><i class="fa fa-check"></i>4. Nested model (NMLPE) for hierarchical sampling designs</a></li>
-<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-1"><i class="fa fa-check"></i>5. References</a></li>
+<li class="chapter" data-level="" data-path="WE_12.html"><a href="WE_12.html#references-2"><i class="fa fa-check"></i>5. References</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -476,8 +490,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bonus_8a" class="section level2 hasAnchor" number="11.5">
-<h2><span class="header-section-number">11.5</span> Bonus: Efficient R<a href="bonus_8a.html#bonus_8a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="bonus_8a" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Bonus: Efficient R<a href="bonus_8a.html#bonus_8a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Helene Wagner</p>
 <div id="overview-of-bonus-material" class="section level4 unnumbered hasAnchor">
 <h4>1. Overview of Bonus Material<a href="bonus_8a.html#overview-of-bonus-material" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -627,36 +641,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [27] &quot;06-Week06.md&quot;             &quot;06-Week06.Rmd&quot;           
 ## [29] &quot;07-Week07_files&quot;          &quot;07-Week07.md&quot;            
 ## [31] &quot;07-Week07.Rmd&quot;            &quot;08-Week08_files&quot;         
-## [33] &quot;08-Week08.knit.md&quot;        &quot;08-Week08.Rmd&quot;           
-## [35] &quot;09-Week09_files&quot;          &quot;09-Week09.Rmd&quot;           
-## [37] &quot;10-Week10_files&quot;          &quot;10-Week10.knit.md&quot;       
-## [39] &quot;10-Week10.Rmd&quot;            &quot;11-Week11_files&quot;         
-## [41] &quot;11-Week11.knit.md&quot;        &quot;11-Week11.Rmd&quot;           
-## [43] &quot;12-Week12_files&quot;          &quot;12-Week12.Rmd&quot;           
-## [45] &quot;13-Week13_files&quot;          &quot;13-Week13.Rmd&quot;           
-## [47] &quot;14-Week14_files&quot;          &quot;14-Week14.knit.md&quot;       
-## [49] &quot;14-Week14.Rmd&quot;            &quot;404.html&quot;                
-## [51] &quot;book.bib&quot;                 &quot;ChapterDepot.R&quot;          
-## [53] &quot;data&quot;                     &quot;downloads&quot;               
-## [55] &quot;header.html&quot;              &quot;index.md&quot;                
-## [57] &quot;index.Rmd&quot;                &quot;js&quot;                      
-## [59] &quot;LandGenCourse_book.rds&quot;   &quot;LandGenCourse_book.Rproj&quot;
-## [61] &quot;LICENSE&quot;                  &quot;ListOfPackages.nb.html&quot;  
-## [63] &quot;ListOfPackages.Rmd&quot;       &quot;my_plot.png&quot;             
-## [65] &quot;output&quot;                   &quot;README.md&quot;               
-## [67] &quot;render1b7c27bb24ce.rds&quot;   &quot;render1e541582584a.rds&quot;  
-## [69] &quot;render23ec66f4ddd.rds&quot;    &quot;render2fbc1ad7f46.rds&quot;   
-## [71] &quot;render2fd81ad75275.rds&quot;   &quot;render33ed6170c2e4.rds&quot;  
-## [73] &quot;render363c1997640c.rds&quot;   &quot;render3894c561f3.rds&quot;    
-## [75] &quot;render3b305196d38.rds&quot;    &quot;render65e32e6edd81.rds&quot;  
-## [77] &quot;render65ea2d72427d.rds&quot;   &quot;rendera1ac36509ec1.rds&quot;  
-## [79] &quot;renderb74a25ab009f.rds&quot;   &quot;renderbedc508fe6b8.rds&quot;  
-## [81] &quot;renderf9011b67ac.rds&quot;     &quot;rsconnect&quot;               
-## [83] &quot;search_index.json&quot;        &quot;style.css&quot;               
-## [85] &quot;toc.css&quot;                  &quot;tutorials&quot;               
-## [87] &quot;vignettes&quot;                &quot;Week1_vignette.R&quot;        
-## [89] &quot;Week2_bonus_vignette.R&quot;   &quot;Week8_bonus_vignette.R&quot;  
-## [91] &quot;Workflow.nb.html&quot;         &quot;Workflow.Rmd&quot;</code></pre>
+## [33] &quot;08-Week08.Rmd&quot;            &quot;09-Week09_files&quot;         
+## [35] &quot;09-Week09.Rmd&quot;            &quot;10-Week10_files&quot;         
+## [37] &quot;10-Week10.knit.md&quot;        &quot;10-Week10.Rmd&quot;           
+## [39] &quot;11-Week11_files&quot;          &quot;11-Week11.Rmd&quot;           
+## [41] &quot;12-Week12_files&quot;          &quot;12-Week12.Rmd&quot;           
+## [43] &quot;13-Week13_files&quot;          &quot;13-Week13.Rmd&quot;           
+## [45] &quot;14-Week14_files&quot;          &quot;14-Week14.knit.md&quot;       
+## [47] &quot;14-Week14.Rmd&quot;            &quot;404.html&quot;                
+## [49] &quot;book.bib&quot;                 &quot;ChapterDepot.R&quot;          
+## [51] &quot;data&quot;                     &quot;downloads&quot;               
+## [53] &quot;header.html&quot;              &quot;index.md&quot;                
+## [55] &quot;index.Rmd&quot;                &quot;js&quot;                      
+## [57] &quot;LandGenCourse_book.rds&quot;   &quot;LandGenCourse_book.Rproj&quot;
+## [59] &quot;LICENSE&quot;                  &quot;ListOfPackages.nb.html&quot;  
+## [61] &quot;ListOfPackages.Rmd&quot;       &quot;my_plot.png&quot;             
+## [63] &quot;output&quot;                   &quot;README.md&quot;               
+## [65] &quot;render1b7c27bb24ce.rds&quot;   &quot;render1e541582584a.rds&quot;  
+## [67] &quot;render23ec66f4ddd.rds&quot;    &quot;render2fbc1ad7f46.rds&quot;   
+## [69] &quot;render2fd81ad75275.rds&quot;   &quot;render33ed6170c2e4.rds&quot;  
+## [71] &quot;render363c1997640c.rds&quot;   &quot;render3894c561f3.rds&quot;    
+## [73] &quot;render3b305196d38.rds&quot;    &quot;render65e32e6edd81.rds&quot;  
+## [75] &quot;render65ea2d72427d.rds&quot;   &quot;render68a77156eab9.rds&quot;  
+## [77] &quot;render704659ccfe92.rds&quot;   &quot;rendera1ac36509ec1.rds&quot;  
+## [79] &quot;renderb74a25ab009f.rds&quot;   &quot;renderf9011b67ac.rds&quot;    
+## [81] &quot;rsconnect&quot;                &quot;search_index.json&quot;       
+## [83] &quot;style.css&quot;                &quot;toc.css&quot;                 
+## [85] &quot;tutorials&quot;                &quot;vignettes&quot;               
+## [87] &quot;Week1_vignette.R&quot;         &quot;Week2_bonus_vignette.R&quot;  
+## [89] &quot;Week8_bonus_vignette.R&quot;   &quot;Workflow.nb.html&quot;        
+## [91] &quot;Workflow.Rmd&quot;</code></pre>
 <div class="sourceCode" id="cb1030"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1030-1"><a href="bonus_8a.html#cb1030-1" tabindex="-1"></a><span class="fu">dir</span>(<span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;LandGenCourse&quot;</span>))</span></code></pre></div>
 <pre><code>##  [1] &quot;data&quot;        &quot;DESCRIPTION&quot; &quot;doc&quot;         &quot;extdata&quot;     &quot;help&quot;       
 ##  [6] &quot;html&quot;        &quot;INDEX&quot;       &quot;Meta&quot;        &quot;NAMESPACE&quot;   &quot;R&quot;          
@@ -708,15 +722,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## : less accurate nanosecond times to avoid potential integer overflows</code></pre>
 <pre><code>## Unit: milliseconds
 ##                                        expr        min         lq       mean
-##                                 read.csv(x) 2073.90472 2073.90472 2073.90472
-##  readr::read_csv(x, show_col_types = FALSE) 1764.02828 1764.02828 1764.02828
-##                        data.table::fread(x)  132.43299  132.43299  132.43299
-##                              rio::import(x)   89.93768   89.93768   89.93768
+##                                 read.csv(x) 2058.49172 2058.49172 2058.49172
+##  readr::read_csv(x, show_col_types = FALSE) 1632.54923 1632.54923 1632.54923
+##                        data.table::fread(x)  129.41843  129.41843  129.41843
+##                              rio::import(x)   86.14063   86.14063   86.14063
 ##      median         uq        max neval
-##  2073.90472 2073.90472 2073.90472     1
-##  1764.02828 1764.02828 1764.02828     1
-##   132.43299  132.43299  132.43299     1
-##    89.93768   89.93768   89.93768     1</code></pre>
+##  2058.49172 2058.49172 2058.49172     1
+##  1632.54923 1632.54923 1632.54923     1
+##   129.41843  129.41843  129.41843     1
+##    86.14063   86.14063   86.14063     1</code></pre>
 <p>Would it be faster if we first loaded the packages so that we could call the functions directly?</p>
 <p>Note: you can list several independent commands on the same line by separating the with a semi-colon ‘;’. Also, the chunk setting <code>message=FALSE</code> here suppresses the warning message from <code>read_csv</code>.</p>
 <div class="sourceCode" id="cb1039"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1039-1"><a href="bonus_8a.html#cb1039-1" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(data.table); <span class="fu">library</span>(rio); <span class="fu">library</span>(microbenchmark)</span>
@@ -725,15 +739,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1039-4"><a href="bonus_8a.html#cb1039-4" tabindex="-1"></a>          <span class="fu">read.csv</span>(x), <span class="fu">read_csv</span>(x, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>), <span class="fu">fread</span>(x), <span class="fu">import</span>(x))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##                                 expr        min         lq       mean
-##                          read.csv(x) 2091.23009 2091.23009 2091.23009
-##  read_csv(x, show_col_types = FALSE) 1594.94305 1594.94305 1594.94305
-##                             fread(x)   79.47608   79.47608   79.47608
-##                            import(x)   82.28983   82.28983   82.28983
+##                          read.csv(x) 2090.19099 2090.19099 2090.19099
+##  read_csv(x, show_col_types = FALSE) 1519.59169 1519.59169 1519.59169
+##                             fread(x)   80.90583   80.90583   80.90583
+##                            import(x)   82.89298   82.89298   82.89298
 ##      median         uq        max neval
-##  2091.23009 2091.23009 2091.23009     1
-##  1594.94305 1594.94305 1594.94305     1
-##    79.47608   79.47608   79.47608     1
-##    82.28983   82.28983   82.28983     1</code></pre>
+##  2090.19099 2090.19099 2090.19099     1
+##  1519.59169 1519.59169 1519.59169     1
+##    80.90583   80.90583   80.90583     1
+##    82.89298   82.89298   82.89298     1</code></pre>
 <p>Yes, the import was faster when the packages were already loaded.</p>
 <p>Overall <code>fread</code> and <code>import</code> were in the order of 50 times faster than <code>read.csv</code> and <code>read_csv</code>! The two had practically the same speed, which is little surprising: for ‘csv’ files, <code>import</code> uses the function <code>fread</code>.</p>
 <p>The beauty of <code>import</code> is that it can handle a wide range of file types (and the list keeps growing): csv, xls, xlsx, html, xml, json, feather, R, RData, rda, rds, psv, tsv, sas7bdat, xpt, sav, dta, xpt, por, rec, mtp, syd, dbf, arff, dif, fwf, csv.gz, CSVY, fst, mat, ods, yml, as well as Fortan files and clipboard imports (Mac and Windows). It recognizes the file type from the extension and uses an appropriate import function.</p>
@@ -792,10 +806,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1052-7"><a href="bonus_8a.html#cb1052-7" tabindex="-1"></a>          <span class="at">feather=</span>rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">file.path</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="st">&quot;output&quot;</span>, <span class="st">&quot;gen.feather&quot;</span>)))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##     expr        min         lq       mean     median         uq        max
-##      csv  104.12069  104.79666  106.58840  106.90076  107.22988  109.69181
-##    RData   16.93124   17.30704   17.77163   17.58394   18.21482   19.20173
-##      rds   16.73419   16.89770   17.45076   17.20237   18.14775   18.57882
-##  feather 3137.09229 3199.62942 3558.84196 3501.99768 3879.64985 4221.74134
+##      csv  105.22634  105.92120  106.53729  106.70010  107.31873  107.38257
+##    RData   16.69569   16.95194   17.40926   17.35395   17.49876   19.06758
+##      rds   16.48790   17.07531   17.83732   17.41200   17.97440   20.31944
+##  feather 3158.17313 3219.87781 3677.74819 3676.90452 3871.87940 4450.51052
 ##  neval cld
 ##     10  a 
 ##     10  a 
@@ -879,9 +893,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1059-5"><a href="bonus_8a.html#cb1059-5" tabindex="-1"></a></span>
 <span id="cb1059-6"><a href="bonus_8a.html#cb1059-6" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">myFunction</span>(), <span class="fu">myFunction.cmp</span>())</span></code></pre></div>
 <pre><code>## Unit: microseconds
-##              expr    min      lq     mean  median      uq      max neval cld
-##      myFunction() 29.315 30.2785 42.55103 30.9755 31.4675 1176.741   100   a
-##  myFunction.cmp() 29.479 30.2170 30.89145 30.6885 31.1805   46.043   100   a</code></pre>
+##              expr    min     lq     mean  median      uq      max neval cld
+##      myFunction() 29.192 30.381 43.95692 30.8525 31.4470 1321.963   100   a
+##  myFunction.cmp() 29.479 30.463 31.20141 30.9960 31.3445   55.186   100   a</code></pre>
 <p><strong>Question</strong>: Which of the following times are most different between the uncompiled and the compiled versions of this simple function?</p>
 <ul>
 <li><strong>min</strong>: minimum time across ‘neval’ replicates</li>
@@ -923,7 +937,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1061-7"><a href="bonus_8a.html#cb1061-7" tabindex="-1"></a>  <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data=</span>dat)</span>
 <span id="cb1061-8"><a href="bonus_8a.html#cb1061-8" tabindex="-1"></a>})</span></code></pre></div>
 <div class="profvis html-widget html-fill-item" id="htmlwidget-8200f0838a0312caa364" style="width:100%;height:600px;"></div>
-<script type="application/json" data-for="htmlwidget-8200f0838a0312caa364">{"x":{"message":{"prof":{"time":[1,2,3,3,4,4,4,4,5,5,6,6],"depth":[1,1,2,1,4,3,2,1,2,1,2,1],"label":["rnorm","rnorm","cor","local","anyDuplicated.default","[.data.frame","na.omit.data.frame","model.frame.default","lm.fit","lm","lm.fit","lm"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[169.4871673583984,173.3018646240234,173.3064880371094,173.3064880371094,209.7351303100586,209.7351303100586,209.7351303100586,209.7351303100586,230.7192306518555,230.7192306518555,249.7931518554688,249.7931518554688],"meminc":[0,3.814697265625,0.0046234130859375,0,36.42864227294922,0,0,0,20.98410034179688,0,19.07392120361328,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/xf/gplbp61n2dx53pwn1m8rcgj00000gn/T//Rtmpopkiw4/filec37873370bc5.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-8200f0838a0312caa364">{"x":{"message":{"prof":{"time":[1,2,3,3,4,4,4,4,5,5],"depth":[1,1,2,1,4,3,2,1,2,1],"label":["rnorm","rnorm","na.omit.data.frame","model.frame.default","anyDuplicated.default","[.data.frame","na.omit.data.frame","model.frame.default","lm.fit","lm"],"filenum":[null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null],"memalloc":[169.5002670288086,173.3149642944336,179.0446166992188,179.0446166992188,209.7482299804688,209.7482299804688,209.7482299804688,209.7482299804688,238.3619689941406,238.3619689941406],"meminc":[0,3.814697265625,5.729652404785156,0,30.70361328125,0,0,0,28.61373901367188,0],"filename":[null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/xf/gplbp61n2dx53pwn1m8rcgj00000gn/T//Rtmpr94svW/file72c07c9f6ab0.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
 <p>The results will be opened in a ‘Profile’ tab. The upper part has two tabs (the lower part is less intuitive to interpret, we’ll ignore it here):</p>
 <ul>
 <li><strong>Flame Graph</strong>: this plots horizontal bars indicating the amount of memory and time used by each line of code, in the original order of the code.</li>
@@ -1089,16 +1103,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1070-2"><a href="bonus_8a.html#cb1070-2" tabindex="-1"></a>Session<span class="sc">$</span>platform</span></code></pre></div>
 <pre><code>##  setting  value
 ##  version  R version 4.5.2 (2025-10-31)
-##  os       macOS Sequoia 15.7.3
+##  os       macOS Tahoe 26.3.1
 ##  system   aarch64, darwin20
 ##  ui       X11
 ##  language (EN)
 ##  collate  en_US.UTF-8
 ##  ctype    en_US.UTF-8
-##  tz       Europe/Zurich
-##  date     2026-01-21
-##  pandoc   3.4 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
-##  quarto   1.6.42 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto</code></pre>
+##  tz       America/Costa_Rica
+##  date     2026-03-17
+##  pandoc   3.6.3 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
+##  quarto   1.8.25 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto</code></pre>
 <p>Packages: here we display only the first six lines, as the list may be long.</p>
 <div class="sourceCode" id="cb1072"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1072-1"><a href="bonus_8a.html#cb1072-1" tabindex="-1"></a><span class="fu">head</span>(Session<span class="sc">$</span>packages)</span></code></pre></div>
 <pre><code>##  package    * version  date (UTC) lib source
@@ -1188,10 +1202,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1079-8"><a href="bonus_8a.html#cb1079-8" tabindex="-1"></a>                               <span class="fu">method1</span>(x), <span class="fu">method2</span>(x), <span class="fu">method3</span>(x), <span class="fu">method4</span>(x))</span></code></pre></div>
 <pre><code>## Unit: milliseconds
 ##        expr       min        lq      mean    median        uq       max neval
-##  method1(x)  26.86086  27.51916  28.33970  28.00536  29.14087  30.16805    10
-##  method2(x) 153.91236 160.35403 185.18076 166.44413 217.43903 230.34165    10
-##  method3(x)  40.91747  41.06015  54.35233  43.15879  49.61135 100.57525    10
-##  method4(x)  40.76876  41.44592  43.36019  42.54568  43.36632  49.56289    10
+##  method1(x)  27.79862  28.44924  29.43319  29.52863  30.30031  30.76624    10
+##  method2(x) 156.89728 161.93426 186.91294 168.53230 221.73768 227.91224    10
+##  method3(x)  41.56949  43.24606  55.27686  43.91123  46.58621 106.24925    10
+##  method4(x)  41.68183  42.95299  44.03750  43.91789  44.43539  47.07591    10
 ##  cld
 ##  a  
 ##   b 

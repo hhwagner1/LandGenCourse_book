@@ -705,7 +705,7 @@ Questions:
 Have fun and please give us feed back what you think about this Worked Example. [Bernd Gruber](mailto:bernd.gruber@canberra.edu.au), [Erin Landguth](erin.landguth@gmail.com), [Helene Wagner](mailto:helene.wagner@utoronto.ca).
 
 
-## R Exercise Week 8
+## R Exercise Week 8 {-}
 
 **Task:** Carry out a permutation test for the Mantel rank correlation to test for fine-scale spatial genetic structure in *Pulsatilla vulgaris* adults, using the pooled data from all seven patches. Use a one-sided alternative "greater", as we expect the Mantel rank correlation to be positive.
 
