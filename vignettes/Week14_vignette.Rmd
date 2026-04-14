@@ -153,6 +153,66 @@ For example, we can conduct an AMOVA (see Week 4) to test if pollen pools belong
 Here we use the `amova` function from the `pegas` package to perform a hierarchical analysis of variance on genetic distance matrices (AMOVA), with moms nested within patches (this may take a while).
 
 ```{r, pegas}
+
+dist_amova_fix <- function(x) {
+  if (is(x, "locus")) x <- data.frame(LOCUS = x)
+
+  if (!is(x, "data.frame")) {
+    stop(paste(
+      "The function dist_amova() requires a locus vector or a data frame of locus vectors. You passed a '",
+      class(x), "' object.", sep = ""
+    ))
+  }
+
+  N <- dim(x)[1]
+  ret <- matrix(0, ncol = N, nrow = N)
+  p <- gstudio::ploidy(x)
+
+  if (any(p$Ploidy != round(p$Ploidy))) {
+    message("PLOIDY WARNING: Assuming 2Gener Approximation.")
+    data <- FALSE
+
+    if (any(p$Ploidy > 2)) {
+      stop("As currently implemented, the 2gener amova distance is limited to diploid individuals.")
+    }
+
+    loci <- p$Locus
+
+    for (locus_name in loci) {
+      locus <- x[[locus_name]]
+      freqs <- gstudio::frequencies(locus)
+      y <- gstudio::to_mv(locus)
+      p_locus <- gstudio::ploidy(locus)
+
+      for (i in seq_len(N)[p_locus == 2]) {
+        f <- freqs$Frequency * y[i, ]
+        y[i, ] <- f / sum(f) / 2
+      }
+
+      if (is.logical(data)) {
+        data <- y
+      } else {
+        data <- cbind(data, y)
+      }
+    }
+  } else {
+    data <- gstudio::to_mv(x, drop.allele = FALSE, leave.as.na = TRUE)
+  }
+
+  for (i in seq_len(N)) {
+    xi <- data[i, ]
+    for (j in seq_len(i)) {
+      if (i != j) {
+        yj <- data[j, ]
+        ret[i, j] <- ret[j, i] <- sum(2 * t(xi - yj) %*% (xi - yj))
+      }
+    }
+  }
+
+  ret
+}
+
+assignInNamespace("dist_amova", dist_amova_fix, ns = "gstudio")
 D <- gstudio::genetic_distance(pollen,mode="amova")
 D <- as.dist(D)
 Moms <- pollen$ID
